@@ -1,0 +1,71 @@
+---
+layout: post
+title:  "Install and Configure Spree Commerce 1.2"
+date:   2012-11-28 00:00:00 +0000
+categories: spree
+---
+
+- `gem update --system`
+- `gem update bundler`
+- `rvm upgrade ruby-1.9.3-p129 ruby-1.9.3-p327`
+- `gem update rails -v 3.2.9`
+- `gem update spree -v 1.2.2`
+- `rails new spree_dibs -d mysql`
+- `mv spree_dibs spree_dibs_1.2`
+- `cd spree_dibs_1.2/config`
+- `mv database.yml database.yml.original`
+- `cp ../../spree_dibs_1.1/database.yml .`
+- `cd ..`
+- Uncomment `gem 'therubyracer', :platforms => :ruby` in Gemfile
+- `git init`
+- `cp ../spree_dibs_1.1/.gitignore .` (See 
+- `git add .`
+- `git commit -m "Initial commit"`
+- `mysql -uroot`
+  - `drop schema spree_dibs_bootstrap; create schema spree_dibs_bootstrap;`
+  - `drop schema spree_dibs_test; create schema spree_dibs_test;`
+- `spree install`
+  - Default gateways: no (we'll be installing it ourselves)
+  - Default authentication: yes
+  - Migrations: yes
+  - Seed data: yes
+  - Sample data: yes
+  - Default admin and password
+- Change spree gem to `gem 'spree', github: 'spree/spree', branch: '1-2-stable'` in Gemfile
+- Add `gem 'spree_gateway', github: 'spree/spree_gateway', branch: '1-2-stable'` to Gemfile
+- `bundle update`
+- `bundle exec rake railties:install:migrations`
+- `bundle exec rake db:migrate`
+- Test with `bundle exec rails s`
+- Ctrl-C
+- `git rm public/index.html`
+- `git add .`
+- `git commit -m "Install Spree 1.2.2"`
+- Go through commits to old store and apply to new, consolidating as appropriate
+- On live server: `mysqldump -u[user] -p [production_database] > [filename].sql`
+- Copy to development server
+- On dev server: `mysql -u[user] [database] < [filename.sql]` (no password needed in my dev environment)
+- Go to old store directory, make `config/database.yml` point to new db if necessary
+- Upgrade Spree version to latest, following upgrade instructions from Spree.  In this case:
+  - Gemfile:
+    - Bring to rails 3.2.9: `gem 'rails', '3.2.9'`
+    - Bring to spree latest: `gem 'spree', github: 'spree/spree', branch: '1-2-stable'
+    - Update extensions to compatible version
+  - `bundle update`
+  - `bundle exec rake railties:install:migrations`
+  - `bundle exec rake db:migrate`
+- Test with `bundle exec rails s`
+- Export without schema: `mysqldump -u[user] -c -t [database] > [filename.sql]`
+- Change to new store project directory
+- Reset db to blank with schema:
+  - `mysql -u[user]`
+  - `drop schema [database]`
+  - `create schema [database]`
+  - `exit`
+  - `bundle exec rake db:schema:load`
+- Import data: `mysql -u[user] [database] < [filename.sql] (use a new filename each time so you have a data backup)
+- Debug any errors (hopefully none)
+- Test with `bundle exec rails s`
+- Export data with `mysqldump -u[user] [database] > [filename.sql]`
+- Go to production system
+- Make new directory
