@@ -2,7 +2,7 @@
 title: binary.phile
 description: >-
   Musings, mostly on technology.
-url: "https://binaryphile.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://binaryphile.github.io"
 github_username:  binaryphile
 
 # Build settings
@@ -11,11 +11,12 @@ theme: minima
 plugins:
   - jekyll-feed
 
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - bin/
