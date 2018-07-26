@@ -38,8 +38,8 @@ Nix REPL
 --------
 
 {% highlight bash %}
-    nix-env -ibA nixpkgs.nix-repl
-    nix-repl
+nix-env -ibA nixpkgs.nix-repl
+nix-repl
 {% endhighlight %}
 
 Playing with expressions in the nix command-line interpreter
@@ -54,9 +54,9 @@ Comments
 --------
 
 {% highlight nix %}
-    # trailing comment
+# trailing comment
 
-    /* multiline comment */
+/* multiline comment */
 {% endhighlight %}
 
 Expressions
@@ -78,44 +78,44 @@ Boolean Values
 --------------
 
 {% highlight nix %}
-    true
+true
 
-    false
+false
 {% endhighlight %}
 
 Integers
 --------
 
 {% highlight nix %}
-    1
+1
 
-    20
+20
 {% endhighlight %}
 
 Strings
 -------
 
 {% highlight nix %}
-    "hello, world!"
+"hello, world!"
 
-    "a multiline
-    string"
+"a multiline
+string"
 
-    ''a string containing the " symbol''
+''a string containing the " symbol''
 {% endhighlight %}
 
 Interpolation ("Anti-quotation")
 --------------------------------
 
 {% highlight nix %}
-    "a string with a ${nix_expression}"
+"a string with a ${nix_expression}"
 {% endhighlight %}
 
 Files
 -----
 
 {% highlight nix %}
-    ./filename.txt
+./filename.txt
 {% endhighlight %}
 
 Files are a basic type (they are not strings, so no quotes). They must
@@ -130,7 +130,7 @@ URLs
 ----
 
 {% highlight nix %}
-    http://domain.com/path
+http://domain.com/path
 {% endhighlight %}
 
 URLs are a basic type. Again, no quotes.
@@ -139,7 +139,7 @@ Lists
 -----
 
 {% highlight nix %}
-    [ "one" "two" "three" ]
+[ "one" "two" "three" ]
 {% endhighlight %}
 
 Lists are a container type for multiple values.
@@ -147,7 +147,7 @@ Lists are a container type for multiple values.
 Lists can be empty:
 
 {% highlight nix %}
-    [ ]
+[ ]
 {% endhighlight %}
 
 List elements can be of diverse types, including other lists or sets,
@@ -166,7 +166,7 @@ analogous to hashes in other languages.
 Nix refers to the keys as "attributes".
 
 {% highlight nix %}
-    { key1 = "value1"; key2 = "value2"; }
+{ key1 = "value1"; key2 = "value2"; }
 {% endhighlight %}
 
 The final semicolon is required.
@@ -174,13 +174,13 @@ The final semicolon is required.
 Accessing values in a set:
 
 {% highlight nix %}
-    { key = "value"; }.key
+{ key = "value"; }.key
 {% endhighlight %}
 
 Sets can be empty:
 
 {% highlight nix %}
-    { }
+{ }
 {% endhighlight %}
 
 Note that, in nix, braces are only used for sets and set patterns (see
@@ -192,7 +192,7 @@ another language, a function name followed by braces is actually a
 function invocation with an empty set as an argument, not a definition:
 
 {% highlight nix %}
-    do_something { }
+do_something { }
 {% endhighlight %}
 
 Function Definition and Patterns
@@ -205,8 +205,8 @@ variable just as you would with any other value.
 Functions start with an argument pattern:
 
 {% highlight nix %}
-    # pattern: function body
-      arg:     do_something_with arg  # do_something_with is a made-up function
+# pattern: function body
+  arg:     do_something_with arg  # do_something_with is a made-up function
 {% endhighlight %}
 
 "Argument pattern" is a fancy name for "give me a (single) variable name
@@ -217,8 +217,8 @@ may be a set, in which case you may use a set pattern in the
 declaration:
 
 {% highlight nix %}
-    # { set pattern                  }: function body
-      { arg1, arg2 ? "default_value" }: do_something_with (arg1 && arg2)
+# { set pattern                  }: function body
+  { arg1, arg2 ? "default_value" }: do_something_with (arg1 && arg2)
 {% endhighlight %}
 
 Set patterns consist of the key names (with default values, if desired)
@@ -238,16 +238,16 @@ Note that you don't need to name the function, just pass an argument
 after its declaration (parentheses for precedence):
 
 {% highlight nix %}
-    # (function definition       ) <string argument>
-      (arg: do_something_with arg) "value"
+# (function definition       ) <string argument>
+  (arg: do_something_with arg) "value"
 {% endhighlight %}
 
 Functions specified with a set pattern must receive a set with exactly
 the required keys and nothing more (minus any defaults, if desired):
 
 {% highlight nix %}
-    # (function definition           ) <set argument>
-      ({ arg }: do_something_with arg) { arg = "value"; }
+# (function definition           ) <set argument>
+  ({ arg }: do_something_with arg) { arg = "value"; }
 {% endhighlight %}
 
 Functions with "Multiple" Arguments
@@ -257,14 +257,14 @@ Functions can only take one argument, but they can return a function
 which then takes the next argument:
 
 {% highlight nix %}
-    arg1: arg2: do_something_with (arg1 && arg2)
+arg1: arg2: do_something_with (arg1 && arg2)
 {% endhighlight %}
 
 Which syntactically breaks down to:
 
 {% highlight nix %}
-    # (function 1    (function 2                            ))
-      (arg1:         (arg2: do_something_with (arg1 && arg2)))
+# (function 1    (function 2                            ))
+  (arg1:         (arg2: do_something_with (arg1 && arg2)))
 {% endhighlight %}
 
 Calling the outer function with one argument returns the inner function,
@@ -306,7 +306,7 @@ keys in the set. Those are keys, not variables.
 For example, this doesn't work:
 
 {% highlight nix %}
-    { a = 1; b = a; }
+{ a = 1; b = a; }
 {% endhighlight %}
 
 Recursive sets make the set's own keys available as variables within the
@@ -314,7 +314,7 @@ scope of the set, including its subexpressions. Recursive sets employ
 the `rec` keyword, followed by the usual set notation:
 
 {% highlight nix %}
-    rec { a = 1; b = a; }
+rec { a = 1; b = a; }
 {% endhighlight %}
 
 Note that rec is a keyword, not a variable containing a function.  You
@@ -328,12 +328,12 @@ scope that has "bindings" (another name for assignment) with the `let`
 expression:
 
 {% highlight nix %}
-    let
-      a = 1;
-      b = 2;
-      <...>;
-    in
-      do_something_with a
+let
+  a = 1;
+  b = 2;
+  <...>;
+in
+  do_something_with a
 {% endhighlight %}
 
 Remember that whitespace doesn't matter so you don't need the above
@@ -364,11 +364,11 @@ following expression because it is not referenced by the `in`
 expression:
 
 {% highlight nix %}
-    let
-      a = 1;
-      b = 1 / 0;
-    in
-      do_something_with a
+let
+  a = 1;
+  b = 1 / 0;
+in
+  do_something_with a
 {% endhighlight %}
 
 Bindings may refer to other bindings within the same `let`, but again,
@@ -377,11 +377,11 @@ order doesn't matter. For example, the following is fine, even though
 *a* refers to *b* before *b* is defined:
 
 {% highlight nix %}
-    let
-      a = b;
-      b = 1;
-    in
-      do_something_with a
+let
+  a = b;
+  b = 1;
+in
+  do_something_with a
 {% endhighlight %}
 
 Within container types (sets and lists), values are only evaluated
@@ -398,7 +398,7 @@ As a convenience, you can extract the keys of a set into variables via
 the `with` expression:
 
 {% highlight nix %}
-    with { a = 1; b = 2; }; do_something_with a
+with { a = 1; b = 2; }; do_something_with a
 {% endhighlight %}
 
 The variables *a* and *b* will be in scope for the `do_something_with a`
@@ -415,7 +415,7 @@ environment in which the `with` expression is evaluated.
 As an example, try this expression:
 
 {% highlight nix %}
-    with { builtins = "hello"; }; builtins
+with { builtins = "hello"; }; builtins
 {% endhighlight %}
 
 There is no way to extract only a subset of a set's keys via a simple
@@ -430,14 +430,14 @@ out-of-the-box with nix are stored in a global set called *builtins*.
 You can examine the names of the available functions with:
 
 {% highlight nix %}
-    builtins.attrNames builtins
+builtins.attrNames builtins
 {% endhighlight %}
 
 A few builtins are also available directly in the global namespace, such
 as `toString`:
 
 {% highlight nix %}
-    toString ./filename.txt
+toString ./filename.txt
 {% endhighlight %}
 
 Derivations
@@ -450,25 +450,25 @@ Derivations are created with the `derivation` function. It takes, at a
 minimum, the set of *name*, *builder* and *system*:
 
 {% highlight nix %}
-    derivation { name = "myname"; builder = "mybuilder"; system = "mysystem"; }
+derivation { name = "myname"; builder = "mybuilder"; system = "mysystem"; }
 {% endhighlight %}
 
 The result of this function call is a special set (type: derivation)
 which looks like the following:
 
 {% highlight nix %}
-    {
-      all         = [ «derivation /nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv» ] ;
-      builder     = "mybuilder"                                                             ;
-      drvAttrs    = { builder = "mybuilder"; name = "myname"; system = "mysystem"; }        ;
-      drvPath     = "/nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv"                ;
-      name        = "myname"                                                                ;
-      out         = «derivation /nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv»     ;
-      outPath     = "/nix/store/40s0qmrfb45vlh6610rk29ym318dswdr-myname"                    ;
-      outputName  = "out"                                                                   ;
-      system      = "mysystem"                                                              ;
-      type        = "derivation"                                                            ;
-    }
+{
+  all         = [ «derivation /nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv» ] ;
+  builder     = "mybuilder"                                                             ;
+  drvAttrs    = { builder = "mybuilder"; name = "myname"; system = "mysystem"; }        ;
+  drvPath     = "/nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv"                ;
+  name        = "myname"                                                                ;
+  out         = «derivation /nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv»     ;
+  outPath     = "/nix/store/40s0qmrfb45vlh6610rk29ym318dswdr-myname"                    ;
+  outputName  = "out"                                                                   ;
+  system      = "mysystem"                                                              ;
+  type        = "derivation"                                                            ;
+}
 {% endhighlight %}
 
 While it is its own type, it can still be treated as a normal set.
@@ -480,29 +480,29 @@ The `inherit` keyword in a set definition creates a key with the same
 value as the variable of the same name:
 
 {% highlight nix %}
-    let
-      a = 1;
-    in
-      { inherit a; }
+let
+  a = 1;
+in
+  { inherit a; }
 {% endhighlight %}
 
 This is the same as:
 
 {% highlight nix %}
-    let
-      a = 1;
-    in
-      { a = a; }
+let
+  a = 1;
+in
+  { a = a; }
 {% endhighlight %}
 
 `inherit` can take multiple arguments:
 
 {% highlight nix %}
-    let
-      a = 1;
-      b = 2;
-    in
-      { inherit a b; }
+let
+  a = 1;
+  b = 2;
+in
+  { inherit a b; }
 {% endhighlight %}
 
 Packages
@@ -511,12 +511,12 @@ Packages
 A package is typically a function which produces a derivation:
 
 {% highlight nix %}
-    { system ? builtins.currentSystem }:
-      derivation {
-        name    = "myname"    ;
-        builder = "mybuilder" ;
-        inherit system        ;
-      }
+{ system ? builtins.currentSystem }:
+  derivation {
+    name    = "myname"    ;
+    builder = "mybuilder" ;
+    inherit system        ;
+  }
 {% endhighlight %}
 
 Channels
@@ -525,14 +525,14 @@ Channels
 A channel is a function which produces a set of derivations:
 
 {% highlight nix %}
-    { system ? builtin.currentSystem }:
-      let
-        builder = "mybuilder";
-      in
-        {
-          package1 = derivation { name = "package1"; inherit builder system; };
-          package2 = derivation { name = "package2"; inherit builder system; };
-        }
+{ system ? builtin.currentSystem }:
+  let
+    builder = "mybuilder";
+  in
+    {
+      package1 = derivation { name = "package1"; inherit builder system; };
+      package2 = derivation { name = "package2"; inherit builder system; };
+    }
 {% endhighlight %}
 
 Typically a channel is constructed with package imports which are then
@@ -545,7 +545,7 @@ Import
 The import keyword expression loads the expression in the given file:
 
 {% highlight nix %}
-    import ./expression.nix
+import ./expression.nix
 {% endhighlight %}
 
 The expression in the file is returned as if it had been source code in
@@ -563,7 +563,7 @@ For example, the following expression loads the file `default.nix` from
 the same directory in which the expression's own file is located:
 
 {% highlight nix %}
-    import ./.
+import ./.
 {% endhighlight %}
 
 Resources

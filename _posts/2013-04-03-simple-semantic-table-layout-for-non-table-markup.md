@@ -27,18 +27,18 @@ decide whether you'll be using lists or divs. The basic list version
 looks like:
 
 {% highlight html %}
-    <form>
-      <ul class="tel-tabular">
-        <li> <!-- each li is a row -->
-          <label>Field 1:</label><input>
-          <label>Field 2:</label><input>
-        </li>
-        <li>
-          <label>Field 3:</label><input>
-          <label>Field 4:</label><input>
-        </li>
-      </ul>
-    </form>
+<form>
+  <ul class="tel-tabular">
+    <li> <!-- each li is a row -->
+      <label>Field 1:</label><input>
+      <label>Field 2:</label><input>
+    </li>
+    <li>
+      <label>Field 3:</label><input>
+      <label>Field 4:</label><input>
+    </li>
+  </ul>
+</form>
 {% endhighlight %}
 
 For more details, read the rest of the article.
@@ -121,22 +121,22 @@ for a couple label/input pairs.
 The markup:
 
 {% highlight html %}
-    <form>
-      <ul class="tel-tabular">
-        <li> <!-- each li is a table row -->
-          <label>Field 1:</label>
-          <input>
-          <label>Field 2:</label>
-          <input>
-        </li>
-        <li>
-          <label>Field 3:</label>
-          <input>
-          <label>Field 4:</label>
-          <input>
-        </li>
-      </ul>
-    </form>
+<form>
+  <ul class="tel-tabular">
+    <li> <!-- each li is a table row -->
+      <label>Field 1:</label>
+      <input>
+      <label>Field 2:</label>
+      <input>
+    </li>
+    <li>
+      <label>Field 3:</label>
+      <input>
+      <label>Field 4:</label>
+      <input>
+    </li>
+  </ul>
+</form>
 {% endhighlight %}
 
 What you get here is a two-row table with two label/input pairs per row.
@@ -146,22 +146,22 @@ keep everything in columns as you would expect of a table.
 The css:
 
 {% highlight css %}
-    .tel-tabular > * {
-      display: table-row;
-    }
+.tel-tabular > * {
+  display: table-row;
+}
 
-    .tel-tabular > * > * {
-      display: table-cell;
-      padding-right: 0.3em;
-    }
+.tel-tabular > * > * {
+  display: table-cell;
+  padding-right: 0.3em;
+}
 
-    .tel-tabular input {
-      margin-right: 1em;
-    }
+.tel-tabular input {
+  margin-right: 1em;
+}
 
-    label {
-      text-align: right;
-    }
+label {
+  text-align: right;
+}
 {% endhighlight %}
 
 I've put in some of my own preferences for display such as
@@ -177,22 +177,22 @@ If you prefer divs, just substitute them for the ul and li elements like
 so:
 
 {% highlight html %}
-    <form>
-      <div class="tel-tabular">
-        <div> <!-- each div under .tel-tabular is a table row -->
-          <label>Field 1:</label>
-          <input>
-          <label>Field 2:</label>
-          <input>
-        </div>
-        <div>
-          <label>Field 3:</label>
-          <input>
-          <label>Field 4:</label>
-          <input>
-        </div>
-      </div>
-    </form>
+<form>
+  <div class="tel-tabular">
+    <div> <!-- each div under .tel-tabular is a table row -->
+      <label>Field 1:</label>
+      <input>
+      <label>Field 2:</label>
+      <input>
+    </div>
+    <div>
+      <label>Field 3:</label>
+      <input>
+      <label>Field 4:</label>
+      <input>
+    </div>
+  </div>
+</form>
 {% endhighlight %}
 
 In fact, you don't even need the enclosing div. You can eliminate it and
@@ -211,24 +211,24 @@ table as a whole.
 The markup:
 
 {% highlight html %}
-    <form>
-      <ul class="tel-tabular">
-        <li>
-          <label>Field 1:</label>
-          <input>
-          <label>Field 2:</label>
-          <input>
-        </li>
-        <li>
-          <span>
-            <span>
-              <input type="checkbox">
-              <label>A checkbox that has a long label</label>
-            </span>
-          </span>
-        </li>
-      </ul>
-    </form>
+<form>
+  <ul class="tel-tabular">
+    <li>
+      <label>Field 1:</label>
+      <input>
+      <label>Field 2:</label>
+      <input>
+    </li>
+    <li>
+      <span>
+        <span>
+          <input type="checkbox">
+          <label>A checkbox that has a long label</label>
+        </span>
+      </span>
+    </li>
+  </ul>
+</form>
 {% endhighlight %}
 
 The structure is the same as you would expect for the first row from the
@@ -244,11 +244,11 @@ allow the css to do the proper formatting.
 The css for it is in addition to the earlier css:
 
 {% highlight css %}
-    .tel-tabular > * > * > * {
-      display: inline-block;
-      width: 0;
-      white-space: nowrap;
-    }
+.tel-tabular > * > * > * {
+  display: inline-block;
+  width: 0;
+  white-space: nowrap;
+}
 {% endhighlight %}
 
 Note that if you want to add further content to the same row, you will
@@ -258,17 +258,17 @@ overlap with the overflow.
 You can do this with empty cells:
 
 {% highlight html %}
-    <li>
-      <span>
-        <span>
-          <input type="checkbox">
-          <label>A checkbox that has a long label</label>
-        </span>
-      </span>
-      <span>&nbsp;</span>
-      <span>&nbsp;</span>
-      <label>Some more content</label>
-    </li>
+<li>
+  <span>
+    <span>
+      <input type="checkbox">
+      <label>A checkbox that has a long label</label>
+    </span>
+  </span>
+  <span>&nbsp;</span>
+  <span>&nbsp;</span>
+  <label>Some more content</label>
+</li>
 {% endhighlight %}
 
 Short fields
@@ -291,15 +291,15 @@ need new classes for that purpose.
 The additional css:
 
 {% highlight css %}
-    .tel-tabular .tel-state {
-      width: 2em;
-      margin-left: 0.2em;
-      margin-right: 0.3em;
-    }
+.tel-tabular .tel-state {
+  width: 2em;
+  margin-left: 0.2em;
+  margin-right: 0.3em;
+}
 
-    .tel-tabular .tel-zip {
-      width: 5em;
-    }
+.tel-tabular .tel-zip {
+  width: 5em;
+}
 {% endhighlight %}
 
 Note that we'll also need some margins on the first input to get the
@@ -316,26 +316,26 @@ the next section.
 The markup:
 
 {% highlight html %}
-    <form>
-      <ul class="tel-tabular">
-        <li>
-          <label>Field 1:</label>
-          <input>
-          <label>Field 2:</label>
-          <input>
-        </li>
-        <li>
-          <label>State:</label>
-          <span>
-            <span>
-              <input class="tel-state">
-              <label>Zip:</label>
-              <input class="tel-zip">
-            </span>
-          </span>
-        </li>
-      </ul>
-    </form>
+<form>
+  <ul class="tel-tabular">
+    <li>
+      <label>Field 1:</label>
+      <input>
+      <label>Field 2:</label>
+      <input>
+    </li>
+    <li>
+      <label>State:</label>
+      <span>
+        <span>
+          <input class="tel-state">
+          <label>Zip:</label>
+          <input class="tel-zip">
+        </span>
+      </span>
+    </li>
+  </ul>
+</form>
 {% endhighlight %}
 
 You can still put further fields on the same line by adding them to the
@@ -357,31 +357,31 @@ want. Instead, I'll fake a fieldset by mocking it up with a div.
 The markup:
 
 {% highlight html %}
-    <form>
-      <ul class="tel-tabular">
-        <li>
-          <label>Field 1:</label>
-          <input>
-          <label>Field 2:</label>
-          <input>
-        </li>
-        <li class="tel-fieldset">
-          <div class="tel-legend"><div>Legend text</div></div>
-          <div>
-            <label>Field 3 (with filler):</label>
-            <input>
-            <label>Field 4:</label>
-            <input>
-          </div>
-        </li>
-        <li>
-          <label>Field 5:</label>
-          <input>
-          <label>Field 6:</label>
-          <input>
-        </li>
-      </ul>
-    </form>
+<form>
+  <ul class="tel-tabular">
+    <li>
+      <label>Field 1:</label>
+      <input>
+      <label>Field 2:</label>
+      <input>
+    </li>
+    <li class="tel-fieldset">
+      <div class="tel-legend"><div>Legend text</div></div>
+      <div>
+        <label>Field 3 (with filler):</label>
+        <input>
+        <label>Field 4:</label>
+        <input>
+      </div>
+    </li>
+    <li>
+      <label>Field 5:</label>
+      <input>
+      <label>Field 6:</label>
+      <input>
+    </li>
+  </ul>
+</form>
 {% endhighlight %}
 
 Here the li gets the fieldset class. It includes a legend div (with an
@@ -401,55 +401,55 @@ the bit of additional complexity.
 Here it is:
 
 {% highlight css %}
-    .tel-tabular > * {
-      display: table-row-group;
-    }
+.tel-tabular > * {
+  display: table-row-group;
+}
 
-    .tel-tabular {
-      border-collapse: collapse;
-    }
+.tel-tabular {
+  border-collapse: collapse;
+}
 
-    .tel-fieldset {
-      border: 1px solid;
-    }
+.tel-fieldset {
+  border: 1px solid;
+}
 
-    .tel-fieldset > * {
-      display: table-row;
-      padding-right: 0;
-    }
+.tel-fieldset > * {
+  display: table-row;
+  padding-right: 0;
+}
 
-    .tel-fieldset > * > * {
-      display: table-cell;
-      white-space: inherit;
-      padding-right: 0.3em;
-      width: auto;
-    }
+.tel-fieldset > * > * {
+  display: table-cell;
+  white-space: inherit;
+  padding-right: 0.3em;
+  width: auto;
+}
 
-    .tel-fieldset > * > * > * {
-      display: inline-block;
-      width: 0;
-      white-space: nowrap;
-    }
+.tel-fieldset > * > * > * {
+  display: inline-block;
+  width: 0;
+  white-space: nowrap;
+}
 
-    .tel-legend {
-      position: relative;
-      display: block;
-    }
+.tel-legend {
+  position: relative;
+  display: block;
+}
 
-    .tel-legend > * {
-      position: absolute;
-      top: -0.74em;
-      left: 0.6em;
-      display: block;
-      background: white;
-      padding: 0 0.3em;
-      white-space: nowrap;
-    }
+.tel-legend > * {
+  position: absolute;
+  top: -0.74em;
+  left: 0.6em;
+  display: block;
+  background: white;
+  padding: 0 0.3em;
+  white-space: nowrap;
+}
 
-    label {
-      padding-bottom: 0.7em;
-      padding-top: 0.6em;
-    }
+label {
+  padding-bottom: 0.7em;
+  padding-top: 0.6em;
+}
 {% endhighlight %}
 
 Notice that we've changed the display of .tel-tabular &gt; \* from

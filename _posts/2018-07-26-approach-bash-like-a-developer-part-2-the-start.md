@@ -5,7 +5,7 @@ date:   2018-07-26 00:00:00 +0000
 categories: bash
 ---
 
-This is part one of a series on how to approach bash programming in a
+This is part two of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script, as taught
 by most tutorials.
 
@@ -41,11 +41,15 @@ The first evergreen question of bash scripting: how to start my script?
 Old as the classic spaces-vs-tabs debate, venerable as vi-vs-emacs, the
 two contenders are:
 
-{% highlight bash %} \#!/bin/bash {% endhighlight %}
+{% highlight bash %}
+#!/bin/bash
+{% endhighlight %}
 
 and
 
-{% highlight bash %} \#!/usr/bin/env bash {% endhighlight %}
+{% highlight bash %}
+#!/usr/bin/env bash
+{% endhighlight %}
 
 Which to use?
 

@@ -50,12 +50,12 @@ worry about rvm (even though I still use rvm for ruby upgrades).
     performance reasons
 
 {% highlight bash %}
-    cd vagrant
-    git clone git@github.com:lilleyt/spree_dibs_[major].[minor]
-    git clone git@github.com:lilleyt/spree_flexi_variants
-    git clone git@github.com:lilleyt/spree_dibs_referral
-    git clone git@github.com:lilleyt/spree_email_to_friend
-    git clone git@github.com:lilleyt/spree_print_invoice
+cd vagrant
+git clone git@github.com:lilleyt/spree_dibs_[major].[minor]
+git clone git@github.com:lilleyt/spree_flexi_variants
+git clone git@github.com:lilleyt/spree_dibs_referral
+git clone git@github.com:lilleyt/spree_email_to_friend
+git clone git@github.com:lilleyt/spree_print_invoice
 {% endhighlight %}
 
 -   Visit each directory, check out the current commit listed in
@@ -65,9 +65,9 @@ worry about rvm (even though I still use rvm for ruby upgrades).
         `fetch --all` and try again
 
 {% highlight bash %}
-    cd spree_dibs_[major].[minor]
-    cp config/database.yml.original config/database.yml
-    bundle install --without production
+cd spree_dibs_[major].[minor]
+cp config/database.yml.original config/database.yml
+bundle install --without production
 {% endhighlight %}
 
 -   Either copy in your production db (mysqldump, create schema and
@@ -77,7 +77,7 @@ worry about rvm (even though I still use rvm for ruby upgrades).
         folder from production or another instance
 
 {% highlight bash %}
-    bundle exec rake assets:precompile:nondigest
+bundle exec rake assets:precompile:nondigest
 {% endhighlight %}
 
 -   Test with `bundle exec rails s`

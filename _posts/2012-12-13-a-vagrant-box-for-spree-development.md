@@ -222,14 +222,14 @@ and system\_packages recipes.
 -   From `cookbooks`:
 
 {% highlight bash %}
-    git clone git://github.com/opscode-cookbooks/apt.git
-    git clone git://github.com/opscode-cookbooks/build-essential.git
-    git clone git://github.com/opscode-cookbooks/git.git
-    git clone git://github.com/opscode-cookbooks/mysql.git
-    git clone git://github.com/binaryphile/chef-ohmyzsh.git ohmyzsh
-    git clone git://github.com/opscode-cookbooks/openssl.git
-    git clone git://github.com/fnichol/chef-rvm.git rvm
-    git clone git://github.com/coroutine/chef-system_packages.git system_packages
+git clone git://github.com/opscode-cookbooks/apt.git
+git clone git://github.com/opscode-cookbooks/build-essential.git
+git clone git://github.com/opscode-cookbooks/git.git
+git clone git://github.com/opscode-cookbooks/mysql.git
+git clone git://github.com/binaryphile/chef-ohmyzsh.git ohmyzsh
+git clone git://github.com/opscode-cookbooks/openssl.git
+git clone git://github.com/fnichol/chef-rvm.git rvm
+git clone git://github.com/coroutine/chef-system_packages.git system_packages
 {% endhighlight %}
 
 Import the vagrant box
@@ -336,10 +336,10 @@ remove the chef configuration instead.
 -   Replace the contents of `Vagrantfile` with this:
 
 {% highlight ruby %}
-    Vagrant::Config.run do |config|
-    config.vm.box = "precise64spree"
-    config.vm.forward_port 3000, 3000
-    end
+Vagrant::Config.run do |config|
+  config.vm.box = "precise64spree"
+  config.vm.forward_port 3000, 3000
+end
 {% endhighlight %}
 
 -   Start the vm based on the new box with `vagrant up`
@@ -437,7 +437,7 @@ instance folder as a sibling. The instance can point its Gemfile to the
 sibling paths like so:
 
 {% highlight ruby %}
-    gem 'spree', path: '../spree'
+gem 'spree', path: '../spree'
 {% endhighlight %}
 
 Any changes you make to the source will then change the running

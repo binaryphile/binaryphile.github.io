@@ -60,10 +60,10 @@ ran just dandy! Ugh.
 So the routine is basically:
 
 {% highlight bash %}
-    # remember to "rvm reload" all windows
-    rvm get latest
-    rvm upgrade [old version] [new version]
-    rvm reload
-    bundle update
-    gem pristine debugger-linecache
+# remember to "rvm reload" all windows
+rvm get latest
+rvm upgrade [old version] [new version]
+rvm reload
+bundle update
+gem pristine debugger-linecache
 {% endhighlight %}

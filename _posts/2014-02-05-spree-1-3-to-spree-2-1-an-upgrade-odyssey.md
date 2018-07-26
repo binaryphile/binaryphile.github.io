@@ -265,63 +265,63 @@ plugins, just spree 1.3. I assume you have ruby 1.9 or 2.0 installed.
 This is on my regular development machine running Ubuntu 13.10:
 
 {% highlight bash %}
-    sudo apt-get update -qq
-    sudo apt-get install nodejs
-    gem update --system
-    gem install bundler rake
-    gem install rails -v 3.2.16
-    # Leaving off the version number keeps your app name the same from
-    # version to version
-    rails _3.2.16_ new store
-    mv store store-1-3
-    cd store-1-3
-    vim Gemfile
+sudo apt-get update -qq
+sudo apt-get install nodejs
+gem update --system
+gem install bundler rake
+gem install rails -v 3.2.16
+# Leaving off the version number keeps your app name the same from
+# version to version
+rails _3.2.16_ new store
+mv store store-1-3
+cd store-1-3
+vim Gemfile
 {% endhighlight %}
 
 Modify the sqlite3 gem and add the mysql2 gem (or see [1.3 Gemfile
 gist]):
 
 {% highlight ruby %}
-    gem 'mysql2', :groups => :production
-    gem 'sqlite3', :groups => [:development, :test]
+gem 'mysql2', :groups => :production
+gem 'sqlite3', :groups => [:development, :test]
 {% endhighlight %}
 
 Find the unicorn line and change to:
 
 {% highlight ruby %}
-    group :production do
-      gem 'unicorn'
-      gem 'foreman'
-    end
+group :production do
+  gem 'unicorn'
+  gem 'foreman'
+end
 {% endhighlight %}
 
 Find the capistrano line and change to:
 
 {% highlight ruby %}
-    group :development do
-      gem 'capistrano', '~> 2.15.5'
-      # necessary due to a bug in 2.8.0 - if a later version works, just
-      # drop this line
-      gem 'net-ssh', '~> 2.7.0'
-    end
+group :development do
+  gem 'capistrano', '~> 2.15.5'
+  # necessary due to a bug in 2.8.0 - if a later version works, just
+  # drop this line
+  gem 'net-ssh', '~> 2.7.0'
+end
 {% endhighlight %}
 
 Also add these lines at the bottom:
 
 {% highlight ruby %}
-    gem 'spree', '1.3.5'
-    gem 'spree_gateway', :github => 'spree/spree_gateway', :branch => '1-3-stable'
-    gem 'spree_auth_devise', :github => 'spree/spree_auth_devise', :branch => '1-3-stable'
+gem 'spree', '1.3.5'
+gem 'spree_gateway', :github => 'spree/spree_gateway', :branch => '1-3-stable'
+gem 'spree_auth_devise', :github => 'spree/spree_auth_devise', :branch => '1-3-stable'
 {% endhighlight %}
 
 Exit and run:
 
 {% highlight bash %}
-    # this will throw an error
-    bundle install --without production test
-    # this will fix the error
-    bundle update
-    bundle exec spree install --auto-accept
+# this will throw an error
+bundle install --without production test
+# this will fix the error
+bundle update
+bundle exec spree install --auto-accept
 {% endhighlight %}
 
 Once that finishes, you'll have a working spree development environment
@@ -356,39 +356,39 @@ Setting up Git
 Now let's set up a repo:
 
 {% highlight bash %}
-    git init
-    vim .gitignore
+git init
+vim .gitignore
 {% endhighlight %}
 
 Add the following lines to your `.gitignore` (or see [.gitignore gist]):
 
 {% highlight bash %}
-    /config/initializers/secret_token.rb
-    /config/initializers/devise.rb
-    /config/database.yml
-    /public/spree/
-    /public/assets/
-    /.vagrant/
-    package.box
-    *.sql
-    *.tar
-    *.tar.gz
-    *.tgz
+/config/initializers/secret_token.rb
+/config/initializers/devise.rb
+/config/database.yml
+/public/spree/
+/public/assets/
+/.vagrant/
+package.box
+*.sql
+*.tar
+*.tar.gz
+*.tgz
 {% endhighlight %}
 
 Save and exit. Next run:
 
 {% highlight bash %}
-    git add .
-    git commit -m "initial commit"
+git add .
+git commit -m "initial commit"
 {% endhighlight %}
 
 You'll also want to set up a `store-1-3` repo on github. Go do that then
 run:
 
 {% highlight bash %}
-    git remote add origin git@github.com:username/store-1-3
-    git push -u origin master
+git remote add origin git@github.com:username/store-1-3
+git push -u origin master
 {% endhighlight %}
 
 Use your own username instead of "username" of course.
@@ -406,14 +406,14 @@ Make sure you've got vagrant and VirtualBox installed and working. You
 should also install the guest additions plugin using:
 
 {% highlight bash %}
-    vagrant plugin install vagrant-vbguest
+vagrant plugin install vagrant-vbguest
 {% endhighlight %}
 
 In the `store-1-3` directory, run:
 
 {% highlight bash %}
-    vagrant init precise64 http://files.vagrantup.com/precise64.box
-    vagrant up
+vagrant init precise64 http://files.vagrantup.com/precise64.box
+vagrant up
 {% endhighlight %}
 
 #### Important Vagrant Commands
@@ -518,10 +518,10 @@ with no window system.
 When you're ready, run:
 
 {% highlight bash %}
-    # this logs you into the vagrant box as user "vagrant"
-    vagrant ssh
-    sudo apt-get update -qq
-    sudo apt-get install -y curl vim nodejs
+# this logs you into the vagrant box as user "vagrant"
+vagrant ssh
+sudo apt-get update -qq
+sudo apt-get install -y curl vim nodejs
 {% endhighlight %}
 
 #### Software
@@ -544,14 +544,14 @@ the file `/etc/ssh/sshd_config` and add the following line at the end:
 Save and exit, then run:
 
 {% highlight bash %}
-    sudo service ssh restart
+sudo service ssh restart
 {% endhighlight %}
 
 Now:
 
 {% highlight bash %}
-    sudo cp /etc/sudoers .
-    sudo vim /etc/sudoers.d/spree
+sudo cp /etc/sudoers .
+sudo vim /etc/sudoers.d/spree
 {% endhighlight %}
 
 Add the line (or see [spree sudoers gist]):
@@ -561,8 +561,8 @@ Add the line (or see [spree sudoers gist]):
 Save and exit.
 
 {% highlight bash %}
-    sudo chmod 440 /etc/sudoers.d/spree
-    sudo -i
+sudo chmod 440 /etc/sudoers.d/spree
+sudo -i
 {% endhighlight %}
 
 This will give you a root login session, which is what the deployment
@@ -613,7 +613,7 @@ Copy and paste it into the vagrant box, replacing the password with what
 you'd like the database password to be. I'll set mine to "spree".
 
 {% highlight bash %}
-    FACTER_db_pass=spree puppet agent --test --certname store.mydomain.com
+FACTER_db_pass=spree puppet agent --test --certname store.mydomain.com
 {% endhighlight %}
 
 Exit the root shell.
@@ -624,23 +624,23 @@ The Rest of the Base Box
 Now run:
 
 {% highlight bash %}
-    # vagrant password is "vagrant"
-    sudo cp sudoers /etc/sudoers
-    # this changes the hostname without rebooting
-    sudo hostname store
-    sudo vim /etc/hostname
+# vagrant password is "vagrant"
+sudo cp sudoers /etc/sudoers
+# this changes the hostname without rebooting
+sudo hostname store
+sudo vim /etc/hostname
 {% endhighlight %}
 
 Remove the domain so there is only a hostname in the file.
 
 {% highlight bash %}
-    sudo vim /etc/hosts
+sudo vim /etc/hosts
 {% endhighlight %}
 
 Change the entry for "127.0.1.1" to "store" instead of "precise64".
 
 {% highlight bash %}
-    sudo passwd spree
+sudo passwd spree
 {% endhighlight %}
 
 Change to a password of your choice, such as "spree". Note that you'll
@@ -664,21 +664,21 @@ The MySQL password needs to match the one found in
 `FACTER_DB_PASS` part of the prior `puppet` command.
 
 {% highlight bash %}
-    mysql -uroot
-    # where this last bit in single quotes is the same as the password
-    # in the facter command before
-    grant all on spree.* to spree@localhost identified by 'spree';
-    exit
-    sudo gpasswd -a vagrant spree
-    sudo gpasswd -a vagrant www-data
-    sudo find /data/spree -type d -exec chmod g+s '{}' \;
-    sudo vim /etc/login.defs
+mysql -uroot
+# where this last bit in single quotes is the same as the password
+# in the facter command before
+grant all on spree.* to spree@localhost identified by 'spree';
+exit
+sudo gpasswd -a vagrant spree
+sudo gpasswd -a vagrant www-data
+sudo find /data/spree -type d -exec chmod g+s '{}' \;
+sudo vim /etc/login.defs
 {% endhighlight %}
 
 Change the UMASK line to:
 
 {% highlight bash %}
-    UMASK 002
+UMASK 002
 {% endhighlight %}
 
 Save and exit. Log off and `vagrant ssh` back in.
@@ -686,24 +686,24 @@ Save and exit. Log off and `vagrant ssh` back in.
 Now:
 
 {% highlight bash %}
-    vim /data/spree/shared/config/database.yml
+vim /data/spree/shared/config/database.yml
 {% endhighlight %}
 
 Copy the "production" section in its entirety to the bottom of the file
 and rename it "staging", then save and exit.
 
 {% highlight bash %}
-    cd /data/spree/shared
-    mkdir spree
-    cd config
-    vim secret_token.rb
+cd /data/spree/shared
+mkdir spree
+cd config
+vim secret_token.rb
 {% endhighlight %}
 
 Paste in the following (or see [secret\_token.rb gist]):
 
 {% highlight ruby %}
-    Store::Application.config.secret_token = 'my secret is at least thirty characters long'
-    Store::Application.config.secret_key_base = 'my secret is at least thirty characters long'
+Store::Application.config.secret_token = 'my secret is at least thirty characters long'
+Store::Application.config.secret_key_base = 'my secret is at least thirty characters long'
 {% endhighlight %}
 
 Save and exit.
@@ -718,13 +718,13 @@ app. It takes your name and CamelCases it, removing punctuation. So
 doesn't change with the version, so that's the name we want to use.
 
 {% highlight bash %}
-    vim devise.rb
+vim devise.rb
 {% endhighlight %}
 
 Paste (or see [devise.rb gist]):
 
 {% highlight ruby %}
-    Devise.secret_key = 'my secret is at least thirty characters long'
+Devise.secret_key = 'my secret is at least thirty characters long'
 {% endhighlight %}
 
 Note that while spree 1.3 does not need the `devise.rb` file, I've set
@@ -739,7 +739,7 @@ want to generate a random secret *for each* of these files separately,
 using the command:
 
 {% highlight bash %}
-    bundle exec rake secret
+bundle exec rake secret
 {% endhighlight %}
 
 You'd run this command in your development directory on the dev machine,
@@ -758,13 +758,13 @@ more information.
 Now:
 
 {% highlight bash %}
-    vim master.pill.erb
+vim master.pill.erb
 {% endhighlight %}
 
 Change the "app.gid" line to:
 
 {% highlight ruby %}
-    app.gid = "www-data"
+app.gid = "www-data"
 {% endhighlight %}
 
 Save and exit.
@@ -813,7 +813,7 @@ Edit these two files and change "production" to "staging".
 Also run:
 
 {% highlight bash %}
-    sudo chmod 644 /etc/profile.d/set_env_vars.sh
+sudo chmod 644 /etc/profile.d/set_env_vars.sh
 {% endhighlight %}
 
 Now logout of the vagrant box.
@@ -826,7 +826,7 @@ this box rather than go through the whole setup again.
 On your dev machine:
 
 {% highlight bash %}
-    vagrant package
+vagrant package
 {% endhighlight %}
 
 This will shut down the vm and export it to a file called `package.box`.
@@ -835,7 +835,7 @@ You can then save it in the box archive and give it a name, then switch
 your current box to it:
 
 {% highlight bash %}
-    vagrant box add spree-base package.box
+vagrant box add spree-base package.box
 {% endhighlight %}
 
 If you're going to distribute this box to other machines or over the
@@ -843,31 +843,31 @@ net, then move and rename package.box to somewhere outside this
 directory. Otherwise:
 
 {% highlight bash %}
-    rm package.box
+rm package.box
 {% endhighlight %}
 
 Now:
 
 {% highlight bash %}
-    vagrant destroy -f
-    rm Vagrantfile
-    vagrant init
-    vim Vagrantfile
+vagrant destroy -f
+rm Vagrantfile
+vagrant init
+vim Vagrantfile
 {% endhighlight %}
 
 Comment out the line (or see [initial Vagrantfile gist]):
 
 {% highlight ruby %}
-    # config.vm.box = "base"
+# config.vm.box = "base"
 {% endhighlight %}
 
 Before the final "end" in the file, add the lines :
 
 {% highlight ruby %}
-    config.vm.define 'production' do |production|
-      production.vm.box = 'spree-base'
-      production.vm.network :forwarded_port, guest: 80, host: 8081
-    end
+config.vm.define 'production' do |production|
+  production.vm.box = 'spree-base'
+  production.vm.network :forwarded_port, guest: 80, host: 8081
+end
 {% endhighlight %}
 
 Save and exit.
@@ -875,9 +875,9 @@ Save and exit.
 Now:
 
 {% highlight bash %}
-    vagrant up
-    vagrant ssh
-    sudo hostname production-1-3
+vagrant up
+vagrant ssh
+sudo hostname production-1-3
 {% endhighlight %}
 
 Use `sudo vim` to change "store" to "production-1-3" in these two files:
@@ -913,20 +913,20 @@ you've brought the vagrant box up on your first machine, issue the
 following command:
 
 {% highlight bash %}
-    # substitute the box name for "production" if working on a different
-    # box
-    cd .vagrant/machines/production/virtualbox
-    cp id id.bak
+# substitute the box name for "production" if working on a different
+# box
+cd .vagrant/machines/production/virtualbox
+cp id id.bak
 {% endhighlight %}
 
 Now, bring up the vagrant box on your second machine (say, when you go
 home). Once the machine is up, `vagrant halt` it. Now:
 
 {% highlight bash %}
-    cd .vagrant/machines/production/virtualbox
-    # note this, you'll need it for the next step
-    cat id
-    cp id.bak id
+cd .vagrant/machines/production/virtualbox
+# note this, you'll need it for the next step
+cat id
+cp id.bak id
 {% endhighlight %}
 
 This will tell vagrant to use the same id as on your other machine.
@@ -938,8 +938,8 @@ There are two more files you need to edit to complete this. The first
 is:
 
 {% highlight bash %}
-    # this might alternatively be in ~/.VirtualBox/VirtualBox.xml
-    vim ~/.config/VirtualBox/VirtualBox.xml
+# this might alternatively be in ~/.VirtualBox/VirtualBox.xml
+vim ~/.config/VirtualBox/VirtualBox.xml
 {% endhighlight %}
 
 Find the machine with the id from the `cat id` command above, then copy
@@ -951,8 +951,8 @@ there next.
 Save and exit. Now:
 
 {% highlight bash %}
-    cd ~/VirtualBox\ VMs/[your machine's src directory]
-    vim [your machine].vbox
+cd ~/VirtualBox\ VMs/[your machine's src directory]
+vim [your machine].vbox
 {% endhighlight %}
 
 Again, replace the machine id. Don't mix this up for the hard disk id.
@@ -1014,7 +1014,7 @@ We've already added capistrano to the `Gemfile` earlier, now run the
 following command to enable it in your project:
 
 {% highlight bash %}
-    bundle exec capify .
+bundle exec capify .
 {% endhighlight %}
 
 This will create a couple files, one of which we will replace with a
@@ -1035,16 +1035,16 @@ Edit the file and change the following lines to include the vagrant port
 number "2222":
 
 {% highlight ruby %}
-    role :web, '127.0.0.1:2222'
-    role :app, '127.0.0.1:2222'
-    role :db,  '127.0.0.1:2222', :primary => true
+role :web, '127.0.0.1:2222'
+role :app, '127.0.0.1:2222'
+role :db,  '127.0.0.1:2222', :primary => true
 {% endhighlight %}
 
 Also add the following lines to the `namespace deploy do` section:
 
 {% highlight ruby %}
-    run "ln -nfs #{shared_path}/spree #{release_path}/public/spree"
-    run "ln -nfs #{shared_path}/config/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
+run "ln -nfs #{shared_path}/spree #{release_path}/public/spree"
+run "ln -nfs #{shared_path}/config/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
 {% endhighlight %}
 
 #### Simple Capistrano Mistakes
@@ -1065,15 +1065,15 @@ to production (the "master" branch in our example here).
 Let's commit our changes:
 
 {% highlight bash %}
-    git add .
-    git commit -m "enable capistrano"
-    git push
+git add .
+git commit -m "enable capistrano"
+git push
 {% endhighlight %}
 
 Finally, do a cold deploy:
 
 {% highlight bash %}
-    bundle exec cap deploy:cold
+bundle exec cap deploy:cold
 {% endhighlight %}
 
 You'll be prompted for the spree user's password ("spree" here). Enter
@@ -1093,10 +1093,10 @@ the deploy.
 If spree hasn't restarted, a manual restart will do the trick.
 
 {% highlight bash %}
-    vagrant ssh
-    cd /data/spree/shared/log
-    sudo bluepill spree restart
-    tail -f unicorn.stderr.log
+vagrant ssh
+cd /data/spree/shared/log
+sudo bluepill spree restart
+tail -f unicorn.stderr.log
 {% endhighlight %}
 
 Watch the log for the unicorn workers to restart. You'll have to enter
@@ -1137,10 +1137,10 @@ note the issues I've had with mine and how I dealt with them.
 For now, generate some sample data:
 
 {% highlight bash %}
-    vagrant ssh
-    cd /data/spree/current
-    bundle exec rake db:seed AUTO_ACCEPT=1
-    bundle exec rake spree_sample:load
+vagrant ssh
+cd /data/spree/current
+bundle exec rake db:seed AUTO_ACCEPT=1
+bundle exec rake spree_sample:load
 {% endhighlight %}
 
 Log off the box when it's done.
@@ -1151,7 +1151,7 @@ Yay!
 Before we're done, we'll need to shut down this box.
 
 {% highlight bash %}
-    vagrant halt
+vagrant halt
 {% endhighlight %}
 
 #### Important Rake Commands
@@ -1186,8 +1186,8 @@ If you're working with sample data, it's easy to erase mistakes and
 start over with a clean database.
 
 {% highlight bash %}
-    bundle exec rake db:reset AUTO_ACCEPT=1
-    bundle exec rake spree_sample:load
+bundle exec rake db:reset AUTO_ACCEPT=1
+bundle exec rake spree_sample:load
 {% endhighlight %}
 
 I've occasionally run into an "unexpected token" error when reloading
@@ -1205,16 +1205,16 @@ production server. That's what staging is for.
 We'll need two things. The first is a staging environment file.
 
 {% highlight bash %}
-    cd config/environments
-    cp production.rb staging.rb
-    vim staging.rb
+cd config/environments
+cp production.rb staging.rb
+vim staging.rb
 {% endhighlight %}
 
 Change the line with local requests to true (or use this [1.3 staging.rb
 gist]):
 
 {% highlight ruby %}
-    config.consider_all_requests_local       = true
+config.consider_all_requests_local       = true
 {% endhighlight %}
 
 This allows error messages to be displayed in the browser. For pretty
@@ -1234,20 +1234,20 @@ Find the file `config/initializers/spree.rb` and modify the section (or
 use this [spree.rb gist]):
 
 {% highlight ruby %}
-    Spree.config do |config|
-      # Example:
-      # Uncomment to override the default site name.
-      # config.site_name = "Spree Demo Site"
-      config.allow_ssl_in_staging = false
-    end
+Spree.config do |config|
+  # Example:
+  # Uncomment to override the default site name.
+  # config.site_name = "Spree Demo Site"
+  config.allow_ssl_in_staging = false
+end
 {% endhighlight %}
 
 Save and exit. Now:
 
 {% highlight bash %}
-    git add .
-    git commit -m "add staging"
-    git push
+git add .
+git commit -m "add staging"
+git push
 {% endhighlight %}
 
 Configuring Capistrano for Staging
@@ -1256,33 +1256,33 @@ Configuring Capistrano for Staging
 The other thing we'll need is a capistrano staging configuration.
 
 {% highlight bash %}
-    cd config
-    vim deploy.rb
+cd config
+vim deploy.rb
 {% endhighlight %}
 
 Remove the lines (or use this [capistrano recipe gist], changing repo
 username):
 
 {% highlight ruby %}
-    set :rails_env, 'production'
+set :rails_env, 'production'
 
-    role :web, '127.0.0.1:2222'
-    role :app, '127.0.0.1:2222'
-    role :db,  '127.0.0.1:2222', :primary => true
+role :web, '127.0.0.1:2222'
+role :app, '127.0.0.1:2222'
+role :db,  '127.0.0.1:2222', :primary => true
 {% endhighlight %}
 
 and
 
 {% highlight ruby %}
-    set :branch,      "master"
+set :branch,      "master"
 {% endhighlight %}
 
 After the first two lines in the file add:
 
 {% highlight ruby %}
-    set :stages, %w(production staging)
-    set :default_stage, 'staging'
-    require 'capistrano/ext/multistage'
+set :stages, %w(production staging)
+set :default_stage, 'staging'
+require 'capistrano/ext/multistage'
 {% endhighlight %}
 
 Save and exit.
@@ -1290,19 +1290,19 @@ Save and exit.
 Now:
 
 {% highlight bash %}
-    mkdir deploy
-    cd deploy
-    vim production.rb
+mkdir deploy
+cd deploy
+vim production.rb
 {% endhighlight %}
 
 Now add (or use this [production.rb gist]):
 
 {% highlight ruby %}
-    set :branch,      "master"
-    set :rails_env, 'production'
-    role :web, '127.0.0.1:2200'
-    role :app, '127.0.0.1:2200'
-    role :db,  '127.0.0.1:2200', :primary => true
+set :branch,      "master"
+set :rails_env, 'production'
+role :web, '127.0.0.1:2200'
+role :app, '127.0.0.1:2200'
+role :db,  '127.0.0.1:2200', :primary => true
 {% endhighlight %}
 
 Notice that the port number is different than the one we deleted from
@@ -1311,17 +1311,17 @@ Notice that the port number is different than the one we deleted from
 Save and exit. Now:
 
 {% highlight bash %}
-    vim staging.rb
+vim staging.rb
 {% endhighlight %}
 
 Add (or use this [staging.rb gist]):
 
 {% highlight ruby %}
-    set :branch,      "staging"
-    set :rails_env, 'staging'
-    role :web, '127.0.0.1:2222'
-    role :app, '127.0.0.1:2222'
-    role :db,  '127.0.0.1:2222', :primary => true
+set :branch,      "staging"
+set :rails_env, 'staging'
+role :web, '127.0.0.1:2222'
+role :app, '127.0.0.1:2222'
+role :db,  '127.0.0.1:2222', :primary => true
 {% endhighlight %}
 
 This tells capistrano to address two different servers, one for staging
@@ -1369,9 +1369,9 @@ environment is being called in `/data/spree/shared/config/unicorn.rb`
 Let's add these files to the repository:
 
 {% highlight bash %}
-    git add .
-    git commit -m "add staging to capistrano"
-    git push
+git add .
+git commit -m "add staging to capistrano"
+git push
 {% endhighlight %}
 
 Configuring Vagrant for Staging
@@ -1385,31 +1385,31 @@ Since we already have a Vagrantfile in the current folder, let's make it
 work for both machines:
 
 {% highlight bash %}
-    vim Vagrantfile
+vim Vagrantfile
 {% endhighlight %}
 
 Add the lines (or use this [Vagrantfile gist]):
 
 {% highlight ruby %}
-    config.vm.define "staging", primary: true do |staging|
-      staging.vm.box = 'spree-base'
-      staging.vm.network :forwarded_port, guest: 80, host: 8080
-    end
+config.vm.define "staging", primary: true do |staging|
+  staging.vm.box = 'spree-base'
+  staging.vm.network :forwarded_port, guest: 80, host: 8080
+end
 {% endhighlight %}
 
 Save and exit, then commit the new Vagrantfile:
 
 {% highlight bash %}
-    git add .
-    git commit -m "configure vagrant for staging"
-    git push
+git add .
+git commit -m "configure vagrant for staging"
+git push
 {% endhighlight %}
 
 Let's also set up a staging branch for our work with the staging server:
 
 {% highlight bash %}
-    git checkout -b staging
-    git push -u origin staging
+git checkout -b staging
+git push -u origin staging
 {% endhighlight %}
 
 #### Git Workflow with Staging
@@ -1423,12 +1423,12 @@ Once I'm happy with the commits on that branch, I'll merge them to the
 master branch, which pushes to production:
 
 {% highlight bash %}
-    git commit -m "some staging work"
-    git push
-    git checkout master
-    git merge --no-ff staging
-    git push
-    git checkout staging
+git commit -m "some staging work"
+git push
+git checkout master
+git merge --no-ff staging
+git push
+git checkout staging
 {% endhighlight %}
 
 You may prefer a different workflow such as rebasing. I don't think that
@@ -1444,30 +1444,31 @@ back to staging.
 Now:
 
 {% highlight bash %}
-    # this will bring up both machines now
-    vagrant up
-    # this will connect to staging, the primary machine
-    vagrant ssh
-    sudo hostname staging-1-3
+# this will bring up both machines now
+vagrant up
+# this will connect to staging, the primary machine
+vagrant ssh
+sudo hostname staging-1-3
 {% endhighlight %}
 
 Use `sudo vim` to change "store" to "staging-1-3" in these two files:
 
 -   `/etc/hosts`
+
 -   `/etc/hostname`
 
 Log off the staging box, then:
 
 {% highlight bash %}
-    bundle exec cap deploy:cold
+bundle exec cap deploy:cold
 {% endhighlight %}
 
 Once that's done, seed the database:
 
 {% highlight bash %}
-    vagrant ssh
-    cd /data/spree/current
-    bundle exec rake db:seed AUTO_ACCEPT=1
+vagrant ssh
+cd /data/spree/current
+bundle exec rake db:seed AUTO_ACCEPT=1
 {% endhighlight %}
 
 Logout of the vagrant box.
@@ -1508,70 +1509,70 @@ Now that we've got our old store set up, let's get our new one.
 On the dev machine:
 
 {% highlight bash %}
-    cd ..
-    gem install rails -v 4.0.2
-    rails _4.0.2_ new store
-    mv store store-2-1
-    cd store-2-1
-    vim config/initializers/devise.rb
+cd ..
+gem install rails -v 4.0.2
+rails _4.0.2_ new store
+mv store store-2-1
+cd store-2-1
+vim config/initializers/devise.rb
 {% endhighlight %}
 
 Paste (or see [devise.rb gist]):
 
 {% highlight ruby %}
-    Devise.secret_key = 'my secret is at least thirty characters long'
+Devise.secret_key = 'my secret is at least thirty characters long'
 {% endhighlight %}
 
 Save and exit. Now:
 
 {% highlight bash %}
-    vim Gemfile
+vim Gemfile
 {% endhighlight %}
 
 This looks mostly like it did for the 1.3 store (or see [2.1 Gemfile
 gist]):
 
 {% highlight ruby %}
-    gem 'mysql2', :groups => :production
-    gem 'sqlite3', :groups => [:development, :test]
+gem 'mysql2', :groups => :production
+gem 'sqlite3', :groups => [:development, :test]
 {% endhighlight %}
 
 Find the unicorn line and change to:
 
 {% highlight ruby %}
-    group :production do
-      gem 'unicorn'
-      gem 'foreman'
-    end
+group :production do
+  gem 'unicorn'
+  gem 'foreman'
+end
 {% endhighlight %}
 
 Find the capistrano line and change to:
 
 {% highlight ruby %}
-    group :development do
-      gem 'capistrano', '~> 2.15.5'
-      # necessary due to a bug in 2.8.0 - if a later version works, just
-      # drop this line
-      gem 'net-ssh', '~> 2.7.0'
-    end
+group :development do
+  gem 'capistrano', '~> 2.15.5'
+  # necessary due to a bug in 2.8.0 - if a later version works, just
+  # drop this line
+  gem 'net-ssh', '~> 2.7.0'
+end
 {% endhighlight %}
 
 Also add these lines at the bottom:
 
 {% highlight bash %}
-    gem 'spree', '2.1.4'
-    gem 'spree_gateway', :git => 'https://github.com/spree/spree_gateway.git', :branch => '2-1-stable'
-    gem 'spree_auth_devise', :git => 'https://github.com/spree/spree_auth_devise.git', :branch => '2-1-stable'
+gem 'spree', '2.1.4'
+gem 'spree_gateway', :git => 'https://github.com/spree/spree_gateway.git', :branch => '2-1-stable'
+gem 'spree_auth_devise', :git => 'https://github.com/spree/spree_auth_devise.git', :branch => '2-1-stable'
 {% endhighlight %}
 
 Save and exit. Now:
 
 {% highlight bash %}
-    # this will throw an error
-    bundle install --without production test
-    # this will fix the error
-    bundle update
-    bundle exec spree install --auto-accept
+# this will throw an error
+bundle install --without production test
+# this will fix the error
+bundle update
+bundle exec spree install --auto-accept
 {% endhighlight %}
 
 Now we're going to update to the "2-1-stable" branch instead of the
@@ -1581,22 +1582,22 @@ the stable branch. I would have done this to the 1.3 store as well if it
 had been a real store.
 
 {% highlight bash %}
-    vim Gemfile
+vim Gemfile
 {% endhighlight %}
 
 Replace the spree gem line with (or use the [final 2.1 Gemfile gist]):
 
 {% highlight ruby %}
-    gem 'spree', :github => 'spree/spree', :branch => '2-1-stable'
+gem 'spree', :github => 'spree/spree', :branch => '2-1-stable'
 {% endhighlight %}
 
 Save and exit. Now:
 
 {% highlight bash %}
-    bundle update spree
-    bundle exec rake railties:install:migrations
-    bundle exec rake db:migrate
-    bundle exec rails s
+bundle update spree
+bundle exec rake railties:install:migrations
+bundle exec rake db:migrate
+bundle exec rails s
 {% endhighlight %}
 
 Visit <http://localhost:3000/> to test the store. Ctrl-C stops the
@@ -1629,40 +1630,40 @@ We'll do the exact same instructions from the "Setting up Git" section
 above:
 
 {% highlight bash %}
-    git init
-    vim .gitignore
+git init
+vim .gitignore
 {% endhighlight %}
 
 Add the following lines to your `.gitignore` (or same [.gitignore
 gist]):
 
 {% highlight bash %}
-    /config/initializers/secret_token.rb
-    /config/initializers/devise.rb
-    /config/database.yml
-    /public/spree/
-    /public/assets/
-    /.vagrant/
-    package.box
-    *.sql
-    *.tar
-    *.tar.gz
-    *.tgz
+/config/initializers/secret_token.rb
+/config/initializers/devise.rb
+/config/database.yml
+/public/spree/
+/public/assets/
+/.vagrant/
+package.box
+*.sql
+*.tar
+*.tar.gz
+*.tgz
 {% endhighlight %}
 
 Save and exit. Next run:
 
 {% highlight bash %}
-    git add .
-    git commit -m "initial commit"
+git add .
+git commit -m "initial commit"
 {% endhighlight %}
 
 You'll also want to set up a `store-2-1` repo on github. Go do that then
 run:
 
 {% highlight bash %}
-    git remote add origin git@github.com:username/store-2-1
-    git push -u origin master
+git remote add origin git@github.com:username/store-2-1
+git push -u origin master
 {% endhighlight %}
 
 Use your own username instead of "username" of course.
@@ -1696,7 +1697,7 @@ In `config/deploy.rb`, edit the repository url to point to
 recipe gist]). Also add the line:
 
 {% highlight ruby %}
-    run "ln -nfs #{shared_path}/config/devise.rb #{release_path}/config/initializers/devise.rb"
+run "ln -nfs #{shared_path}/config/devise.rb #{release_path}/config/initializers/devise.rb"
 {% endhighlight %}
 
 to the deployment section with the other lines generating symlinks.
@@ -1710,41 +1711,42 @@ machines after the migration, you'll want to change this back to 2222.
 Now:
 
 {% highlight bash %}
-    cd config/environments
-    cp production.rb staging.rb
-    vim staging.rb
+cd config/environments
+cp production.rb staging.rb
+vim staging.rb
 {% endhighlight %}
 
 Change the local requests line to (or see the [2.1 staging.rb gist]):
 
 {% highlight ruby %}
-    config.consider_all_requests_local       = true
+config.consider_all_requests_local       = true
 {% endhighlight %}
 
 Save and exit. Now:
 
 {% highlight bash %}
-    cd ..
-    git add .
-    git commit -m "add capistrano and vagrant"
-    git push
-    git checkout -b staging
-    git push -u origin staging
-    vagrant up
-    vagrant ssh
-    sudo hostname staging-2-1
+cd ..
+git add .
+git commit -m "add capistrano and vagrant"
+git push
+git checkout -b staging
+git push -u origin staging
+vagrant up
+vagrant ssh
+sudo hostname staging-2-1
 {% endhighlight %}
 
 Use `sudo vim` to change "store" to "staging-2-1" in both of these
 files:
 
 -   `/etc/hosts`
+
 -   `/etc/hostname`
 
 Log off the vagrant box and run:
 
 {% highlight bash %}
-    bundle exec cap deploy:cold
+bundle exec cap deploy:cold
 {% endhighlight %}
 
 Verify that it has come up by visiting <http://localhost:8082/>.
@@ -1776,8 +1778,11 @@ I recommend refining your upgrade procedure in trial stages:
 
 -   uncustomized, vanilla store (as in this post) with sample data and
     no extensions
+
 -   vanilla store with production data
+
 -   full upgrade with extensions, customization and production data
+
 -   the actual deployment
 
 Only after you've successfully gone through the first three stages will
@@ -1804,12 +1809,12 @@ have our 2.1 directory set up.
 Let's also create a temporary git branch for our work.
 
 {% highlight bash %}
-    cd store-1-3
-    # sometimes the cache interferes with upgrades
-    rm -rf tmp/cache
-    git checkout -b 2-1-upgrade
-    cp ../store-2-1/Gemfile* .
-    bundle install
+cd store-1-3
+# sometimes the cache interferes with upgrades
+rm -rf tmp/cache
+git checkout -b 2-1-upgrade
+cp ../store-2-1/Gemfile* .
+bundle install
 {% endhighlight %}
 
 Now we need to update the Rails environment files and the application
@@ -1818,16 +1823,16 @@ version helps. If your application names aren't the same, you'll need to
 update it in these files:
 
 {% highlight bash %}
-    cp ../store-2-1/config/environments/*.rb config/environments
-    cp ../store-2-1/config/initializers/devise.rb config/initializers
-    cp ../store-2-1/config/application.rb config
+cp ../store-2-1/config/environments/*.rb config/environments
+cp ../store-2-1/config/initializers/devise.rb config/initializers
+cp ../store-2-1/config/application.rb config
 {% endhighlight %}
 
 Now let's get rid of a migration which happens to be a duplicate from
 1.3 to 2.1:
 
 {% highlight bash %}
-    git rm db/migrate/*spree_promo_one_two.spree_promo.rb
+git rm db/migrate/*spree_promo_one_two.spree_promo.rb
 {% endhighlight %}
 
 In the following two sets of files, remove the lines which refer to
@@ -1836,19 +1841,21 @@ In the following two sets of files, remove the lines which refer to
 In the first set, also change "spree\_core" to "spree\_frontend":
 
 -   `app/assets/javascripts/store/all.js`
+
 -   `app/assets/stylesheets/store/all.css`
 
 In the second set, also change "spree\_core" to "spree\_backend":
 
 -   `app/assets/javascripts/admin/all.js`
+
 -   `app/assets/stylesheets/admin/all.css`
 
 Finally, let's do the update to 2.1:
 
 {% highlight bash %}
-    bundle exec rake railties:install:migrations
-    bundle exec rake db:migrate
-    bundle exec rails s
+bundle exec rake railties:install:migrations
+bundle exec rake db:migrate
+bundle exec rails s
 {% endhighlight %}
 
 That's it. Test the new store version at <http://localhost:3000/>.
@@ -1856,8 +1863,8 @@ That's it. Test the new store version at <http://localhost:3000/>.
 Now commit our changes so we have a checkpoint:
 
 {% highlight bash %}
-    git add .
-    git commit -m "upgrade to spree 2.1"
+git add .
+git commit -m "upgrade to spree 2.1"
 {% endhighlight %}
 
 #### Missing Template "spree\_application" Error
@@ -1868,7 +1875,7 @@ sometimes on my dev machine when attempting the upgrade.
 The instructions I give above avoid that error. The magic secret is:
 
 {% highlight bash %}
-    rm -rf tmp/cache
+rm -rf tmp/cache
 {% endhighlight %}
 
 For some reason, this directory is the source of all kinds of weird
@@ -1893,12 +1900,12 @@ We'll go through the instructions to generate that as we did on the fake
 production machine.
 
 {% highlight ruby %}
-    vagrant ssh
-    cd /data/spree/current
-    # see https://github.com/capistrano/capistrano/wiki/upgrading-to-rails-4#asset-pipeline
-    rm ../shared/assets/manifest.yml
-    bundle exec rake db:reset
-    bundle exec rake spree_sample:load
+vagrant ssh
+cd /data/spree/current
+# see https://github.com/capistrano/capistrano/wiki/upgrading-to-rails-4#asset-pipeline
+rm ../shared/assets/manifest.yml
+bundle exec rake db:reset
+bundle exec rake spree_sample:load
 {% endhighlight %}
 
 Log off the vagrant box.
@@ -1911,23 +1918,23 @@ upgrade without bringing our changes into the staging branch. That means
 we'll need to change the deployment file and push the current branch:
 
 {% highlight bash %}
-    git push -u origin 2-1-upgrade
-    vim config/deploy/staging.rb
+git push -u origin 2-1-upgrade
+vim config/deploy/staging.rb
 {% endhighlight %}
 
 Change the branch to:
 
 {% highlight ruby %}
-    set :branch,      "2-1-upgrade"
+set :branch,      "2-1-upgrade"
 {% endhighlight %}
 
 Save and exit. Now:
 
 {% highlight ruby %}
-    git add .
-    git commit -m "test upgrade to 2.1"
-    git push
-    bundle exec cap deploy:migrations
+git add .
+git commit -m "test upgrade to 2.1"
+git push
+bundle exec cap deploy:migrations
 {% endhighlight %}
 
 If you get a bluepill error, ssh onto the vagrant box and
@@ -2077,13 +2084,13 @@ We'll also get a copy of the uploaded assets directory, although we
 won't need this until later.
 
 {% highlight bash %}
-    # you'll be ssh'ing to your machine instead
-    cd store-1-3
-    vagrant ssh production
-    # you'll use a local directory instead
-    mysqldump -uroot spree > /vagrant/spree-1-3.sql
-    cd /data/spree/shared
-    tar cvf /vagrant/uploads.tar spree
+# you'll be ssh'ing to your machine instead
+cd store-1-3
+vagrant ssh production
+# you'll use a local directory instead
+mysqldump -uroot spree > /vagrant/spree-1-3.sql
+cd /data/spree/shared
+tar cvf /vagrant/uploads.tar spree
 {% endhighlight %}
 
 Copy the sql file to your dev machine in the store-1-3 directory, then
@@ -2096,13 +2103,13 @@ staging machine is fine for this purpose. All we need it to do is run
 the migrations for us.
 
 {% highlight bash %}
-    cd store-1-3
-    vagrant ssh
-    mysql -uroot
-    drop schema spree;
-    create schema spree;
-    exit
-    mysql -uroot spree < /vagrant/spree-1-3.sql
+cd store-1-3
+vagrant ssh
+mysql -uroot
+drop schema spree;
+create schema spree;
+exit
+mysql -uroot spree < /vagrant/spree-1-3.sql
 {% endhighlight %}
 
 Now we just need to run the migrations. Since we've already deployed the
@@ -2110,8 +2117,8 @@ Now we just need to run the migrations. Since we've already deployed the
 migrate the database:
 
 {% highlight bash %}
-    cd /data/spree/current
-    bundle exec rake db:migrate
+cd /data/spree/current
+bundle exec rake db:migrate
 {% endhighlight %}
 
 Finally, we're going to export the migrated data to be imported into the
@@ -2131,26 +2138,26 @@ ordering, which may also have changed.
     table in the dump
 
 {% highlight bash %}
-    mysqldump -uroot -tc --ignore-table=spree.schema_migrations spree > /vagrant/spree-2-1.sql
+mysqldump -uroot -tc --ignore-table=spree.schema_migrations spree > /vagrant/spree-2-1.sql
 {% endhighlight %}
 
 Log off the vagrant box. Now:
 
 {% highlight bash %}
-    mv spree-2-1.sql ../store-2-1
-    # we'll need this now
-    mv uploads.tar ../store-2-1
-    cd ../store-2-1
-    vagrant ssh
-    cd /data/spree/current
-    mysql -uroot
-    drop schema spree;
-    create schema spree;
-    exit
-    bundle exec rake db:schema:load
-    mysql -uroot spree < /vagrant/spree-2-1.sql
-    cd /data/spree/shared
-    tar xvf /vagrant/uploads.tar
+mv spree-2-1.sql ../store-2-1
+# we'll need this now
+mv uploads.tar ../store-2-1
+cd ../store-2-1
+vagrant ssh
+cd /data/spree/current
+mysql -uroot
+drop schema spree;
+create schema spree;
+exit
+bundle exec rake db:schema:load
+mysql -uroot spree < /vagrant/spree-2-1.sql
+cd /data/spree/shared
+tar xvf /vagrant/uploads.tar
 {% endhighlight %}
 
 If everything goes well, you should be able to see the clean, upgraded

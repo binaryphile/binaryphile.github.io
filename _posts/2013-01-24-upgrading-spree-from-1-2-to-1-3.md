@@ -53,11 +53,11 @@ Go through the routine Rails upgrade process
 -   Update or remove any incompatible extensions
 
 {% highlight bash %}
-    bundle update
-    bundle exec rake railties:install:migrations
-    bundle exec rake db:migrate
-    bundle exec rake assets:clean
-    bundle exec rake assets:precompile:nondigest
+bundle update
+bundle exec rake railties:install:migrations
+bundle exec rake db:migrate
+bundle exec rake assets:clean
+bundle exec rake assets:precompile:nondigest
 {% endhighlight %}
 
 Note that the assets commands are for development, the command is
@@ -199,9 +199,9 @@ now). This stuff is in my .gitignore so it has to be copied manually.
 -   Create the schema on the new machine
 
 {% highlight sql %}
-    mysql -uroot
-    create schema spree_dibs_upgrade;
-    exit
+mysql -uroot
+create schema spree_dibs_upgrade;
+exit
 {% endhighlight %}
 
 -   On the production machine, `mysqldump -u[user] -p spree > sdp.sql`
@@ -252,18 +252,18 @@ Gemfile.
     here)
 
 {% highlight bash %}
-    gem install spree
-    cd ~/vagrant
-    rails new spree_dibs -d mysql
-    # in this case, 1.3
-    mv spree_dibs spree_dibs_[major].[minor]
-    cd spree_dibs_[major].[minor]
+gem install spree
+cd ~/vagrant
+rails new spree_dibs -d mysql
+# in this case, 1.3
+mv spree_dibs spree_dibs_[major].[minor]
+cd spree_dibs_[major].[minor]
 {% endhighlight %}
 
 -   Copy the `.gitignore` from the last store instance
 
 {% highlight bash %}
-    cp config/database.yml config/database_original.yml
+cp config/database.yml config/database_original.yml
 {% endhighlight %}
 
 -   The `database.yml` from the rails default install already has the
@@ -276,14 +276,14 @@ Gemfile.
     `gem 'therubyracer', :platforms =>   :ruby` line
 
 {% highlight bash %}
-    mysql -uroot
-    create schema spree_dibs_development;
-    create schema spree_dibs_test;
-    create schema spree_dibs_production;
-    git init
-    git add .
-    git commit -m "Initial commit"
-    spree install
+mysql -uroot
+create schema spree_dibs_development;
+create schema spree_dibs_test;
+create schema spree_dibs_production;
+git init
+git add .
+git commit -m "Initial commit"
+spree install
 {% endhighlight %}
 
 -   Install default gateways: yes
@@ -493,11 +493,11 @@ The quickest way is to drop and create the schema, then reload it from
 schema.rb:
 
 {% highlight bash %}
-    mysql -uroot
-    drop schema spree_dibs_development;
-    create schema spree_dibs_development;
-    exit
-    bundle exec rake db:schema:load
+mysql -uroot
+drop schema spree_dibs_development;
+create schema spree_dibs_development;
+exit
+bundle exec rake db:schema:load
 {% endhighlight %}
 
 You could do it all with rake commands, but they're a lot slower because

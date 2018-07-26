@@ -6,30 +6,30 @@ categories: spree
 ---
 
 {% highlight bash %}
-    gem update --system
-    gem update bundler
-    rvm upgrade ruby-1.9.3-p129 ruby-1.9.3-p327
-    gem update rails -v 3.2.9
-    gem update spree -v 1.2.2
-    rails new spree_dibs -d mysql
-    mv spree_dibs spree_dibs_1.2
-    cd spree_dibs_1.2/config
-    mv database.yml database.yml.original
-    cp ../../spree_dibs_1.1/database.yml .
-    cd ..
+gem update --system
+gem update bundler
+rvm upgrade ruby-1.9.3-p129 ruby-1.9.3-p327
+gem update rails -v 3.2.9
+gem update spree -v 1.2.2
+rails new spree_dibs -d mysql
+mv spree_dibs spree_dibs_1.2
+cd spree_dibs_1.2/config
+mv database.yml database.yml.original
+cp ../../spree_dibs_1.1/database.yml .
+cd ..
 {% endhighlight %}
 
 -   Uncomment `gem 'therubyracer', :platforms => :ruby` in Gemfile
 
 {% highlight bash %}
-    git init
-    cp ../spree_dibs_1.1/.gitignore .
-    git add .
-    git commit -m "Initial commit"
-    mysql -uroot
-    drop schema spree_dibs_bootstrap; create schema spree_dibs_bootstrap;
-    drop schema spree_dibs_test; create schema spree_dibs_test;
-    spree install
+git init
+cp ../spree_dibs_1.1/.gitignore .
+git add .
+git commit -m "Initial commit"
+mysql -uroot
+drop schema spree_dibs_bootstrap; create schema spree_dibs_bootstrap;
+drop schema spree_dibs_test; create schema spree_dibs_test;
+spree install
 {% endhighlight %}
 
 -   Default gateways: no (we'll be installing it ourselves)
@@ -53,9 +53,9 @@ categories: spree
     to Gemfile
 
 {% highlight bash %}
-    bundle update
-    bundle exec rake railties:install:migrations
-    bundle exec rake db:migrate
+bundle update
+bundle exec rake railties:install:migrations
+bundle exec rake db:migrate
 {% endhighlight %}
 
 -   Test with `bundle exec rails s`
@@ -63,9 +63,9 @@ categories: spree
 -   Ctrl-C
 
 {% highlight bash %}
-    git rm public/index.html
-    git add .
-    git commit -m "Install Spree 1.2.2"
+git rm public/index.html
+git add .
+git commit -m "Install Spree 1.2.2"
 {% endhighlight %}
 
 -   Go through commits to old store and apply to new, consolidating as
@@ -95,9 +95,9 @@ categories: spree
     -   Update extensions to compatible version
 
 {% highlight bash %}
-    bundle update
-    bundle exec rake railties:install:migrations
-    bundle exec rake db:migrate
+bundle update
+bundle exec rake railties:install:migrations
+bundle exec rake db:migrate
 {% endhighlight %}
 
 -   Test with `bundle exec rails s`
@@ -111,21 +111,21 @@ categories: spree
 -   Reset db to blank with schema:
 
 {% highlight bash %}
-    mysql -u[user]
-    drop schema [database]
-    create schema [database]
-    exit
-    bundle exec rake db:schema:load
+mysql -u[user]
+drop schema [database]
+create schema [database]
+exit
+bundle exec rake db:schema:load
 {% endhighlight %}
 
--   Import data: \`mysql -u\[user\] \[database\] &lt; \[filename.sql\]
+-   Import data: `mysql -u[user] [database] <[filename.sql]`
     (use a new filename each time so you have a data backup)
 
 -   Debug any errors (hopefully none)
 
 -   Test with `bundle exec rails s`
 
--   Export data with `mysqldump -u[user] [database] > [filename.sql]`
+-   Export data with `mysqldump -u[user] [database] >[filename.sql]`
 
 -   Go to production system
 

@@ -76,11 +76,11 @@ button image that Artisteer generates whenever you export to html.
 The html looks like this:
 
 {% highlight html %}
-    <span class="art-button-wrapper">
-      <span class="art-button-l"></span>
-      <span class="art-button-r"></span>
-      <a href="#" class="art-button">Button Text</a>
-    </span>
+<span class="art-button-wrapper">
+  <span class="art-button-l"></span>
+  <span class="art-button-r"></span>
+  <a href="#" class="art-button">Button Text</a>
+</span>
 {% endhighlight %}
 
 That may seem like a lot for a button. The good news is that the clever
@@ -89,7 +89,7 @@ included a bit of javascript which automatically converts the following
 html into the proper structure given above:
 
 {% highlight html %}
-    <a href="#" class="art-button">Button Text</a>
+<a href="#" class="art-button">Button Text</a>
 {% endhighlight %}
 
 Still, it's necessary to look at the full structure of the html and css
@@ -100,27 +100,27 @@ behind it to understand how they work.
 Here's the css tied to the outer wrapper:
 
 {% highlight css %}
-    span.art-button-wrapper
-    {
-       vertical-align: middle;
-       display: inline-block;
-       position: relative;
-       height: 31px;
-       overflow: hidden;
-       white-space: nowrap;
-       text-indent: 0;
-       width: auto;
-       max-width:1000px;
-       margin: 0;
-       padding: 0;
-       z-index: 0;
-    }
+span.art-button-wrapper
+{
+   vertical-align: middle;
+   display: inline-block;
+   position: relative;
+   height: 31px;
+   overflow: hidden;
+   white-space: nowrap;
+   text-indent: 0;
+   width: auto;
+   max-width:1000px;
+   margin: 0;
+   padding: 0;
+   z-index: 0;
+}
 
-    .firefox2 span.art-button-wrapper
-    {
-       display: block;
-       float: left;
-    }
+.firefox2 span.art-button-wrapper
+{
+   display: block;
+   float: left;
+}
 {% endhighlight %}
 
 As you can see, it mostly sets the size parameters of the button and the
@@ -133,17 +133,17 @@ attach to. They show the backround bitmap for the button. Here's the
 first part of their css:
 
 {% highlight css %}
-    span.art-button-wrapper>span.art-button-l, span.art-button-wrapper>span.art-button-r
-    {
-       display: block;
-       position: absolute;
-       top: 0;
-       bottom: 0;
-       margin: 0;
-       padding: 0;
-       background-image: url('images/button.png');
-       background-repeat: no-repeat;
-    }
+span.art-button-wrapper>span.art-button-l, span.art-button-wrapper>span.art-button-r
+{
+   display: block;
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   margin: 0;
+   padding: 0;
+   background-image: url('images/button.png');
+   background-repeat: no-repeat;
+}
 {% endhighlight %}
 
 This sets the display back to block, chooses the image and resets margin
@@ -178,39 +178,39 @@ background shows through around them.
 Here's the rest of their css:
 
 {% highlight css %}
-    span.art-button-wrapper>span.art-button-l
-    {
-       left: 0;
-       right: 5px;
-       background-position: top left;
-    }
+span.art-button-wrapper>span.art-button-l
+{
+   left: 0;
+   right: 5px;
+   background-position: top left;
+}
 
-    span.art-button-wrapper>span.art-button-r
-    {
-       width: 5px;
-       right: 0;
-       background-position: top right;
-    }
+span.art-button-wrapper>span.art-button-r
+{
+   width: 5px;
+   right: 0;
+   background-position: top right;
+}
 
-    span.art-button-wrapper.hover>span.art-button-l
-    {
-       background-position: center left;
-    }
+span.art-button-wrapper.hover>span.art-button-l
+{
+   background-position: center left;
+}
 
-    span.art-button-wrapper.hover>span.art-button-r
-    {
-       background-position: center right;
-    }
+span.art-button-wrapper.hover>span.art-button-r
+{
+   background-position: center right;
+}
 
-    span.art-button-wrapper.active>span.art-button-l
-    {
-       background-position: bottom left;
-    }
+span.art-button-wrapper.active>span.art-button-l
+{
+   background-position: bottom left;
+}
 
-    span.art-button-wrapper.active>span.art-button-r
-    {
-       background-position: bottom right;
-    }
+span.art-button-wrapper.active>span.art-button-r
+{
+   background-position: bottom right;
+}
 {% endhighlight %}
 
 Here you see how the position on the background image is changed based
@@ -255,50 +255,50 @@ distance to allow more of the right side.
 Finally, here's the css for what goes inside the button:
 
 {% highlight css %}
-    span.art-button-wrapper>a.art-button,
-    span.art-button-wrapper>a.art-button:link,
-    span.art-button-wrapper>input.art-button,
-    span.art-button-wrapper>button.art-button
-    {
-       text-decoration: none;
-       font-family: Georgia, "Times New Roman", Times, Serif;
-       font-size: 14px;
-       position:relative;
-       top:0;
-       display: inline-block;
-       vertical-align: middle;
-       white-space: nowrap;
-       text-align: center;
-       color: #133958 !important;
-       width: auto;
-       outline: none;
-       border: none;
-       background: none;
-       line-height: 31px;
-       height: 31px;
-       margin: 0 !important;
-       padding: 0 20px !important;
-       overflow: visible;
-       cursor: pointer;
-       text-indent: 0;
-    }
+span.art-button-wrapper>a.art-button,
+span.art-button-wrapper>a.art-button:link,
+span.art-button-wrapper>input.art-button,
+span.art-button-wrapper>button.art-button
+{
+   text-decoration: none;
+   font-family: Georgia, "Times New Roman", Times, Serif;
+   font-size: 14px;
+   position:relative;
+   top:0;
+   display: inline-block;
+   vertical-align: middle;
+   white-space: nowrap;
+   text-align: center;
+   color: #133958 !important;
+   width: auto;
+   outline: none;
+   border: none;
+   background: none;
+   line-height: 31px;
+   height: 31px;
+   margin: 0 !important;
+   padding: 0 20px !important;
+   overflow: visible;
+   cursor: pointer;
+   text-indent: 0;
+}
 
-    .art-button img, span.art-button-wrapper img
-    {
-       margin: 0;
-       vertical-align: middle;
-    }
+.art-button img, span.art-button-wrapper img
+{
+   margin: 0;
+   vertical-align: middle;
+}
 
-    span.art-button-wrapper.hover>.art-button, span.art-button-wrapper.hover>a.art-button:link
-    {
-       color: #FFFFFF !important;
-       text-decoration: none !important;
-    }
+span.art-button-wrapper.hover>.art-button, span.art-button-wrapper.hover>a.art-button:link
+{
+   color: #FFFFFF !important;
+   text-decoration: none !important;
+}
 
-    span.art-button-wrapper.active>.art-button, span.art-button-wrapper.active>a.art-button:link
-    {
-       color: #FFFFFF !important;
-    }
+span.art-button-wrapper.active>.art-button, span.art-button-wrapper.active>a.art-button:link
+{
+   color: #FFFFFF !important;
+}
 {% endhighlight %}
 
 Again, the height and line-height are set to 31px and a number of other
@@ -432,33 +432,33 @@ The height is set both on the wrapper as well as the button link itself,
 so we'll start with:
 
 {% highlight css %}
-    .signup>span.art-button-wrapper {
-      height: 70px;
-    }
+.signup>span.art-button-wrapper {
+  height: 70px;
+}
 
-    .signup>span.art-button-wrapper>a.art-button,
-    .signup>span.art-button-wrapper>a.art-button:link,
-    .signup>span.art-button-wrapper>input.art-button,
-    .signup>span.art-button-wrapper>button.art-button {
-      font-family: Arial, Helvetica, Sans-Serif;
-      font-size: 36px;
-      font-weight: bold;
-      top: -3px;
-      color: #C7DFF3 !important;
-      text-transform: uppercase;
-      text-shadow: 0 1px 0 #032C56;
-      line-height: 70px;
-      height: 70px;
-      padding: 0 95px 0 25px !important;
-    }
+.signup>span.art-button-wrapper>a.art-button,
+.signup>span.art-button-wrapper>a.art-button:link,
+.signup>span.art-button-wrapper>input.art-button,
+.signup>span.art-button-wrapper>button.art-button {
+  font-family: Arial, Helvetica, Sans-Serif;
+  font-size: 36px;
+  font-weight: bold;
+  top: -3px;
+  color: #C7DFF3 !important;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 #032C56;
+  line-height: 70px;
+  height: 70px;
+  padding: 0 95px 0 25px !important;
+}
 
-    .signup>span.art-button-wrapper.hover>.art-button, .signup>span.art-button-wrapper.hover>a.art-button:link {
-      color: #FFFFFF !important;
-    }
+.signup>span.art-button-wrapper.hover>.art-button, .signup>span.art-button-wrapper.hover>a.art-button:link {
+  color: #FFFFFF !important;
+}
 
-    .signup>span.art-button-wrapper.active>.art-button, .signup>span.art-button-wrapper.active>a.art-button:link {
-      color: #FFFFFF !important;
-    }
+.signup>span.art-button-wrapper.active>.art-button, .signup>span.art-button-wrapper.active>a.art-button:link {
+  color: #FFFFFF !important;
+}
 {% endhighlight %}
 
 The important things to note are that the `.signup` class makes these
@@ -498,25 +498,25 @@ The active state background position is already set to match the hover
 state's new position, so it can stay unchanged.
 
 {% highlight css %}
-    .signup>span.art-button-wrapper>span.art-button-l, .signup>span.art-button-wrapper>span.art-button-r {
-      background-image: url('images/signup_bg_button.png')
-    }
+.signup>span.art-button-wrapper>span.art-button-l, .signup>span.art-button-wrapper>span.art-button-r {
+  background-image: url('images/signup_bg_button.png')
+}
 
-    .signup>span.art-button-wrapper>span.art-button-l {
-      right: 83px;
-    }
+.signup>span.art-button-wrapper>span.art-button-l {
+  right: 83px;
+}
 
-    .signup>span.art-button-wrapper>span.art-button-r {
-      width: 83px;
-    }
+.signup>span.art-button-wrapper>span.art-button-r {
+  width: 83px;
+}
 
-    .signup>span.art-button-wrapper.hover>span.art-button-l {
-      background-position: bottom left;
-    }
+.signup>span.art-button-wrapper.hover>span.art-button-l {
+  background-position: bottom left;
+}
 
-    .signup>span.art-button-wrapper.hover>span.art-button-r {
-      background-position: bottom right;
-    }
+.signup>span.art-button-wrapper.hover>span.art-button-r {
+  background-position: bottom right;
+}
 {% endhighlight %}
 
 ### Adding it to your site
