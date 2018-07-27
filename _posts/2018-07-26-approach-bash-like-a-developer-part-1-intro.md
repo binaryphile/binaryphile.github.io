@@ -157,7 +157,7 @@ Now for the good stuff:
 -   [one of the "awesome shell" lists] - a jumping-off point for further
     exploration
 
-Continue with [part 2].
+Continue with [part 2] - the start.
 
   [the bash hacker's wiki]: http://wiki.bash-hackers.org/
   [the google shell style guide]: https://google.github.io/styleguide/shell.xml

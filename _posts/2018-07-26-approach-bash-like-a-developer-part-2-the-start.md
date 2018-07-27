@@ -122,9 +122,10 @@ you do so, you therefore shouldn't use the `.sh` extension since your
 script won't be `.sh`-compatible. To be clear and proper, use `.bash`
 instead.
 
-Continue with [part 3].
+Continue with [part 3] - vim.
 
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
   [homebrew]: https://brew.sh
   [shebang]: https://en.wikipedia.org/wiki/Shebang_(Unix)
   [google guidelines]: https://google.github.io/styleguide/shell.xml#File_Extensions
+  [part 3]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-3-vim %}
