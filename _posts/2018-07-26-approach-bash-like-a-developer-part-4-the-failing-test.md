@@ -38,19 +38,21 @@ That said, for my personal projects, I try to use it 100%.
 A Framework for Peace (of Mind)
 -------------------------------
 
-Usually TDD is assisted by tools specifice to your chosen language, and
-bash is no different.
+Usually TDD is accomplished with the help of tools specific to the
+chosen language, and bash is no different.
 
 Believe it or not, there are numerous choices of testing frameworks for
 bash. For a full list, you can see [one of the "awesome shell" lists] I
 recommended in [part 1] of this series. While I haven't compared them
-all, I found [shpec] to be the most like the rspec-style I'm accustomed
-to. I'll be using v2.2 of shpec for my examples here.
+all, I'm most comfortable with [shpec].  Shpec is the most like the
+rspec testing to which I'm accustomed.
+
+I'll be using v2.2.0 of shpec for my examples here.
 
 Quick shpec installation:
 
 {% highlight bash %}
-git clone --branch=v0.2.2 --depth=1 git://github.com/rylnd/shpec
+git clone --branch=0.2.2 --depth=1 git://github.com/rylnd/shpec
 PATH+=:$PWD/shpec/bin
 {% endhighlight %}
 
@@ -64,8 +66,18 @@ The first thing to do in test-first design is to fail. I'll start with a
 simple test, and in further posts will build up to the point where we
 are passing.
 
-To begin with, shpec uses a begin-end format to specify the function
-under test, and to specify the test subject matter.
+The first difference between the developer's approach and the scripting
+approach is to rely on functions.  Functions allow us to create small,
+testable, descriptively-named pieces of functionality.
+
+The use of functions is typically justified as a means to effect code
+reuse.  Code reuse is fine and all, but that's less the point here.
+Testability is what we care about first and foremost, and testing
+requires the ability to call a function in, essentially, a vacuum.  So
+we'll focus on functions here.
+
+To begin with, shpec uses a begin-end format to specify which function
+is currently under test, and to specify the test subject matter.
 
 {% highlight bash %}
 describe hello_world
@@ -99,18 +111,27 @@ hello-world_shpec.bash: line 3: hello_world: command not found
 Failure. Excellent!
 
 The output starts with "hello\_world", which is the subject of the
-*describe* call. Test results for the *it* clauses would show up here,
-if they were working.
+*describe* call.
 
-After that, there is a summary showing the number of "examples", which
-are the tests, and the number of failures.
+Next is an error thrown by the script, "command not found".  This is not
+part of the shpec output.
+
+The results for the *it* claus is next, indented.  It shows the
+description of the *it* ("echos 'hello, world!'").
+
+If the call had succeeded, that would be the end of it.  Since it failed,
+however, you see a comparison of the expected value to what the test
+received from the function call.
+
+After that, there is a summary showing the number of tests, called
+"examples", and the number of failures.
+
+Following that, there's a measure of the time of execution.
 
 As you can see, the test had problems both finding the function as well
 as getting the expected value in the assertion.
 
-Following that, there's a measure of the time of execution.
-
-Continue with \[part 5\] - red, green, refactor.
+Continue with [part 5] - red, green, refactor.
 
   [Test-First Design]: http://wiki.c2.com/?TestFirstDesign
   [Test-Driven Design]: http://agiledata.org/essays/tdd.html
