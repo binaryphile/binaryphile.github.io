@@ -62,15 +62,16 @@ naturally you'll want to use the `#!/usr/bin/env bash` iteration of the
 the path for `bash`, which will end up being whatever bash is preferred
 in your path. Usually this is the right choice. It has the benefit of
 making your script compatible with environments which *don't* have
-`/bin/bash`, such as when you want to be executable on a Mac with a
-recent bash.
+`/bin/bash`, such as various BSD distros, or those which don't have the
+*right* `/bin/bash`, such as when you want to be executable on a Mac
+with a recent bash.
 
 However, if you don't want run-time determination of which bash will be
 used to invoke your script, you may prefer the shebang to be hardwired
 to `/bin/bash` (or other). That's fine as well, as long as you know what
 you're getting. You may need to code to a particular version of bash
-then (yes, the bash language occasionally does change
-version-to-version). This may be worth it, for example, in order to lock
+then. Yes, the bash language occasionally does change
+version-to-version. This may be worth it, for example, in order to lock
 a known bash for, say, an init script which will be run as root.
 
 It's up to you. I usually prefer to trust the user's path and use
