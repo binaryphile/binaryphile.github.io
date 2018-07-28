@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 2 - The Start"
+title:  "Approach Bash Like a Developer - Part 3 - The Start"
 date:   2018-07-26 00:00:00 +0000
 categories: bash
 ---
 
-This is part two of a series on how to approach bash programming in a
+This is part three of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script, as taught
 by most tutorials.
 
@@ -122,7 +122,7 @@ you do so, you therefore shouldn't use the `.sh` extension since your
 script won't be `.sh`-compatible. To be clear and proper, use `.bash`
 instead.
 
-Continue with [part 3] - vim.
+Continue with [part 4] - the test.
 
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
   [homebrew]: https://brew.sh

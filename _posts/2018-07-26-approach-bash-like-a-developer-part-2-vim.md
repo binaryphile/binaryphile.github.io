@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 3 - Vim"
+title:  "Approach Bash Like a Developer - Part 2 - Vim"
 date:   2018-07-26 00:00:00 +0000
 categories:
   - bash
   - vim
 ---
 
-This is part three of a series on how to approach bash programming in a
+This is part two of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script, as taught
 by most tutorials.
 
@@ -139,7 +139,7 @@ set listchars+=extends:>
 set listchars+=precedes:<
 {% endhighlight %}
 
-Continue with [part 4] - the test.
+Continue with [part 3] - the start.
 
   [Geany]: https://www.geany.org/
   [Programmer's Notepad]: http://www.pnotepad.org/
