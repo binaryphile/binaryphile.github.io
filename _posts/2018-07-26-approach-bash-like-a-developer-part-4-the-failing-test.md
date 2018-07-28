@@ -12,23 +12,23 @@ by most tutorials.
 Pass the Test
 -------------
 
-Do you write tests? I'll presume that you do.  That's mostly what the
+Do you write tests? I'll presume that you do. That's mostly what the
 "Like a Developer" portion of the series title implies.
 
 If you don't, please go ahead and read some resources on [Test-First
 Design] or [Test-Driven Design].
 
 My personal opinion is that TDD is a very time-intensive, and therefore
-expensive, way to design software.  While I have yet to see evidence
-that it results in software which is more correct at release-time than
-other methods, I can testify that it results in software which is much
-more maintainable and enhanceable at lower cost than other methods.
+expensive, way to design software. While I have yet to see evidence that
+it results in software which is more correct at release-time than other
+methods, I can testify that it results in software which is much more
+maintainable and enhanceable at lower cost than other methods.
 
-Is it the right way for you to work?  I don't presume to say so.  I
-use it when appropriate.  For work product, I don't always use it
-because maintainance costs are not always at a premium and I write a lot
-of one-and-done tasks.  It is certainly legitimate to write post-hoc or
-minimal tests.  When its necessary to refactor or enhance code, it's
+Is it the right way for you to work? I don't presume to say so. I use it
+when appropriate. For work product, I don't always use it because
+maintainance costs are not always at a premium and I write a lot of
+one-and-done tasks. It is certainly legitimate to write post-hoc or
+minimal tests. When its necessary to refactor or enhance code, it's
 certainly possible, although difficult, to write tests at that point,
 using TDD forward from there once its need has been proven on a
 particular task.
@@ -42,10 +42,10 @@ Usually TDD is assisted by tools specifice to your chosen language, and
 bash is no different.
 
 Believe it or not, there are numerous choices of testing frameworks for
-bash.  For a full list, you can see [one of the "awesome shell" lists] I
-recommended in [part 1] of this series.  While I haven't compared them
+bash. For a full list, you can see [one of the "awesome shell" lists] I
+recommended in [part 1] of this series. While I haven't compared them
 all, I found [shpec] to be the most like the rspec-style I'm accustomed
-to.  I'll be using v2.2 of shpec for my examples here.
+to. I'll be using v2.2 of shpec for my examples here.
 
 Quick shpec installation:
 
@@ -60,8 +60,8 @@ path in your `.bashrc` (or similar) for permanent installation.
 Fail Whale
 ----------
 
-The first thing to do in test-first design is to fail.  I'll start with
-a simple test, and in further posts will build up to the point where we
+The first thing to do in test-first design is to fail. I'll start with a
+simple test, and in further posts will build up to the point where we
 are passing.
 
 To begin with, shpec uses a begin-end format to specify the function
@@ -78,11 +78,11 @@ end
 
 The indentation on the above test is rather artificial...the *describe*
 and *it* blocks aren't really blocks, they are just regualar bash
-statements.  However, it is a useful visual reminder to indent this way
+statements. However, it is a useful visual reminder to indent this way
 to remember where things begin and end.
 
 Let's call the above file `hello-world_shpec.bash`, since the file we'll
-be developing will be called `hello-world`.  Here's the output from a
+be developing will be called `hello-world`. Here's the output from a
 shpec run on this test file:
 
 {% highlight bash %}
@@ -96,10 +96,10 @@ hello-world_shpec.bash: line 3: hello_world: command not found
 0m0.000s 0m0.000s
 {% endhighlight %}
 
-Failure.  Excellent!
+Failure. Excellent!
 
-The output starts with "hello_world", which is the subject of the
-*describe* call.  Test results for the *it* clauses would show up here,
+The output starts with "hello\_world", which is the subject of the
+*describe* call. Test results for the *it* clauses would show up here,
 if they were working.
 
 After that, there is a summary showing the number of "examples", which
@@ -110,10 +110,10 @@ as getting the expected value in the assertion.
 
 Following that, there's a measure of the time of execution.
 
-Continue with [part 5] - red, green, refactor.
+Continue with \[part 5\] - red, green, refactor.
 
-[Test-First Design]: http://wiki.c2.com/?TestFirstDesign
-[Test-Driven Design]: http://agiledata.org/essays/tdd.html
-[one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
-[part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
-[shpec]: https://github.com/rylnd/shpec
+  [Test-First Design]: http://wiki.c2.com/?TestFirstDesign
+  [Test-Driven Design]: http://agiledata.org/essays/tdd.html
+  [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
+  [part 1]: %7B%%20post_url%202018-07-26-approach-bash-like-a-developer-part-1-intro%20%%7D
+  [shpec]: https://github.com/rylnd/shpec
