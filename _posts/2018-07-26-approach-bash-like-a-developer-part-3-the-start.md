@@ -26,7 +26,7 @@ If you're on Linux, you should only need to open a terminal session to
 start a bash prompt.
 
 On MacOS, you should have bash on your terminal command-line as well,
-however, it will be a very old version of bash. God knows why Apple
+however, it will be a very old version of bash. Gosh knows why Apple
 can't seem to fix this.
 
 Fortunately, there is the necessary crutch of [homebrew] which exists to
@@ -122,10 +122,10 @@ you do so, you therefore shouldn't use the `.sh` extension since your
 script won't be `.sh`-compatible. To be clear and proper, use `.bash`
 instead.
 
-Continue with [part 4] - the test.
+Continue with [part 4] - the failing test.
 
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
   [homebrew]: https://brew.sh
   [shebang]: https://en.wikipedia.org/wiki/Shebang_(Unix)
   [google guidelines]: https://google.github.io/styleguide/shell.xml#File_Extensions
-  [part 3]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-3-vim %}
+  [part 4]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-4-the-failing-test %}

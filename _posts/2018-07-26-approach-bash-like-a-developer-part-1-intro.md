@@ -157,9 +157,9 @@ Now for the good stuff:
 -   [one of the "awesome shell" lists] - a jumping-off point for further
     exploration
 
-Continue with [part 2] - the start.
+Continue with [part 2] - vim.
 
   [the bash hacker's wiki]: http://wiki.bash-hackers.org/
   [the google shell style guide]: https://google.github.io/styleguide/shell.xml
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
-  [part 2]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-the-start %}
+  [part 2]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim %}
