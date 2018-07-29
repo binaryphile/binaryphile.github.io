@@ -8,6 +8,8 @@ categories: bash
 This is part four of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script.
 
+See [part 1] if you want to catch the series from the start.
+
 Pass the Test
 -------------
 
@@ -132,6 +134,7 @@ as getting the expected value in the assertion.
 
 Continue with [part 5] - success!
 
+  [part 1]:                           {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Test-First Design]:                http://wiki.c2.com/?TestFirstDesign
   [Test-Driven Design]:               http://agiledata.org/essays/tdd.html
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell

@@ -10,6 +10,8 @@ categories:
 This is part two of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script.
 
+See [part 1] if you want to catch the series from the start.
+
 Editor's Choice
 ---------------
 
@@ -131,6 +133,7 @@ let g:is_bash = 1
 
 Continue with [part 3] - the start.
 
+  [part 1]:                       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Geany]:                        https://www.geany.org/
   [Programmer's Notepad]:         http://www.pnotepad.org/
   [Atom]:                         https://atom.io/

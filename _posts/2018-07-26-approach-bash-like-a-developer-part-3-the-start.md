@@ -8,6 +8,8 @@ categories: bash
 This is part three of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script.
 
+See [part 1] if you want to catch the series from the start.
+
 I'm going to assume at least a passing familiarity with bash
 programming, while still covering the facets of the basics on which this
 series will rely.
@@ -128,6 +130,7 @@ instead.
 
 Continue with [part 4] - the failing test.
 
+  [part 1]:               {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
   [homebrew]:             https://brew.sh
   [shebang]:              https://en.wikipedia.org/wiki/Shebang_(Unix)
