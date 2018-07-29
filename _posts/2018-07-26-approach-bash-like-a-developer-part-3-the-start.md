@@ -9,9 +9,6 @@ This is part three of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script, as taught
 by most tutorials.
 
-Getting Started with Bash
--------------------------
-
 I'm going to assume at least a passing familiarity with bash
 programming, while still covering the facets of the basics on which this
 series will rely.
@@ -21,6 +18,9 @@ starting somewhere like the following and coming back to this series
 once you've gotten your feet wet:
 
 -   [Bash Shell Scripting]
+
+Getting Bash Started
+--------------------
 
 If you're on Linux, you should only need to open a terminal session to
 start a bash prompt.
@@ -37,6 +37,9 @@ Shebang, Shebang
 ----------------
 
 The first evergreen question of bash scripting: how to start my script?
+
+Ok, after you open your editor to start editing the script file, that
+is.
 
 Old as the classic spaces-vs-tabs debate, venerable as vi-vs-emacs, the
 two contenders are:
@@ -58,19 +61,20 @@ and using homebrew (always a catch, right?).
 
 That is to say, if your bash is not installed as `/bin/bash`, then
 naturally you'll want to use the `#!/usr/bin/env bash` iteration of the
-[shebang]. That's because `/usr/bin/env` will force the system to search
-the path for `bash`, which will end up being whatever bash is preferred
-in your path. Usually this is the right choice. It has the benefit of
-making your script compatible with environments which *don't* have
-`/bin/bash`, such as various BSD distros, or those which don't have the
-*right* `/bin/bash`, such as when you want to be executable on a Mac
-with a recent bash.
+[shebang].
+
+That's because `/usr/bin/env` will force the system to search the path
+for `bash`, which will end up being whatever bash is preferred in your
+path. Usually this is the right choice. It has the benefit of making
+your script compatible with environments which *don't* have `/bin/bash`,
+such as various BSD distros, or those which don't have the latest
+`/bin/bash`, such as MacOS.
 
 However, if you don't want run-time determination of which bash will be
 used to invoke your script, you may prefer the shebang to be hardwired
 to `/bin/bash` (or other). That's fine as well, as long as you know what
-you're getting. You may need to code to a particular version of bash
-then. Yes, the bash language occasionally does change
+you're getting. You may need to code to a particular version of bash in
+that case. Yes, the bash language occasionally does change
 version-to-version. This may be worth it, for example, in order to lock
 a known bash for, say, an init script which will be run as root.
 
@@ -126,7 +130,7 @@ instead.
 Continue with [part 4] - the failing test.
 
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
-  [homebrew]: https://brew.sh
-  [shebang]: https://en.wikipedia.org/wiki/Shebang_(Unix)
-  [google guidelines]: https://google.github.io/styleguide/shell.xml#File_Extensions
-  [part 4]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-4-the-failing-test %}
+  [homebrew]:             https://brew.sh
+  [shebang]:              https://en.wikipedia.org/wiki/Shebang_(Unix)
+  [google guidelines]:    https://google.github.io/styleguide/shell.xml#File_Extensions
+  [part 4]:               {% post_url 2018-07-26-approach-bash-like-a-developer-part-4-the-failing-test %}

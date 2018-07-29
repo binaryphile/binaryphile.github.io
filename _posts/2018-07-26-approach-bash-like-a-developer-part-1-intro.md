@@ -60,22 +60,23 @@ ability to easily call external programs. There's no standard library
 aside from what is builtin or distributed on most unix systems.
 
 Bash doesn't have a standard packaging system nor language support for
-modules. Nor does it have a standard logging system.
+modules. Nor does it have a standard logging system.  While these are
+minuses for functionality, they're also pluses for simplicity.
 
 ### Ubiquity
 
 Simply put, bash is everywhere. The vast majority of unix distributions
 either come with bash as the default shell, come with it installed on
-the system, or have it available to easily install. Even MacOS and, now,
+the system, or have it available to install. Even MacOS and, now,
 Windows have system support for bash.
 
-Only Python 2 (and perhaps soon, Python 3) enjoys anywhere near that
-level of de facto presence on systems everywhere, and not so much as
-bash.
+Only python 2 enjoys anywhere near that level of presence on systems
+everywhere, and not nearly so much as bash.
 
-With a single text file (bash script) and zero
-software-installation-required, you could almost definitely reach the
-largest set of compatible runtime environments in the world with bash.
+With a single text file, in the form of a bash script, and zero
+software-installation-required, I feel confident stating that you can
+reach largest set of compatible computing environments in the world with
+bash.
 
 ### Command-line Orientation
 
@@ -85,16 +86,19 @@ staying out of your way.
 
 If you want to control a unix system, there is no tool like the
 command-line. While many management tools are available for unix, none
-of them are as capable as the raw command-line. The CLI is the
-first-supported interface for any unix tool and the most completely
+of them are as capable as the raw command-line. The cli is the
+first-supported interface for virtually any unix tool and also the best
 supported.
 
 This makes bash the essential and standard tool for interacting with
 these other tools programmatically, especially when it is necessary to
-coordinate with more than one of them at a time. As clunky as bash can
-seem, using other scripting languages to glue together a bunch of other
-cli commands is far more clunky and likely a mistake (with perhaps the
-exception of other shell languages).
+coordinate with more than one of them at a time. Python is sometimes
+referred to as a "glue" language, but bash embodies this idea better
+than python.
+
+And as clunky as bash can seem, using other (non-shell) scripting
+languages to run a bunch of cli commands is far more clunky and probably
+a mistake.
 
 ### Conciseness
 
@@ -102,20 +106,16 @@ Once you've learned a small set of bash's operations, mostly string
 manipulation expressions, bash can allow you to be far more concise with
 your code than many other languages.
 
-This is, of course, a double-edged sword, because conciseness also mean
-opacity to the uninitiated. "Your code looks like line noise," is a
+This is, of course, a double-edged sword, because conciseness can also
+mean opacity to the uninitiated. "Your code looks like line noise," is a
 charge often leveled at languages such as perl, or bash in the hands of
 an expert.
 
-I, however, view it as a major plus. While there are always bash
-expressions in others' code which give me pause to scratch my head, I
-enjoy both the ease with which I can now compose powerful expressions,
-as well as the ability to fit quite a lot of functionality within a
-single screen when I'm trying to understand what the code is doing.
-
-Bash is a language which rewards the expert, and that is its own kind of
-virtue. An experienced reader can comprehend bash's idioms without being
-pandered to by enforced verbosity.
+I, however, view it as a major plus. While I still occasionally
+encounter head-scratchers in others' code, I enjoy the fact that
+knowledge of a few standard idioms allows me to read more code in one
+screen of bash than in many other languages. It allows me to read and
+write quickly.
 
 That's about the size of it. I wish there were more reasons to love
 bash, because I actually enjoy programming with it quite a bit, although
@@ -127,8 +127,8 @@ Resources for Learning About Bash
 As a quick aside, I would not recommend the freenode \#bash channel.
 It's not particularly friendly to newcomers to the language, and you're
 definitely in for at least one lecture on why you shouldn't be trying to
-do what you're trying to do with bash. That channel is, to be generous,
-stuck on itself.
+do what you're trying to do with bash. Without comdemning individuals,
+that channel is, on the whole, stuck on itself.
 
 In general I would also say not to listen to anyone who tells you to not
 do this or that with bash. So long as you are trying to learn, no one
@@ -136,14 +136,14 @@ should be warning you about "the way of pain" or any other such BS.
 
 To be fair, you shouldn't implement things in bash where it's
 unwarranted, such as complicated programs for your day-job, or when
-someone else needs to maintain it. But if it's for your own edification,
+someone else needs to maintain it. But if it's for your own edification
 then, by all means, full steam ahead.
 
 The point of this series is to teach the mindset which avoids the
 pitfalls intimated by such ominous warnings in the first place, while
 enabling you to enjoy the experience of learning the numerous ins and
-outs of this challenging and rewarding programming environment. Haters
-be damned.
+outs of this challenging and, sometimes, rewarding language. Haters be
+damned.
 
 Now for the good stuff:
 
@@ -152,14 +152,14 @@ Now for the good stuff:
 
 -   [the google shell style guide] - a reasonable starting point for
     learning about style, but take with a big grain of salt. It was
-    written for Google employees, not the general public.
+    written for Google employees, not the community.
 
 -   [one of the "awesome shell" lists] - a jumping-off point for further
     exploration
 
 Continue with [part 2] - vim.
 
-  [the bash hacker's wiki]: http://wiki.bash-hackers.org/
-  [the google shell style guide]: https://google.github.io/styleguide/shell.xml
+  [the bash hacker's wiki]:           http://wiki.bash-hackers.org/
+  [the google shell style guide]:     https://google.github.io/styleguide/shell.xml
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
-  [part 2]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim %}
+  [part 2]:                           {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim %}
