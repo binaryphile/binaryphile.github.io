@@ -6,8 +6,7 @@ categories: bash
 ---
 
 This is part one of a series on how to approach bash programming in a
-way that's safer and more structured than your basic script, as taught
-by most tutorials.
+way that's safer and more structured than your basic script.
 
 I hope to pump out a number of these. They will be small in scope, but I
 have a lot to cover. There is a lot that can be done with bash if you

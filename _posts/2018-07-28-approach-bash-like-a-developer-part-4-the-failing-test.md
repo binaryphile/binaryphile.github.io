@@ -6,8 +6,7 @@ categories: bash
 ---
 
 This is part four of a series on how to approach bash programming in a
-way that's safer and more structured than your basic script, as taught
-by most tutorials.
+way that's safer and more structured than your basic script.
 
 Pass the Test
 -------------
@@ -131,10 +130,11 @@ Following that, there's a measure of the time of execution.
 As you can see, the test had problems both finding the function as well
 as getting the expected value in the assertion.
 
-Continue with [part 5] - red, green, refactor.
+Continue with [part 5] - success!
 
-  [Test-First Design]: http://wiki.c2.com/?TestFirstDesign
-  [Test-Driven Design]: http://agiledata.org/essays/tdd.html
+  [Test-First Design]:                http://wiki.c2.com/?TestFirstDesign
+  [Test-Driven Design]:               http://agiledata.org/essays/tdd.html
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
-  [part 1]: %7B%%20post_url%202018-07-26-approach-bash-like-a-developer-part-1-intro%20%%7D
-  [shpec]: https://github.com/rylnd/shpec
+  [part 1]:                           {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
+  [shpec]:                            https://github.com/rylnd/shpec
+  [part 5]:                           {% post_url 2018-07-29-approach-bash-like-a-developer-part-5-success %}

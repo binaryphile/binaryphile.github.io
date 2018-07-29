@@ -6,8 +6,7 @@ categories: bash
 ---
 
 This is part three of a series on how to approach bash programming in a
-way that's safer and more structured than your basic script, as taught
-by most tutorials.
+way that's safer and more structured than your basic script.
 
 I'm going to assume at least a passing familiarity with bash
 programming, while still covering the facets of the basics on which this
@@ -133,4 +132,4 @@ Continue with [part 4] - the failing test.
   [homebrew]:             https://brew.sh
   [shebang]:              https://en.wikipedia.org/wiki/Shebang_(Unix)
   [google guidelines]:    https://google.github.io/styleguide/shell.xml#File_Extensions
-  [part 4]:               {% post_url 2018-07-26-approach-bash-like-a-developer-part-4-the-failing-test %}
+  [part 4]:               {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-the-failing-test %}

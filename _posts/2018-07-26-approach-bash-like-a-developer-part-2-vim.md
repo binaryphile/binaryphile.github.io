@@ -8,8 +8,7 @@ categories:
 ---
 
 This is part two of a series on how to approach bash programming in a
-way that's safer and more structured than your basic script, as taught
-by most tutorials.
+way that's safer and more structured than your basic script.
 
 Editor's Choice
 ---------------
