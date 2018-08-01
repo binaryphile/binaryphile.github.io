@@ -1,0 +1,81 @@
+==================================================================
+https://keybase.io/binaryphile
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://www.binaryphile.com
+    * I am binaryphile (https://keybase.io/binaryphile) on keybase.
+      * I have a public key with fingerprint DE82 F645 E85F 8860 771C  7E3C 9AB3 68E7 C34D 62D4
+
+      To do so, I am signing this object:
+
+{
+    "body": {
+            "key": {
+                        "eldest_kid": "0120a35bc73a2a9ee5e9b1d0f526c9d63e32e04a99456a21db687c6632ed9e6506960a",
+                        "fingerprint": "de82f645e85f8860771c7e3c9ab368e7c34d62d4",
+                        "host": "keybase.io",
+                        "key_id": "9ab368e7c34d62d4",
+                        "kid": "0101351ef75ac589803d59d774b5e01a7f0742b9b4c06673562a89c0d9b7bece96970a",
+                        "uid": "d9a5eb47d10137d4dcbe77050aaf6619",
+                        "username": "binaryphile"
+                    },
+            "revoke": {
+                        "sig_ids": [
+                                        "785be83099153ee8f69ac18c5d80268ad874725679b34c3312d7da7cf5c3e8150f"
+                                    ]
+                    },
+            "service": {
+                        "hostname": "www.binaryphile.com",
+                        "protocol": "http:"
+                    },
+            "type": "web_service_binding",
+            "version": 1
+        },
+    "ctime": 1489872278,
+    "expire_in": 157680000,
+    "prev": "d2bba99c0fd2e456de47e5676801c01c232f8705ff883835c6ec9c02632a468a",
+    "seqno": 20,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.66
+Comment: https://keybase.io/crypto
+
+yMO2AnicbVJrUFVFAAYVTEwT1BwlU45N44PunNfunnPR5OFzDEdHSVKQ9uzu4Z64
+3Iv3XlHygko8cnwxMJIwgSmakj0Mm6Eao3w0mUryEkNTo5wcZXBMyBRibC+jM/1o
+Z2d2duf7vv322+/MqKFBYcGVxx23TicabcHnTw6sD0puPFS+STDcNEewbxIy2ODC
+nJR5fWkZFhXsgijJIlaAQZCCZawzBphuSFQ0gQyJTqHCFJmJKtZ1FUAsS9SAGiIQ
+8lOqMwhEqEMRC9GCabnSmSfLY7l8XJYyTTahCpgGTE2DIkISQUwhOjYUqDFEFJVC
+maqc6HB7AwxuzsBeZrPc/Ixv0gbt/Q/+qW9RUoDETAQwAZquiQoFOkVINQATJYxM
+EamyoRsqESFECoAy1nQiUt1ABiNMhzoa9L1+UI7qGDBDRTQgi6hKicEQEoGIsQmh
+pAeAXuZx4UzG0Yblwp6cLIflZEJutOBh2e4MFojWa6Vz317BvkZAGjCYpoi6LgGF
+Mc2EOiaSRgDVRBlqmGpIRTKASDcUlSiKJFNEMSImIArTJCCaQirX5pdmW2RQPBDU
+EwMbNmyw/ceEjbgzucMsj9vnJm4nBzh8vix7wJsvJ2uQwIy0J1JpnEj5Z3FCNvN4
+LbdLsEscSXxWQFtSeZhIlpEWLbCNWZaHpVkBBEBQE/kIXMOyA5HJhsFrQUSTyoyX
+gzIVMf4eDpMIn7IimxqP0OQFUDQFEMgIR8u8OljlAQiBx61zuQW7zEV9OJ1r8vxc
+2Lfew2M9dTJlWFBwWFBoyJBAi4PCRox52u0HQ5577KD4ndovDh9ddWNVyJeffvz7
+gSqlJ7I65IcbyfVTI4794wffN18e25yQEnUk9RfDrD2CCyNWnjva1Vla9nL3mdjy
+Ke0lLVUrUEv+2rMLSd70XQsbtpzK2yp1VNKulfbVzTWt8XM6KxaVNf/4R35ESUz5
+9Y0luaXjyt8svTxemlb8wBpqTqpKiduzOj717uzwB2vaB0D6M+Hqmq73SzI6Jsyq
+rXuh96+ZpTe7177im1lTVbcz7vaLy7vhjoJ7cxuLevbHdTx6PfOsrb+qYWeoo6a1
+ZTaC/SMdmxOXn0vdOnmWrbMFXwov7SPBH2a77l6o16b0Hq+Oeiu/Lurnt8nzKcN3
+Lyha9tH2hFc/L8041L+rzJ/ZtCPiyAdjr3bEjG7KW+Afum2nd0ZNT3vT9o79i3Nj
+WkJPz4ncN3vf7fupl84nbYv118srRu+tKJj60H1l1LN1XdXzivuujLk4Rooa9sjf
+1Cm3P37tTmHQT59NWjKp82rU7hNbbg200ovDfr1yxzt8c8gbefcaf3PtPd9wt2/a
+JxPHLr12+CH4auDC/rOxbTdDepfMu3osAdj+vOb8NpxG03gYNcE/dUj/zfHLYr+u
+XOzM/zvmpSUux0aaOO6+M+ldvGh66MjdI/xLZxSxCbmu+bsiz1UcTG7bk3zd30XC
+hNrcuhsHvtlRtvS9wnLH3IqDjcXfFUknJq6bXL+1YP62pMh/Aa2S5CQ=
+=YH87
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/binaryphile
+
+==================================================================
