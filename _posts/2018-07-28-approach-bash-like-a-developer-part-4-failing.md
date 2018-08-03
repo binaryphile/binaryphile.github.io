@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 4 - The Failing Test"
+title:  "Approach Bash Like a Developer - Part 4 - Failing"
 date:   2018-07-28 00:00:00 +0000
 categories: bash
 ---
@@ -138,6 +138,5 @@ Continue with [part 5] - success!
   [Test-First Design]:                http://wiki.c2.com/?TestFirstDesign
   [Test-Driven Design]:               http://agiledata.org/essays/tdd.html
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
-  [part 1]:                           {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [shpec]:                            https://github.com/rylnd/shpec
   [part 5]:                           {% post_url 2018-07-29-approach-bash-like-a-developer-part-5-success %}

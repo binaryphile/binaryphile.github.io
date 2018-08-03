@@ -81,8 +81,8 @@ hello_world
 
 Success! Excellent!
 
-Continue with [part 6] - polishing up
+Continue with [part 6] - outline script
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
-  [Last time]:  {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-the-failing-test %}
-  [part 6]:     {% post_url 2018-07-30-approach-bash-like-a-developer-part-6-polishing-up     %}
+  [Last time]:  {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-failing          %}
+  [part 6]:     {% post_url 2018-07-30-approach-bash-like-a-developer-part-6-outline-script   %}

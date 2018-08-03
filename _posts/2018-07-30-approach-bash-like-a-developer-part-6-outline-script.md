@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 6 - Polishing Up"
+title:  "Approach Bash Like a Developer - Part 6 - Outline Script"
 date:   2018-07-30 00:00:00 +0000
 categories: bash
 ---
@@ -11,8 +11,8 @@ way that's safer and more structured than your basic script.
 See [part 1] if you want to catch the series from the start.
 
 [Last time], we made our first test succeed. This time we'll put some
-finishing touches on the source and test files. This will form the
-template for how I write tests for the rest of the series.
+finishing touches our source file to better work with shpec. This will
+form the outline of a testable script.
 
 Main Street
 -----------
@@ -20,8 +20,8 @@ Main Street
 While our *hello-world* script has a function, it's not a runnable
 script. If you tried to run it, it would do nothing.
 
-I follow the tradition of creating a *main* as the entry point to the
-logic in my scripts:
+Following the tradition of creating a *main* as the entry point to the
+logic:
 
 {% highlight bash %}
 #!/usr/bin/env bash
@@ -37,23 +37,25 @@ hello_world () {
 main "$@"
 {% endhighlight %}
 
-I follow the boilerplate practice of handing any script arguments to
-main with `"$@"`.
+The functions are defined at the top, and then main is finally put into
+action where it is called at the bottom.  Any script arguments are
+handed to main via `"$@"`.
 
 With more sophisticated scripts which take switches and named arguments,
-I typically parse those outside of *main* and pass the processed values
-to *main*.
+it's acceptable to parse those outside of *main* and pass the processed
+values to *main*.
 
 To Run or Not to Run
 --------------------
 
 Now that we have a runnable script, our test won't work properly since
-it relies on the source file not doing anything but offering a set of
-functions. Now the script will be run when we source it in test, which
-is certainly undesirable.
+it relies on the source file to not actually do anything when we source
+it.  Now the script will run *main* when we source it in test, which is
+certainly undesirable.
 
-We can make it work in both situations by detecting whether the script
-has been sourced:
+We can make it do the appropriate thing both in test when sourced, as
+well as in practice when run, by detecting whether the script has been
+sourced:
 
 {% highlight bash %}
 #!/usr/bin/env bash
@@ -76,18 +78,17 @@ main "$@"
 {% endhighlight %}
 
 Although it looks a bit strange to create a *sourced* function for a
-single use right afterward, as you can probably guess, I stick this
-function in a library and use it in almost every script.
+single use right afterward, as you can probably guess, this function is
+normally in a utility library used by almost every script I write.
 
-The *sourced* function simply looks at the name of the function which
-called the script. When bash sources a file, it sets that name to
+The *sourced* function simply looks at the name of the function two
+levels up in the call stack, which happens to be the function which
+invoked the script. When bash sources a file, it sets that name to
 "source". Otherwise the program is being run as a script.
 
-If true, then the `sourced && return` statement stops the sourcing and
-returns to the caller, in this case our shpec test, so that `main "$@"`
-never gets run.
-
-You'll note that I frequently prefer *&&* to an *if..then* statement.
+So if *sourced* is true, then the `sourced && return` statement stops
+the sourcing and returns to the caller, in this case our shpec test, so
+that `main "$@"` never gets run.
 
 Continue with [part 7]
 

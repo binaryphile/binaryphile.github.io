@@ -128,11 +128,11 @@ you do so, you therefore shouldn't use the `.sh` extension since your
 script won't be `.sh`-compatible. To be clear and proper, use `.bash`
 instead.
 
-Continue with [part 4] - the failing test.
+Continue with [part 4] - failing.
 
   [part 1]:               {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
   [homebrew]:             https://brew.sh
   [shebang]:              https://en.wikipedia.org/wiki/Shebang_(Unix)
   [google guidelines]:    https://google.github.io/styleguide/shell.xml#File_Extensions
-  [part 4]:               {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-the-failing-test %}
+  [part 4]:               {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-failing %}
