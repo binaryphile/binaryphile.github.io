@@ -90,7 +90,8 @@ So if *sourced* is true, then the `sourced && return` statement stops
 the sourcing and returns to the caller, in this case our shpec test, so
 that `main "$@"` never gets run.
 
-Continue with [part 7]
+Continue with [part 7] - sourcing
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro    %}
   [Last time]:  {% post_url 2018-07-29-approach-bash-like-a-developer-part-5-success  %}
+  [part 7]:     {% post_url 2018-08-04-approach-bash-like-a-developer-part-7-sourcing %}
