@@ -11,8 +11,7 @@ way that's safer and more structured than your basic script.
 See [part 1] if you want to catch the series from the start.
 
 [Last time], we outlined a template script compatible with testing. This
-time we'll look at putting our utility functions in a library and
-sourcing them from our script.
+time we'll look at how to source a file.
 
 Use the Source
 --------------
@@ -41,7 +40,7 @@ the target file relative to that path. Here's what that looks like:
     source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/path/to/file
 
 Breaking it down, first there is `$BASH_SOURCE`.  This is a reference to
-the first element of the *BASH_SOURCE* array, which is the current file,
+the first element of the *[BASH_SOURCE]* array, which is the current file,
 relative to where it was called from.  For example, if the file were
 executed from its own directory, it might simply contain the filename
 nad nothing more.
@@ -63,7 +62,9 @@ a later post.
 Also note that the double-dashes are slightly less important, but good
 practice for safe bash programming.
 
-Continue with [part 8]
+Continue with [part 8] - utility library
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro          %}
-  [Last time]:  {% post_url 2018-07-30-approach-bash-like-a-developer-part-6-outline-script %}
+  [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
+  [Last time]:    {% post_url 2018-07-30-approach-bash-like-a-developer-part-6-outline-script   %}
+  [BASH_SOURCE]:  http://wiki.bash-hackers.org/syntax/shellvars#bash_source
+  [part 8]:       {% post_url 2018-08-04-approach-bash-like-a-developer-part-8-utility-library  %}
