@@ -89,6 +89,17 @@ describe hello_world
 end
 {% endhighlight %}
 
+Shpec automatically puts its functions in the test file's namespace, as
+you can see from the calls to:
+
+-   *describe* - the name of the function under test
+
+-   *it* - a description of an individual test's purpose
+
+-   *assert* - typically used with the *equal* argument, this tells
+    shpec whether the test succeeded or failed based on the further two
+    arguments being equal or not
+
 The indentation on the above test is rather artificial...the *describe*
 and *it* blocks aren't really blocks, they are just regualar bash
 statements. However, it is a useful visual reminder to indent this way

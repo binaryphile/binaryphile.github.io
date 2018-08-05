@@ -37,7 +37,9 @@ having another file of the same name earlier in the PATH.
 The second option is discover the path of the current file and source
 the target file relative to that path. Here's what that looks like:
 
-    source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/path/to/file
+{% highlight bash %}
+source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/path/to/file
+{% endhighlight %}
 
 Breaking it down, first there is `$BASH_SOURCE`.  This is a reference to
 the first element of the *[BASH_SOURCE]* array, which is the current file,
@@ -65,9 +67,9 @@ a later post.
 Also note that the double-dashes are slightly less important, but good
 practice for safe bash programming.
 
-Continue with [part 8] - utility library
+Continue with [part 8] - support library
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
   [Last time]:    {% post_url 2018-07-30-approach-bash-like-a-developer-part-6-outline-script   %}
   [BASH_SOURCE]:  http://wiki.bash-hackers.org/syntax/shellvars#bash_source
-  [part 8]:       {% post_url 2018-08-04-approach-bash-like-a-developer-part-8-utility-library  %}
+  [part 8]:       {% post_url 2018-08-04-approach-bash-like-a-developer-part-8-support-library  %}
