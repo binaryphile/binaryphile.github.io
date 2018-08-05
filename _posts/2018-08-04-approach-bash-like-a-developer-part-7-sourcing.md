@@ -45,7 +45,7 @@ Breaking it down, first there is `$BASH_SOURCE`.  This is a reference to
 the first element of the *[BASH_SOURCE]* array, which is the current file,
 relative to where it was called from.  For example, if the file were
 executed from its own directory, it might simply contain the filename
-nad nothing more.
+and nothing more.
 
 Because we need the pathname to the current file, we use `readlink
 --canonicalize`.  This is a feature of GNU readlink which returns the
@@ -64,8 +64,8 @@ current working directory before you call *readlink* on `$BASH_SOURCE`.
 Note that the quotation marks are important, but we'll get into those in
 a later post.
 
-Also note that the double-dashes are slightly less important, but good
-practice for safe bash programming.
+Also note that the standalone double-dashes are slightly less important,
+but good practice for safe bash programming.
 
 Continue with [part 8] - support library
 

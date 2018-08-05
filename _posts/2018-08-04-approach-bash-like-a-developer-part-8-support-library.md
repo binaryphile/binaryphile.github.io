@@ -55,20 +55,18 @@ sourced && return
 main "$@"
 {% endhighlight %}
 
-With this arrangement, *hello_world* can focus on what it does and the
-support library can supply its functionality for multiple projects
-without the user needing to do anything to their environment to support
-it.
+With this arrangement, *hello_world* can focus on what it does without
+distraction.
 
-The library file will still need to be distributed with the
-*hello_world* file for *hello_world* to work, and it will have to stay
-in the same location relative to that file.
+For its part, the support library can supply the same functionality for
+all of our projects.  All that is required is a copy of the file and the
+*source* statement at the top of the script.
 
-This method of sourcing does, however, allow you to symlink to
-*hello_world* from another location and still run it correctly, even
-though the link will not share the same relative position to the
-library.  That's due to *readlink's* ability to find the true location
-of *hello_world*.
+One benefit of this method of sourcing is that you can symlink to
+*hello_world* from another location and it will still find the support
+library correctly, despite the fact that the link will not share the
+same relative position to the library.  That's due to *readlink's*
+ability to find the true location of *hello_world*.
 
 Continue with [part 9] - strict mode
 
