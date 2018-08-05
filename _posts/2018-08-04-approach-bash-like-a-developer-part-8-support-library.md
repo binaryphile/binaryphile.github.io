@@ -58,8 +58,8 @@ main "$@"
 With this arrangement, *hello_world* can focus on what it does without
 distraction.
 
-For its part, the support library can supply the same functionality for
-all of our projects.  All that is required is a copy of the file and the
+For its part, the support library can supply its functionality for all
+of our projects.  All that is required is a copy of the file and the
 *source* statement at the top of the script.
 
 One benefit of this method of sourcing is that you can symlink to
@@ -68,7 +68,7 @@ library correctly, despite the fact that the link will not share the
 same relative position to the library.  That's due to *readlink's*
 ability to find the true location of *hello_world*.
 
-Continue with [part 9] - strict mode
+Continue with [part 9] - another test
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro        %}
   [Last time]:  {% post_url 2018-08-04-approach-bash-like-a-developer-part-7-sourcing     %}

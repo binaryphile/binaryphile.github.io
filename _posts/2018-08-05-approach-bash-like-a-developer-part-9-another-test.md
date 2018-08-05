@@ -14,15 +14,15 @@ See [part 1] if you want to catch the series from the start.
 it. We forgot something, however...there's no test for the *sourced*
 function!  Let's fix that now.
 
-*shpec/util_shpec.bash:*
+*shpec/support_shpec.bash:*
 
 {% highlight bash %}
-util_lib=$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")/../lib/util.bash
+support_lib=$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")/../lib/support.bash
 
 describe sourced
   it "returns true when in a file being sourced"
     dir=$(mktemp --quiet --directory)
-    echo "source '$util_lib'; sourced" >"$dir"/example
+    echo "source '$support_lib'; sourced" >"$dir"/example
     (source "$dir"/example)
     assert equal 0 $?
     rm --recursive --force "$dir"
@@ -30,7 +30,7 @@ describe sourced
 
   it "returns false when that file is run"
     dir=$(mktemp --quiet --directory)
-    echo "source '$util_lib'; sourced" >"$dir"/example
+    echo "source '$support_lib'; sourced" >"$dir"/example
     chmod 775 "$dir"/example
     "$dir"/example
     assert unequal 0 $?
@@ -42,7 +42,7 @@ end
 Shpec output:
 
 {% highlight bash %}
-> shpec shpec/util_shpec.bash
+> shpec shpec/support_shpec.bash
 sourced
   returns true when in a file being sourced
   returns false when that file is run
@@ -59,7 +59,7 @@ command, which will create a directory in a temporary location.  When
 we're done with it, we'll use *rm* to remove the directory.
 
 One bit of preparation at the top of the file is to pin down the
-location of the `util.bash` file explicitly, since the temporary file
+location of the `support.bash` file explicitly, since the temporary file
 won't have the benefit of a fixed location relative to it.
 
 Let's look at the first test, piece by piece:
@@ -71,7 +71,7 @@ dir=$(mktemp --quiet --directory)
 Here we make the test directory.
 
 {% highlight bash %}
-echo "source '$util_lib'; sourced" >"$dir"/example
+echo "source '$support_lib'; sourced" >"$dir"/example
 {% endhighlight %}
 
 This line creates the example file which will be sourced, importing and
