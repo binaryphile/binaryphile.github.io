@@ -24,7 +24,7 @@ we'll need a `lib` directory:
 mkdir lib
 {% endhighlight %}
 
-*lib/util.bash:*
+*lib/support.bash:*
 
 {% highlight bash %}
 sourced () {
@@ -40,7 +40,7 @@ a command.
 {% highlight bash %}
 #!/usr/bin/env bash
 
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../lib/util.bash
+source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../lib/support.bash
 
 main () {
   hello_world
