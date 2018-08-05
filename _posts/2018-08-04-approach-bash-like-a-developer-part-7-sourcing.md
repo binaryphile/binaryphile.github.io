@@ -13,8 +13,8 @@ See [part 1] if you want to catch the series from the start.
 [Last time], we outlined a template script compatible with testing. This
 time we'll look at how to source a file.
 
-Use the Source
---------------
+Use the Source, Luke
+--------------------
 
 The primary issue with sourcing files in bash is that any relative
 reference to a file is dependent on the current working directory when
@@ -55,6 +55,9 @@ platforms on which I work.
 While that returns the filename included with the path, we only want the
 directory name, so *dirname* finishes the job. After that we simply
 append the relative path to the file we wish to source.
+
+The only critical thing to this approach is that you don't change the
+current working directory before you call *readlink* on `$BASH_SOURCE`.
 
 Note that the quotation marks are important, but we'll get into those in
 a later post.

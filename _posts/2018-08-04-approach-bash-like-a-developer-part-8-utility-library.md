@@ -11,8 +11,8 @@ way that's safer and more structured than your basic script.
 See [part 1] if you want to catch the series from the start.
 
 [Last time], we described how to source a library without depending on
-PATH. This time we'll look at putting our utility functions in a library
-and sourcing them from our script.
+PATH. This time we'll look at putting our utility function, *sourced*,
+in a library and source it from our script.
 
 In the Library, With the Lead Pipe
 ----------------------------------
@@ -49,7 +49,23 @@ a command.
 
     main "$@"
 
-Continue with [part 9]
+With this arrangement, *hello_world* can focus on what it does and the
+utility library can supply its functionality for multiple projects
+without the user needing to do anything to their environment to support
+it.
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro    %}
-  [Last time]:  {% post_url 2018-08-04-approach-bash-like-a-developer-part-7-sourcing %}
+The library file will still need to be distributed with the
+*hello_world* file for *hello_world* to work, and it will have to stay
+in the same location relative to that file.
+
+This method of sourcing does, however, allow you to symlink to
+*hello_world* from another location and still run it correctly, even
+though the link will not share the same relative position to the
+library.  That's due to *readlink's* ability to find the true location
+of *hello_world*.
+
+Continue with [part 9] - strict mode
+
+  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
+  [Last time]:  {% post_url 2018-08-04-approach-bash-like-a-developer-part-8-utility-library  %}
+  [part 9]:     {% post_url 2018-08-05-approach-bash-like-a-developer-part-9-strict-mode      %}
