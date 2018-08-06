@@ -121,7 +121,8 @@ can only be called in the main body of a script, not from inside a
 function.  If it appears inside a function, that function will be the
 name it tests against "source", and it will return the wrong result.
 
-Continue with [part 10]
+Continue with [part 10] - test independence
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
-  [Last time]:  {% post_url 2018-08-04-approach-bash-like-a-developer-part-8-support-library  %}
+  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro              %}
+  [Last time]:  {% post_url 2018-08-04-approach-bash-like-a-developer-part-8-support-library    %}
+  [part 10]:    {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence %}

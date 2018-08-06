@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Approach Bash Like a Developer - Part 10 - Test Independence"
-date:   2018-08-05 00:00:00 +0000
+date:   2018-08-06 00:00:00 +0000
 categories: bash
 ---
 
