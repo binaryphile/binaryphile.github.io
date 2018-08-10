@@ -22,21 +22,23 @@ This can be a problem, since further commands may have relied on the
 erroring command to have completed successfully.  While usually that
 just means that the further commands will also fail, sometimes their
 failure mode may have negative consequences.  Also, further commands may
-waste significant amounts of time on a task which is now doomed to fail
-because of the earlier failure.
+waste significant amounts of time and/or resources on a task which is
+now doomed to fail because of the earlier failure.
 
-Some languages, like bash, require you to check the result code from a
-function or command to detect an error and require you to explicitly
-stop execution at such a point, for example by calling *return* or
-*exit*. While this has some history as a practice, it is also extremely
-verbose and error-prone. You end up coding for every possible error
-case, which obscures the intent of your code. Or you miss the error
-cases and the program continues, resulting in the issues discussed
-earlier.
+Some languages, much like bash, require you to check the result code
+from a function or command to detect an error and require you to
+explicitly stop execution at such a point, for example by calling
+*return* or *exit*.
+
+While this has some history as a practice, it is also extremely verbose
+and error-prone. You end up coding for every possible error case, which
+obscures the intent of your code. Or you miss the error cases and the
+program continues, resulting in the issues discussed earlier. This
+approach requires programmer perfection in order to work correctly.
 
 Most modern programming languages handle these issues with an
-*exception*-based error system. Bash doesn't have such a method, but you
-can at least tell it to stop on errors rather than continue blindly.
+[*exception*]-based error system. Bash doesn't have such a method, but
+you can at least tell it to stop on errors rather than continue blindly.
 
 While a developer mindset favors strictness, this approach in bash
 requires some understanding and practices to mitigate its downsides.
@@ -107,3 +109,4 @@ Continue with [part 12]
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro              %}
   [Last time]:  {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence %}
+  [*exception*]: https://en.wikipedia.org/wiki/Exception_handling
