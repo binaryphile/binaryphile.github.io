@@ -107,6 +107,6 @@ Short version:
 
 Continue with [part 12]
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro              %}
-  [Last time]:  {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence %}
-  [*exception*]: https://en.wikipedia.org/wiki/Exception_handling
+  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
+  [Last time]:  {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence         %}
+  [part 12]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-with-strict-mode  %}
