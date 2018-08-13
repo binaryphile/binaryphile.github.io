@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 12 - Working with Strict Mode"
+title:  "Approach Bash Like a Developer - Part 12 - Working in Strict Mode"
 date:   2018-08-09 00:00:00 +0000
 categories: bash
 ---
@@ -58,6 +58,7 @@ suppress the error when the directory already exists: `--parents`, or
 `-p`.
 
 Similarly for the *rm* command, there's the `--force` option, or `-f`.
+A number of commands have such a *force* option.
 
 There are more examples, but this is a method you'll have to learn for
 yourself, since it's command-specific.  The documentation is your
@@ -67,13 +68,14 @@ Toggle Strict Mode
 ------------------
 
 If necessary, turn strict mode off and on again.  This is usually
-required when sourcing code that wasn't written for strict mode.
+required when you are sourcing code which wasn't written for strict
+mode.
 
 We'll make a function later to turn strict mode off and on so that we
 can toggle it easily.
 
-False or True
--------------
+False or True = True
+--------------------
 
 Because an error in bash is equivalent to a boolean *false*, by making
 the command part of a boolean *or* expression we can change the return
@@ -102,11 +104,12 @@ erroring_command ||:
 {% endhighlight %}
 
 `:` is a bashism which is the same as `true`. The `||` operator doesn't
-require a space between it and `:`, so I just turn the expression into a
-my own special symbol which means "turn off errexit for this command":
+require a space between itself and `:`, so I just turn the expression
+into a special symbol which means "turn off errexit for this command":
 `||:`.
 
-Continue with [part 13]
+Continue with [part 13] - implementing strict mode
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro              %}
-  [Last time]:  {% post_url 2018-08-09-approach-bash-like-a-developer-part-11-strict-mode       %}
+  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
+  [Last time]:  {% post_url 2018-08-09-approach-bash-like-a-developer-part-11-strict-mode             %}
+  [part 13]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}

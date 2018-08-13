@@ -105,8 +105,8 @@ Short version:
 
     set -e
 
-Continue with [part 12]
+Continue with [part 12] - working in strict mode
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
-  [Last time]:  {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence         %}
-  [part 12]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-with-strict-mode  %}
+  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
+  [Last time]:  {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence       %}
+  [part 12]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}

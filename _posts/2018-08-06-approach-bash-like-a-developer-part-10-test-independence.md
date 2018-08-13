@@ -121,7 +121,7 @@ describe hello_world
 end
 {% endhighlight %}
 
-Continue with [part 11]
+Continue with [part 11] - strict mode
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro        %}
   [Last time]:  {% post_url 2018-08-05-approach-bash-like-a-developer-part-9-another-test %}
