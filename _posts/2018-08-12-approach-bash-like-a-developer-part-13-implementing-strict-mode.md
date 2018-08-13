@@ -146,7 +146,8 @@ strict_mode () {
 }
 {% endhighlight %}
 
-Continue with [part 14]
+Continue with [part 14] - updated outline
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
   [Last time]:  {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}
+  [part 14]:    {% post_url 2018-08-13-approach-bash-like-a-developer-part-14-updated-outline         %}

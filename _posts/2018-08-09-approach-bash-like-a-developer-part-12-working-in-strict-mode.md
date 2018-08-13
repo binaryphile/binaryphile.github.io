@@ -110,6 +110,6 @@ into a special symbol which means "turn off errexit for this command":
 
 Continue with [part 13] - implementing strict mode
 
-  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
-  [Last time]:  {% post_url 2018-08-09-approach-bash-like-a-developer-part-11-strict-mode             %}
-  [part 13]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}
+  [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
+  [Last time]:  {% post_url 2018-08-09-approach-bash-like-a-developer-part-11-strict-mode               %}
+  [part 13]:    {% post_url 2018-08-12-approach-bash-like-a-developer-part-13-implementing-strict-mode    %}
