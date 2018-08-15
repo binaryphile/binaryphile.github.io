@@ -126,17 +126,19 @@ Resources for Learning About Bash
 As a quick aside, I would not recommend the freenode \#bash channel.
 It's not particularly friendly to newcomers to the language, and you're
 definitely in for at least one lecture on why you shouldn't be trying to
-do what you're trying to do with bash. Without comdemning individuals,
-that channel is, on the whole, stuck on itself.
+do what you're trying to do with bash. Without condemning individuals,
+I have to say that channel is, on the whole, stuck on itself.
 
 In general I would also say not to listen to anyone who tells you to not
 do this or that with bash. So long as you are trying to learn, no one
-should be warning you about "the way of pain" or any other such BS.
+should be warning you about how you will regret things or any other such
+BS.
 
-To be fair, you shouldn't implement things in bash where it's
-unwarranted, such as complicated programs for your day-job, or when
+To be fair, I agree that you shouldn't implement things in bash where
+it's unwarranted, such as complicated programs for your day-job, or when
 someone else needs to maintain it. But if it's for your own edification
-then, by all means, full steam ahead.
+and won't require others to get on the merry-go-round with you, then, by
+all means, full steam ahead.
 
 The point of this series is to teach the mindset which avoids the
 pitfalls intimated by such ominous warnings in the first place, while
