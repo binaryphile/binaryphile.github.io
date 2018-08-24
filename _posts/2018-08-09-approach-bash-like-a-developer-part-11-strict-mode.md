@@ -10,9 +10,9 @@ way that's safer and more structured than your basic script.
 
 See [part 1] if you want to catch the series from the start.
 
-[Last time], we made our shpec tests independent of one another.  This
-time, let's add a so-called "strict mode" so scripts tend to catch
-errors and stop rather than let them go by.
+[Last time], we discussed the uses of aliases in scripting.  This time,
+let's add a so-called "strict mode" so scripts tend to catch errors and
+stop rather than let them go by.
 
 Normally, bash is pretty forgiving about errors.  If a script runs a
 command which returns an error, bash generally ignores the error and
@@ -108,5 +108,5 @@ Short version:
 Continue with [part 12] - working in strict mode
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
-  [Last time]:  {% post_url 2018-08-06-approach-bash-like-a-developer-part-10-test-independence       %}
+  [Last time]:  {% post_url 2018-08-23-approach-bash-like-a-developer-part-10.5-aside-on-aliases      %}
   [part 12]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}

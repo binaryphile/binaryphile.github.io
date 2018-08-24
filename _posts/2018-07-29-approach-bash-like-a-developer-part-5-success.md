@@ -28,21 +28,21 @@ chmod 775 bin/hello-world
 
 The *hello\_world* function exists, but does nothing.
 
-Move `hello-world_shpec.bash` to the `shpec` directory.
+Move *hello-world_shpec.bash* to the *shpec* directory.
 
-Open `hello-world_shpec.bash` in an editor and add the following to the
+Open *hello-world_shpec.bash* in an editor and add the following to the
 beginning:
 
 {% highlight bash %}
 source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../bin/hello-world
 {% endhighlight %}
 
-That finds the true location of the `hello-world_shpec.bash` via
-`readlink`, then trims off the filename from the path. It then adds the
-relative path to our `hello-world` source file.
+That finds the true location of *hello-world_shpec.bash* via *readlink*,
+then trims off the filename from the path. It then adds the relative
+path to our *hello-world* source file.
 
 Note that on Mac, you'll need to install GNU readlink via homebrew, then
-use `greadlink` instead of the `readlink` above.
+use *greadlink* instead of the *readlink* above.
 
 Shpec now outputs the following:
 

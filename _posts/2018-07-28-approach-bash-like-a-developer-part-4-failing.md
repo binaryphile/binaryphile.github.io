@@ -48,7 +48,7 @@ recommended in [part 1] of this series. While I haven't compared them
 all, I'm most comfortable with [shpec].  Shpec is the most like the
 rspec testing to which I'm accustomed.
 
-I'll be using v2.2.0 of shpec for my examples here.
+I'll be using v0.2.2 of shpec for my examples here.
 
 Quick shpec installation:
 
@@ -58,7 +58,7 @@ PATH+=:$PWD/shpec/bin
 {% endhighlight %}
 
 You'll want to choose your own installation location and add it to your
-path in your `.bashrc` (or similar) for permanent installation.
+path in your *.bashrc* (or similar) for permanent installation.
 
 Fail Whale
 ----------
@@ -105,8 +105,8 @@ and *it* blocks aren't really blocks, they are just regualar bash
 statements. However, it is a useful visual reminder to indent this way
 to remember where things begin and end.
 
-Let's call the above file `hello-world_shpec.bash`, since the file we'll
-be developing will be called `hello-world`. Here's the output from a
+Let's call the above file *hello-world_shpec.bash*, since the file we'll
+be developing will be called *hello-world*. Here's the output from a
 shpec run on this test file:
 
 {% highlight bash %}
@@ -128,7 +128,7 @@ The output starts with "hello\_world", which is the subject of the
 Next is an error thrown by the script, "command not found".  This is not
 part of the shpec output.
 
-The results for the *it* claus is next, indented.  It shows the
+The results for the *it* clause is next, indented.  It shows the
 description of the *it* ("echos 'hello, world!'").
 
 If the call had succeeded, that would be the end of it.  Since it failed,
