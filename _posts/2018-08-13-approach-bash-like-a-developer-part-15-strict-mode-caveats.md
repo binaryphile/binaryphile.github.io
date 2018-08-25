@@ -138,7 +138,7 @@ fear of triggering nounset, even if no argument was supplied in *$1*.
 Continue with [part 16]
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
-  [Last time]:    {% post_url 2018-08-12-approach-bash-like-a-developer-part-13-implementing-strict-mode  %}
+  [Last time]:    {% post_url 2018-08-13-approach-bash-like-a-developer-part-14-updated-outline           %}
   [earlier post]: {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode    %}
   [*concorde.bash*]: https://github.com/binaryphile/concorde
   [default value parameter expansion]: http://wiki.bash-hackers.org/syntax/pe#use_a_default_value
