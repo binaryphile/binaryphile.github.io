@@ -135,10 +135,11 @@ my_function () {
 This way, *arg1* is guaranteed to exist and can be referenced without
 fear of triggering nounset, even if no argument was supplied in *$1*.
 
-Continue with [part 16]
+Continue with [part 16] - recap
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-13-approach-bash-like-a-developer-part-14-updated-outline           %}
   [earlier post]: {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode    %}
   [*concorde.bash*]: https://github.com/binaryphile/concorde
   [default value parameter expansion]: http://wiki.bash-hackers.org/syntax/pe#use_a_default_value
+  [part 16]:      {% post_url 2018-08-24-approach-bash-like-a-developer-part-16-recap                     %}
