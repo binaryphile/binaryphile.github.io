@@ -17,124 +17,138 @@ First Things First
 ------------------
 
 So, after typing a command and hitting enter, what's the first thing
-that happens?
+that happens?  And the next, and the next?
 
-The most thorough explanation I've found is from the [Practical Guide to
-UNIX for MacOS X Users], but I'll also link to the bash hacker's wiki.
-Here's what happens:
+It can actually be a bit tough to get the full picture, even from fairly
+good docs on the web.  The following is compiled from a few different
+sources.  Here's one that is particularly enlightening, [from the
+developer himself].  There's also a [maintainer's list of steps] which
+is good.
 
--   history expansion - substitute a reference to an older command -
-    e.g. repeating the last command:
+Here's what happens, in order:
 
-        !!
+-   *[history expansion]* - substitute a reference to an older command -
+    e.g. if the last command was `echo hello`, expand `!!` to:
 
--   alias substitution - substitute a string in for the first word of a
-    simple command, perhaps recursively if an alias expands to another
-    alias - e.g. for the alias `alias ls='ls -l'`, expand `ls` to:
+        echo hello
+
+-   *[alias substitution]* - substitute a string for the first word of a
+    simple command - e.g. for the alias `alias ls='ls -l'`, expand `ls`
+    to:
 
         ls -l
 
     Aliases can resolve into other aliases, but evaluation stops if it
     resolves into itself, hence no recursion for the alias given here.
 
--   parsing - identify important syntactical tokens such as semicolons,
-    parentheses, braces, pipe and redirection characters and determine
-    the grammatical structure of the resulting statement
+-   *lexing/parsing* - identify important syntactical tokens such as
+    semicolons, parentheses, braces, pipe and redirection characters and
+    determine the grammatical structure of the resulting statement
 
--   brace expansion - substitute a brace expression with permutations of
-    prefix and/or postfix strings and a comma- or double-dot-separated
-    list of strings in braces, resulting in a list of intended strings,
-    usually filenames - e.g. expand `echo /mypath/{one,two}` to:
+-   *[brace expansion]* - permute a string with a comma-separated (or
+    double-dot-separated) list of strings in braces - e.g. expand `echo
+    /mypath/{one,two}` to:
 
         echo /mypath/one /mypath/two
 
--   tilde expansion - substitute the path to a user's home directory
-    where there is a tilde as the leading character of a word, using the
-    text between the tilde and the first colon, slash or whitespace
-    character as a username, or the current user if no username is
-    present - e.g.  expand `echo ~me/path` to:
+-   *[tilde expansion]* - substitute the path to a user's home directory
+    for a word with a tilde as the leading character, using the text
+    between the tilde and the first colon, slash or whitespace character
+    as a username, or the current user if there is no such text - e.g.
+    expand `echo ~me/path` to:
 
         echo /home/me/path
 
--   parameter and variable expansion - substitute variable or parameter
-    (*$1*, *$2* and special parameters) values for composed of a
-    dollar-sign followed by a name, or followed by a brace pattern for
-    special expansions - e.g. for the assignment `myvar="hello there"`,
-    expand `echo "$myvar"` to:
+-   simultaneously in left-to-right order:
 
-        echo "hello there"
+    -   *[parameter and variable expansion]* - substitute variable or
+        parameter (*$1*, *$2*, *$@*, etc.) values for a `$name`
+        construct (or a `${special_syntax}` construct for [special
+        expansions]) - e.g.  for the assignment `myvar="hello there"`,
+        expand `echo "$myvar"` to:
 
--   arithmetic expansion - calculate an arithmetic expression enclosed
-    in a dollar-sign and double-parentheses and substitute its result -
-    e.g. expand `echo $(( 1 + 1 ))` to:
+            echo "hello there"
 
-        echo 2
+    -   *[arithmetic expansion]* - calculate an arithmetic expression
+        enclosed in a `$((expression))` construct and substitute its
+        result - e.g. expand `echo $((1 + 1))` to:
 
--   command substitution - substitute the stdout of a command enclosed
-    in a dollar-sign and single-parentheses - e.g. expand `echo "$(cat
-    myfile)"` to:
+            echo 2
 
-        echo "contents of myfile"
+    -   *[command substitution]* - substitute the stdout of a command
+        for a `$(command)` construct - e.g. expand `echo "$(cat
+        myfile)"` to:
 
--   word splitting - substitute the results of parameter and variable
-    expansions split on any letters in the special IFS variable - e.g.
-    for the assignment `myvar="hello there"` and IFS with a space in it (one
-    of the defaults along with tab and newline), split `echo $myvar` to:
+            echo "contents of myfile"
+
+    -   *[process substitution]* - substitute a system-generated
+        filename for a `<(command)` construct, which when opened,
+        presents the output of the command as the file contents - e.g.
+        `vim <(echo hello)` starting up vim with the file content:
+
+            hello
+
+        Because process substitution interacts with things like pipes
+        which are managed by the system, it requires system support.
+
+-   *[word splitting]* - split the results of expansions from the last
+    step on any letters in the special IFS variable - e.g.  for the
+    assignment `myvar="hello there"` and IFS with a space in it (one of
+    the defaults along with tab and newline), split `echo $myvar` to:
 
         echo hello there
 
     Note that *hello* and *there* above are separate words in the
-    result.  Using double-quotes around the variable reference, e.g.
-    `"$myvar"`, prevents all forms of expansion and word splitting,
-    except variable expansion.  Single-quotes prevent variable expansion
-    in addition to the other forms.
+    result.
 
--   pathname expansion - expand a path pattern into a list of matching
-    directory and filenames, also known as globbing - e.g. `echo ./*`
-    expanding to:
+-   *[pathname expansion]* - expand a path pattern into a list of
+    matching directory and filenames, also known as *globbing* - e.g.
+    expand `echo ./*` to:
 
         echo ./file1.txt ./file2.txt
 
--   process substitution - substitute process output as a redirection to
-    a command - e.g. `cat <(echo hello)` outputting:
+-   *[quote removal]* - remove any of the types of quotation marks, as
+    well as backslashes (which are not the result of an expansion)
 
-        hello
-
--   quote removal - remove single- and double-quotes, as well as
-    backslashes which are not the result of an expansion
-
--   command resolution - for each resulting statement, determine whether
-    the command to be run exists, in order, as a:
+-   *[command resolution]* - for each resulting statement, determine
+    whether the command to be run exists, in order, as a:
 
       -   function
 
       -   built-in command
 
-      -   command in the PATH
-
-    Note that a path included as the start of a command will not
-    necessarily force a file to be run, since function names can include
-    path characters - e.g. for the function `./myfunc () { echo hello
-    ;}`, the command `./myfunc` will end up invoking the function, not a
-    script named `myfunc` in the current directory.
-
-    A backslash in front of a command name will, however, prevent alias
-    expansion since the backslash will not match the alias, but will be
-    stripped before attempting to run the command.
+      -   command in the path
 
 Whew!  That's a lot.  All just to get from `cd ~` to a prompt in your
 home directory.
 
-Fortunately we don't have to pay attention to all of these right now.
-History expansion, for example, is an interactive feature that isn't of
-much use in a script, and so is disabled by default.
+Guess what, I lied, there's more!  Here are even more [details on command
+execution] once the command is determined.  Hooboy!
 
-So are aliases, although we've found a use for those already, so we will
-pay a bit more attention to them.  For the most part we'll discuss the
-ones which require you to program carefully, namely the expansions.
+Fortunately we don't have to pay attention to all of these.  History
+expansion, for example, is an interactive feature that isn't of much use
+in a script, and so is disabled by default.
+
+For the most part we'll discuss the ones which require you to program
+carefully, namely the word-splitting and the expansions.
 
 Continue with [part 18]
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-24-approach-bash-like-a-developer-part-16-recap                     %}
-  [Practical Guide to UNIX for MacOS X Users]: http://www.informit.com/articles/article.aspx?p=441605&seqNum=9
+  [from the developer himself]: http://aosabook.org/en/bash.html
+  [maintainer's list of steps]: http://wiki.bash-hackers.org/scripting/bashbehaviour#posix_run_mode
+  [history expansion]: https://www.gnu.org/software/bash/manual/html_node/History-Interaction.html
+  [alias substitution]: https://www.gnu.org/software/bash/manual/html_node/Aliases.html
+  [brace expansion]: http://wiki.bash-hackers.org/syntax/expansion/brace
+  [tilde expansion]: http://wiki.bash-hackers.org/syntax/expansion/tilde
+  [parameter and variable expansion]: http://wiki.bash-hackers.org/syntax/pe
+  [special expansions]: http://wiki.bash-hackers.org/syntax/pe#overview
+  [arithmetic expansion]: http://wiki.bash-hackers.org/syntax/expansion/arith
+  [command substitution]: http://wiki.bash-hackers.org/syntax/expansion/cmdsubst
+  [process substitution]: http://wiki.bash-hackers.org/syntax/expansion/proc_subst
+  [word splitting]: http://wiki.bash-hackers.org/syntax/expansion/wordsplit
+  [pathname expansion]: http://wiki.bash-hackers.org/syntax/expansion/globs
+  [quote removal]: http://wiki.bash-hackers.org/syntax/quoting
+  [command resolution]: http://wiki.bash-hackers.org/syntax/grammar/parser_exec#simple_command_execution
+  [details on command execution]: http://wiki.bash-hackers.org/syntax/grammar/parser_exec
