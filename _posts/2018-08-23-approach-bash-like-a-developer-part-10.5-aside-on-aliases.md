@@ -41,7 +41,7 @@ The magic is accomplished with the help of the following alias code:
 {% highlight bash %}
 shopt -s expand_aliases
 alias it='(_shpec_failures=0; it'
-alias ti='return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
+alias ti='return "$_shpec_failures"); ((_shpec_failures += $?, _shpec_examples++))'
 {% endhighlight %}
 
 When bash runs the above test, it first rewrites the code with the
