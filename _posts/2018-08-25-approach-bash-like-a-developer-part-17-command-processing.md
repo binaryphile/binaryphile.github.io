@@ -88,9 +88,6 @@ Here's what happens, in order:
 
             hello
 
-        Because process substitution interacts with things like pipes
-        which are managed by the system, it requires system support.
-
 -   *[word splitting]* - split the results of expansions from the last
     step on any letters in the special IFS variable - e.g.  for the
     assignment `myvar="hello there"` and IFS with a space in it (one of
@@ -119,7 +116,7 @@ Here's what happens, in order:
 
       -   command in the path
 
-Whew!  That's a lot.  All just to get from `cd ~` to a prompt in your
+Whew!  That's a lot.  All just to get from *cd ~* to a prompt in your
 home directory.
 
 Guess what, I lied, there's more!  Here are even more [details on command

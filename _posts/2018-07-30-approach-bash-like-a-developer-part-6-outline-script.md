@@ -73,7 +73,7 @@ hello_world () {
 main "$@"
 {% endhighlight %}
 
-The *FUNCNAME* expression looks at the name of the function which
+The *[FUNCNAME]* expression looks at the name of the function which
 invoked the script. When bash sources a file, it sets that name to
 "source". Otherwise the program is being run as a script.
 
@@ -85,4 +85,5 @@ Continue with [part 7] - sourcing
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro    %}
   [Last time]:  {% post_url 2018-07-29-approach-bash-like-a-developer-part-5-success  %}
+  [FUNCNAME]:   http://wiki.bash-hackers.org/syntax/shellvars#funcname
   [part 7]:     {% post_url 2018-08-04-approach-bash-like-a-developer-part-7-sourcing %}
