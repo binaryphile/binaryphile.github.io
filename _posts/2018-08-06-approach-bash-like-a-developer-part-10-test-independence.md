@@ -90,9 +90,14 @@ its change to `_shpec_failures` is lost when the subshell ends.
 Instead, let's use `_shpec_failures` to count just the errors in the
 subshell, then add it to the running count in the parent shell.  All we
 need to do is to reset it to zero at the outset, then return it as the
-last thing in the subshell and add it in the parent.
+last thing in the subshell and add it in the parent.  Here's the entire
+file this time:
 
 {% highlight bash %}
+set -o nounset
+
+source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../bin/hello-world
+
 describe hello_world
   it "echos 'hello, world!'"
   ( _shpec_failures=0
@@ -104,22 +109,7 @@ describe hello_world
 end
 {% endhighlight %}
 
-It's rather ugly looking, so usually I squash the added commands into
-single lines.  Here's a final example of the entire file:
-
-{% highlight bash %}
-set -o nounset
-
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../bin/hello-world
-
-describe hello_world
-  it "echos 'hello, world!'"; (_shpec_failures=0
-    result=$(hello_world)
-    assert equal "hello, world!" "$result"
-    return "$_shpec_failures"); (( _shpec_failures += $? ))
-  end
-end
-{% endhighlight %}
+It's rather ugly looking, but we'll be tidying it up in another post.
 
 Continue with [part 10.5] - aside on aliases
 

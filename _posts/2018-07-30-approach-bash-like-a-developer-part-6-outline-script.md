@@ -68,27 +68,18 @@ hello_world () {
   echo "hello, world!"
 }
 
-sourced () {
-  [[ ${FUNCNAME[1]} == source ]]
-}
-
-sourced && return
+[[ $FUNCNAME == source ]] && return
 
 main "$@"
 {% endhighlight %}
 
-Although it looks a bit strange to create a *sourced* function for a
-single use right afterward, as you can probably guess, this function is
-normally in a utility library used by almost every script I write.
-
-The *sourced* function simply looks at the name of the function two
-levels up in the call stack, which happens to be the function which
+The *FUNCNAME* expression looks at the name of the function which
 invoked the script. When bash sources a file, it sets that name to
 "source". Otherwise the program is being run as a script.
 
-So if *sourced* is true, then the `sourced && return` statement stops
-the sourcing and returns to the caller, in this case our shpec test, so
-that `main "$@"` never gets run.
+So if that is true, then the *return* stops the sourcing and returns to
+the caller, in this case our shpec test, so that `main "$@"` never gets
+run.
 
 Continue with [part 7] - sourcing
 

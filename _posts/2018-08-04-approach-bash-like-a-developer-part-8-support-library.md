@@ -17,8 +17,8 @@ in a library and source it from our script.
 In the Library, With the Lead Pipe
 ----------------------------------
 
-Let's extract out our *sourced* function into a support library.  First
-we'll need a `lib` directory:
+Let's extract out our *FUNCNAME* expression into a support library.
+First we'll need a `lib` directory:
 
 {% highlight bash %}
 mkdir lib
@@ -27,9 +27,8 @@ mkdir lib
 *lib/support.bash:*
 
 {% highlight bash %}
-sourced () {
-  [[ ${FUNCNAME[1]} == source ]]
-}
+shopt -s expand_aliases
+alias sourced='[[ $FUNCNAME == source ]]'
 {% endhighlight %}
 
 Note that there's no shebang for a library file since it's never run as
