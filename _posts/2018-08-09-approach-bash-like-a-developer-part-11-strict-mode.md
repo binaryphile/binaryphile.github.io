@@ -44,6 +44,13 @@ While a developer mindset favors strictness, this approach in bash
 requires some understanding and practices to mitigate its downsides.
 This and the following posts will outline the details.
 
+Before I start, however, a tip of the hat is due to Aaron Maxwell's
+[excellent article] on strict mode, which is what inspired me and I'm
+sure many others to explore using it.  His article and ideas fully cover
+everything I'm about to discuss in this part of the series.  I've got a
+slightly different perspective and wording, perhaps, but you can
+fundamentally get everything from his material.
+
 Strict Mode Settings
 --------------------
 
@@ -109,4 +116,5 @@ Continue with [part 12] - working in strict mode
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
   [Last time]:  {% post_url 2018-08-23-approach-bash-like-a-developer-part-10.5-aside-on-aliases      %}
+  [excellent article]: http://redsymbol.net/articles/unofficial-bash-strict-mode/
   [part 12]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}
