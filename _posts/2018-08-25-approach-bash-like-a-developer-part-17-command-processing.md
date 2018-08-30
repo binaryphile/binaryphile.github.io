@@ -129,7 +129,7 @@ in a script, and so is disabled by default.
 For the most part we'll discuss the ones which require you to program
 carefully, namely the word-splitting and the expansions.
 
-Continue with [part 18]
+Continue with [part 18] - word splitting
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-24-approach-bash-like-a-developer-part-16-recap                     %}
@@ -149,3 +149,4 @@ Continue with [part 18]
   [quote removal]: http://wiki.bash-hackers.org/syntax/quoting
   [command resolution]: http://wiki.bash-hackers.org/syntax/grammar/parser_exec#simple_command_execution
   [details on command execution]: http://wiki.bash-hackers.org/syntax/grammar/parser_exec
+  [part 18]:      {% post_url 2018-08-31-approach-bash-like-a-developer-part-18-word-splitting            %}
