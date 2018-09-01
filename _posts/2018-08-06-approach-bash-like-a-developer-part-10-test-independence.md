@@ -82,12 +82,12 @@ end
 Subshells are created with parentheses.
 
 This is a fine start, however, it causes issues with shpec.  Shpec
-relies on the global variable `_shpec_failures` to keep track of how
+relies on the global variable *_shpec_failures* to keep track of how
 many tests have failed.  Because the *assert* function is the one that
 modifies the count, and that function must be called in the subshell,
-its change to `_shpec_failures` is lost when the subshell ends.
+its change to *_shpec_failures* is lost when the subshell ends.
 
-Instead, let's use `_shpec_failures` to count just the errors in the
+Instead, let's use *_shpec_failures* to count just the errors in the
 subshell, then add it to the running count in the parent shell.  All we
 need to do is to reset it to zero at the outset, then return it as the
 last thing in the subshell and add it in the parent.  Here's the entire

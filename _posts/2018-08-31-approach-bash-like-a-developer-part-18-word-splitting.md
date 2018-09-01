@@ -28,10 +28,11 @@ decides that this text should not be taken together as one entity, but
 rather should be split into separate words before invoking the resulting
 command.
 
-For example, consider the assignment `myfiles="file1.txt file2.txt"`.
+For example, consider the assignment *myfiles="file1.txt file2.txt"*.
 The following command copies both files into another directory:
 
 {% highlight bash %}
+# note that this cannot work with filenames with spaces!
 cp $myfiles target_dir/
 {% endhighlight %}
 
@@ -50,6 +51,7 @@ this one, which accomplishes the same thing as the command above:
 
 {% highlight bash %}
 for file in $myfiles; do
+  # still no spaces allowed in filenames!
   cp $file target_dir/
 done
 {% endhighlight %}
@@ -63,7 +65,8 @@ time now, and they not only supersede whitespace-based lists, they are
 better at what they do.  There's almost no occasion to use a poor-man's
 array.
 
-Here's how the same loop would work with an actual array:
+Here's how the same loop would work with an actual array.  This one
+works with spaces in filenames:
 
 {% highlight bash %}
 myfiles=( file1.txt file2.txt )
@@ -123,3 +126,4 @@ Continue with [part 19] - disabling word splitting
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-25-approach-bash-like-a-developer-part-17-command-processing        %}
+  [part 19]:      {% post_url 2018-09-01-approach-bash-like-a-developer-part-19-disabling-word-splitting  %}

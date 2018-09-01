@@ -87,7 +87,7 @@ more explicit version above:
 ### Pipefail
 
 Piping is a common idiom in bash, where one command's output is fed to
-another's input by the `|` character.
+another's input by the *|* character.
 
 The pipe generally returns the code of the last command in the pipe.
 This can mask a failure of a command earlier in the pipeline.  In strict

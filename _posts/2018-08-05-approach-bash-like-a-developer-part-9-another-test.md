@@ -60,7 +60,7 @@ Since we'll be creating that file, we'll take advantage of unix's
 When we're done with it, we'll use *rm* to remove the directory.
 
 One bit of preparation at the top of the file is to pin down the
-location of the `support.bash` file explicitly, since the temporary file
+location of the *support.bash* file explicitly, since the temporary file
 won't have the benefit of a fixed location relative to it.
 
 Let's look at the first test, piece by piece:
@@ -100,7 +100,7 @@ assert equal 0 $?
 {% endhighlight %}
 
 Since all the file does is return the value returned by *sourced*, it
-should be 0, which is bash's *ok* return value.  `$?` refers to the
+should be 0, which is bash's *ok* return value.  *$?* refers to the
 return value of the last command.
 
 {% highlight bash %}
@@ -111,7 +111,7 @@ Now we clean up the file and directory.
 
 The second test works the same as the first, but sets the file
 executable and runs it instead.  This time we expect *false* from
-*sourced*, which is why the *assert* tests for `$?` to be unequal to
+*sourced*, which is why the *assert* tests for *$?* to be unequal to
 zero.
 
 Also, since running a file automatically creates its own shell instance,

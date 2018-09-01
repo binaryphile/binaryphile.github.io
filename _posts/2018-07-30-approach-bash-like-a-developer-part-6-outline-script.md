@@ -39,7 +39,7 @@ main "$@"
 
 The functions are defined at the top, and then main is finally put into
 action where it is called at the bottom.  Any script arguments are
-handed to main via `"$@"`.
+handed to main via *"$@"*.
 
 With more sophisticated scripts which take switches and named arguments,
 it's acceptable to parse those outside of *main* and pass the processed
@@ -78,7 +78,7 @@ invoked the script. When bash sources a file, it sets that name to
 "source". Otherwise the program is being run as a script.
 
 So if that is true, then the *return* stops the sourcing and returns to
-the caller, in this case our shpec test, so that `main "$@"` never gets
+the caller, in this case our shpec test, so that *main "$@"* never gets
 run.
 
 Continue with [part 7] - sourcing

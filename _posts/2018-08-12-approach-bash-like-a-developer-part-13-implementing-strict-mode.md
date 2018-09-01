@@ -14,7 +14,7 @@ See [part 1] if you want to catch the series from the start.
 time, let's TDD a function to implement strict mode.
 
 As a reminder, setting any of the strict mode settings involves calling
-`set -o`.  In order to unset any of them, you use `set +o` instead.
+*set -o*.  In order to unset any of them, you use *set +o* instead.
 
 Test Drive
 ----------
@@ -26,15 +26,16 @@ This time, let's start with the tests.  We'll implement our
 
 {% highlight bash %}
 set -o nounset
-
-support_lib=$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")/../lib/support.bash
-source "$support_lib"
-
 shopt -s expand_aliases
 alias it='(_shpec_failures=0; alias setup &>/dev/null && { setup; unalias setup ;}; it'
-alias ti='alias teardown &>/dev/null && teardown; return "$_shpec_failures"); ((_shpec_failures += $?, _shpec_examples++))'
+alias ti='alias teardown &>/dev/null && teardown; return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
 alias end_describe='end; unalias setup teardown 2>/dev/null'
+
+support_lib=$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")/../lib/support.bash
+
 [...]
+
+source "$support_lib"
 
 describe strict_mode
   it "sets errexit"
@@ -113,17 +114,11 @@ describe strict_mode
   it "sets pipefail"
     strict_mode on
     set +o errexit
-    # following looks at result of "set -o" with a regexp
-    [[ $(set -o) =~ pipefail[[:space:]]+on ]]
+    [[ :$SHELLOPTS: == *:pipefail:* ]]
     assert equal 0 $?
   ti
 end_describe
 {% endhighlight %}
-
-The test for *pipefail* has to list the full set of settings with `set
--o`.  The status of pipefail is listed as "off" or "on".  The test looks
-for that result by using the whitespace matcher "[[:space:]]+" between
-the words "pipefail" and "on".
 
 And finally, *lib/support.bash:*
 

@@ -114,7 +114,7 @@ exist, you can always use bash's [default value parameter expansion]
 like so:
 
 {% highlight bash %}
-echo "${my_var:-default value}"
+echo "${myvar:-default value}"
 {% endhighlight %}
 
 A default value (after *:-* above) will prevent bash from flagging the

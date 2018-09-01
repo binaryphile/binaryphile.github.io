@@ -23,13 +23,13 @@ located.
 
 Thus if you know the absolute pathname of the file you want sourced, you
 can use that reliably.  However you can't rely on a relative pathname
-such as `./mylibrary.bash`, even if it's in the same directory as the
+such as *./mylibrary.bash*, even if it's in the same directory as the
 script containing the directive.
 
 There are normally two options. The first is that you don't specify a
 pathname other than the filename itself, neither relative nor absolute.
 Instead, you put the library somewhere on your PATH, which is searched
-automatically by the *source*, or `.`, command. This means that not only
+automatically by the *source*, or *.*, command. This means that not only
 does the user have to do an installation step for the script to work
 (modify PATH), but also that finding the file correctly depends on not
 having another file of the same name earlier in the PATH.
@@ -41,17 +41,17 @@ the target file relative to that path. Here's what that looks like:
 source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/path/to/file
 {% endhighlight %}
 
-Breaking it down, first there is `$BASH_SOURCE`.  This is a reference to
+Breaking it down, first there is *BASH_SOURCE*.  This is a reference to
 the first element of the *[BASH_SOURCE]* array, which is the current file,
 relative to where it was called from.  For example, if the file were
 executed from its own directory, it might simply contain the filename
 and nothing more.
 
-Because we need the pathname to the current file, we use `readlink
---canonicalize`.  This is a feature of GNU readlink which returns the
+Because we need the pathname to the current file, we use *readlink
+--canonicalize*.  This is a feature of GNU readlink which returns the
 precise path, including filename, of the argument. It even resolves
 symlinks to the true path of the file.  There is an alternative called
-`realpath` which does the same thing, but is not as available on the
+*realpath* which does the same thing, but is not as available on the
 platforms on which I work.
 
 While that returns the filename included with the path, we only want the
@@ -59,7 +59,7 @@ directory name, so *dirname* finishes the job. After that we simply
 append the relative path to the file we wish to source.
 
 The only critical thing to this approach is that you don't change the
-current working directory before you call *readlink* on `$BASH_SOURCE`.
+current working directory before you call *readlink* on *BASH_SOURCE*.
 
 Note that the quotation marks are important, but we'll get into those in
 a later post.

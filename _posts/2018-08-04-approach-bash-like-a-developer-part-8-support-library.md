@@ -18,7 +18,7 @@ In the Library, With the Lead Pipe
 ----------------------------------
 
 Let's extract out our *FUNCNAME* expression into a support library.
-First we'll need a `lib` directory:
+First we'll need a *lib* directory:
 
 {% highlight bash %}
 mkdir lib

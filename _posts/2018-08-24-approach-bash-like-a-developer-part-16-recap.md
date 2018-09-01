@@ -44,39 +44,44 @@ What Next
 There are many details to explore with bash, and further challenges to
 developing software with it.
 
-I'd like to discuss some basic techniques that you should be aware of in
-any script, with a focus on making reliable and safe code.
+We'll discuss some basic techniques that you should be aware of in any
+script, with a focus on making reliable and safe code.
 
-I'd also like to highlight practices which will enhance your ability to
-write reusable code and compose more complicated pieces of
-functionality.
+I'll highlight practices which will enhance your ability to write
+reusable code and compose more complicated pieces of functionality.
 
-I'd like to develop some new functionality which makes the bash
-environment more amenable to writing software from reusable components.
+We'll develop some new functionality which makes the bash environment
+more amenable to writing software from reusable components.
 
-Finally, I'd like to discuss a grab-bag of standard programming
-techniques, such as recursion, and how best to approach them given what
-we've learned and accomplished.
+And finally, I'll discuss a grab-bag of standard programming techniques,
+such as recursion, and how best to approach them given what we've
+learned.
 
 This means discussing:
 
 -   command processing
 
--   well-known gotchas
+-   gotchas
 
--   finessing bash syntax
+    -   word splitting
 
--   data types and scoping
+    -   path expansion
 
--   passing arguments and receiving return values
+    -   scoping
 
--   debugging
+-   data types
+
+-   passing arguments
+
+-   receiving return values
 
 -   traps and tracebacks
 
--   parsing options
+-   debugging
 
--   creating modules
+-   option parsing
+
+-   modules
 
 -   indirection
 
@@ -85,13 +90,13 @@ This means discussing:
 -   light functional programming
 
 As I certainly haven't learned everything there is to know about each of
-these topics, tests will form the foundation of truth for all of my
+these topics, tests will form the foundation of truth for all of our
 work.
 
 I hope to illustrate each major point with a small set of simple tests,
 from which you can go more deeply on your own.  The key is to become
 comfortable expressing requirements in tests, which is how a developer
-(or rather, this developer) approaches bash.
+(or rather, how this developer) approaches bash.
 
 Anything I do wrong should fail, and any reader who finds a mistake in
 my work should be able to write a test to show what it fails to reflect.

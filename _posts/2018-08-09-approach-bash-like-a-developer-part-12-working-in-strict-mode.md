@@ -54,10 +54,10 @@ trying to accomplish in the first place.
 
 However, *mkdir* will error if you tell it to make a directory which
 already exists.  Fortunately, there's an option to *mkdir* which will
-suppress the error when the directory already exists: `--parents`, or
-`-p`.
+suppress the error when the directory already exists: *--parents*, or
+*-p*.
 
-Similarly for the *rm* command, there's the `--force` option, or `-f`.
+Similarly for the *rm* command, there's the *--force* option, or *-f*.
 A number of commands have such a *force* option.
 
 There are more examples, but this is a method you'll have to learn for
@@ -95,7 +95,7 @@ right-hand portion to be evaluated, especially when the operation is
 Since the right-hand side in our case is always true, it makes the
 entire expression return true and the script can continue.
 
-Since it is used with some frequency, I tend to shorten the `|| true`
+Since it is used with some frequency, I tend to shorten the *|| true*
 into a smaller idiom.  It's somewhat cryptic looking at first, but it's
 used enough that it becomes easily recognizable:
 
@@ -103,10 +103,10 @@ used enough that it becomes easily recognizable:
 erroring_command ||:
 {% endhighlight %}
 
-`:` is a bashism which is the same as `true`. The `||` operator doesn't
-require a space between itself and `:`, so I just turn the expression
+*:* is a bashism which is the same as *true*. The *||* operator doesn't
+require a space between itself and *:*, so I just turn the expression
 into a special symbol which means "turn off errexit for this command":
-`||:`.
+*||:*.
 
 Continue with [part 13] - implementing strict mode
 

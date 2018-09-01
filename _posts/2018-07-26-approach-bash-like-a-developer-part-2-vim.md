@@ -92,7 +92,7 @@ set expandtab
 {% endhighlight %}
 
 To indent and de-indent a single line or selected blocks of code, use
-the `<<` and `>>` commands.
+the *<<* and *>>* commands.
 
 The Show Must Go On
 -------------------

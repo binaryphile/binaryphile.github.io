@@ -41,7 +41,7 @@ The magic is accomplished with the help of the following alias code:
 {% highlight bash %}
 shopt -s expand_aliases
 alias it='(_shpec_failures=0; it'
-alias ti='return "$_shpec_failures"); ((_shpec_failures += $?, _shpec_examples++))'
+alias ti='return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
 {% endhighlight %}
 
 When bash runs the above test, it first rewrites the code with the
@@ -65,8 +65,8 @@ themselves, so they've been around for a while.
 
 Usually you see them in *.bashrc* configurations for interactive use,
 and alias support is disabled by default for non-interactive use such as
-scripts.  That is why you need to turn them on with `shopt -s
-expand_aliases`.
+scripts.  That is why you need to turn them on with *shopt -s
+expand_aliases*.
 
 However, they aren't functions.  They aren't declared in the function
 namespace and they don't get their own local variable scope or
@@ -116,7 +116,7 @@ are invoked around each *it* case:
 {% highlight bash %}
 shopt -s expand_aliases
 alias it='(_shpec_failures=0; alias setup &>/dev/null && { setup; unalias setup ;}; it'
-alias ti='alias teardown &>/dev/null && teardown; return "$_shpec_failures"); ((_shpec_failures += $?, _shpec_examples++))'
+alias ti='alias teardown &>/dev/null && teardown; return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
 alias end_describe='end; unalias setup teardown 2>/dev/null'
 {% endhighlight %}
 
@@ -135,7 +135,7 @@ describe hello_file
 
   it "writes 'hello, world!' to a file"
     hello_file "$filename"
-    assert equal "hello, world!" "$(< "$filename")"
+    assert equal "hello, world!" "$(<"$filename")"
   ti
 end_describe
 {% endhighlight %}

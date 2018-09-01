@@ -28,14 +28,14 @@ is good.
 Here's what happens, in order:
 
 -   *[history expansion]* - substitute a reference to an older command -
-    e.g. if the last command was `echo hello`, expand `sudo !!` to:
+    e.g. if the last command was *echo hello*, expand *sudo !!* to:
 
 {% highlight bash %}
 sudo echo hello
 {% endhighlight %}
 
 -   *[alias substitution]* - substitute a string for the first word of a
-    simple command - e.g. for the alias `alias ls='ls -l'`, expand `ls`
+    simple command - e.g. for the alias *alias ls='ls -l'*, expand *ls*
     to:
 
         ls -l
@@ -48,8 +48,8 @@ sudo echo hello
     determine the grammatical structure of the resulting statement
 
 -   *[brace expansion]* - permute a string with a comma-separated (or
-    double-dot-separated) list of strings in braces - e.g. expand `echo
-    /mypath/{one,two}` to:
+    double-dot-separated) list of strings in braces - e.g. expand *echo
+    /mypath/{one,two}* to:
 
 {% highlight bash %}
 echo /mypath/one /mypath/two
@@ -59,7 +59,7 @@ echo /mypath/one /mypath/two
     for a word with a tilde as the leading character, using the text
     between the tilde and the first colon, slash or whitespace character
     as a username, or the current user if there is no such text - e.g.
-    expand `echo ~me/path` to:
+    expand *echo ~me/path* to:
 
 {% highlight bash %}
 echo /home/me/path
@@ -68,36 +68,36 @@ echo /home/me/path
 -   simultaneously in left-to-right order:
 
     -   *[parameter and variable expansion]* - substitute variable or
-        parameter (*$1*, *$2*, *$@*, etc.) values for a `$name`
-        construct (or a `${special_syntax}` construct for [special
-        expansions]) - e.g.  for the assignment `myvar="hello there"`,
-        expand `echo "$myvar"` to:
+        parameter (*$1*, *$2*, *$@*, etc.) values for a *$name*
+        construct (or a *${special_syntax}* construct for [special
+        expansions]) - e.g.  for the assignment *myvar="hello there"*,
+        expand *echo "$myvar"* to:
 
             echo "hello there"
 
     -   *[arithmetic expansion]* - calculate an arithmetic expression
-        enclosed in a `$((expression))` construct and substitute its
-        result - e.g. expand `echo $((1 + 1))` to:
+        enclosed in a *$((expression))* construct and substitute its
+        result - e.g. expand *echo $((1 + 1))* to:
 
             echo 2
 
     -   *[command substitution]* - substitute the stdout of a command
-        for a `$(command)` construct - e.g. expand `echo "$(cat
-        myfile)"` to:
+        for a *$(command)* construct - e.g. expand *echo "$(cat
+        myfile)"* to:
 
             echo "contents of myfile"
 
     -   *[process substitution]* - substitute a system-generated
-        filename for a `<(command)` construct, which when opened,
+        filename for a *<(command)* construct, which when opened,
         presents the output of the command as the file contents - e.g.
-        `vim <(echo hello)` starting up vim with the file content:
+        *vim <(echo hello)* starting up vim with the file content:
 
             hello
 
 -   *[word splitting]* - split the results of expansions from the last
-    step on any letters in the special IFS variable - e.g.  for the
-    assignment `myvar="hello there"` and IFS with a space in it (one of
-    the defaults along with tab and newline), split `echo $myvar` to:
+    step on any letters in the special *[IFS]* variable - e.g.  for the
+    assignment *myvar="hello there"* and *IFS* with a space in it (one
+    of the defaults along with tab and newline), split *echo $myvar* to:
 
         echo hello there
 
@@ -106,7 +106,7 @@ echo /home/me/path
 
 -   *[pathname expansion]* - expand a path pattern into a list of
     matching directory and filenames, also known as *globbing* - e.g.
-    expand `echo ./*` to:
+    expand *echo ./\** to:
 
 {% highlight bash %}
 echo ./file1.txt ./file2.txt
@@ -153,6 +153,7 @@ Continue with [part 18] - word splitting
   [command substitution]: http://wiki.bash-hackers.org/syntax/expansion/cmdsubst
   [process substitution]: http://wiki.bash-hackers.org/syntax/expansion/proc_subst
   [word splitting]: http://wiki.bash-hackers.org/syntax/expansion/wordsplit
+  [IFS]: http://mywiki.wooledge.org/IFS
   [pathname expansion]: http://wiki.bash-hackers.org/syntax/expansion/globs
   [quote removal]: http://wiki.bash-hackers.org/syntax/quoting
   [command resolution]: http://wiki.bash-hackers.org/syntax/grammar/parser_exec#simple_command_execution

@@ -36,14 +36,14 @@ strict_mode on
 main "$@"
 {% endhighlight %}
 
-Notice that we turn on strict mode *after* the `sourced && return` line.
+Notice that we turn on strict mode *after* the *sourced && return* line.
 
 This is because strict mode interferes with shpec.  Shpec is looking for
 errors and can't have errexit set, or else it will exit without the
 *assert* calls having done their job.  If *assert* isn't called, shpec
 doesn't output a line for the result of the test.
 
-That's why we use `set -o nounset` at the top of a shpec file and not
+That's why we use *set -o nounset* at the top of a shpec file and not
 the rest of strict mode, since that would include errexit.
 
 The above outline script forms the basis of almost all of the scripts I
