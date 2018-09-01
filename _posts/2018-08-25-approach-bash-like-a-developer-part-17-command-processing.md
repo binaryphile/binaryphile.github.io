@@ -28,9 +28,11 @@ is good.
 Here's what happens, in order:
 
 -   *[history expansion]* - substitute a reference to an older command -
-    e.g. if the last command was `echo hello`, expand `!!` to:
+    e.g. if the last command was `echo hello`, expand `sudo !!` to:
 
-        echo hello
+{% highlight bash %}
+sudo echo hello
+{% endhighlight %}
 
 -   *[alias substitution]* - substitute a string for the first word of a
     simple command - e.g. for the alias `alias ls='ls -l'`, expand `ls`
@@ -49,7 +51,9 @@ Here's what happens, in order:
     double-dot-separated) list of strings in braces - e.g. expand `echo
     /mypath/{one,two}` to:
 
-        echo /mypath/one /mypath/two
+{% highlight bash %}
+echo /mypath/one /mypath/two
+{% endhighlight %}
 
 -   *[tilde expansion]* - substitute the path to a user's home directory
     for a word with a tilde as the leading character, using the text
@@ -57,7 +61,9 @@ Here's what happens, in order:
     as a username, or the current user if there is no such text - e.g.
     expand `echo ~me/path` to:
 
-        echo /home/me/path
+{% highlight bash %}
+echo /home/me/path
+{% endhighlight %}
 
 -   simultaneously in left-to-right order:
 
@@ -102,7 +108,9 @@ Here's what happens, in order:
     matching directory and filenames, also known as *globbing* - e.g.
     expand `echo ./*` to:
 
-        echo ./file1.txt ./file2.txt
+{% highlight bash %}
+echo ./file1.txt ./file2.txt
+{% endhighlight %}
 
 -   *[quote removal]* - remove any of the types of quotation marks, as
     well as backslashes (which are not the result of an expansion)
