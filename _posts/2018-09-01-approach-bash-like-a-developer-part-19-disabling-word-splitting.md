@@ -161,10 +161,11 @@ I like it to be explicit in the main script, and also that would require
 proper double-quoting on the *source* statement, since that runs before
 the support lib is loaded.
 
-Continue with [part 20]
+Continue with [part 20] - scoping
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-31-approach-bash-like-a-developer-part-18-word-splitting            %}
   [Internal Field Separator]: http://mywiki.wooledge.org/IFS
   [here]:         https://www.gnu.org/software/bash/manual/bashref.html#Word-Splitting
   [path expansion]: http://wiki.bash-hackers.org/syntax/expansion/globs
+  [part 20]:      {% post_url 2018-09-01-approach-bash-like-a-developer-part-20-scoping                   %}
