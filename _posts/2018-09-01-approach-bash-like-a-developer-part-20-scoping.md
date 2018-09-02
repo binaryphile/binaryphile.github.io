@@ -39,7 +39,34 @@ it.  With dynamic scoping, however, you never know if a function you
 just called has changed any of your own local variables.  Every function
 call therefore becomes a leap of faith.
 
-If you're careful, you can make sure that it never happens with
+For example, consider the following code:
+
+{% highlight bash %}
+IFS=''
+set -o noglob
+
+outer_function () {
+  local lvar
+
+  lvar=one
+  inner_function
+  echo $lvar
+}
+
+inner_function () {
+  lvar=two
+}
+
+outer_function
+{% endhighlight %}
+
+The *local* keyword declares *lvar* to be local to *outer_function*.
+When *outer_function* calls *inner_function* however, *inner_function*
+operates on the *lvar* in the closest enclosing scope, which belongs to
+*outer_function*.  As a result, *outer_function*'s *lvar* is changed to
+"two", and that's what *outer_function* echos.
+
+If you're careful, you can make sure that this never happens with
 functions you've written.  It's harder to have that assurance with
 third-party code, however, and being able to use third-party code is
 part of what we're trying to accomplish.  We'll address that more in a
@@ -54,6 +81,52 @@ context of how a function has been called, which itself can vary from
 call to call, it may or may not be able to pass information correctly
 via global variables.
 
+Reconsider our code above.  *inner_function* had no idea which *lvar* it
+was modifying.  If we didn't know about *outer_function*'s use of
+*lvar*, we would have thought that we were modifying a global variable
+called *lvar* instead.  Depending on whether the variable *lvar* exists
+in a caller's scope, we could get two very different outcomes.
+
+{% highlight bash %}
+IFS=''
+set -o noglob
+
+gvar=one
+
+outer_function () {
+  local gvar
+
+  inner_function
+  echo "During outer_function is: $gvar"
+}
+
+inner_function () {
+  gvar=two
+}
+
+echo "Global is: $gvar"
+outer_function
+echo "After outer_function is: $gvar"
+inner_function
+echo "After inner_function is: $gvar"
+{% endhighlight %}
+
+Here we first use a global called *gvar* to store a value.
+*outer_function* uses the same name, but protects the global from it
+with *local*.  *inner_function* is called and modifies that variable,
+first from within *outer_function*, then directly from the global part
+of the script.  Based on where it's called, the change affects either
+the global variable or the local variable, but *inner_function* can't
+tell which one it has modified.  Here's the output:
+
+{% highlight bash %}
+Global is: one
+During outer_function is: two
+# the local variable goes away when the function ends
+After outer_function is: one
+After inner_function is: two
+{% endhighlight %}
+
 Locals Only
 -----------
 
@@ -63,8 +136,11 @@ you can do to avoid the pitfalls of dynamic scoping.
 
 The first thing to do is to protect the variables of the functions which
 call your function.  The way to do that is to *always* declare your
-variables local.  Every function I write has a list of these variables
-right at the top:
+variables local.  By default, bash assumes any variables you reference
+or create are global, and requires you to declare a variable *local* if
+you want it so.
+
+Every function I write has a list of these variables right at the top:
 
 {% highlight bash %}
 hello_world () {
@@ -86,13 +162,14 @@ others.
 The second thing to do is to protect your local variables from changes
 by the functions you call.  How?  Well, there's nothing you can do to
 guarantee that.  The only thing you can do is to call code written by
-someone who follows the same practices.  Really, that's the only thing
+someone who follows the same practices.  Really that's the only thing
 you can do, since dynamic scoping simply won't protect your variables
 from being messed with.
 
-Continue with [part 21]
+Continue with [part 21] - data types
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
-  [Last time]:    {% post_url 2018-08-31-approach-bash-like-a-developer-part-18-word-splitting            %}
+  [Last time]:    {% post_url 2018-09-01-approach-bash-like-a-developer-part-19-disabling-word-splitting  %}
   [lexical scoping]: https://en.wikipedia.org/wiki/Scope_(computer_science)#Lexical_scoping
   [dynamic scoping]: https://en.wikipedia.org/wiki/Scope_(computer_science)#Dynamic_scoping
+  [part 21]:      {% post_url 2018-09-02-approach-bash-like-a-developer-part-21-data-types                %}
