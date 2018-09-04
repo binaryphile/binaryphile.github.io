@@ -17,24 +17,24 @@ function!  Let's fix that now.
 *shpec/support_shpec.bash:*
 
 {% highlight bash %}
-support_lib=$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")/../lib/support.bash
+support_lib=$(dirname "$(readlink -f "$BASH_SOURCE")")/../lib/support.bash
 
 describe sourced
   it "returns true when in a file being sourced"
-    dir=$(mktemp --directory) || return
+    dir=$(mktemp -d) || return
     printf 'source "%s"\nsourced' "$support_lib"  >"$dir"/example
     (source "$dir"/example)
     assert equal 0 $?
-    rm --recursive --force "$dir"
+    rm -rf "$dir"
   end
 
   it "returns false when that file is run"
-    dir=$(mktemp --directory) || return
+    dir=$(mktemp -d) || return
     printf 'source "%s"\nsourced' "$support_lib" >"$dir"/example
     chmod 775 "$dir"/example
     "$dir"/example
     assert unequal 0 $?
-    rm --recursive --force "$dir"
+    rm -rf "$dir"
   end
 end
 {% endhighlight %}
@@ -51,9 +51,8 @@ sourced
 0m0.000s 0m0.000s
 {% endhighlight %}
 
-This one is quite a bit trickier than our earlier tests. The function
-(alias, actually) we want to test, *sourced*, has to be in another file,
-not this test file.
+This one is quite a bit trickier than our earlier tests. The function we
+want to test, *sourced*, has to be in another file, not this test file.
 
 Since we'll be creating that file, we'll take advantage of unix's
 *mktemp* command, which will create a directory in a temporary location.
@@ -66,7 +65,7 @@ won't have the benefit of a fixed location relative to it.
 Let's look at the first test, piece by piece:
 
 {% highlight bash %}
-dir=$(mktemp --directory) || return
+dir=$(mktemp -d) || return
 {% endhighlight %}
 
 Here we make the test directory.  If it happens to fail, we bail here,
@@ -77,7 +76,7 @@ printf 'source "%s"\nsourced' "$support_lib" >"$dir"/example
 {% endhighlight %}
 
 This line creates the example file which will be sourced, importing and
-calling the *sourced* alias.
+calling the *sourced* function.
 
 {% highlight bash %}
 (source "$dir"/example)
@@ -104,7 +103,7 @@ should be 0, which is bash's *ok* return value.  *$?* refers to the
 return value of the last command.
 
 {% highlight bash %}
-rm --recursive --force "$dir"
+rm -rf "$dir"
 {% endhighlight %}
 
 Now we clean up the file and directory.
@@ -117,10 +116,10 @@ zero.
 Also, since running a file automatically creates its own shell instance,
 we don't need to manually create a subshell context for it.
 
-One last thing that I'll note about the *sourced* alias is that it can
-only be called in the main body of a script, not from inside a function.
-If it appears inside a function, that function will be the name it tests
-against "source", and it will return the wrong result.
+One last thing that I'll note about the *sourced* function is that it
+can only be called in the main body of a script, not from inside a
+function.  If it appears inside a function, that function will be the
+name it tests against "source", and it will return the wrong result.
 
 Continue with [part 10] - test independence
 

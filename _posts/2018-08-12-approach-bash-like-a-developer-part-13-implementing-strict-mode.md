@@ -27,11 +27,11 @@ This time, let's start with the tests.  We'll implement our
 {% highlight bash %}
 set -o nounset
 shopt -s expand_aliases
-alias it='(_shpec_failures=0; alias setup &>/dev/null && { setup; unalias setup ;}; it'
-alias ti='alias teardown &>/dev/null && teardown; return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
+alias it='(_shpec_failures=0; alias setup &>/dev/null && { setup; unalias setup; alias teardown &>/dev/null && trap teardown EXIT ;}; it'
+alias ti='return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
 alias end_describe='end; unalias setup teardown 2>/dev/null'
 
-support_lib=$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")/../lib/support.bash
+support_lib=$(dirname "$(readlink -f "$BASH_SOURCE")")/../lib/support.bash
 
 [...]
 

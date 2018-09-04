@@ -27,19 +27,23 @@ mkdir lib
 *lib/support.bash:*
 
 {% highlight bash %}
-shopt -s expand_aliases
-alias sourced='[[ $FUNCNAME == source ]]'
+sourced () {
+  [[ ${FUNCNAME[1]} == source ]]
+}
 {% endhighlight %}
 
+*FUNCNAME* now needs to be referenced one element into the array since
+we've moved down one level in the call stack.
+
 Note that there's no shebang for a library file since it's never run as
-a command.
+a command.  The file should also not be set executable.
 
 *bin/hello_world:*
 
 {% highlight bash %}
 #!/usr/bin/env bash
 
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../lib/support.bash
+source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/../lib/support.bash
 
 main () {
   hello_world

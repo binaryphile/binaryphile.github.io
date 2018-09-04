@@ -115,8 +115,8 @@ are invoked around each *it* case:
 
 {% highlight bash %}
 shopt -s expand_aliases
-alias it='(_shpec_failures=0; alias setup &>/dev/null && { setup; unalias setup ;}; it'
-alias ti='alias teardown &>/dev/null && teardown; return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
+alias it='(_shpec_failures=0; alias setup &>/dev/null && { setup; unalias setup; alias teardown &>/dev/null && trap teardown EXIT ;}; it'
+alias ti='return "$_shpec_failures"); (( _shpec_failures += $?, _shpec_examples++ ))'
 alias end_describe='end; unalias setup teardown 2>/dev/null'
 {% endhighlight %}
 
@@ -130,12 +130,12 @@ with the new *end_describe*.  An example in practice might look like so:
 
 {% highlight bash %}
 describe hello_file
-  alias setup='filename=$(mktemp) || return'
-  alias teardown='rm --force "$filename"'
+  alias setup='file=$(mktemp) || return'
+  alias teardown='rm "$file"'
 
   it "writes 'hello, world!' to a file"
-    hello_file "$filename"
-    assert equal "hello, world!" "$(<"$filename")"
+    hello_file "$file"
+    assert equal "hello, world!" "$(<"$file")"
   ti
 end_describe
 {% endhighlight %}

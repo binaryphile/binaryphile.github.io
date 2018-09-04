@@ -20,7 +20,7 @@ Here's the *hello-world* outline, with strict mode:
 
 # source support.bash
 #   or
-# source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/support.bash
+# source "$(dirname  "$(readlink -f "$BASH_SOURCE")")"/support.bash
 
 main () {
   hello_world
@@ -67,7 +67,7 @@ distribute the library with the script and source it using the
 *BASH_SOURCE* method you've seen in most of my examples:
 
 {% highlight bash %}
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/concorde.bash
+source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/concorde.bash
 {% endhighlight %}
 
 Continue with [part 15] - strict mode caveats

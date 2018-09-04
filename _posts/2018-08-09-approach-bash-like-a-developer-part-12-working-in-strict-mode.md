@@ -105,8 +105,7 @@ erroring_command ||:
 
 *:* is a bashism which is the same as *true*. The *||* operator doesn't
 require a space between itself and *:*, so I just turn the expression
-into a special symbol which means "turn off errexit for this command":
-*||:*.
+into a special symbol which means "turn off errexit for this command": *||:*.
 
 Continue with [part 13] - implementing strict mode
 

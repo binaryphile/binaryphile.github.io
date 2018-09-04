@@ -77,12 +77,16 @@ with the variable name, or some other mistake.
 Make bash exit with an error message if an undefined variable is
 referenced:
 
-    set -o nounset
+{% highlight bash %}
+set -o nounset
+{% endhighlight %}
 
 This is also sometimes accomplished with the following, but I prefer the
 more explicit version above:
 
-    set -u
+{% highlight bash %}
+set -u
+{% endhighlight %}
 
 ### Pipefail
 
@@ -96,7 +100,9 @@ mode, we want to see such failures so they can trigger the next setting,
 
 Make a pipeline return the failure of any command in it:
 
-    set -o pipefail
+{% highlight bash %}
+set -o pipefail
+{% endhighlight %}
 
 There is no short version of this setting.
 
@@ -106,11 +112,15 @@ Finally, there's *errexit*. *Errexit* tells bash to exit the script with
 a message whenever a command returns an error code.  This is the bulk of
 strict mode:
 
-    set -o errexit
+{% highlight bash %}
+set -o errexit
+{% endhighlight %}
 
 Short version:
 
-    set -e
+{% highlight bash %}
+set -e
+{% endhighlight %}
 
 Continue with [part 12] - working in strict mode
 

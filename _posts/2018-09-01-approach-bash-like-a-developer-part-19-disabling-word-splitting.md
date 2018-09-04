@@ -72,14 +72,14 @@ sourcing files relative to the current one.
 Before:
 
 {% highlight bash %}
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../lib/support.bash
+source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/../lib/support.bash
 {% endhighlight %}
 
 After:
 
 {% highlight bash %}
 IFS=''
-source $(dirname -- $(readlink --canonicalize -- $BASH_SOURCE))/../lib/support.bash
+source $(dirname $(readlink -f $BASH_SOURCE))/../lib/support.bash
 {% endhighlight %}
 
 Still pretty thorny, but that just means every bit of noise we can
@@ -125,6 +125,59 @@ However, be aware that it happens.  Without going further into detail,
 I'll simply recommend that you disable path expansion in your scripts
 using *set -o noglob* and only enable it when you need it.
 
+One Last Exception
+------------------
+
+If you haven't been quoting variable expansion up until now, you'll
+probably run into this one eventually.  It unfortunately is still an
+issue when you turn off word splitting.
+
+When a variable is either empty or contains only whitespace, bash will
+strip that value away whenever it is expanded without quotation marks.
+This is irrespective of the IFS setting:
+
+{% highlight bash %}
+> numargs () { echo "Number of arguments is: $#" ;}
+> myvar=' '
+> numargs "$myvar"
+Number of arguments is: 1
+> numargs $myvar
+Number of arguments is: 0
+{% endhighlight %}
+
+The *myvar* expansion without quotes was simply swept away and not fed
+to *numargs*.
+
+This can especially be an issue if the expansion is part of a larger set
+of arguments to a function call:
+
+{% highlight bash %}
+myfunc $one $two $three
+{% endhighlight %}
+
+If *two* expands to whitespace or an empty string, it will disappear,
+and the value of *three* will be the second argument to *myfunc* rather
+than the third.  That's certainly not the desired behavior.
+
+There are two ways to deal with this.  The first is to simply quote all
+expansions, which gets us back to square one.  Oh well, but it's
+reasonable.
+
+The second is to simply bear in mind the occasions where a variable may
+legitimately expand to whitespace or an empty string, and to quote those
+occasions only.
+
+That gives much better looking code in most cases, but it requires more
+mindfulness.  If you're writing a function which accepts such arguments,
+be sure write tests which use such arguments to ensure that your results
+come out correctly as well.  That means you will need to employ quoting
+everywhere that argument is used within your function.
+
+This is by far the biggest drawback of trying not to use double-quotes
+everywhere.  It's up to you how you want to approach it.  Personally I
+think it's worth the extra mindfulness on occasion in order to avoid
+having to quote everything all the time.
+
 Updated Outline
 ---------------
 
@@ -137,7 +190,7 @@ outline:
 IFS=''
 set -o noglob
 
-source $(dirname -- $(readlink --canonicalize -- $BASH_SOURCE))/../lib/support.bash
+source $(dirname $(readlink -f $BASH_SOURCE))/../lib/support.bash
 
 main () {
   hello_world
@@ -153,13 +206,8 @@ strict_mode on
 main $@
 {% endhighlight %}
 
-Notice the lack of quotation marks in the *source* and *main*
+Notice the lack of need for quotation marks in the *source* and *main*
 invocations.
-
-We could move the *IFS* and *noglob* settings into the support lib, but
-I like it to be explicit in the main script, and also that would require
-proper double-quoting on the *source* statement, since that runs before
-the support lib is loaded.
 
 Continue with [part 20] - scoping
 

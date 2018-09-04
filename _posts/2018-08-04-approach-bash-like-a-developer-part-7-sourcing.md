@@ -38,7 +38,7 @@ The second option is discover the path of the current file and source
 the target file relative to that path. Here's what that looks like:
 
 {% highlight bash %}
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/path/to/file
+source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/path/to/file
 {% endhighlight %}
 
 Breaking it down, first there is *BASH_SOURCE*.  This is a reference to
@@ -47,12 +47,12 @@ relative to where it was called from.  For example, if the file were
 executed from its own directory, it might simply contain the filename
 and nothing more.
 
-Because we need the pathname to the current file, we use *readlink
---canonicalize*.  This is a feature of GNU readlink which returns the
-precise path, including filename, of the argument. It even resolves
-symlinks to the true path of the file.  There is an alternative called
-*realpath* which does the same thing, but is not as available on the
-platforms on which I work.
+Because we need the pathname to the current file, we use *readlink -f*.
+This is a feature of GNU readlink which returns the precise path,
+including filename, of the argument. It even resolves symlinks to the
+true path of the file.  There is an alternative called *realpath* which
+does the same thing, but is not as available on the platforms on which I
+work.
 
 While that returns the filename included with the path, we only want the
 directory name, so *dirname* finishes the job. After that we simply

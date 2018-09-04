@@ -34,7 +34,7 @@ Open *hello-world_shpec.bash* in an editor and add the following to the
 beginning:
 
 {% highlight bash %}
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../bin/hello-world
+source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/../bin/hello-world
 {% endhighlight %}
 
 That finds the true location of *hello-world_shpec.bash* via *readlink*,

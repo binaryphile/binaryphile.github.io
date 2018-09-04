@@ -96,7 +96,7 @@ file this time:
 {% highlight bash %}
 set -o nounset
 
-source "$(dirname -- "$(readlink --canonicalize -- "$BASH_SOURCE")")"/../bin/hello-world
+source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/../bin/hello-world
 
 describe hello_world
   it "echos 'hello, world!'"

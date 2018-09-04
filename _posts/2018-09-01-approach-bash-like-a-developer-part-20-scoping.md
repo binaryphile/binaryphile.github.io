@@ -78,8 +78,8 @@ scoping.  When trying to read or write a global variable, there is no
 way to tell whether you've just written to the real global variable, or
 a local variable of the same name in a caller's scope.  Depending on the
 context of how a function has been called, which itself can vary from
-call to call, it may or may not be able to pass information correctly
-via global variables.
+call to call, your function may or may not be able to pass information
+correctly via global variables.
 
 Reconsider our code above.  *inner_function* had no idea which *lvar* it
 was modifying.  If we didn't know about *outer_function*'s use of
@@ -166,10 +166,10 @@ someone who follows the same practices.  Really that's the only thing
 you can do, since dynamic scoping simply won't protect your variables
 from being messed with.
 
-Continue with [part 21] - data types
+Continue with [part 21] - variable environments
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-01-approach-bash-like-a-developer-part-19-disabling-word-splitting  %}
   [lexical scoping]: https://en.wikipedia.org/wiki/Scope_(computer_science)#Lexical_scoping
   [dynamic scoping]: https://en.wikipedia.org/wiki/Scope_(computer_science)#Dynamic_scoping
-  [part 21]:      {% post_url 2018-09-02-approach-bash-like-a-developer-part-21-data-types                %}
+  [part 21]:      {% post_url 2018-09-02-approach-bash-like-a-developer-part-21-environment-variables     %}
