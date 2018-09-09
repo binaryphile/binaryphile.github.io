@@ -89,44 +89,8 @@ Additionally, now you don't have to think about how quotations nest
 inside command substitutions, which can be non-intuitive even (or
 especially) to programmers of other languages.
 
-Path Expansion
---------------
-
-The second implication I mentioned has to do with *[path expansion]*, or
-*globbing*.
-
-If you followed the standard practice of quoting all of your expansions,
-you were also getting protection from this automatic shell feature as
-well.
-
-After expansions and word splitting, bash looks for glob expressions and
-matches them to files and directories in the current directory,
-substituting any results it finds.
-
-That means if you have a value which contains \*, *?* or *[chars]*, then
-it will be checked against the filesystem and possibly changed.
-
-For example, this echos "helloa", not "hello?":
-
-{% highlight bash %}
-touch helloa
-myvar=hello?
-echo $myvar
-{% endhighlight %}
-
-Inspecting the variable with *declare -p myvar* shows that it indeed has
-the question mark in it.  It's the echo command which performs the path
-expansion.
-
-Mostly I don't concern myself with this, since the odds are typically
-very low that a value I care about also happens to expand to a path.
-
-However, be aware that it happens.  Without going further into detail,
-I'll simply recommend that you disable path expansion in your scripts
-using *set -o noglob* and only enable it when you need it.
-
-One Last Exception
-------------------
+Another Exception
+-----------------
 
 If you haven't been quoting variable expansion up until now, you'll
 probably run into this one eventually.  It unfortunately is still an
@@ -178,42 +142,13 @@ everywhere.  It's up to you how you want to approach it.  Personally I
 think it's worth the extra mindfulness on occasion in order to avoid
 having to quote everything all the time.
 
-Updated Outline
----------------
+Aside from null argument removal, there's one more issue which can
+affect unquoted expansions, which we'll discuss next.
 
-Given all of this, here's the updated version of our basic script
-outline:
-
-{% highlight bash %}
-#!/usr/bin/env bash
-
-IFS=''
-set -o noglob
-
-source $(dirname $(readlink -f $BASH_SOURCE))/../lib/support.bash
-
-main () {
-  hello_world
-}
-
-hello_world () {
-  echo "hello, world!"
-}
-
-sourced && return
-strict_mode on
-
-main $@
-{% endhighlight %}
-
-Notice the lack of need for quotation marks in the *source* and *main*
-invocations.
-
-Continue with [part 20] - scoping
+Continue with [part 19.5] - disabling path expansion
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-31-approach-bash-like-a-developer-part-18-word-splitting            %}
   [Internal Field Separator]: http://mywiki.wooledge.org/IFS
   [here]:         https://www.gnu.org/software/bash/manual/bashref.html#Word-Splitting
-  [path expansion]: http://wiki.bash-hackers.org/syntax/expansion/globs
-  [part 20]:      {% post_url 2018-09-01-approach-bash-like-a-developer-part-20-scoping                   %}
+  [part 19.5]:      {% post_url 2018-09-09-approach-bash-like-a-developer-part-19.5-disabling-path-expansion %}

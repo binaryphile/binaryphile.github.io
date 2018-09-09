@@ -10,6 +10,9 @@ way that's safer and more structured than your basic script.
 
 See [part 1] if you want to catch the series from the start.
 
+[Last time], we talked about vim as an editor.  This time, let's discuss
+how to begin your first bash script.
+
 I'm going to assume at least a passing familiarity with bash
 programming, while still covering the facets of the basics on which this
 series will rely.
@@ -128,11 +131,12 @@ you do so, you therefore shouldn't use the *.sh* extension since your
 script won't be *.sh*-compatible. To be clear and proper, use *.bash*
 instead.
 
-Continue with [part 4] - failing.
+Continue with [part 4] - failure!
 
   [part 1]:               {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
+  [Last time]:            {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim %}
   [Bash Shell Scripting]: https://en.wikibooks.org/wiki/Bash_Shell_Scripting
   [homebrew]:             https://brew.sh
   [shebang]:              https://en.wikipedia.org/wiki/Shebang_(Unix)
   [google guidelines]:    https://google.github.io/styleguide/shell.xml#File_Extensions
-  [part 4]:               {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-failing %}
+  [part 4]:               {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-failure %}

@@ -10,8 +10,8 @@ way that's safer and more structured than your basic script.
 
 See [part 1] if you want to catch the series from the start.
 
-[Last time], we disabled word splitting and path expansion.  This time,
-let's discuss variable scoping.
+[Last time], we disabled path expansion.  This time, let's discuss
+variable scoping.
 
 Bash Scoping
 ------------
@@ -166,10 +166,10 @@ someone who follows the same practices.  Really that's the only thing
 you can do, since dynamic scoping simply won't protect your variables
 from being messed with.
 
-Continue with [part 21] - variable environments
+Continue with [part 21] - environment variables
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
-  [Last time]:    {% post_url 2018-09-01-approach-bash-like-a-developer-part-19-disabling-word-splitting  %}
+  [Last time]:    {% post_url 2018-09-09-approach-bash-like-a-developer-part-19.5-disabling-path-expansion  %}
   [lexical scoping]: https://en.wikipedia.org/wiki/Scope_(computer_science)#Lexical_scoping
   [dynamic scoping]: https://en.wikipedia.org/wiki/Scope_(computer_science)#Dynamic_scoping
   [part 21]:      {% post_url 2018-09-02-approach-bash-like-a-developer-part-21-environment-variables     %}

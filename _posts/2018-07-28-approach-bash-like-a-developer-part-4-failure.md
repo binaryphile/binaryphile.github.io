@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 4 - Failing"
+title:  "Approach Bash Like a Developer - Part 4 - Failure!"
 date:   2018-07-28 00:00:00 +0000
 categories: bash
 ---
@@ -9,6 +9,9 @@ This is part four of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script.
 
 See [part 1] if you want to catch the series from the start.
+
+[Last time], we discussed how to start a script.  This time, let's
+discuss the first part of writing tests...failure.
 
 Pass the Test
 -------------
@@ -146,6 +149,7 @@ as getting the expected value in the assertion.
 Continue with [part 5] - success!
 
   [part 1]:                           {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
+  [Last time]:                        {% post_url 2018-07-26-approach-bash-like-a-developer-part-3-the-start %}
   [Test-First Design]:                http://wiki.c2.com/?TestFirstDesign
   [Test-Driven Design]:               http://agiledata.org/essays/tdd.html
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
