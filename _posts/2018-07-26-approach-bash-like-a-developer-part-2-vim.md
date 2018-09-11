@@ -41,6 +41,10 @@ See my [vim configuration repository] for full details, but here are a
 couple tips (and a tip of the cap to mutewinter's Vim Configuration of
 Champions, from which most of these come):
 
+-   a plugin manager - [vim-plug] is a lightweight one
+
+-   sensible defaults - everyone should start with [vim-sensible]
+
 -   auto-delimiters - having matching parentheses, braces and quotes
     auto-added can be really nice. Try [delimitMate].
 
@@ -92,7 +96,7 @@ set expandtab
 {% endhighlight %}
 
 To indent and de-indent a single line or selected blocks of code, use
-the *<<* and *>>* commands.
+the `<<` and `>>` commands.
 
 The Show Must Go On
 -------------------
@@ -138,6 +142,8 @@ Continue with [part 3] - the start.
   [Programmer's Notepad]:         http://www.pnotepad.org/
   [Atom]:                         https://atom.io/
   [vim configuration repository]: https://github.com/binaryphile/dot_vim
+  [vim-plug]:                     https://github.com/junegunn/vim-plug
+  [vim-sensible]:                 https://github.com/tpope/vim-sensible
   [jellybeans]:                   https://github.com/nanotech/jellybeans.vim
   [quick-scope]:                  https://github.com/unblevable/quick-scope
   [delimitMate]:                  https://github.com/Raimondi/delimitMate
