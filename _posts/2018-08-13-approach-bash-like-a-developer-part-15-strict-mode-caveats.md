@@ -13,66 +13,18 @@ See [part 1] if you want to catch the series from the start.
 [Last time], we updated our outline script with strict mode.  This time,
 let's discuss a couple more caveats about strict mode.
 
-Suspension of Disbelief
------------------------
-
-As mentioned in an [earlier post], boolean expressions can suspend the
-errexit setting.  This is the basis for the *||:* method of ignoring
-errors:
-
-{% highlight bash %}
-erroring_command ||:
-{% endhighlight %}
-
-This is fine for simple commands such as *mkdir* or *grep*, or for
-simple functions which don't contain much logic.
-
-However, this becomes problematic when you want the benefit of errexit,
-but you also need to use the function in a boolean expression.  For
-example, you frequently see conditional execution of a command using
-*&&*:
-
-{% highlight bash %}
-# show the contents of a directory but only if it exists
-(cd some_directory 2>/dev/null && echo *)
-{% endhighlight %}
-
-If the left-hand portion of the expression is *cd*, that's not likely to
-be of interest to us.  However, if it's your own complicated function
-instead, then you may care very much that it should exit if it goes
-wrong.
-
-In fact, as we'll see later, we can even get bash to give us a traceback
-of where the function went wrong, precisely like other languages do,
-which can be very useful for debugging.
-
-What can you do about it?  Well, not much actually.  Don't use
-complicated functions as the left-hand side of a boolean expression,
-unless you're sure they are well-tested and bug-free.
-
-Also, avoid booleans if your code relies at all on the assumption that
-an error will cause it to stop.  If your code relies on that assumption,
-all bets are off when errexit is suspended.
-
-Fortunately, this is generally under your control so long as you are
-conscious of it.
-
-Note that all of this applies to the condition of an *if then*
-statement.  The condition of the *if* has errexit suspended for its
-evaluation, just as booleans do.
-
 Many Returns
 ------------
 
-As detailed in the last point, the left-hand side of a boolean *&&* will
-not trigger errexit.
+As mentioned in the discussion on strict mode, the left-hand side of a
+boolean *&&* will not trigger errexit.  However, there can still be an
+issue with errexit if the last line in your function is an boolean *&&*
+expression.
 
-However, there can still be an issue if it is the last line in your
-function.  When the left-hand of the expression returns false, the
-right-hand portion will not be executed.  Since it is the last line in
-your function, the function will then return, and it will return the
-value of the last command executed. That's the conditional which
-returned false.
+When the left-hand of the expression returns false, the right-hand
+portion will not be executed.  Since it is the last line in your
+function, the function will then return, and it will return the value of
+the last command executed. That's the conditional which returned false.
 
 Even though the function will have executed correctly, it will return
 false, and that return will cause errexit to trigger.
@@ -104,6 +56,48 @@ command && rc=$? || rc=$?
 
 Whether *command* succeeds or fails, the result code will be captured,
 and errexit is suspended by the *&&*.
+
+Return Codes on Your Functions
+------------------------------
+
+The *command && rc=$? || rc=$?* trick works well for external and
+builtin commands, since they don't need errexit to detect when one of
+their own internal steps goes wrong.  Your functions, however, do.
+
+If you are coding your functions conscientiously, that means they are
+written to detect their own error conditions and return an appropriate
+code as the return value, rather than stop the script.
+
+However, you still want errexit to function so that the error cases you
+haven't detected with your code still stop the script.  This allows you
+to debug the script, and to prevent it from continuing with faulty
+assumptions about the state of the things.
+
+I used to write functions so that they returned error codes when
+appropriate, and then used an *||* to take action if they did:
+
+{% highlight bash %}
+myfunction || die "myfunction ran into an error!"
+{% endhighlight %}
+
+That method suspends errexit, which causes the issues I just mentioned.
+
+Instead, I now write the function to return an error code in a
+designated global variable instead.  I use *__err* for that purpose.
+This means that the function doesn't have to be tested with a boolean *||*.
+Instead I check the variable after the function has finished:
+
+{% highlight bash %}
+myfunction
+! ((__err)) || die "myfunction ran into an error!"
+{% endhighlight %}
+
+So in detectable error scenarios, I write the function to return a 0
+return code and instead set *__err*, which thus doesn't trip errexit.
+
+In order for this to work, you have to remember to set *__err=0* at the
+beginning of your function so you don't accidentally get the last
+function's value for *__err*.
 
 Set on You
 ----------

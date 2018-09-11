@@ -96,9 +96,11 @@ If you haven't been quoting variable expansion up until now, you'll
 probably run into this one eventually.  It unfortunately is still an
 issue when you turn off word splitting.
 
-When a variable is either empty or contains only whitespace, bash will
-strip that value away whenever it is expanded without quotation marks.
-This is irrespective of the IFS setting:
+When a variable contains a blank value, bash will strip that value away
+whenever it is expanded without quotation marks.  A blank value is
+either an empty string or one which consists solely of whitespace.
+
+Here's an example on the command line:
 
 {% highlight bash %}
 > numargs () { echo "Number of arguments is: $#" ;}
@@ -132,17 +134,17 @@ legitimately expand to whitespace or an empty string, and to quote those
 occasions only.
 
 That gives much better looking code in most cases, but it requires more
-mindfulness.  If you're writing a function which accepts such arguments,
-be sure write tests which use such arguments to ensure that your results
-come out correctly as well.  That means you will need to employ quoting
-everywhere that argument is used within your function.
+mindfulness.  If you're writing a function which accepts blank
+arguments, be sure write tests which use blank arguments to ensure that
+your results come out correctly as well.  That means you will need to
+employ quoting everywhere that argument is used within your function.
 
 This is by far the biggest drawback of trying not to use double-quotes
 everywhere.  It's up to you how you want to approach it.  Personally I
 think it's worth the extra mindfulness on occasion in order to avoid
 having to quote everything all the time.
 
-Aside from null argument removal, there's one more issue which can
+Aside from blank argument removal, there's one more issue which can
 affect unquoted expansions, which we'll discuss next.
 
 Continue with [part 19.5] - disabling path expansion

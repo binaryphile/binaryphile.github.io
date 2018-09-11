@@ -87,6 +87,17 @@ was modifying.  If we didn't know about *outer_function*'s use of
 called *lvar* instead.  Depending on whether the variable *lvar* exists
 in a caller's scope, we could get two very different outcomes.
 
+Technically speaking, however, that isn't 100% true.  You *can* enforce
+assigning values to the global scope with the *declare -g myvar=myvalue*
+statement.
+
+You cannot, however, enforce the reading of a variable from the global
+scope, so *declare -g*'s use is limited.  For example, you can use it
+ensure that the value you are returning from a function via a global
+variable actually makes it to the global scope, but that's about it.
+
+As another demonstration, consider the following code:
+
 {% highlight bash %}
 IFS=''
 set -o noglob
