@@ -64,9 +64,6 @@ current working directory before you call *readlink* on *BASH_SOURCE*.
 Note that the quotation marks are important, but we'll get into those in
 a later post.
 
-Also note that the standalone double-dashes are slightly less important,
-but good practice for safe bash programming.
-
 Continue with [part 8] - support library
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
