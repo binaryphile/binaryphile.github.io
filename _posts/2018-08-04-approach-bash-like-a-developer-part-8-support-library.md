@@ -38,7 +38,7 @@ we've moved down one level in the call stack.
 Note that there's no shebang for a library file since it's never run as
 a command.  The file should also not be set executable.
 
-*bin/hello_world:*
+*bin/hello-world:*
 
 {% highlight bash %}
 #!/usr/bin/env bash
@@ -58,7 +58,7 @@ sourced && return
 main "$@"
 {% endhighlight %}
 
-With this arrangement, *hello_world* can focus on what it does without
+With this arrangement, *hello-world* can focus on what it does without
 distraction.
 
 For its part, the support library can supply its functionality for all
@@ -66,10 +66,10 @@ of our projects.  All that is required is a copy of the file and the
 *source* statement at the top of the script.
 
 One benefit of this method of sourcing is that you can symlink to
-*hello_world* from another location and it will still find the support
+*hello-world* from another location and it will still find the support
 library correctly, despite the fact that the link will not share the
 same relative position to the library.  That's due to *readlink's*
-ability to find the true location of *hello_world*.
+ability to find the true location of *hello-world*.
 
 Continue with [part 9] - another test
 
