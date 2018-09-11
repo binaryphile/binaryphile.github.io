@@ -112,6 +112,7 @@ extraneous information.
 To be fair, one possibly valid reason is that you use a
 syntax-highlighting editor which doesn't detect the filetype correctly
 unless the file has the *.sh* extension. Consider getting a new editor.
+Not kidding.
 
 Any executable bash script will have the shebang as the first line. Any
 editor worth its salt should detect such and offer the correct
