@@ -58,8 +58,8 @@ This one is quite a bit trickier than our earlier tests. The function we
 want to test, *sourced*, has to be in another file, not this test file.
 
 Since we'll be creating that file, we'll take advantage of unix's
-*mktemp* command, which will create a directory in a temporary location.
-When we're done with it, we'll use *rm* to remove the directory.
+*mktemp* command, which will create a file in a temporary location.
+When we're done with it, we'll use *rm* to remove the file.
 
 One bit of preparation at the top of the file is to pin down the
 location of the *support.bash* file explicitly, since the temporary file
