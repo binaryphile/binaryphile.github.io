@@ -37,7 +37,7 @@ program continues, resulting in the issues discussed earlier. This
 approach requires programmer perfection in order to work correctly.
 
 Most modern programming languages handle these issues with an
-[*exception*]-based error system. Bash doesn't have such a method, but
+*[exception]*-based error system. Bash doesn't have such a method, but
 you can at least tell it to stop on errors rather than continue blindly.
 
 While a developer mindset favors strictness, this approach in bash
@@ -126,5 +126,6 @@ Continue with [part 12] - working in strict mode
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
   [Last time]:  {% post_url 2018-08-23-approach-bash-like-a-developer-part-10.5-aside-on-aliases      %}
+  [exception]:  https://en.wikipedia.org/wiki/Exception_handling#Exception_support_in_programming_languages
   [excellent article]: http://redsymbol.net/articles/unofficial-bash-strict-mode/
   [part 12]:    {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}
