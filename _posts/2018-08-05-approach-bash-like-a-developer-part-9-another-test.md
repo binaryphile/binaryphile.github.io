@@ -17,24 +17,27 @@ function!  Let's fix that now.
 *shpec/support_shpec.bash:*
 
 {% highlight bash %}
+export TMPDIR=${TMPDIR:-$HOME/tmp}
+mkdir -p "$TMPDIR"
+
 support_lib=$(dirname "$(readlink -f "$BASH_SOURCE")")/../lib/support.bash
 
 describe sourced
   it "returns true when in a file being sourced"
-    dir=$(mktemp -d) || return
-    printf 'source "%s"\nsourced' "$support_lib"  >"$dir"/example
-    (source "$dir"/example)
+    file=$(mktemp) || return
+    printf 'source "%s"\nsourced' "$support_lib"  >"$file"
+    (source "$file")
     assert equal 0 $?
-    rm -rf "$dir"
+    rm "$file"
   end
 
   it "returns false when that file is run"
-    dir=$(mktemp -d) || return
-    printf 'source "%s"\nsourced' "$support_lib" >"$dir"/example
-    chmod 775 "$dir"/example
-    "$dir"/example
+    file=$(mktemp) || return
+    printf 'source "%s"\nsourced' "$support_lib" >"$file"
+    chmod 775 "$file"
+    "$file"
     assert unequal 0 $?
-    rm -rf "$dir"
+    rm "$file"
   end
 end
 {% endhighlight %}
@@ -65,21 +68,21 @@ won't have the benefit of a fixed location relative to it.
 Let's look at the first test, piece by piece:
 
 {% highlight bash %}
-dir=$(mktemp -d) || return
+file=$(mktemp) || return
 {% endhighlight %}
 
-Here we make the test directory.  If it happens to fail, we bail here,
+Here we make the a test file.  If it happens to fail, we bail here,
 returning the error code.
 
 {% highlight bash %}
-printf 'source "%s"\nsourced' "$support_lib" >"$dir"/example
+printf 'source "%s"\nsourced' "$support_lib" >"$file"
 {% endhighlight %}
 
-This line creates the example file which will be sourced, importing and
-calling the *sourced* function.
+This line creates the content of the file which will be sourced,
+importing and calling the *sourced* function.
 
 {% highlight bash %}
-(source "$dir"/example)
+(source "$file")
 {% endhighlight %}
 
 Here we source the file.  On principle, we're using a subshell which are
@@ -103,10 +106,10 @@ should be 0, which is bash's *ok* return value.  *$?* refers to the
 return value of the last command.
 
 {% highlight bash %}
-rm -rf "$dir"
+rm "$file"
 {% endhighlight %}
 
-Now we clean up the file and directory.
+Now we clean up the file.
 
 The second test works the same as the first, but sets the file
 executable and runs it instead.  This time we expect *false* from
