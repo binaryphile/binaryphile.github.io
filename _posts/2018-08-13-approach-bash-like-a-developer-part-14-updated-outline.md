@@ -51,7 +51,7 @@ write.  However, it's missing one piece...where are *sourced* and
 *strict_mode* coming from?
 
 As you can probably guess, I've consolidated all of my support functions
-into my own library.  It's called [*concorde.bash*].  Feel free to take
+into my own library.  It's called *[concorde.bash]*.  Feel free to take
 a look at it and use it for your own projects.
 
 If I have control over the system environment, such as when I write a
