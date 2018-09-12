@@ -18,7 +18,7 @@ Many Returns
 
 As mentioned in the discussion on strict mode, the left-hand side of a
 boolean *&&* will not trigger errexit.  However, there can still be an
-issue with errexit if the last line in your function is an boolean *&&*
+issue with errexit if the last line in your function is a boolean *&&*
 expression.
 
 When the left-hand of the expression returns false, the right-hand
@@ -48,7 +48,9 @@ Crack the Return Code
 
 Saving the return code of a command which has failed is also a challenge
 with strict mode.  You can always toggle strict mode, but you can also
-use boolean suspension.  The trick is to cover both alternatives:
+use boolean suspension.  There are two other options.
+
+One trick is to cover both alternatives:
 
 {% highlight bash %}
 command && rc=$? || rc=$?
@@ -56,6 +58,18 @@ command && rc=$? || rc=$?
 
 Whether *command* succeeds or fails, the result code will be captured,
 and errexit is suspended by the *&&*.
+
+The other option is to use negation, which also defeats errexit:
+
+{% highlight bash %}
+! command
+rc=$?
+{% endhighlight %}
+
+In this case, rc will be the opposite of the actual return code, i.e. it
+will be 0 if *command* threw an error and 1 if it didn't.  That means
+you lose the actual error code returned, if it was an error, but if all
+you care about is whether an error was thrown or not, it works.
 
 Return Codes on Your Functions
 ------------------------------

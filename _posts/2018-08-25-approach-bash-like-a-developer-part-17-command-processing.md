@@ -22,8 +22,7 @@ that happens?  And the next, and the next?
 It can actually be a bit tough to get the full picture, even from fairly
 good docs on the web.  The following is compiled from a few different
 sources.  Here's one that is particularly enlightening, [from the
-developer himself].  There's also a [maintainer's list of steps] which
-is good.
+developer himself].
 
 Here's what happens, in order:
 
@@ -142,7 +141,6 @@ Continue with [part 18] - word splitting
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-08-24-approach-bash-like-a-developer-part-16-recap                     %}
   [from the developer himself]: http://aosabook.org/en/bash.html
-  [maintainer's list of steps]: http://wiki.bash-hackers.org/scripting/bashbehaviour#posix_run_mode
   [history expansion]: https://www.gnu.org/software/bash/manual/html_node/History-Interaction.html
   [alias substitution]: https://www.gnu.org/software/bash/manual/html_node/Aliases.html
   [brace expansion]: http://wiki.bash-hackers.org/syntax/expansion/brace
