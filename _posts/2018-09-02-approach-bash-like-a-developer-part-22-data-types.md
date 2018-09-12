@@ -130,7 +130,7 @@ declare -A myhash=( [one]=value1 [two]=value2 [three]="value 3" )
 {% endhighlight %}
 
 Unlike the other types, hashes can only be declared with the *declare
--A* (or *local*) command.
+-A* (or *local -A*) command.
 
 The *printf* command can also assign directly to array/hash elements
 with the *-v* option.
@@ -173,17 +173,21 @@ write to the variable *variable_name* instead.
 Automatic Conversion
 --------------------
 
-If you use the literal assignment syntax, you can change a string
-variable to an array by assigning an array value.  The same cannot be
-done with a hash literal assignment, it just turns the variable into an
-array as well.
+You can change a string variable to an array automatically if you use
+the literal assignment syntax to assign an array value to an existing
+string variable, or if you assign a value to a subscript of an existing
+string variable.
+
+The same cannot be done with a hash literal assignment, since it just
+turns the variable into a normal array as well.
 
 You cannot, however, convert an array variable back to a string or
-integer. Since it is irreversible, I never convert a string to an array.
-It won't really hurt to do so, and you can treat the array as a string
-by only using the unsubscripted form to work with just the zeroth
-element.  I have, however, read that unsubscripted array references do
-not work this way in all contexts, so I avoid it.
+integer, at least not without unsetting it.
+
+Since the conversion is irreversible, I never convert a string to an
+array so I always know what kind of variable I'm dealing with.  This
+prevents surprises when programmatically testing the results of *declare
+-p*, for example.
 
 Continue with [part 23]
 

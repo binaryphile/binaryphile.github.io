@@ -101,7 +101,7 @@ echo /home/me/path
         echo hello there
 
     Note that *hello* and *there* above are separate words in the
-    result.
+    result because the expansion was not double-quoted.
 
 -   *[pathname expansion]* - expand a path pattern into a list of
     matching directory and filenames, also known as *globbing* - e.g.

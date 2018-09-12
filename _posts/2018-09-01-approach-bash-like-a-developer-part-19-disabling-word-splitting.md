@@ -46,13 +46,13 @@ Notice two things:
 -   despite the fact that it is all-capitalized, *IFS* is not an
     environment variable, so you don't export the setting
 
--   *IFS* needs to be set, but blank
+-   *IFS* needs to be set, but empty
 
 If you unset *IFS*, the shell will provide its default value whenever it
 word splits, even though the variable doesn't exist.  That's not what
 you want.
 
-If you were to export the blank *IFS*, that would turn off word
+If you were to export the empty *IFS*, that would turn off word
 splitting for all subprocesses, which is also not what you want.  We
 want to control our own environment and not mess up other ones.
 
