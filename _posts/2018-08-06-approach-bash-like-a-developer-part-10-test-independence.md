@@ -104,7 +104,7 @@ describe hello_world
     result=$(hello_world)
     assert equal "hello, world!" "$result"
     return "$_shpec_failures"
-  ); (( _shpec_failures += $? ))
+  ); ((_shpec_failures += $?))
   end
 end
 {% endhighlight %}
