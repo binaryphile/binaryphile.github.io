@@ -54,10 +54,14 @@ There are two collection types:
 -   associative arrays - a.k.a. hashes - key-value pairs of the basic
     types
 
-Arrays can skip indexes or have items deleted, which makes them sparse.
-They can also mix strings and integers among their elements.
+Despite the fact that bash refers to both of these types as arrays, I
+prefer to keep things clear by referring to one as arrays and the
+other as hashes exclusively.
 
-It is not possible to store collection types as items in a collection.
+Arrays can skip indexes or have items deleted, which makes them sparse.
+
+It is not possible to store collection types as items in another
+collection.
 
 Assignment to individual array items use bracket notation, e.g.
 *myarray[0]=zero*. The index can be an arithmetic expression following
@@ -69,7 +73,8 @@ quotes.  Like arrays, the values can be a mix of strings and integers.
 Hashes do not interpret keys as arithmetic expressions.
 
 Both arrays and hashes can be declared with the integer option, which
-forces all elements to automatically be an integer.
+forces all elements to automatically be an integer.  You cannot mix
+strings and integer types within an array nor hash.
 
 Other Attributes
 ----------------
@@ -91,8 +96,8 @@ Assigning Values
 
 Assigning values to the basic types is straightforward so I won't go
 over it.  *declare* and *local* also allow you to assign values in the
-same manner, and allow assignments to multiple variables in one
-statement.
+same manner.  They also allow assignments to multiple variables in one
+statement.  You can do the same with regular assignments as well.
 
 There are two forms for assigning values to the collection types.
 
@@ -104,6 +109,9 @@ includes an index/key on the left-hand side:
 myhash[key]=myvalue
 myarray[index]=myvalue
 {% endhighlight %}
+
+For a hash, you must declare the variable with *declare -A* before
+assigning values this way.
 
 For arrays, assigning to the unsubscripted name is the same as assigning
 to the zeroth element.  Expanding the unsubscripted name also expands
@@ -129,11 +137,11 @@ For hashes, it looks like:
 declare -A myhash=( [one]=value1 [two]=value2 [three]="value 3" )
 {% endhighlight %}
 
-Unlike the other types, hashes can only be declared with the *declare
--A* (or *local -A*) command.
+Unlike the other types, hashes can only be created with the *declare -A*
+(or *local -A*) command.
 
 The *printf* command can also assign directly to array/hash elements
-with the *-v* option.
+(as well as regular variables) with the *-v* option.
 
 Arrays also support the *+=* operator, which appends to the end:
 

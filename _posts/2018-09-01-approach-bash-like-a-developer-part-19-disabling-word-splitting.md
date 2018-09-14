@@ -89,6 +89,45 @@ Additionally, now you don't have to think about how quotations nest
 inside command substitutions, which can be non-intuitive even (or
 especially) to programmers of other languages.
 
+An Exception
+------------
+
+There are two special parameter expansions which are affected by the
+disabling of word splitting.
+
+The first is the `$*` expansion, which I'll call the [splat] expansion.
+
+The splat expansion is the means by which you can concatenate all of the
+current positional arguments into a whitespace-delimited string.
+
+Without quotes, splat expands to each argument individually.
+
+With quotes, splat expands to each argument, concatenated into a single
+string by using the first character of the *IFS* variable to join the
+terms.
+
+For example, if the positional arguments are *one*, *two* and *three*,
+then `"$*"` expands to "one two three" if *IFS* is the default value.
+
+When set to empty, however, the above parameters would expand to
+"onetwothree", which is typically not useful.
+
+If you don't need a single string, then you can use the bare splat
+expansion to reference all positional variables.
+
+When *IFS* is empty, however, the unquoted at expansion `$@` expands to
+the separate positional parameters, so it's the same as `$*`.  Quoted,
+it expands to "one two three" with spaces, so it's generally more useful
+than splat.
+
+For example, to generate the string "Arguments are one two three" when
+IFS is empty, the expansion "Arguments are $@" would work while
+"Arguments are $*" would not.
+
+Also, while unquoted `$@` works to generate the separate positional
+arguments, special expansions of `$@`, such as `${@#--}` to remove
+leading double-dashes, don't work without double quotes: `"${@#--}"`.
+
 Another Exception
 -----------------
 
@@ -153,4 +192,5 @@ Continue with [part 19.5] - disabling path expansion
   [Last time]:    {% post_url 2018-08-31-approach-bash-like-a-developer-part-18-word-splitting            %}
   [Internal Field Separator]: http://mywiki.wooledge.org/IFS
   [here]:         https://www.gnu.org/software/bash/manual/bashref.html#Word-Splitting
+  [splat]:        https://ss64.com/bash/syntax-pronounce.html#10
   [part 19.5]:      {% post_url 2018-09-09-approach-bash-like-a-developer-part-19.5-disabling-path-expansion %}

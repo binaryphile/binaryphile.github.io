@@ -102,8 +102,7 @@ an underscore instead, because spaces were how the shell separated
 words and a filename has to be operated on as a single word.
 
 At some point that changed, however, and nowadays you don't have to look
-far to find files or pathnames with spaces.  Even default folders in a
-user's home directory have them, e.g. "My Pictures" and such.
+far to find files or pathnames with spaces.
 
 If you want to store such a pathname or filename in a variable, you
 can't use that expansion without disabling word splitting with double
