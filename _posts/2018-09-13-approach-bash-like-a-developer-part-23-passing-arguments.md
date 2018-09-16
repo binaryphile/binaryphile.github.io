@@ -107,7 +107,7 @@ defaults differently, but it's still straightforward:
 
 {% highlight bash %}
 myfunc () {
-  local arg=${1:-default value}
+  local arg=${1-default value}
 
   echo "Argument is $arg"
 }
@@ -148,7 +148,9 @@ string from being a valid value to pass for that argument, which may or
 may not be acceptable.
 
 Instead, I prefer to make all optional arguments (arguments with a
-default value) be [keyword arguments].
+default value) be [keyword arguments].  This lets you choose which
+optional arguments to supply without having to worry about the other
+default values.
 
 Simple Keyword Arguments
 ------------------------
@@ -166,7 +168,7 @@ we could just iterate through the keyword arguments and *[eval]* them
 individually.  Better still, we could eval them together as a single
 string, since bash allows multiple assignments on one line.
 
-Two observations: one, *eval*'ing the assignments would create globals
+Two observations: first, *eval*'ing the assignments would create globals
 if we didn't force it with the *local* keyword.  While we may have
 already declared locals for the arguments when specifying default
 values, the caller isn't constrained from feeding our function other
@@ -179,7 +181,7 @@ better, *it accepts expansions*.  The following works:
 {% highlight bash %}
 myfunc () {
   local required_arg1=$1; shift
-  local keyword_arg2=default_value2
+  local keyword_arg2=default_value
   local $@
 
   echo "Required argument 1 is $required_arg1"
@@ -204,7 +206,7 @@ alias kwargs='(( $# )) && local'
 
 myfunc () {
   local required_arg1=$1; shift
-  local keyword_arg2=default_value2
+  local keyword_arg2=default_value
   kwargs $@
 
   echo "Required argument 1 is $required_arg1"
