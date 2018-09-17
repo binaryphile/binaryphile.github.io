@@ -56,6 +56,9 @@ If you were to export the empty *IFS*, that would turn off word
 splitting for all subprocesses, which is also not what you want.  We
 want to control our own environment and not mess up other ones.
 
+*Note:* I'll have reason later to fuss with *IFS* more, so this isn't
+the final word.  But for now, let's keep things simple and disable it.
+
 Now, there are two things to keep in mind about turning off word
 splitting.
 
