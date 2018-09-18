@@ -197,7 +197,7 @@ array so I always know what kind of variable I'm dealing with.  This
 prevents surprises when programmatically testing the results of *declare
 -p*, for example.
 
-Continue with [part 23] - passing arguments
+Continue with [part 22.5] - naming and namespaces
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-02-approach-bash-like-a-developer-part-21-environment-variables     %}
@@ -206,4 +206,4 @@ Continue with [part 23] - passing arguments
   [readonly]:     http://wiki.bash-hackers.org/commands/builtin/readonly
   [export]:       http://wiki.bash-hackers.org/commands/builtin/export
   [index expansion]: http://wiki.bash-hackers.org/syntax/arrays#metadata
-  [part 23]:      {% post_url 2018-09-13-approach-bash-like-a-developer-part-23-passing-arguments         %}
+  [part 22.5]:    {% post_url 2018-09-17-approach-bash-like-a-developer-part-22.5-naming-and-namespaces       %}

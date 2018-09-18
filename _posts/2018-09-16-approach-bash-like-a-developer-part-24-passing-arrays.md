@@ -11,7 +11,7 @@ that's safer and more structured than your basic script.
 See [part 1] if you want to catch the series from the start.
 
 [Last time], we discussed passing general arguments and keyword
-arguments.  This time, let's discuss passing arrays.
+arguments.  This time, let's discuss passing arrays [by value].
 
 General Disarray
 ----------------
@@ -55,6 +55,7 @@ between the array elements (reminder, *IFS* is empty):
 myfunc () {
   local -a "myarray=( $1 )"
 
+  # inspect myarray to see whether it worked
   declare -p myarray
 }
 
@@ -63,9 +64,15 @@ argument="one two three"
 myfunc $argument
 {% endhighlight %}
 
-So, that works pretty well.  Unfortunately, once you have an array which
-contains values with spaces, things get more complicated.  You could put
-quotes in the value:
+So, that works pretty well.  There is one potential pitfall, which is
+that this technique doesn't preserve the same indexing if the elements
+of the original array are sparse at all.  The new array starts at index
+zero and is contiguous.  I've never run into a situation where this is a
+problem, but it could be.
+
+The real problem with this technique is that once you have an array
+which contains values with spaces, things get more complicated.  You
+could put quotes in the value:
 
 {% highlight bash %}
 argument='"a value" "another value"'
@@ -80,7 +87,7 @@ have to generate the argument value:
 argument=( "a value" "another value" )
 
 # Doesn't work
-myfunc "${argument[*]}"
+myfunc $(printf '%s ' ${argument[@]})
 {% endhighlight %}
 
 You can't just slap quotes on the elements either, because
@@ -90,8 +97,7 @@ values with quotes will then mess it up:
 argument=( 'a "value"' )
 
 # Doesn't work - quotes are lost
-printf -v val '"%s" ' ${argument[@]}
-myfunc ${val% } # trim the trailing space
+myfunc $(printf '"%s" ' ${argument[@]})
 {% endhighlight %}
 
 There are a couple options here.  The first is to take advantage of
@@ -107,14 +113,13 @@ myfunc () {
 
 argument=( "a value" "another value" )
 
-val=$(declare -p argument)
-myfunc $val
+myfunc $(declare -p argument)
 {% endhighlight %}
 
 Without doing some rehabilitation on the resulting declaration however,
 you're stuck with the variable name used by the caller when you're
-*eval*ing it inside the function.  This isn't quite as easy as I'd
-prefer.
+*eval*ing it inside the function (although this does fix the sparse
+array issue).  This isn't quite as easy as I'd like.
 
 Another option is to use escaping.  Bash's *printf* command provides a
 format which escapes any characters in values which could mess up an
@@ -125,8 +130,7 @@ we haven't thought about yet too.  It's designed for this:
 {% highlight bash %}
 argument=( "a value" "another value" )
 
-printf -v val '%q ' ${argument[@]}
-myfunc ${val% }
+myfunc $(printf '%q ' ${argument[@]})
 {% endhighlight %}
 
 Works, and better than the *declare -p* method, but still not pretty.
@@ -136,10 +140,8 @@ The reason I've gone through these options is to give you an idea of
 what to do if you don't choose to use *IFS*, like I'm about to show.
 That, and I like to think out loud.
 
-The best method I've found, however, comes in two flavors, the
-ascii field-separator method and the newline method.  I'll show the
-field-separator method since it works for any kind of value, but the
-newline method is the one I prefer in practice.
+The best method I've found, however, is the ascii field-separator
+method.
 
 Separating Fields for Fun and Profit
 ------------------------------------
@@ -155,7 +157,7 @@ control character created for the purpose of separating fields in a
 record in such a way that it can't be mistaken for data in the field
 (nor data in the field being mistaken for a separator).
 
-As it happens, *IFS* can be set to this value or any other character:
+As it happens, *IFS* can be set to this value:
 
 {% highlight bash %}
 IFS=$'\037' # ascii unit separator
@@ -173,32 +175,23 @@ myfunc "${argument[*]}"
 
 Notice that the *local* declaration becomes simpler again.
 
-Simple, and foolproof.  Now that's what I'm talkin' 'bout!
+That's because word splitting is enabled again, it's just splitting on
+the unit separator character now, so there's no danger of splitting our
+actual values.  When the argument is word-split, it results in the
+normal literal syntax for an array assignment.
 
-So foolproof, in fact, that there's no reason not to use it all the
+Simple, and effective.  Now that's what I'm talkin' about! Of course,
+the caveat about sparse array indexing applies, but that's true of all
+of these methods.
+
+It's so effective in fact, that there's no reason not to use it all the
 time.  We can replace our empty *IFS* assignment in our script template
 with this *IFS* declaration instead.
 
-Something Old, Something New
-----------------------------
-
-As I mentioned a moment ago, I actually prefer the newline version
-instead:
-
-{% highlight bash %}
-IFS=$'\n'
-{% endhighlight %}
-
-The reason I prefer it is that, as you've probably noticed, most of the
-time that I've been changing *IFS* in code has been to change it to
-newline.  It's a generally useful setting.  The only time it doesn't
-work for us is when there may genuinely be newlines in values.
-
-In that case, you can choose either to employ double-quotes for those
-values, or to change IFS.  As we've seen, the unit separator makes a
-better choice in that situation than an empty *IFS*.
+Continue with [part 25] - passing hashes
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-13-approach-bash-like-a-developer-part-23-passing-arguments         %}
+  [by value]:     https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_value
   [serialization]: https://en.wikipedia.org/wiki/Serialization
   [ascii unit separator]: https://en.wikipedia.org/wiki/Delimiter#ASCII_delimited_text

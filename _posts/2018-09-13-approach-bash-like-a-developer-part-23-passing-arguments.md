@@ -10,8 +10,8 @@ that's safer and more structured than your basic script.
 
 See [part 1] if you want to catch the series from the start.
 
-[Last time], we discussed data types.  This time, let's discuss passing
-arguments to functions.
+[Last time], we discussed naming and namespaces.  This time, let's
+discuss passing arguments to functions.
 
 Functions in bash don't carry a signature or prototype for their
 arguments.  Instead, any arguments to the function appear as positional
@@ -216,8 +216,11 @@ myfunc () {
 
 There you go, poor-man's keyword arguments in bash.
 
+Continue with [part 24] - passing arrays.
+
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
-  [Last time]:    {% post_url 2018-09-02-approach-bash-like-a-developer-part-22-data-types                %}
+  [Last time]:    {% post_url 2018-09-17-approach-bash-like-a-developer-part-22.5-naming-and-namespaces   %}
   [shift]:        http://wiki.bash-hackers.org/commands/builtin/shift
   [keyword arguments]: https://en.wikipedia.org/wiki/Named_parameter
   [eval]:         http://wiki.bash-hackers.org/commands/builtin/eval
+  [part 24]:      {% post_url 2018-09-16-approach-bash-like-a-developer-part-24-passing-arrays            %}
