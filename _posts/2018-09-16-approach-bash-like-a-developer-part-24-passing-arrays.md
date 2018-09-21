@@ -39,12 +39,11 @@ function calls and not across network interfaces.
 It would be easiest to reconstitute an array if we could use the regular
 bash declaration syntax.  *eval* could make this happen if the argument
 is in the right format, but we can also use *local* the same way.  The
-trick is to use the *-a* option and make the declaration a single
-string.  This makes *local* do a second pass of evaluation after the
-expansion:
+trick is to use the *-a* option and put the parentheses in a string.
+This makes *local* do a second pass of evaluation after the expansion:
 
 {% highlight bash %}
-local -a "myarray=( $argument )"
+local -a myarray="( $argument )"
 {% endhighlight %}
 
 The question is, how to get the argument in the right syntax.  If the
@@ -53,7 +52,7 @@ between the array elements (reminder, *IFS* is empty):
 
 {% highlight bash %}
 myfunc () {
-  local -a "myarray=( $1 )"
+  local -a myarray="( $1 )"
 
   # inspect myarray to see whether it worked
   declare -p myarray
@@ -173,7 +172,10 @@ argument=( "a value" "another value" )
 myfunc "${argument[*]}"
 {% endhighlight %}
 
-Notice that the *local* declaration becomes simpler again.
+Notice that the *local* declaration becomes simpler again.  Also notice
+that the splat expansion  on the last line requires quotes in order to
+get it to use the unit separator to join the elements of the array into
+a single string.
 
 That's because word splitting is enabled again, it's just splitting on
 the unit separator character now, so there's no danger of splitting our
@@ -195,3 +197,4 @@ Continue with [part 25] - passing hashes
   [by value]:     https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_value
   [serialization]: https://en.wikipedia.org/wiki/Serialization
   [ascii unit separator]: https://en.wikipedia.org/wiki/Delimiter#ASCII_delimited_text
+  [part 25]:      {% post_url 2018-09-18-approach-bash-like-a-developer-part-25-passing-hashes            %}
