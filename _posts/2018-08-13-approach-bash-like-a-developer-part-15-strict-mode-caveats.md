@@ -37,7 +37,8 @@ semicolon and colon to the end of that line:
 condition && follow_on;:
 {% endhighlight %}
 
-As mentioned before, *:* is the same as *true*.
+*:* is a bashism which is the same as *true*.  It's appropriate here
+since we're keeping the code cleaner.
 
 Another alternative is to use an *if then* statement instead of a
 boolean *&&*.  The *if then* never returns the value of the condition as
@@ -54,6 +55,10 @@ One trick is to cover both alternatives:
 
 {% highlight bash %}
 command && rc=$? || rc=$?
+case $rc in
+  0 ) echo true ;;
+  * ) echo false;;
+esac
 {% endhighlight %}
 
 Whether *command* succeeds or fails, the result code will be captured,
@@ -63,7 +68,10 @@ The other option is to use negation, which also defeats errexit:
 
 {% highlight bash %}
 ! command
-rc=$?
+case $? in
+  0 ) echo false;; # actual error code was lost
+  * ) echo true ;;
+esac
 {% endhighlight %}
 
 In this case, rc will be the opposite of the actual return code, i.e. it
@@ -82,13 +90,13 @@ If you are coding your functions conscientiously, that means they are
 written to detect their own error conditions and return an appropriate
 code as the return value, rather than stop the script.
 
-However, you still want errexit to function so that the error cases you
-haven't detected with your code still stop the script.  This allows you
-to debug the script, and to prevent it from continuing with faulty
-assumptions about the state of the things.
+However, you still want errexit to work correctly so that the error
+cases you haven't detected with your code still stop the script.  This
+allows you to debug the script, and to prevent it from continuing with
+faulty assumptions about the state of things.
 
-I used to write functions so that they returned error codes when
-appropriate, and then used an *||* to take action if they did:
+In the past, I used to write functions so that they returned error codes
+when appropriate, and then used an *||* to take action if they did:
 
 {% highlight bash %}
 myfunction || die "myfunction ran into an error!"
@@ -97,21 +105,34 @@ myfunction || die "myfunction ran into an error!"
 That method suspends errexit, which causes the issues I just mentioned.
 
 Instead, I now write the function to return an error code in a
-designated global variable instead.  I use *__err* for that purpose.
+designated global variable instead.  I use *err__* for that purpose.
 This means that the function doesn't have to be tested with a boolean *||*.
 Instead I check the variable after the function has finished:
 
 {% highlight bash %}
 myfunction
-! ((__err)) || die "myfunction ran into an error!"
+! ((err__)) || die "myfunction ran into an error!"
 {% endhighlight %}
 
 So in detectable error scenarios, I write the function to return a 0
-return code and instead set *__err*, which thus doesn't trip errexit.
+return code and instead set *err__*, which thus doesn't trip errexit.
 
-In order for this to work, you have to remember to set *__err=0* at the
+In order for this to work, you have to remember to set *err__=0* at the
 beginning of your function so you don't accidentally get the last
-function's value for *__err*.
+function's value for *err__*.
+
+I also pretty it up with an alias:
+
+{% highlight bash %}
+alias noerror?='! (( ${err__:-} )) || (exit $err__)'
+
+myfunction
+noerror? || die "myfunction ran into an error!"
+{% endhighlight %}
+
+The *(exit $err__)* is to reset the error value to the one passed via
+*err__*, which can then be picked up by *die* or whatever
+function/command you choose to use.
 
 Set on You
 ----------

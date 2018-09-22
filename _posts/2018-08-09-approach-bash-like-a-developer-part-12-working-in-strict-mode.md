@@ -38,8 +38,7 @@ There are three methods for dealing with "acceptable" errors:
 
 -   toggle strict mode off and on
 
--   add the command as part of an *or* expression which always returns
-    true
+-   negate the command with an exclamation point
 
 Then Don't Do That
 ------------------
@@ -74,38 +73,30 @@ mode.
 We'll make a function later to turn strict mode off and on so that we
 can toggle it easily.
 
-False or True = True
---------------------
+Bang, Not!
+----------
 
-Because an error in bash is equivalent to a boolean *false*, by making
-the command part of a boolean *or* expression we can change the return
-to *true* and avoid triggering an error exit.
+Errexit does not apply to conditional expressions.  There are several
+ways that commands can be part of conditional expressions:
 
-The basic idea is:
+-   as the condition of an *if* statement
 
-{% highlight bash %}
-erroring_command || true
-{% endhighlight %}
+-   as the condition of a *while* loop
 
-The portion of the expression on the left side of a boolean operator has
-the exit on error mode suspended for its execution.  This allows the
-right-hand portion to be evaluated, especially when the operation is
-*or*.
+-   as the left side of an *||* (or) expression where the
+    right-hand-side is *true*
 
-Since the right-hand side in our case is always true, it makes the
-entire expression return true and the script can continue.
+-   in a negation
 
-Since it is used with some frequency, I tend to shorten the *|| true*
-into a smaller idiom.  It's somewhat cryptic looking at first, but it's
-used enough that it becomes easily recognizable:
+The simplest of these is negation:
 
 {% highlight bash %}
-erroring_command ||:
+! erroring_command
 {% endhighlight %}
 
-*:* is a bashism which is the same as *true*. The *||* operator doesn't
-require a space between itself and *:*, so I just turn the expression
-into a special symbol which means "turn off errexit for this command": *||:*.
+Even when the command succeeds and is then negated (resulting in false),
+the false doesn't trigger errexit because it's considered a conditional
+expression.
 
 Continue with [part 13] - implementing strict mode
 

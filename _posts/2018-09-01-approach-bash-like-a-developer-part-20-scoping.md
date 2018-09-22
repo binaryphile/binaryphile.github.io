@@ -62,24 +62,23 @@ outer_function
 
 The *local* keyword declares *lvar* to be local to *outer_function*.
 When *outer_function* calls *inner_function* however, *inner_function*
-operates on the *lvar* in the closest enclosing scope, which belongs to
-*outer_function*.  As a result, *outer_function*'s *lvar* is changed to
-"two", and that's what *outer_function* echos.
+operates on the *lvar* in the closest enclosing *runtime* scope, which
+belongs to *outer_function*.  As a result, *outer_function*'s *lvar* is
+changed to "two", and that's what *outer_function* echos.
 
-If you're careful, you can make sure that this never happens with
-functions you've written.  It's harder to have that assurance with
-third-party code, however, and being able to use third-party code is
-part of what we're trying to accomplish.  We'll address that more in a
-bit.
+If you're careful, you can make sure that your code never modifies the
+variables of functions which call it.  It's harder to have that
+assurance with third-party code, however, and being able to use
+third-party code is part of what we're trying to accomplish.  We'll
+address that more in a bit.
 
 On the other side of the coin, the called function also has a novel
 problem.  Access to the global scope is not absolute like in lexical
 scoping.  When trying to read or write a global variable, there is no
 way to tell whether you've just written to the real global variable, or
-a local variable of the same name in a caller's scope.  Depending on the
-context of how a function has been called, which itself can vary from
-call to call, your function may or may not be able to pass information
-correctly via global variables.
+a local variable of the same name in a caller's scope.  Depending on how
+a function has been called, which may vary from call to call, you may
+not be able to pass values correctly via global variables.
 
 Reconsider our code above.  *inner_function* had no idea which *lvar* it
 was modifying.  If we didn't know about *outer_function*'s use of
@@ -95,48 +94,6 @@ You cannot, however, enforce the reading of a variable from the global
 scope, so *declare -g*'s use is limited.  For example, you can use it
 ensure that the value you are returning from a function via a global
 variable actually makes it to the global scope, but that's about it.
-
-As another demonstration, consider the following code:
-
-{% highlight bash %}
-IFS=''
-set -o noglob
-
-gvar=one
-
-outer_function () {
-  local gvar
-
-  inner_function
-  echo "During outer_function is: $gvar"
-}
-
-inner_function () {
-  gvar=two
-}
-
-echo "Global is: $gvar"
-outer_function
-echo "After outer_function is: $gvar"
-inner_function
-echo "After inner_function is: $gvar"
-{% endhighlight %}
-
-Here we first use a global called *gvar* to store a value.
-*outer_function* uses the same name, but protects the global from it
-with *local*.  *inner_function* is called and modifies that variable,
-first from within *outer_function*, then directly from the global part
-of the script.  Based on where it's called, the change affects either
-the global variable or the local variable, but *inner_function* can't
-tell which one it has modified.  Here's the output:
-
-{% highlight bash %}
-Global is: one
-During outer_function is: two
-# the local variable goes away when the function ends
-After outer_function is: one
-After inner_function is: two
-{% endhighlight %}
 
 Locals Only
 -----------
@@ -155,27 +112,23 @@ Every function I write has a list of these variables right at the top:
 
 {% highlight bash %}
 hello_world () {
-  local hello_world_text
+  local text
 
-  hello_world_text="hello, world!"
+  text="hello, world!"
   echo $hello_world_text
 }
 {% endhighlight %}
 
 Declaring a variable local means that you'll never change it outside of
 your scope by accident, and that when your function ends, the variable
-ends with it.  This protects globals and variables in calling scopes.
+ends with it.
 
-If you don't do this, you are potentially messing with variables in a
-caller's scope, and that makes your code untrustworthy to be reused by
-others.
+The second thing to do would be to protect your local variables from
+changes by the functions you call.
 
-The second thing to do is to protect your local variables from changes
-by the functions you call.  How?  Well, there's nothing you can do to
-guarantee that.  The only thing you can do is to call code written by
-someone who follows the same practices.  Really that's the only thing
-you can do, since dynamic scoping simply won't protect your variables
-from being messed with.
+How?  Unfortunately it can't be guaranteed.  You can only do the next
+best thing, which is to make sure the code you call was authored by
+someone who follows the same practices you do.
 
 Continue with [part 21] - environment variables
 

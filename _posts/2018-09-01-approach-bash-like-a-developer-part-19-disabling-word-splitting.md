@@ -65,9 +65,8 @@ splitting.
 Down with Quotes
 ----------------
 
-The first is that we no longer need to quote our various expansions in
-order to allow for whitespace in the results.  That's what I'm talking
-about!
+The first is that we no longer need to quote our various expansions.
+That's what I'm talkin' about!
 
 For example, let's compare the before and after of our standard line for
 sourcing files relative to the current one.
@@ -85,12 +84,8 @@ IFS=''
 source $(dirname $(readlink -f $BASH_SOURCE))/../lib/support.bash
 {% endhighlight %}
 
-Still pretty thorny, but that just means every bit of noise we can
-squeeze out counts all the more.
-
-Additionally, now you don't have to think about how quotations nest
-inside command substitutions, which can be non-intuitive even (or
-especially) to programmers of other languages.
+It still won't win any beauty contests, but that just means every bit of
+noise we can squeeze out counts all the more.
 
 An Exception
 ------------
@@ -98,12 +93,9 @@ An Exception
 There are two special parameter expansions which are affected by the
 disabling of word splitting.
 
-The first is the `$*` expansion, which I'll call the [splat] expansion.
-
-The splat expansion is the means by which you can concatenate all of the
-current positional arguments into a whitespace-delimited string.
-
-Without quotes, splat expands to each argument individually.
+The first is the `"$*"` expansion, which is one of the [splat]
+expansions.  (the other is using a splat to expand an array such as
+*${myarray[*]}*)
 
 With quotes, splat expands to each argument, concatenated into a single
 string by using the first character of the *IFS* variable to join the
@@ -113,36 +105,31 @@ For example, if the positional arguments are *one*, *two* and *three*,
 then `"$*"` expands to "one two three" if *IFS* is the default value.
 
 When set to empty, however, the above parameters would expand to
-"onetwothree", which is typically not useful.
+"onetwothree", which is typically not useful.  This pretty much makes
+the splat expansion useless (we'll revisit this later, however).
 
-If you don't need a single string, then you can use the bare splat
-expansion to reference all positional variables.
-
-When *IFS* is empty, however, the unquoted at expansion `$@` expands to
-the separate positional parameters, so it's the same as `$*`.  Quoted,
-it expands to "one two three" with spaces, so it's generally more useful
-than splat.
-
-For example, to generate the string "Arguments are one two three" when
-IFS is empty, the expansion "Arguments are $@" would work while
-"Arguments are $*" would not.
+Instead you can use the `$@` expansion.  When *IFS* is empty, it expands
+to the positional parameters.  It doesn't generally need to be quoted,
+but quoting won't hurt it either.
 
 Also, while unquoted `$@` works to generate the separate positional
-arguments, special expansions of `$@`, such as `${@#--}` to remove
-leading double-dashes, don't work without double quotes: `"${@#--}"`.
+arguments, special expansions of `$@`, such as `${@#--}` which removes
+leading double-dashes from each argument, require double-quotes to work:
+`"${@#--}"`.
 
 Another Exception
 -----------------
 
 If you haven't been quoting variable expansion up until now, you'll
-probably run into this one eventually.  It unfortunately is still an
-issue when you turn off word splitting.
+probably run into this one eventually.  It's less of an issue with an
+unset IFS, but it still happens.
 
-When a variable contains a blank value, bash will strip that value away
-whenever it is expanded without quotation marks.  A blank value is
-either an empty string or one which consists solely of whitespace.
+Normally, when a variable contains a blank value, bash will strip that
+value away whenever it is expanded without quotes.  A blank value is
+either an empty string or one which consists solely of whitespace.  The
+whitespace characters must be in *IFS*, however.
 
-Here's an example on the command line:
+Here's an example on the command line (default *IFS*):
 
 {% highlight bash %}
 > numargs () { echo "Number of arguments is: $#" ;}
@@ -165,28 +152,31 @@ myfunc $one $two $three
 
 If *two* expands to whitespace or an empty string, it will disappear,
 and the value of *three* will be the second argument to *myfunc* rather
-than the third.  That's certainly not the desired behavior.
+than the third.  That's not what you want.
+
+When *IFS* is unset, bash will only strip empty expansions, not
+whitespace ones, so a variable which has at least one character in it
+won't be stripped.  An empty value being stripped can still cause the
+problems I just described.
 
 There are two ways to deal with this.  The first is to simply quote all
 expansions, which gets us back to square one.  Oh well, but it's
 reasonable.
 
 The second is to simply bear in mind the occasions where a variable may
-legitimately expand to whitespace or an empty string, and to quote those
-occasions only.
+legitimately expand to an empty string, and to quote those occasions
+only.
 
-That gives much better looking code in most cases, but it requires more
-mindfulness.  If you're writing a function which accepts blank
-arguments, be sure write tests which use blank arguments to ensure that
-your results come out correctly as well.  That means you will need to
-employ quoting everywhere that argument is used within your function.
+That gives much better looking code, but it requires more mindfulness.
+If you're writing a function which accepts empty arguments, be sure
+write tests which use empty arguments.  You'll need to quote those
+arguments within your function.
 
-This is by far the biggest drawback of trying not to use double-quotes
-everywhere.  It's up to you how you want to approach it.  Personally I
-think it's worth the extra mindfulness on occasion in order to avoid
-having to quote everything all the time.
+It's up to you how you want to approach it.  Personally I think it's
+worth the extra mindfulness on occasion in order to avoid having to
+quote everything all the time.
 
-Aside from blank argument removal, there's one more issue which can
+Aside from empty argument removal, there's one more issue which can
 affect unquoted expansions, which we'll discuss next.
 
 Continue with [part 19.5] - disabling path expansion

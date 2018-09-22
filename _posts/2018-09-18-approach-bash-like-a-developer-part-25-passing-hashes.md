@@ -54,11 +54,11 @@ I'll go straight to the working version:
 
 {% highlight bash %}
 rep () {
-  local rep
+  local rep_
 
-  rep=$(declare -p $1)
-  rep=${rep#*\'}
-  echo ${rep%\'}
+  rep_=$(declare -p $1)
+  rep_=${rep_#*\'}
+  echo ${rep_%\'}
 }
 {% endhighlight %}
 
@@ -86,12 +86,11 @@ At least the implementation of *rep* is simple, thanks to *declare -p*.
 In fact, since we're using *declare*, *rep* isn't even specific to
 hashes...if you like this method better than the array-passing method,
 it works for arrays as well if you just change the *local -A* to *local
--a*.
+-a*.  In fact, it also gets around the sparse array issue since *declare
+-p* provides the correct indexes.
 
-Also, it's nice to have something to write a test for.  Now that we've
-discussed a lot of the important basics of how bash works, we'll be
-moving more back to implementing new functionality.  We do have one more
-topic on how bash returns values first, though.
+Continue with [part 26] - returning values
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-16-approach-bash-like-a-developer-part-24-passing-arrays            %}
+  [part 26]:      {% post_url 2018-09-22-approach-bash-like-a-developer-part-26-returning-values          %}

@@ -65,8 +65,9 @@ all-caps for their names.  We should follow the same convention with any
 variables we export in our programs.
 
 But why are environment variables named in all caps?  The basic idea is
-to reduce clutter and therefore the potential for conflict.
-Interestingly, that happens to be a basic idea of all namespaces.
+to reduce the potential for naming conflicts with your script's
+variables, since environment variables are like squatters in your
+scripts variable namespace.
 
 Shells are a special programming environment because they share some of
 their namespace (the environment) with other instances of themselves.
@@ -75,11 +76,12 @@ namespace...perhaps there are a few special builtin variables, but for
 the most part, the space is yours.
 
 With bash, however, it starts with any defined environment variables.
-Any user can define whatever variables they want.  Many packages
-intended for interactive use at the command line create environment
-variables that no other program cares about, but every program still
-receives.  The more environment variables that are defined, the more
-that are inherited, and it can turn into a big heap of random names.
+Any login user can define whatever variables they want in their
+environment.  Many packages intended for interactive use at the command
+line create environment variables that no other program cares about, but
+every program still receives.  The more environment variables that are
+defined, the more that are inherited, and it can turn into a big heap of
+random names.
 
 If you were to reuse one of those names in your program, you would
 inadvertently export your value for the variable.  That's because when

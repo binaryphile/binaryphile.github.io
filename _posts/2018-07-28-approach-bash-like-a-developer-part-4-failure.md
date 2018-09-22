@@ -104,7 +104,7 @@ you can see from the calls to:
     arguments being equal or not
 
 The indentation on the above test is rather artificial...the *describe*
-and *it* blocks aren't really blocks, they are just regualar bash
+and *it* blocks aren't really blocks, they are just regular bash
 statements. However, it is a useful visual reminder to indent this way
 to remember where things begin and end.
 

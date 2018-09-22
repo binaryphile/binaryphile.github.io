@@ -85,9 +85,9 @@ importing and calling the *sourced* function.
 (source "$file")
 {% endhighlight %}
 
-Here we source the file.  On principle, we're using a subshell which are
-the surrounding parentheses.  The subshell creates a new context, kind
-of like a sandbox.
+Here we source the file.  On principle, we're using a subshell which is
+what the surrounding parentheses are.  The subshell creates a new
+context, kind of like a sandbox.
 
 Anything that would normally come into this shell's namespace from
 sourcing a file will now go into the subshell's.  When the subshell
@@ -120,9 +120,9 @@ Also, since running a file automatically creates its own shell instance,
 we don't need to manually create a subshell context for it.
 
 One last thing that I'll note about the *sourced* function is that it
-can only be called in the main body of a script, not from inside a
-function.  If it appears inside a function, that function will be the
-name it tests against "source", and it will return the wrong result.
+can only be called in the top-level body of a script, not from inside a
+function.  If it appears inside a function, that function's name will be
+the name it tests against "source", and it will return the wrong result.
 
 Continue with [part 10] - test independence
 

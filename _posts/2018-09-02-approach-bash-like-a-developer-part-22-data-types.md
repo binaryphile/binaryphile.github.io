@@ -63,7 +63,7 @@ Arrays can skip indexes or have items deleted, which makes them sparse.
 It is not possible to store collection types as items in another
 collection.
 
-Assignment to individual array items use bracket notation, e.g.
+Assignment to individual array items uses bracket notation, e.g.
 *myarray[0]=zero*. The index can be an arithmetic expression following
 the usual rules for such expressions (dollar-signs not needed for
 variable references, etc.).
@@ -137,8 +137,15 @@ For hashes, it looks like:
 declare -A myhash=( [one]=value1 [two]=value2 [three]="value 3" )
 {% endhighlight %}
 
-Unlike the other types, hashes can only be created with the *declare -A*
-(or *local -A*) command.
+Unlike the other types, hashes must be declared as such before or during
+assignment with the *declare -A* or *local -A* command.
+
+Once declared, you can assign its value without redeclaring it though:
+
+{% highlight bash %}
+declare -A myhash
+myhash=( [zero]=0 [one]=1 )
+{% endhighlight %}
 
 The *printf* command can also assign directly to array/hash elements
 (as well as regular variables) with the *-v* option.
@@ -186,16 +193,15 @@ the literal assignment syntax to assign an array value to an existing
 string variable, or if you assign a value to a subscript of an existing
 string variable.
 
-The same cannot be done with a hash literal assignment, since it just
-turns the variable into a normal array as well.
+Trying the same thing with a hash literal assignment, will turn the
+variable into an array, not a hash.  There's no way to get around having
+to use *declare -A* to get a hash.
 
-You cannot, however, convert an array variable back to a string or
-integer, at least not without unsetting it.
+Once a variable has been turned into an array type, it cannot be
+converted to one of the basic types without unsetting it explicitly.
 
-Since the conversion is irreversible, I never convert a string to an
-array so I always know what kind of variable I'm dealing with.  This
-prevents surprises when programmatically testing the results of *declare
--p*, for example.
+Since the conversion is irreversible, I try not to convert a string to
+an array so I always know what kind of variable I'm dealing with.
 
 Continue with [part 22.5] - naming and namespaces
 

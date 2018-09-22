@@ -147,10 +147,10 @@ string with the default value.  However, that would prevent an empty
 string from being a valid value to pass for that argument, which may or
 may not be acceptable.
 
-Instead, I prefer to make all optional arguments (arguments with a
-default value) be [keyword arguments].  This lets you choose which
-optional arguments to supply without having to worry about the other
-default values.
+Instead, if I have more than one optional argument, I prefer to make all
+of them be [keyword arguments].  This lets you choose which optional
+arguments to supply without having to worry about the other default
+values.  They can also be supplied in any order then too.
 
 Simple Keyword Arguments
 ------------------------

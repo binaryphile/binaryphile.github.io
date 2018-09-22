@@ -91,8 +91,8 @@ Use smart tabs for two-space indentation.
 set tabstop=2
 set shiftwidth=2
 set shiftround
-set cindent
 set expandtab
+set formatoptions+=b
 {% endhighlight %}
 
 To indent and de-indent a single line or selected blocks of code, use

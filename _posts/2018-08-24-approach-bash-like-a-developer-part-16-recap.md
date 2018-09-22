@@ -89,18 +89,6 @@ This means discussing:
 
 -   light functional programming
 
-As I certainly haven't learned everything there is to know about each of
-these topics, tests will form the foundation of truth for all of our
-work.
-
-I hope to illustrate each major point with a small set of simple tests,
-from which you can go more deeply on your own.  The key is to become
-comfortable expressing requirements in tests, which is how a developer
-(or rather, how this developer) approaches bash.
-
-Anything I do wrong should fail, and any reader who finds a mistake in
-my work should be able to write a test to show what it fails to reflect.
-
 Continue with [part 17] - command processing
 
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}

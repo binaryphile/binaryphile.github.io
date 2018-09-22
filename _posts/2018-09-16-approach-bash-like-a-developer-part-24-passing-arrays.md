@@ -17,15 +17,14 @@ General Disarray
 ----------------
 
 As noted before, bash doesn't support passing arrays as an element in an
-argument list.  If you have a single array, you can expand it to be part
-of or the entirety of an argument list, but that doesn't work if you
-have two arrays to pass.
+argument list.  If you have a single array, you can expand it to be
+either part of or the entirety of an argument list, but that doesn't
+work if you have two arrays to pass.
 
 You could always pass a length parameter which tells the function
-exactly how many of the arguments belong to the first array, and another
-for the second.  This is difficult to parse on the receiving end.  There
-needs to be an easier way, without falling back on the use of global
-variables in order to avoid arguments entirely.
+exactly how many of the arguments belong to the first array.  This is
+annoying to parse on the receiving end however.  There needs to be an
+easier way without falling back on the use of global variables.
 
 Super Serial
 ------------
@@ -38,9 +37,9 @@ function calls and not across network interfaces.
 
 It would be easiest to reconstitute an array if we could use the regular
 bash declaration syntax.  *eval* could make this happen if the argument
-is in the right format, but we can also use *local* the same way.  The
-trick is to use the *-a* option and put the parentheses in a string.
-This makes *local* do a second pass of evaluation after the expansion:
+is in the right format, but we can also use *local*.  The trick is to
+use the *-a* option and put the parentheses in a string.  This makes
+*local* do a second pass of evaluation after the expansion:
 
 {% highlight bash %}
 local -a myarray="( $argument )"
@@ -65,8 +64,8 @@ myfunc $argument
 
 So, that works pretty well.  There is one potential pitfall, which is
 that this technique doesn't preserve the same indexing if the elements
-of the original array are sparse at all.  The new array starts at index
-zero and is contiguous.  I've never run into a situation where this is a
+of the original array are sparse.  The new array starts at index zero
+and is contiguous.  I've never run into a situation where this is a
 problem, but it could be.
 
 The real problem with this technique is that once you have an array
@@ -117,8 +116,8 @@ myfunc $(declare -p argument)
 
 Without doing some rehabilitation on the resulting declaration however,
 you're stuck with the variable name used by the caller when you're
-*eval*ing it inside the function (although this does fix the sparse
-array issue).  This isn't quite as easy as I'd like.
+*eval*ing it inside the function.  We want our variable names to be
+independent between the caller and callee.
 
 Another option is to use escaping.  Bash's *printf* command provides a
 format which escapes any characters in values which could mess up an
@@ -132,12 +131,7 @@ argument=( "a value" "another value" )
 myfunc $(printf '%q ' ${argument[@]})
 {% endhighlight %}
 
-Works, and better than the *declare -p* method, but still not pretty.
-You could write a function with a snazzy name to pretty up the *printf*.
-
-The reason I've gone through these options is to give you an idea of
-what to do if you don't choose to use *IFS*, like I'm about to show.
-That, and I like to think out loud.
+This works, but it's still not pretty.
 
 The best method I've found, however, is the ascii field-separator
 method.

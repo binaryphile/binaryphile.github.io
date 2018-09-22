@@ -42,7 +42,9 @@ then trims off the filename from the path. It then adds the relative
 path to our *hello-world* source file.
 
 Note that on Mac, you'll need to install GNU readlink via homebrew, then
-use *greadlink* instead of the *readlink* above.
+use *greadlink* instead of the *readlink* above.  You may simply want to
+alias *readlink* to *greadlink* in your scripts.  See the [post on
+aliases] for how to create aliases in scripts.
 
 Shpec now outputs the following:
 
@@ -85,4 +87,5 @@ Continue with [part 6] - outline script
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro            %}
   [Last time]:  {% post_url 2018-07-28-approach-bash-like-a-developer-part-4-failure          %}
+  [post on aliases]:  {% post_url 2018-08-23-approach-bash-like-a-developer-part-10.5-aside-on-aliases          %}
   [part 6]:     {% post_url 2018-07-30-approach-bash-like-a-developer-part-6-outline-script   %}

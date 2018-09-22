@@ -5,6 +5,11 @@ date:   2018-07-26 00:00:00 +0000
 categories: bash
 ---
 
+Update: For examples of my coding approach, I've written solutions to a
+number of the exercism [bash exercises] that you can inspect.  They
+won't all make sense until you've gone through most of the series, but
+they're a good resource to examine these techniques in action.
+
 This is part one of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script.
 
@@ -160,6 +165,7 @@ Now for the good stuff:
 
 Continue with [part 2] - vim.
 
+  [bash exercises]:                   https://exercism.io/profiles/binaryphile
   [the bash hacker's wiki]:           http://wiki.bash-hackers.org/
   [the google shell style guide]:     https://google.github.io/styleguide/shell.xml
   [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell

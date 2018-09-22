@@ -69,54 +69,51 @@ Here's how the same loop would work with an actual array.  This one
 works with spaces in filenames:
 
 {% highlight bash %}
-myfiles=( file1.txt file2.txt )
+myfiles=( file1.txt "My Documents/file2.txt" )
 for file in "${myfiles[@]}"; do
   cp "$file" target_dir/
 done
 {% endhighlight %}
 
-Now, the earlier code looks a bit cleaner, since it doesn't have the
-extra quotation marks, brackets and *@* sign, and that's a point in its
-favor.  However, don't be fooled...before I'm done, we'll see that the
-array version is uglier in part *because* of the automatic word
-splitting.  If we dispense with word splitting, the resulting array code
-looks better.  In fact, *all* of our code will look better.
+It may be tempting to write the earlier code
+since it looks a bit cleaner and is easier to write, since you aren't
+thinking about quotation marks, brackets or @ symbols.
+
+Don't be fooled, though.  First of all, it simply doesn't work for valid
+inputs with spaces.  That's not an edge case.
+
+Second, the quotation marks are *because* of the automatic word
+splitting.  Turn it off and the need for them goes away.  In fact, all
+of our code will look better.
 
 If you've been following my code so far, you'll have noticed fairly
 liberal usage of quotation marks already.  In fact, I've used them on
-*every single expansion I've written in code so far*.  That's a lot.
-And there's a reason I've gone to the trouble.
+*every expansion* (with a couple exceptions for statements which don't
+do word splitting).
 
-It's word splitting.  There's a big problem with it.  It simply
-shouldn't be done automatically.  You see, wherever there *might* be a
-space in an variable expansion, you have to disable word splitting
-manually, or else you won't get be getting the value stored in the
-variable.  You'll be getting two or three or more things instead.
+The reason for all the quotes is word splitting.  There's a big problem
+with it.  It simply shouldn't be done automatically.
+
+You see, wherever there *might* be a space in an variable expansion, you
+have to disable word splitting manually, or else you won't get be
+getting the value stored in the variable.  You'll be getting two or
+three or more things instead.
 
 That's what the double-quotes do, they disable word splitting on the
 expansion result.
 
-For example, as a practical matter, filenames never used to contain
-spaces back in the day.  If you wanted a space in a filename, you used
-an underscore instead, because spaces were how the shell separated
-words and a filename has to be operated on as a single word.
-
-At some point that changed, however, and nowadays you don't have to look
-far to find files or pathnames with spaces.
-
-If you want to store such a pathname or filename in a variable, you
-can't use that expansion without disabling word splitting with double
-quotes.  In fact, it's unpredictable enough that the standard advice and
-practice is to double-quote *every* expansion, all the time, unless you
-specifically want word splitting.  What a waste of time, and addition of
-noise to your code.
+Take pathnames with spaces as an example again.  If you want to store
+such values in a variable, you can't use that expansion without
+disabling word splitting with double quotes.  In fact, it's
+unpredictable enough that the standard practice is to double-quote
+*every* expansion, all the time.  It's a waste of time and a ton of
+visual noise in your code.
 
 Most people who write scripts either don't know or don't care,
 preferring not to litter their code with quotes.  That's understandable.
 But it introduces a class of bugs which bite you in the edge case and
-are pervasive throughout your code.  All because of a feature *you're
-probably not even using anyway*, or at least, have a better means to
-accomplish.
+are pervasive throughout your code.  All because of a feature you're
+probably not even using anyway.
 
 So what to do?  Turn it off, and if you happen to need it, toggle it on
 and back off again.  Trust me, you won't need it much.

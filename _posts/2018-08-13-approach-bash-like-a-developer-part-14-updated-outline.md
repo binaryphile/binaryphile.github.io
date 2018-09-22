@@ -74,5 +74,5 @@ Continue with [part 15] - strict mode caveats
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:  {% post_url 2018-08-12-approach-bash-like-a-developer-part-13-implementing-strict-mode  %}
-  [*concorde.bash*]: https://github.com/binaryphile/concorde
+  [concorde.bash]: https://github.com/binaryphile/concorde
   [part 15]:    {% post_url 2018-08-13-approach-bash-like-a-developer-part-15-strict-mode-caveats       %}

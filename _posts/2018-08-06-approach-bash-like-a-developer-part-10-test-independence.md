@@ -29,27 +29,31 @@ It's better for the tests to not share the same function or variable
 namespaces.  If they are independent, such a missed assignment would
 result in an empty value when referenced instead of a wrong value.
 
-That, however, is still not going to cause the mistake to be caught, at
-least in the case of a variable.  An empty value is as bad as a wrong
-value.
+In fact, once we get rid of the problem of having a wrong assignment
+hanging around, we also want bash to tell us if we try to use a variable
+which hasn't been assigned at all.  A non-existent variable is as bad as
+a wrong value.
 
 Unset, Match, Game
 ------------------
 
-The first thing to do in our test script is to cause unset values to
+The first thing to do in our test script is to cause unset variables to
 cause bash to exit with an error message:
 
 {% highlight bash %}
 set -o nounset
 {% endhighlight %}
 
-While this will cause unset variables to be detected, it will also do
-the same for the code under test, which may be undesirable. The solution
-is to either make sure the code under test also doesn't try to use unset
-variables or to toggle the setting around the function call under test.
+While this will cause unset variables to be detected, it also applies
+for the code the test will be calling, which may be undesirable if it
+wasn't designed for that.
 
-The smart choice is to make sure the code under test also doesn't try to
-use unset variables if possible.
+The solution is to either make sure the code under test also uses
+*nounset*, or to toggle *nounset* off before calling it.
+
+The smart choice is to make sure your code works with *nounset*.  We'll
+be discussing it as part of *strict mode* in another post, so we'll deal
+with it there.
 
 She Sells Subshells by the Seashore
 -----------------------------------
@@ -104,7 +108,7 @@ describe hello_world
     result=$(hello_world)
     assert equal "hello, world!" "$result"
     return "$_shpec_failures"
-  ); ((_shpec_failures += $?))
+  ); (( _shpec_failures += $? ))
   end
 end
 {% endhighlight %}
