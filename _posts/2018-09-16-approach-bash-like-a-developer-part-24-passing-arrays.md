@@ -36,13 +36,33 @@ to as [serialization], although we're using it to interface between
 function calls and not across network interfaces.
 
 It would be easiest to reconstitute an array if we could use the regular
-bash declaration syntax.  *eval* could make this happen if the argument
-is in the right format, but we can also use *local*.  The trick is to
-use the *-a* option and put the parentheses in a string.  This makes
-*local* do a second pass of evaluation after the expansion:
+bash declaration syntax.
+
+Without word-splitting, a single argument with the whitespace-separated
+items of the array wouldn't work if we tried to do this:
 
 {% highlight bash %}
-local -a myarray="( $argument )"
+array=( $argument )
+{% endhighlight %}
+
+That would result in an array with a single element containing all of
+the items.
+
+*eval* could make this happen this way, since the entire string will be
+re-evaluated:
+
+{% highlight bash %}
+eval "array=( $argument )"
+{% endhighlight %}
+
+However, we can also use *local*, and *local* looks a bit more friendly.
+The trick is to use the *-a* option and put the parentheses (or the
+whole thing) in a string.
+
+This makes *local* do a second pass of evaluation after the expansion:
+
+{% highlight bash %}
+local -a "myarray=( $argument )"
 {% endhighlight %}
 
 The question is, how to get the argument in the right syntax.  If the

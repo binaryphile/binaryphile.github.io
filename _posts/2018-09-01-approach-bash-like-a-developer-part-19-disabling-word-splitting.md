@@ -95,7 +95,7 @@ disabling of word splitting.
 
 The first is the `"$*"` expansion, which is one of the [splat]
 expansions.  (the other is using a splat to expand an array such as
-*${myarray[*]}*)
+`"${myarray[*]}"`)
 
 With quotes, splat expands to each argument, concatenated into a single
 string by using the first character of the *IFS* variable to join the
