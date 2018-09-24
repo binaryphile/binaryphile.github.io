@@ -284,8 +284,11 @@ rep () {
 }
 {% endhighlight %}
 
+Continue with [part 27] - traps
+
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-18-approach-bash-like-a-developer-part-25-passing-hashes            %}
   [descriptor]:   http://wiki.bash-hackers.org/syntax/redirection
   [indirection]:  http://mywiki.wooledge.org/BashFAQ/006#Indirection
   [command substitution]: http://wiki.bash-hackers.org/syntax/expansion/cmdsubst
+  [part 27]:      {% post_url 2018-09-23-approach-bash-like-a-developer-part-27-traps                     %}
