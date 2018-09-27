@@ -306,8 +306,11 @@ We could go so far as to add this to our existing *strict_mode* function
 so that we always get tracebacks when *errexit* is enabled, but I think
 that's enough for one post.
 
+Continue with [part 29] - debugging
+
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-23-approach-bash-like-a-developer-part-27-traps                     %}
   [caller]:       http://wiki.bash-hackers.org/commands/builtin/caller
   [frame stack]:  https://en.wikipedia.org/wiki/Call_stack
   [sed]:          http://www.grymoire.com/Unix/Sed.html
+  [part 29]:      {% post_url 2018-09-27-approach-bash-like-a-developer-part-29-debugging                 %}
