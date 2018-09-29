@@ -199,6 +199,8 @@ install the [bashdb plugin] to use it.
 While I haven't tried it myself, if there's any tool I would expect to
 manage putting a decent front end on bashdb, it would be VSCode.
 
+Continue with [part 30] - option parsing
+
   [part 1]:       {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:    {% post_url 2018-09-24-approach-bash-like-a-developer-part-28-tracebacks                %}
   [second post]:  {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim                        %}
@@ -207,3 +209,4 @@ manage putting a decent front end on bashdb, it would be VSCode.
   [gdb]:          https://www.gnu.org/software/gdb/
   [Visual Studio Code]: https://code.visualstudio.com/
   [bashdb plugin]:  https://marketplace.visualstudio.com/items?itemName=rogalmic.bash-debug
+  [part 30]:      {% post_url 2018-09-28-approach-bash-like-a-developer-part-30-option-parsing            %}
