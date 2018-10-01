@@ -105,33 +105,33 @@ myfunction || die "myfunction ran into an error!"
 That method suspends errexit, which causes the issues I just mentioned.
 
 Instead, I now write the function to return an error code in a
-designated global variable instead.  I use *err__* for that purpose.
+designated global variable instead.  I use *_err_* for that purpose.
 This means that the function doesn't have to be tested with a boolean *||*.
 Instead I check the variable after the function has finished:
 
 {% highlight bash %}
 myfunction
-! ((err__)) || die "myfunction ran into an error!"
+! (( _err_ )) || die "myfunction ran into an error!"
 {% endhighlight %}
 
 So in detectable error scenarios, I write the function to return a 0
-return code and instead set *err__*, which thus doesn't trip errexit.
+return code and instead set *_err_*, which thus doesn't trip errexit.
 
-In order for this to work, you have to remember to set *err__=0* at the
+In order for this to work, you have to remember to set *_err_=0* at the
 beginning of your function so you don't accidentally get the last
-function's value for *err__*.
+function's value for *_err_*.
 
 I also pretty it up with an alias:
 
 {% highlight bash %}
-alias noerror?='! (( ${err__:-} )) || (exit $err__)'
+alias noerror?='! (( ${_err_:-} )) || (exit $_err_)'
 
 myfunction
 noerror? || die "myfunction ran into an error!"
 {% endhighlight %}
 
-The *(exit $err__)* is to reset the error value to the one passed via
-*err__*, which can then be picked up by *die* or whatever
+The *(exit $_err_)* is to reset the error value to the one passed via
+*_err_*, which can then be picked up by *die* or whatever
 function/command you choose to use.
 
 Set on You

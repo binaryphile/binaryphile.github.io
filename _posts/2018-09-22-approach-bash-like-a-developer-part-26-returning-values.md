@@ -271,15 +271,13 @@ end_describe
 {% highlight bash %}
 rep () {
   local ref_=${2:-}
-  local rep_
+  local expression_
 
-  rep_=$(declare -p $1)
-  rep_=${rep_#*\'}
-  rep_=${rep_%\'}
+  [[ $(declare -p $1) =~ $expression_ ]] || return
   ! blank? $ref_
   case $? in
-    0 ) printf -v $ref_ $rep_ ;;
-    * ) echo $rep_            ;;
+    0 ) printf -v $ref_ ${BASH_REMATCH[1]};;
+    * ) echo ${BASH_REMATCH[1]}           ;;
   esac
 }
 {% endhighlight %}

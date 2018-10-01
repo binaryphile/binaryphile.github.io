@@ -54,11 +54,10 @@ I'll go straight to the working version:
 
 {% highlight bash %}
 rep () {
-  local rep_
+  local expression
 
-  rep_=$(declare -p $1)
-  rep_=${rep_#*\'}
-  echo ${rep_%\'}
+  expression="^declare -[a|A] [^=]+='(.*)'$"
+  [[ $(declare -p $1) =~ $expression ]] && echo ${BASH_REMATCH[1]}
 }
 {% endhighlight %}
 
@@ -78,13 +77,13 @@ myfunc $(rep argument)
 {% endhighlight %}
 
 While this isn't as clean as the array passing in the last post, this is
-the cleanest I can get it while still passing by value.  As compared to
+the cleanest it can get while still passing by value.  As compared to
 the array passing, there's an additional call to *rep* in order to feed
 *myfunc*.  Unfortunately that seems unavoidable.
 
 At least the implementation of *rep* is simple, thanks to *declare -p*.
-In fact, since we're using *declare*, *rep* isn't even specific to
-hashes...if you like this method better than the array-passing method,
+In fact, since we're using *declare*, *rep* isn't specific to hashes
+either...if you like this method better than the array-passing method,
 it works for arrays as well if you just change the *local -A* to *local
 -a*.  In fact, it also gets around the sparse array issue since *declare
 -p* provides the correct indexes.

@@ -22,6 +22,39 @@ Test Drive
 This time, let's start with the tests.  We'll implement our
 *strict_mode* function in *lib/support.bash*.
 
+Before we start with the code, let me tell you how I work iteratively
+with shpec.
+
+The easiest way to run tests is to have them automatically run when your
+work is saved.  This way you can write the test, see it fail and then
+see it pass (or fail) as soon as you've written your script to disk.
+
+I use a combination of the linux *find* command along with the *[entr]*
+tool to do so:
+
+{% highlight bash %}
+alias tdd='find . -path ./.git -prune -o -type f -print | entr bash -c "shpec $1"'
+{% endhighlight %}
+
+*entr* can be installed on ubuntu with the command *sudo apt-get install
+-y entr*.
+
+I run this command in the directory above my *lib* and *shpec*
+directories like so:
+
+{% highlight bash %}
+tdd shpec/testfile_shpec.bash
+{% endhighlight %}
+
+*entr* monitors the files given by *find* for changes on disk, then runs
+the *shpec* command.  Because it's run from the directory above, it sees
+changes in both the shpec file as well as the script file.
+
+Keeping this in one window while I work in the editor in another lets me
+see results instantly.
+
+Now the test.
+
 *shpec/support_shpec.bash:*
 
 {% highlight bash %}
@@ -143,4 +176,5 @@ Continue with [part 14] - updated outline
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                    %}
   [Last time]:  {% post_url 2018-08-09-approach-bash-like-a-developer-part-12-working-in-strict-mode  %}
+  [entr]:       http://www.entrproject.org/
   [part 14]:    {% post_url 2018-08-13-approach-bash-like-a-developer-part-14-updated-outline         %}
