@@ -535,9 +535,11 @@ you.
 
 The one thing we are missing is support for all of the variations of
 syntax allowed by the posix and gnu specifications.  For example, short
-options are supposed to be usable either with or without a whitespace
-between the option name and the value.  For example, these two are
-supposed to be equivalent: *-o value* and *-ovalue*.
+named arguments are supposed to be usable either with or without a
+whitespace between the option name and the value. These two are supposed
+to be equivalent: *-o value* and *-ovalue*.  Long named arguments are
+supposed to allow whitespace or an equals sign: *--option value* and
+*--option=value*.
 
 Obviously our code won't work for this, but rather than write tests and
 rewrite the code to support it, gnu offers a tool called *getopt* which
@@ -573,9 +575,12 @@ denormopts () {
 }
 {% endhighlight %}
 
+Continue with [part 31] - getopt
+
   [part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Last time]: {% post_url 2018-09-27-approach-bash-like-a-developer-part-29-debugging %}
   [posix specifications]: http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html
   [getopt]: http://frodo.looijaard.name/project/getopt/man/getopt
   [-v test]: http://wiki.bash-hackers.org/commands/classictest#misc_syntax
   [returning errors]: {% post_url 2018-08-13-approach-bash-like-a-developer-part-15-strict-mode-caveats %}
+  [part 31]: {% post_url 2018-10-08-approach-bash-like-a-developer-part-31-getopt %}
