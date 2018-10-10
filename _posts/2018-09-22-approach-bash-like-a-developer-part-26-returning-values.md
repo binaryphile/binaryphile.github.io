@@ -35,7 +35,7 @@ following:
 
 -   a global variable
 
--   a form of [indirection], usually *printf -v*
+-   a form of [indirection]
 
 Stdout
 ------
@@ -65,59 +65,63 @@ The good part about this is that it's simple to do:
 another_func $(myfunc)
 {% endhighlight %}
 
-The last good part is that using stdout is that it works with pipelines,
-because pipelines connect stdout to stdin.  In that case, the command
-substitution is unnecessary.
+The other good part is that using stdout works with pipelines, because
+pipelines connect stdout to stdin.  In that case, the command
+substitution is unnecessary, you just use the pipe character to take the
+output from the command on the left and feed it to the input of the
+command on the right.
 
-The bad part is that sometimes, if your function is complex, stdout has
-a way of accidentally getting output from other commands mixed into it
-if you aren't careful.  Most of the time that's not an issue, but it can
-surprise you.
+One bad part about using stdout is that sometimes, if your function is
+complex, some commands you use in the function may generate some
+unexpected output. Since one output is the same as another to stdout, it
+can adulturate your intended return value. Most of the time that's not
+an issue, but it can surprise you.
 
-The other bad part about it is that it's not very performant.  Command
-substitution creates a subshell, which involves creating a new process
-which mirrors the existing shell.  While it may not sound intensive,
-it's a lot more than is required to just return a value in most
-languages.  In fact, it's very expensive by comparison.
+The other bad part about it is that command substitution is not very
+performant.  Command substitution creates a subshell, which involves
+creating a new process that mirrors the existing shell.  While it may
+not look expensive, it's a lot more than just returning a value.  In
+fact, it's very expensive for such a small thing.
 
-While you're probably not using bash because you care about performance,
-we'd still like our scripts to not be slower than they need to be,
-especially since they're already going to be slower than other
+While performance probably isn't the first thing on your mind if you're
+using bash, we'd still like our scripts to not be slower than they need
+to be. Especially since they're already going to be slower than other
 languages.
 
 Global Variables
 ----------------
 
-I've already been poo-pooing the use of global variables, but this is
-how most people do it if they don't want the expense of a subshell.
+I've discouraged the use of global variables because they require the
+caller and the function to agree on a variable name.  That's bad because
+it ties namespaces together and can cause naming conflicts and subtle
+bugs.
 
-This can be fine, it just makes code less testable and reusable, since
-you're now tied to a particular variable name, and the calling code
-needs to be aware of the name.  If other code happens to want the same
-variable name, they can conflict.
+Most bash scripts do it anyway because you can't return hashes and
+arrays easily, and globals are the simplest way to get around that.
 
-One other disadvantage of global variables is that they can't be used to
-return values from subshells, since subshells are a copy of the parent
-shell and go away once they're done.  Since pipelines invoke subshells
-for each part of the pipeline, the same is true of them as well.
+Even so, globals have some other disadvantages, such as the fact that
+they can't be used to return values from subshells. Subshells are a copy
+of the parent shell and go away once they're done.  Since pipelines
+invoke subshells for each part of the pipeline, the same is true of them
+as well.  You can't return global values from subshells nor, by
+extension, any part of a pipeline.
 
-However, after all that, the global variable method is my preferred
-method.  I just do one thing different which makes it more acceptable.
-To avoid namespace collisions, I adopt the convention of only ever using
-one specific global variable.  I chose one which should have a minimal
-chance of accidentally being chosen by anyone else: double underscore.
+Subshells notwithstanding, you can at least do one thing to address the
+issue of namespace conflicts.  If you adopt the convention of picking a
+specific global variable to always return your values, you can at least
+know that you won't have conflicts with any other variables, which is
+especially true of any code which follows the same convention.
 
 In some languages such as ruby and perl, the special single-underscore
-variable holds the last result, and that's what I'm getting at with this
-variable.  Bash already has a single-underscore variable, however, so
-double-underscore is the next best thing.
+variable holds the last result.  Underscore already has a special
+purpose in bash, so I choose the convention of a double-underscore as a
+return variable: `__`.
 
-Since I may use it in any function I write and therefore any function I
-may call, my variable has to be treated as ephemeral, just like the
-special *$?* expansion.  It may, and probably will, change from line to
-line in my code, so in order to use its value, I need to immediately
-save it off into another variable.  If you adopt it as a practice, the
-same will apply for you.
+Since it may be used in any function call it has to be treated as
+ephemeral, just like the special *$?* expansion.  It may, and probably
+will, change from line to line, so in order to use its value, it needs
+to immediately be saved off into another variable.  If you adopt this as
+a practice, the same will apply for you.
 
 So while this does use the global namespace, it avoids the concern of
 naming conflicts to the greatest possible extent.  You also get the
@@ -126,71 +130,95 @@ you need your code to be fast(ish).
 
 The three things you need to remember for this technique to work are:
 
--   always save the value from __ immediately if you plan to use it
+-   always save the value from `__` immediately if you plan to use it
 
--   never declare __ as a local variable
+-   you probably don't want to declare `__` as a local variable
 
--   don't use it in subshells or, by extension, pipelines
+-   don't try use it in subshells or, by extension, pipelines
 
 Indirection
 -----------
 
-The last technique is to declare a local variable in the caller and pass
-it to the function by name.  The function uses indirection to
-dereference the variable name and pass the value back to the caller by
-setting that variable.  This technique relies on the fact that bash uses
-dynamic scoping, so the caller's variable is accessible to the function.
+This is my preferred method of returning hashes and arrays, since it's
+easy to work with them in the function, even though you have to
+namespace the your local variables.
+
+The technique is to declare a local variable in the caller and pass it
+to the function by name.  The function uses indirection to dereference
+the variable name and pass the value back to the caller by setting that
+variable.
 
 The only concern with this is namespace collisions, although this time
-it's between the local variables in the function and the reference name.
-Any local variable in the function could accidentally mask the caller's
-variable if they happen to have the same name and then the result won't
-be saved to the caller's variable.
+it's between the local variables in the function and the return
+variable's name.  Any local variable in the function could accidentally
+mask the return variable if they happen to have the same name, defeating
+the indirection.
 
 Since the function doesn't know what name the caller will pass, it has
 to namespace all of its locals.  I like to namespace my locals with a
 trailing underscore in this situation.
 
-This method has the same caveats as the global one when dealing with
-subshells and pipelines.
+This method has also doesn't work with subshells and pipelines.
+
+In recent versions of bash, the best way to accomplish this is to
+declare the recipient of a return variable name with *local -n*.  The
+*-n* option allows you to initialize the variable with the name of
+another variable. From then on, anything you do to the local variable is
+reflected in the named variable:
+
+{% highlight bash %}
+myfunc () {
+  local -n reference_=$1
+
+  reference_=$2
+}
+
+myfunc one 1
+echo $one
+{% endhighlight %}
+
+*myfunc* will set the variable *one* to *1*, via *reference_*.
 
 Por Que No Los Tres?
 --------------------
 
 If you like the flexibility of being able to choose from any of these
 methods it is possible to marry them.  Here's an example which converts
-a string to all uppercase (*blank?* tests if the variable is empty):
+a string to all uppercase:
 
 {% highlight bash %}
 to_upper () {
   local string_=${1^^}  # force uppercase
   local ref_=${2:-}     # return variable name, if provided
 
-  ! blank? $ref_
-  case $? in
-    0 ) printf -v $ref_ $string_;;
-    * ) echo $string_           ;;
-  esac
+  # adds "-v $ref_" if ref_ is present
+  printf ${ref_:+-v$IFS$ref_} $string_
 }
 {% endhighlight %}
 
-To use this with stdout, simply don't provide a variable name:
+In this case, instead of *local -n*, we're using *printf -v* to return
+the value.  This method still requires local namespacing. It works well
+for strings, but isn't as flexible as *local -n* for working with arrays
+or hashes.
+
+To use it with stdout, simply don't provide a variable name:
 
 {% highlight bash %}
 result=$(to_upper "lowercase string")
 {% endhighlight %}
 
-To use it with the global \__, pass it that name:
+To use it with the global `__`, pass it that name:
 
 {% highlight bash %}
 to_upper "lowercase string" __
-result=$__
+do_something_with $__
 {% endhighlight %}
 
-Of course, this is piggybacking on the indirect method.  Normally you
-wouldn't have to namespace the local variables and could just set __
-directly.  It's only because we're trying to combine methods that we're
-setting __ indirectly.
+Of course, this is piggybacking on the indirect method since we're using
+*`printf -v __`* instead of setting `__` directly.  Normally you
+wouldn't have to namespace the local variables and could just work with
+`__` by its name.  It's only because we're trying to combine methods
+that we're setting `__` indirectly.
 
 To use it with indirection to a local variable, declare that name and
 pass the name in:
@@ -203,11 +231,12 @@ myfunc () {
 }
 {% endhighlight %}
 
-Returning Arrays
-----------------
+Returning Arrays via Strings
+----------------------------
 
-Returning arrays works the same as passing them in as arguments.  Here
-it is with the global method:
+If not using indirection, you can still return array values via strings,
+the same as passing them in as arguments.  Here it is with the global
+method:
 
 {% highlight bash %}
 myfunc () {
@@ -220,18 +249,19 @@ myfunc
 array=( $__ )
 {% endhighlight %}
 
-As I mentioned when discussing data types, I never convert a string type
-to an array type variable because it can't be changed back without being
-unset.  I always treat the global __ variable as a string variable, so I
-use the splat expansion to turn the returned array into a string when
-using it.
+As I mentioned when discussing data types, I don't convert a string
+variable type to an array variable type because it can't be changed back
+without being unset.  I always treat the global `__` variable as a
+string variable, so here the splat expansion is used to turn the array
+value into a string.
 
 Returning Hashes
 ----------------
 
-Returning hashes works the same way, by using *rep*.  Here it is with
-the stdout method (remember that *rep* already uses the same method, so
-it can be the last call in the function):
+Hashes may also be returned as a string. There isn't a method like the
+splat expansion for hashes, so instead we have to use the *rep* function
+we created earlier. Here it is with the stdout method (remember that
+*rep* already uses stdout, so it can be the last call in the function):
 
 {% highlight bash %}
 myfunc () {
@@ -273,12 +303,12 @@ rep () {
   local ref_=${2:-}
   local expression_
 
-  [[ $(declare -p $1) =~ $expression_ ]] || return
-  ! blank? $ref_
-  case $? in
-    0 ) printf -v $ref_ ${BASH_REMATCH[1]};;
-    * ) echo ${BASH_REMATCH[1]}           ;;
-  esac
+  _err_=0
+  [[ $(declare -p $1) =~ $expression_ ]] || {
+    _err_=1
+    return
+  }
+  printf ${ref_:+-v$IFS$ref_} ${BASH_REMATCH[1]}
 }
 {% endhighlight %}
 

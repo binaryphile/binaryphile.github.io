@@ -485,15 +485,13 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local flags_
-  local names_
+  local -A flags_
+  local -A names_
   local results_=()
 
   _err_=0
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
-  local -A flags_=$flags_
 
   while [[ ${1:-} == -?* ]]; do
     [[ $1 == -- ]] && {
@@ -507,15 +505,14 @@ parseopts () {
     ! defined? flags_[$1]
     case $? in
       0 )
-        results_+=( ${names_[$1]}=$2 )
+        opts_+=( ${names_[$1]}=$2 )
         shift
         ;;
-      * ) results_+=( ${names_[$1]}=1 );;
+      * ) opts_+=( ${names_[$1]}=1 );;
     esac
     shift
   done
-  opts_=${results_[*]}
-  posargs_=$*             # new
+  posargs_=( $@ )     # new
 }
 {% endhighlight %}
 
@@ -551,13 +548,10 @@ you can probably figure it out by this point:
 
 {% highlight bash %}
 denormopts () {
-  local -n _opts_=$2
-  local -n _flgs_=$3
-  local -A _flags_=()
-  local -A _names_=()
+  local -n _names_=$2
+  local -n _flags_=$3
   local IFS=$IFS
   local _defn_
-  local _oldIFS_=$IFS
   local _opt_
 
   for _defn_ in $1; do
@@ -569,9 +563,6 @@ denormopts () {
       present? ${3:-} && _flags_[$_opt_]=1
     done
   done
-  IFS=$_oldIFS_
-  rep _names_ _opts_
-  rep _flags_ _flgs_
 }
 {% endhighlight %}
 
