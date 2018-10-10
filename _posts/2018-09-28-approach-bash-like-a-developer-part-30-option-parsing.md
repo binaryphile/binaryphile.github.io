@@ -166,12 +166,11 @@ Here's the first code:
 parseopts () {
   local defs_=$2
   local -n opts_=$3
-  local flags_
-  local names_
+  local -A flags_=()
+  local -A names_=()
 
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
   opts_=${names_[$1]}=1
 }
 {% endhighlight %}
@@ -223,13 +222,12 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local flags_
-  local names_
+  local -A flags_=()
+  local -A names_=()
 
   _err_=0                             # new
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
   defined? names_[$1] || {            # new
     _err_=1                           # new
     return                            # new
@@ -266,14 +264,12 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local names_
-  local flags_
+  local -A names_=()
+  local -A flags_=()
 
   _err_=0
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
-  local -A flags_=$flags_             # new
   defined? names_[$1] || {
     _err_=1
     return
@@ -304,7 +300,7 @@ it "returns a named argument and a flag"
     option_val=sample
     p_flag=1
   )
-  assert equal "${expecteds[*]}" "$options"
+  assert equal "${expecteds[*]}" "${options[*]}"
 ti
 {% endhighlight %}
 
@@ -321,15 +317,12 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local flags_
-  local names_
-  local results_=()                       # new
+  local -A flags_=()
+  local -A names_=()
 
   _err_=0
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
-  local -A flags_=$flags_
 
   while (( $# )); do                      # new
     defined? names_[$1] || {
@@ -339,14 +332,13 @@ parseopts () {
     ! defined? flags_[$1]
     case $? in
       0 )
-        results_+=( ${names_[$1]}=$2 )    # changed
+        opts_+=( ${names_[$1]}=$2 )       # changed
         shift
         ;;
-      * ) results_+=( ${names_[$1]}=1 );; # changed
+      * ) opts_+=( ${names_[$1]}=1 );;    # changed
     esac
     shift
   done
-  opts_=${results_[*]}                    # new
 }
 {% endhighlight %}
 
@@ -378,17 +370,14 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local flags_
-  local names_
-  local results_=()
+  local -A flags_=()
+  local -A names_=()
 
   _err_=0
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
-  local -A flags_=$flags_
 
-  while [[ ${1:-} == -?* ]]; do             #changed
+  while [[ ${1:-} == -?* ]]; do             # changed
     defined? names_[$1] || {
       _err_=1
       return
@@ -396,14 +385,13 @@ parseopts () {
     ! defined? flags_[$1]
     case $? in
       0 )
-        results_+=( ${names_[$1]}=$2 )
+        opts_+=( ${names_[$1]}=$2 )
         shift
         ;;
-      * ) results_+=( ${names_[$1]}=1 );;
+      * ) opts_+=( ${names_[$1]}=1 );;
     esac
     shift
   done
-  opts_=${results_[*]}
 }
 {% endhighlight %}
 
@@ -430,15 +418,12 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local flags_
-  local names_
-  local results_=()
+  local -A flags_=()
+  local -A names_=()
 
   _err_=0
   set -- $1
   denormopts "$defs_" names_ flags_
-  local -A names_=$names_
-  local -A flags_=$flags_
 
   while [[ ${1:-} == -?* ]]; do
     [[ $1 == -- ]] && {                   # new
@@ -452,14 +437,13 @@ parseopts () {
     ! defined? flags_[$1]
     case $? in
       0 )
-        results_+=( ${names_[$1]}=$2 )
+        opts_+=( ${names_[$1]}=$2 )
         shift
         ;;
-      * ) results_+=( ${names_[$1]}=1 );;
+      * ) opts_+=( ${names_[$1]}=1 );;
     esac
     shift
   done
-  opts_=${results_[*]}
 }
 {% endhighlight %}
 
@@ -473,7 +457,7 @@ it "returns positional arguments"
   args=( -o one two   )
   parseopts "${args[*]}" "${defs[*]}" options posargs
   expecteds=( one two )
-  assert equal "${expecteds[*]}" "$posargs"
+  assert equal "${expecteds[*]}" "${posargs[*]}"
 ti
 {% endhighlight %}
 
@@ -485,9 +469,8 @@ parseopts () {
   local defs_=$2
   local -n opts_=$3
   local -n posargs_=$4
-  local -A flags_
-  local -A names_
-  local results_=()
+  local -A flags_=()
+  local -A names_=()
 
   _err_=0
   set -- $1

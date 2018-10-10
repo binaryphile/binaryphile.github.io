@@ -17,11 +17,32 @@ You can read *getopt*'s man page for full details on its usage.  The
 gist of it is that getopt is a tool which takes your option definitions,
 much like our existing parser, and ingests the argument list.
 
-Its output is the same argument list, except the arguments have been
-reformatted into the form that our existing parser understands.  All of
-the variants for short and long named arguments (space, no space, equals
-sign, no equals sign) are standardized to a single space. Any invalid
-options generate an error message and return code.
+Some of the features we'll get with the enhanced version of *getopt*
+include:
+
+-   short named arguments with no space before the value - e.g.
+    *-avalue*
+
+-   combined short flags in one option - e.g. *-abc* for *-a -b -c*
+
+-   combined short flags with a trailing short named argument - e.g.
+    *-ab value*
+
+-   long named arguments with an equals instead of space - e.g.
+    *`--long=value`*
+
+-   long options given by the minimum prefix necessary to disambiguate
+    them - e.g. *`--opt`* for *`--option`*
+
+-   options which come after positional arguments - e.g. *`command
+    argument --option`*
+
+*getopt's* output is the same argument list as the input, except that
+the arguments are reformatted into the form that our existing parser
+understands.  All of the variants for short and long named arguments
+(space, no space, equals sign, no equals sign) are standardized to a
+single space. Any invalid options generate an error message and return
+code.
 
 If you read many blogs or stackoverflow questions on *getopt*, you'll
 see many recommendations to use *getopts* instead (note the "s" at the
@@ -39,10 +60,10 @@ sometimes, and that is the one included in linux by default in the
 util-linux package.
 
 *getopt* is an external program, not a shell builtin like *getopts*, so
-occasionally folks will make the argument that it's more universal, and
-perhaps so since MacOS doesn't have the gnu version, but *getopt* is
-significantly better than *getopts*.  Again, use homebrew to make MacOS
-useful.
+occasionally folks will make the argument that a builtin is more
+universal, and perhaps so since MacOS doesn't have the gnu version, but
+*getopt* is significantly better than *getopts*.  Again, use homebrew to
+make MacOS useful.
 
 In any case, the point of the *getopt* utility is to handle some of the
 messier details of the various formats allowed by the specifications.
@@ -84,7 +105,6 @@ denormopts () {
   local IFS=$IFS
   local _defn_
   local _long_=''
-  local _oldIFS_=$IFS
   local _opt_
   local _short_=''
 
@@ -110,9 +130,15 @@ denormopts () {
       esac
     done
   done
-  IFS=$_oldIFS_
   present? $_long_  && _getopts_[long]=${_long_#?}
   present? $_short_ && _getopts_[short]=${_short_#?};:
+}
+
+enhanced_getopt? () {
+  local rc
+
+  getopt -T &>/dev/null && rc=$? || rc=$?
+  (( rc == 4 ))
 }
 
 parseopts () {
@@ -129,17 +155,8 @@ parseopts () {
   set -- $1
   denormopts "$defs_" names_ flags_ getopts_
 
-  [[ -n $(type -p getopt) ]] && {
-    getopt -T && rc_=$? || rc_=$?
-    (( rc_ == 4 )) && {
-      ! result_=$(getopt -o "${getopts_[short]}" ${getopts_[long]:+-l} ${getopts_[long]} -n $0 -- $@)
-      (( $? )) || {
-        _err_=1
-        return
-      }
-      eval "set -- $result_"
-    }
-  }
+  enhanced_getopt? && eval $(wrap_getopt "$*" "${getopts_[short]}" "${getopts_[long]}")
+
   while [[ ${1:-} == -?* ]]; do
     [[ $1 == -- ]] && {
       shift
@@ -161,28 +178,44 @@ parseopts () {
   done
   posargs_=( $@ )
 }
+
+wrap_getopt () {
+  local short=$2
+  local long=$3
+  local result
+
+  ! result=$(getopt -o "$short" ${long:+-l} $long -n $0 -- $1)
+  case $? in
+    0 ) echo '_err_=1; return';;
+    * ) echo "set -- $result" ;;
+  esac
+}
 {% endhighlight %}
+
+If the environment doesn't have an enhanced *getopt*, the above code
+reverts to our existing functionality.  If it does, however, it now
+passes these tests:
 
 {% highlight bash %}
 it "accepts a short option with no space"
   defs=( -o,o_val )
   args=( -oone    )
   parseopts "${args[*]}" "${defs[*]}" options posargs
-  assert equal o_val=one "$options"
+  assert equal o_val=one $options
 ti
 
 it "accepts a long option with an equals sign"
   defs=( --option,option_val  )
   args=( --option=sample      )
   parseopts "${args[*]}" "${defs[*]}" options posargs
-  assert equal option_val=sample "$options"
+  assert equal option_val=sample $options
 ti
 
 it "accepts a prefix of a long option"
   defs=( --option,option_val  )
   args=( --opt=sample      )
   parseopts "${args[*]}" "${defs[*]}" options posargs
-  assert equal option_val=sample "$options"
+  assert equal option_val=sample $options
 ti
 
 it "accepts multiple short flags"
@@ -219,14 +252,14 @@ it "accepts a flag after positional arguments"
   defs=( -o,o_flag,f  )
   args=( one -o       )
   parseopts "${args[*]}" "${defs[*]}" options posargs
-  assert equal o_flag=1 "$options"
+  assert equal o_flag=1 $options
 ti
 
 it "a positional argument before a flag"
   defs=( -o,o_flag,f  )
   args=( one -o       )
   parseopts "${args[*]}" "${defs[*]}" options posargs
-  assert equal one "$posargs"
+  assert equal one $posargs
 ti
 {% endhighlight %}
 
