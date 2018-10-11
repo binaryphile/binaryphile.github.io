@@ -263,10 +263,7 @@ it "a positional argument before a flag"
 ti
 {% endhighlight %}
 
-Continue with [part 32] - parallelism
-
   [part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Last time]: {% post_url 2018-09-28-approach-bash-like-a-developer-part-30-option-parsing %}
   [getopt]: http://frodo.looijaard.name/project/getopt/man/getopt
   [Wikipedia page]: https://en.wikipedia.org/wiki/Getopts
-  [part 32]: {% post_url 2018-10-11-approach-bash-like-a-developer-part-32-parallelism %}
