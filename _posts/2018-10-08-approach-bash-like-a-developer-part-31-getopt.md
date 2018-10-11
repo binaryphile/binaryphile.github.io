@@ -13,9 +13,9 @@ See [part 1] if you want to catch the series from the start.
 [Last time], we discussed option parsing. This time, let's talk about
 adding *[getopt]*'s functionality to our parser.
 
-You can read *getopt*'s man page for full details on its usage.  The
-gist of it is that getopt is a tool which takes your option definitions,
-much like our existing parser, and ingests the argument list.
+You can read *getopt*'s man page for full details on its usage. The gist
+of it is that getopt is a tool which takes your option definitions, much
+like our existing parser, and ingests the argument list.
 
 Some of the features we'll get with the enhanced version of *getopt*
 include:
@@ -34,12 +34,12 @@ include:
 -   long options given by the minimum prefix necessary to disambiguate
     them - e.g. *`--opt`* for *`--option`*
 
--   options which come after positional arguments - e.g. *`command
-    argument --option`*
+-   options which come after positional arguments - e.g.
+    *`command argument --option`*
 
 *getopt's* output is the same argument list as the input, except that
 the arguments are reformatted into the form that our existing parser
-understands.  All of the variants for short and long named arguments
+understands. All of the variants for short and long named arguments
 (space, no space, equals sign, no equals sign) are standardized to a
 single space. Any invalid options generate an error message and return
 code.
@@ -62,14 +62,14 @@ util-linux package.
 *getopt* is an external program, not a shell builtin like *getopts*, so
 occasionally folks will make the argument that a builtin is more
 universal, and perhaps so since MacOS doesn't have the gnu version, but
-*getopt* is significantly better than *getopts*.  Again, use homebrew to
+*getopt* is significantly better than *getopts*. Again, use homebrew to
 make MacOS useful.
 
 In any case, the point of the *getopt* utility is to handle some of the
 messier details of the various formats allowed by the specifications.
 For example, the spec allows the use of any unique prefix of a long
 option, which means that a long option may be represented by a number of
-actual strings.  Implementing your own logic to determine the smallest
+actual strings. Implementing your own logic to determine the smallest
 unique prefix, and to match any longer version, would be a lot of work
 for a simple command-line script.
 
@@ -82,10 +82,10 @@ getopt -T
 
 If the result code is 4, you have the enhanced version.
 
-We could go about using *getopt* in two different ways.  We could use it
-directly and pass its output to our *parseopts*.  This would require us
+We could go about using *getopt* in two different ways. We could use it
+directly and pass its output to our *parseopts*. This would require us
 to define our options for *getopt* using its format, then to redefine
-them for our own parser.  Obviously this sounds like more work, but it
+them for our own parser. Obviously this sounds like more work, but it
 does give us the ability to denote the difference between required
 arguments and optional arguments (usually these are named arguments,
 since required flags don't make much sense).
@@ -193,7 +193,7 @@ wrap_getopt () {
 {% endhighlight %}
 
 If the environment doesn't have an enhanced *getopt*, the above code
-reverts to our existing functionality.  If it does, however, it now
+reverts to our existing functionality. If it does, however, it now
 passes these tests:
 
 {% highlight bash %}
