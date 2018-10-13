@@ -81,6 +81,8 @@ This means discussing:
 
 -   option parsing
 
+-   parallelism
+
 -   modules
 
 -   indirection

@@ -92,7 +92,7 @@ since required flags don't make much sense).
 
 The other option is to enhance the *parseopts* function to take our
 definition of the options, redefine them itself using *getopt*'s format
-so it can call *getopt*, then do so, all behind the scenes.
+so it can call *getopt* and then do so, all behind the scenes.
 
 I won't go through the tdd'ing of option 2 at this point, but will
 instead go straight to the punchline:
@@ -108,7 +108,7 @@ denormopts () {
   local _opt_
   local _short_=''
 
-  _getopts_=([long]='' [short]='')
+  _getopts_=( [long]='' [short]='' )
   for _defn_ in $1; do
     IFS=,
     set -- $_defn_
@@ -130,8 +130,8 @@ denormopts () {
       esac
     done
   done
-  present? $_long_  && _getopts_[long]=${_long_#?}
-  present? $_short_ && _getopts_[short]=${_short_#?};:
+  _getopts_[long]=${_long_#?}
+  _getopts_[short]=${_short_#?}
 }
 
 enhanced_getopt? () {
