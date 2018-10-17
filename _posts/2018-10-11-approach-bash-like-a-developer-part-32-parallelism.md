@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Approach Bash Like a Developer - Part 32 - parallelism"
+title:  "Approach Bash Like a Developer - Part 32 - Parallelism"
 date:   2018-10-11 01:00:00 +0000
 categories: bash
 ---
