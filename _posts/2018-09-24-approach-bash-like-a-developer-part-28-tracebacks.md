@@ -278,6 +278,7 @@ traceback () {
   local expression
   local result
 
+  set +o xtrace
   IFS=' '
   echo $'\nTraceback:'
   while result=$(caller $frame); do
@@ -295,6 +296,9 @@ traceback () {
 } >&2
 {% endhighlight %}
 
+For funsies, I've also turned off tracing in case it's been turned on by other
+code since the traceback is already providing debug info.
+
 That's pretty good.  Now all you have to do is wire up *traceback* to
 the *ERR* signal in your code:
 
@@ -302,9 +306,30 @@ the *ERR* signal in your code:
 trap traceback ERR
 {% endhighlight %}
 
-We could go so far as to add this to our existing *strict_mode* function
-so that we always get tracebacks when *errexit* is enabled, but I think
-that's enough for one post.
+Let's add this to our *strict_mode* code:
+
+{% highlight bash %}
+strict_mode () {
+  case $1 in
+    on  )
+      set -o errexit
+      set -o errtrace
+      set -o nounset
+      set -o pipefail
+      trap traceback ERR
+      ;;
+    off )
+      set +o errexit
+      set +o errtrace
+      set +o nounset
+      set +o pipefail
+      trap - ERR
+      ;;
+  esac
+}
+{% endhighlight %}
+
+We've added *[errtrace]* as well to propagate the ERR traceback to subshells.
 
 Continue with [part 29] - debugging
 
@@ -313,4 +338,5 @@ Continue with [part 29] - debugging
   [caller]:       http://wiki.bash-hackers.org/commands/builtin/caller
   [frame stack]:  https://en.wikipedia.org/wiki/Call_stack
   [sed]:          http://www.grymoire.com/Unix/Sed.html
+	[errtrace]: 		http://wiki.bash-hackers.org/commands/builtin/set#attributes
   [part 29]:      {% post_url 2018-09-27-approach-bash-like-a-developer-part-29-debugging                 %}
