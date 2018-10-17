@@ -338,5 +338,5 @@ Continue with [part 29] - debugging
   [caller]:       http://wiki.bash-hackers.org/commands/builtin/caller
   [frame stack]:  https://en.wikipedia.org/wiki/Call_stack
   [sed]:          http://www.grymoire.com/Unix/Sed.html
-	[errtrace]: 		http://wiki.bash-hackers.org/commands/builtin/set#attributes
+  [errtrace]:     http://wiki.bash-hackers.org/commands/builtin/set#attributes
   [part 29]:      {% post_url 2018-09-27-approach-bash-like-a-developer-part-29-debugging                 %}
