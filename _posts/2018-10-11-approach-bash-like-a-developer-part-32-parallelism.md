@@ -556,7 +556,7 @@ Option_defs=(
 )
 parseopts "$*" "${Option_defs[*]}" Options Posargs
 (( ${#Options[@]}                   )) && declare ${Options[@]}
-(( Help_flag || ${#Posargs[@]} < 3  )) && die "$Usage"
+(( Help_flag || ${#Posargs[@]} != 3 )) && die "$Usage"
 (( Version_flag                     )) && die "$Prog version $Version"
 (( Trace_flag                       )) && set -x
 
