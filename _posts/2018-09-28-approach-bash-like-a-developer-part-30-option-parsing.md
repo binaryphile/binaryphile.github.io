@@ -133,10 +133,13 @@ named arguments in our definition. I'll keep it simple and just say that
 flags get a third element which is always "f", for flag. Named arguments
 won't require a third element.
 
+Note that since the pipe character is special to bash, if there is a short and
+long option in one definition, then that line needs to be quoted:
+
 {% highlight bash %}
 defs=(
-  -o|--option1,o_flag,f
-  -p|--option2,option2_var
+  '-o|--option1,o_flag,f'
+  '-p|--option2,option2_var'
 )
 {% endhighlight %}
 
