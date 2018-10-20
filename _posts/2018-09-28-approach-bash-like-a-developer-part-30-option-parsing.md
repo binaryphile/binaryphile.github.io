@@ -521,8 +521,8 @@ syntax allowed by the posix and gnu specifications.  For example, short
 named arguments are supposed to be usable either with or without a
 whitespace between the option name and the value. These two are supposed
 to be equivalent: *-o value* and *-ovalue*.  Long named arguments are
-supposed to allow whitespace or an equals sign: *--option value* and
-*--option=value*.
+supposed to allow whitespace or an equals sign: *`--option value`* and
+*`--option=value`*.
 
 Obviously our code won't work for this, but rather than write tests and
 rewrite the code to support it, gnu offers a tool called *getopt* which
