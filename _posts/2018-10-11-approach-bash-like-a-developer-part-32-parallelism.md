@@ -775,9 +775,12 @@ echo "too many retries, exiting"
 exit 1
 {% endhighlight %}
 
+Continue with [part 33] - modules
+
   [part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Last time]: {% post_url 2018-10-08-approach-bash-like-a-developer-part-31-getopt %}
   [heredoc]: http://wiki.bash-hackers.org/syntax/redirection#here_documents
   [comm]: https://linux.die.net/man/1/comm
   [process substitution]: http://wiki.bash-hackers.org/syntax/expansion/proc_subst
   [extended globs]: http://wiki.bash-hackers.org/syntax/pattern#extended_pattern_language
+  [part 33]: {% post_url 2018-10-16-approach-bash-like-a-developer-part-33-modules %}
