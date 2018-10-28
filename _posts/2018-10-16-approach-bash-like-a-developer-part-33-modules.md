@@ -835,7 +835,10 @@ importation and namespacing of functions are two of the most important,
 and there are remarkably simple ways to accomplish them. I'll call that
 victory. Modules!
 
+Continue with [part 34] - indirection
+
   [part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Last time]: {% post_url 2018-10-11-approach-bash-like-a-developer-part-32-parallelism %}
   [-v test]: http://wiki.bash-hackers.org/commands/classictest#misc_syntax
   [the documentation]: https://www.gnu.org/software/bash/manual/html_node/Aliases.html
+  [part 34]: {% post_url 2018-10-28-approach-bash-like-a-developer-part-34-indirection %}
