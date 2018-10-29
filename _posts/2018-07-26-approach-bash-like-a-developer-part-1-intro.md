@@ -77,10 +77,9 @@ Windows have system support for bash.
 Only python 2 enjoys anywhere near that level of presence on systems
 everywhere, and not nearly so much as bash.
 
-With a single text file, in the form of a bash script, and zero
-software-installation-required, I feel confident stating that you can
-reach largest set of compatible computing environments in the world with
-bash.
+With a text file in the form of a bash script and nothing else required,
+I feel it's fairly likely that bash provides the largest installed base
+of run-time environments in the world.
 
 ### Command-line Orientation
 
@@ -131,13 +130,16 @@ Resources for Learning About Bash
 As a quick aside, I would not recommend the freenode \#bash channel.
 It's not particularly friendly to newcomers to the language, and you're
 definitely in for at least one lecture on why you shouldn't be trying to
-do what you're trying to do with bash. Without condemning individuals,
-I have to say that channel is, on the whole, stuck on itself.
+do what you're trying to do with bash.
+
+I also would not recommend the Bashism wiki.  It's full of good
+information tinged with inaccuracies, bad opinions and outright bad
+advice.  Bash is better than they make it out to be, and you deserve
+better too.  There's nothing there you can't find elsewhere.
 
 In general I would also say not to listen to anyone who tells you to not
 do this or that with bash. So long as you are trying to learn, no one
-should be warning you about how you will regret things or any other such
-BS.
+should be warning you about how you will regret things or other such BS.
 
 To be fair, I agree that you shouldn't implement things in bash where
 it's unwarranted, such as complicated programs for your day-job, or when
@@ -148,8 +150,7 @@ all means, full steam ahead.
 The point of this series is to teach the mindset which avoids the
 pitfalls intimated by such ominous warnings in the first place, while
 enabling you to enjoy the experience of learning the numerous ins and
-outs of this challenging and, sometimes, rewarding language. Haters be
-damned.
+outs of this challenging and, sometimes, rewarding language.
 
 Now for the good stuff:
 
