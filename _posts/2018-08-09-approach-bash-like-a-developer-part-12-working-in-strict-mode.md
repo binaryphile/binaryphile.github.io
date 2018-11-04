@@ -77,16 +77,14 @@ Bang, Not!
 ----------
 
 Errexit does not apply to conditional expressions.  There are several
-ways that commands can be part of conditional expressions:
+statements which are considered to have or to be conditional
+expressions:
 
--   as the condition of an *if* statement
+-   *if* and *while* statements
 
--   as the condition of a *while* loop
+-   *&&* and *||* expressions
 
--   as the left side of an *||* (or) expression where the
-    right-hand-side is *true*
-
--   in a negation
+-   *!* negations
 
 The simplest of these is negation:
 
@@ -97,6 +95,24 @@ The simplest of these is negation:
 Even when the command succeeds and is then negated (resulting in false),
 the false doesn't trigger errexit because it's considered a conditional
 expression.
+
+Negation is usually my go-to way of disabling errexit for a command.
+However, occasionally I go with the "or true" method if I need to ensure
+that the result code isn't false.
+
+"or true" makes the command the left-hand side of an *||* expression
+where the right-hand side is *true*.  That ensures the result is always
+true. It looks like this:
+
+{% highlight bash %}
+erroring_command || true
+{% endhighlight %}
+
+Since *:* is *true* in bash, I usually shorten it to:
+
+{% highlight bash %}
+erroring_command ||:
+{% endhighlight %}
 
 Continue with [part 13] - implementing strict mode
 
