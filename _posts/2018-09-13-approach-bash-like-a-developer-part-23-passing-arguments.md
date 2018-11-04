@@ -28,13 +28,13 @@ Strings and Arrays and Hashes, Oh My
 ------------------------------------
 
 Basic types, which I'll just refer to as strings from here on out since
-I don't really use integers, are the only argument type supported in
+I infrequently use integers, are the only argument type supported in
 bash.
 
-Since positional arguments are just an array of strings, bash easily
-handles passing strings to functions.  If we're only talking about
-passing a single array, then bash can handle that easily as well, by
-expanding the array when calling the function.
+Since positional arguments can be looked at as an array of strings, bash
+easily handles passing strings to functions.  If we're only talking
+about passing a single array, then bash can handle that easily as well,
+by expanding the array when calling the function.
 
 However, bash cannot easily handle passing multiple arrays, nor hashes.
 
