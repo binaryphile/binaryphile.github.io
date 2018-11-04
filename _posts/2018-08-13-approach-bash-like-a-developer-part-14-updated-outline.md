@@ -47,32 +47,15 @@ That's why we use *set -o nounset* at the top of a shpec file and not
 the rest of strict mode, since that would include errexit.
 
 The above outline script forms the basis of almost all of the scripts I
-write.  However, it's missing one piece...where are *sourced* and
-*strict_mode* coming from?
+write.  I keep a standard *support.bash* available, either on my path
+if it's a script for my system, or packaged with the script if its a
+script to be run elsewhere.
 
-As you can probably guess, I've consolidated all of my support functions
-into my own library.  It's called *[concorde.bash]*.  Feel free to take
-a look at it and use it for your own projects.
-
-If I have control over the system environment, such as when I write a
-script for my own machine, I install my support library in my PATH.
-That allows the simple form of sourcing:
-
-{% highlight bash %}
-source concorde.bash
-{% endhighlight %}
-
-On the other hand, if I don't control the system environment, I
-distribute the library with the script and source it using the
-*BASH_SOURCE* method you've seen in most of my examples:
-
-{% highlight bash %}
-source "$(dirname "$(readlink -f "$BASH_SOURCE")")"/concorde.bash
-{% endhighlight %}
+Of the two commented lines above, I use the one appropriate for that
+situation.
 
 Continue with [part 15] - strict mode caveats
 
   [part 1]:     {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro                      %}
   [Last time]:  {% post_url 2018-08-12-approach-bash-like-a-developer-part-13-implementing-strict-mode  %}
-  [concorde.bash]: https://github.com/binaryphile/concorde
   [part 15]:    {% post_url 2018-08-13-approach-bash-like-a-developer-part-15-strict-mode-caveats       %}
