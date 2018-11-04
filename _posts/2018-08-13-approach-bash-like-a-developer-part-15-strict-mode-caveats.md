@@ -105,9 +105,11 @@ myfunction || die "myfunction ran into an error!"
 That method suspends errexit, which causes the issues I just mentioned.
 
 Instead, I now write the function to return an error code in a
-designated global variable instead.  I use *_err_* for that purpose.
-This means that the function doesn't have to be tested with a boolean *||*.
-Instead I check the variable after the function has finished:
+designated global variable rather than return an actual error code.
+
+I use *_err_* for that purpose.  This means that the function doesn't
+have to be tested with a boolean *||*.  Instead I check the variable
+after the function has finished:
 
 {% highlight bash %}
 myfunction
@@ -132,7 +134,7 @@ noerror? || die "myfunction ran into an error!"
 
 The *(exit $_err_)* is to reset the error value to the one passed via
 *_err_*, which can then be picked up by *die* or whatever
-function/command you choose to use.
+function/command you choose to use on the right-hand side of the *||*.
 
 Set on You
 ----------
