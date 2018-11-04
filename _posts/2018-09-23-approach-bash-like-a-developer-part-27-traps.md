@@ -93,7 +93,7 @@ ones:
 -   cleanup - one of the most important use cases can be
     closing/deleting in-use resources when the script is going to exit
 
--   atomicity - preventing interruption when the script is doing
+-   linearizability - preventing interruption when the script is doing
     something which is critical to complete
 
 -   user communication - the user-defined signals can be sent by the
@@ -225,5 +225,6 @@ Continue with [part 28] - tracebacks
   [Last time]:    {% post_url 2018-09-22-approach-bash-like-a-developer-part-26-returning-values          %}
   [trap]:         https://mywiki.wooledge.org/SignalTrap
   [kill]:         http://wiki.bash-hackers.org/commands/builtin/kill
+  [linearizability]: https://en.wikipedia.org/wiki/Linearizability
   [wait and cooperative exit]: https://www.cons.org/cracauer/sigint.html
   [part 28]:      {% post_url 2018-09-24-approach-bash-like-a-developer-part-28-tracebacks                %}

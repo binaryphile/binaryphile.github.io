@@ -273,12 +273,12 @@ A loop on *caller* handles navigating the stack:
 {% highlight bash %}
 traceback () {
   local -i rc=$?
+  set +o xtrace
   local -i frame=0
   local IFS
   local expression
   local result
 
-  set +o xtrace
   IFS=' '
   echo $'\nTraceback:'
   while result=$(caller $frame); do
@@ -289,7 +289,7 @@ traceback () {
       sed -n "$expression" "$3"
     }
     echo "  $3:$1:in '$2'"
-    (( frame++ ))
+    frame+=1
   done
   printf '  Exit status: %s\n\n' $rc
   return $rc
@@ -329,7 +329,19 @@ strict_mode () {
 }
 {% endhighlight %}
 
-We've added *[errtrace]* as well to propagate the ERR trap to subshells.
+We've added *[errtrace]* as well to propagate the *ERR* trap to subshells.
+
+One note about *errexit* and subshells.  A subshell can exit due to
+*errexit* and the parent shell will continue to run.  If the subshell
+exits with an error, then the parent treats that as a line which errored
+itself.  If *errexit* is on in the parent, then it too will exit, but
+that isn't necessarily the case.
+
+If you're using strict mode, then it's likely that the parent shell also
+has *errexit* on, in which case *ERR* will fire as well.  In this case,
+however, you'll see two tracebacks...one for the subshell's *ERR* and
+one for the parent's.  This looks a bit weird, but it's normal if you're
+using subshells and *errtrace* as we are here.
 
 Continue with [part 29] - debugging
 
