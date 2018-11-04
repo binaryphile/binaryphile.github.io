@@ -138,8 +138,8 @@ long option in one definition, then that line needs to be quoted:
 
 {% highlight bash %}
 defs=(
-  '-o|--option1,o_flag,f'
-  '-p|--option2,option2_var'
+  '-o|--option1',o_flag,f
+  '-p|--option2',option2_var
 )
 {% endhighlight %}
 

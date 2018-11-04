@@ -52,7 +52,7 @@ to the history of the two.
 
 What it all boils down to is that gnu *getopt*, not *getopts*, is the
 best implementation of the three versions. It happens to share its name
-with the original *getopt*, which is the worst of the three, hence some
+with the original *getopt*, which is the worst of the three, hence the
 confusion.
 
 You'll see the current version of *getopt* called *enhanced getopt*
@@ -61,9 +61,9 @@ util-linux package.
 
 *getopt* is an external program, not a shell builtin like *getopts*, so
 occasionally folks will make the argument that a builtin is more
-universal, and perhaps so since MacOS doesn't have the gnu version, but
+universal, and perhaps so since macos doesn't have the gnu version, but
 *getopt* is significantly better than *getopts*. Again, use homebrew to
-make MacOS useful.
+make macos useful.
 
 In any case, the point of the *getopt* utility is to handle some of the
 messier details of the various formats allowed by the specifications.
