@@ -29,9 +29,7 @@ Here's what happens, in order:
 -   *[history expansion]* - substitute a reference to an older command -
     e.g. if the last command was *echo hello*, expand *sudo !!* to:
 
-{% highlight bash %}
-sudo echo hello
-{% endhighlight %}
+        sudo echo hello
 
 -   *[alias substitution]* - substitute a string for the first word of a
     simple command - e.g. for the alias *alias ls='ls -l'*, expand *ls*
@@ -46,13 +44,12 @@ sudo echo hello
     semicolons, parentheses, braces, pipe and redirection characters and
     determine the grammatical structure of the resulting statement
 
--   *[brace expansion]* - permute a string with a comma-separated (or
-    double-dot-separated) list of strings in braces - e.g. expand *echo
+-   *[brace expansion]* - generate either a sequence of strings from a
+    double-dotted range or a permutation of a string with a
+    comma-separated list of strings in braces - e.g. expand *echo
     /mypath/{one,two}* to:
 
-{% highlight bash %}
-echo /mypath/one /mypath/two
-{% endhighlight %}
+        echo /mypath/one /mypath/two
 
 -   *[tilde expansion]* - substitute the path to a user's home directory
     for a word with a tilde as the leading character, using the text
@@ -107,12 +104,10 @@ echo /home/me/path
     matching directory and filenames, also known as *globbing* - e.g.
     expand *echo ./\** to:
 
-{% highlight bash %}
-echo ./file1.txt ./file2.txt
-{% endhighlight %}
+        echo ./file1.txt ./file2.txt
 
 -   *[quote removal]* - remove any of the types of quotation marks, as
-    well as backslashes (which are not the result of an expansion)
+    well as any backslashes which are not the result of an expansion.
 
 -   *[command resolution]* - for each resulting statement, determine
     whether the command to be run exists, in order, as a:
