@@ -141,7 +141,7 @@ Indirection
 
 This is my preferred method of returning hashes and arrays, since it's
 easy to work with them in the function, even though you have to
-namespace the your local variables.
+namespace your local variables.
 
 The technique is to declare a local variable in the caller and pass it
 to the function by name.  The function uses indirection to dereference
@@ -149,7 +149,7 @@ the variable name and pass the value back to the caller by setting that
 variable.
 
 The only concern with this is namespace collisions, although this time
-it's between the local variables in the function and the return
+it's between the local variables in the called function and the return
 variable's name.  Any local variable in the function could accidentally
 mask the return variable if they happen to have the same name, defeating
 the indirection.
@@ -158,7 +158,7 @@ Since the function doesn't know what name the caller will pass, it has
 to namespace all of its locals.  I like to namespace my locals with a
 trailing underscore in this situation.
 
-This method has also doesn't work with subshells and pipelines.
+This method also doesn't work with subshells and pipelines.
 
 In recent versions of bash, the best way to accomplish this is to
 declare the recipient of a return variable name with *local -n*.  The
@@ -304,6 +304,7 @@ rep () {
   local expression_
 
   _err_=0
+  expression_="^declare -[a|A] [^=]+='(.*)'$"
   [[ $(declare -p $1) =~ $expression_ ]] || {
     _err_=1
     return
