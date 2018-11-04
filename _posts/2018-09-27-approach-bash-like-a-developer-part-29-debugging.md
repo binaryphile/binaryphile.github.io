@@ -129,7 +129,7 @@ If you're like me, you may have a fancy prompt which interferes with
 tracing by putting out a bunch of junk. An easy way to prevent this is
 start a shell with no bashrc configuration:
 
-    bash --norc.
+    bash --norc
 
 Manual tracing
 --------------
