@@ -31,15 +31,24 @@ Strings can actually be used as integers as well, that is to say, they
 work fine in arithmetic expressions so long as they hold the string
 representations of integers.
 
-In fact, the only thing that declaring a variable an integer does for
-you is to allow some arithmetic expressions on the right side of an
-assignment or *+=* operation.
+Although it's fairly easy to use a string as an integer, declaring a
+variable as an integer does get you something.  It allows you use an
+arithmetic expression as a string on the right-hand side of an
+assignment, without the need for an arithmetic expansion.
+
+For example, you can use the assignment *local -i var='2 + 5'* to give
+*var* the value of 7.  Once a variable has the integer attribute, you
+can do the same without the *local* or *declare* attached.
+
+The integer attribute also allows you to use the *+=* operator as a
+mathematical addition, rather than appending a string.
 
 It also happens to convert any non-integer string values you attempt to
-assign to the variable into the value 0, which can hardly be described
-as a feature.  I rarely bother declaring a variable as an integer, but
-if you wanted to, you would do so with the *declare -i* or *local -i*
-command.
+assign to the variable into the value 0 (which can hardly be described
+as a feature).  So be careful.
+
+I use the integer declaration when it saves me some of the noisy
+arithmetic expansion syntax.  Fewer *$(())*s are better.
 
 Strings are the default, so they don't need any special option to
 *[declare]* or *[local]*.
