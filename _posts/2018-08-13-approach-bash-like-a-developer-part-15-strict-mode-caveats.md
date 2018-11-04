@@ -69,13 +69,13 @@ The other option is to use negation, which also defeats errexit:
 {% highlight bash %}
 ! command
 case $? in
-  0 ) echo false;; # actual error code was lost
-  * ) echo true ;;
+  0 ) echo "command returned false";; # actual error code was lost
+  * ) echo "command returned true" ;;
 esac
 {% endhighlight %}
 
-In this case, rc will be the opposite of the actual return code, i.e. it
-will be 0 if *command* threw an error and 1 if it didn't.  That means
+In this case, *$?* will be the opposite of the actual return code, i.e.
+it will be 0 if *command* threw an error and 1 if it didn't.  That means
 you lose the actual error code returned, if it was an error, but if all
 you care about is whether an error was thrown or not, it works.
 
