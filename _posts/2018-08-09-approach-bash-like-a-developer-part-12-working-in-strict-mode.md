@@ -86,6 +86,10 @@ expressions:
 
 -   *!* negations
 
+Note that in *&&* and *||* expressions, the final right-hand side can
+still trigger errexit.  It's only the left-hand side (or sides, if
+multiple are chained together) for which errexit is suspended.
+
 The simplest of these is negation:
 
 {% highlight bash %}

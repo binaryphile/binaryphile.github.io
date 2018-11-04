@@ -91,7 +91,7 @@ written to detect their own error conditions and return an appropriate
 code as the return value, rather than stop the script.
 
 However, you still want errexit to work correctly so that the error
-cases you haven't detected with your code still stop the script.  This
+cases you haven't detected with your code still stops the script.  This
 allows you to debug the script, and to prevent it from continuing with
 faulty assumptions about the state of things.
 
