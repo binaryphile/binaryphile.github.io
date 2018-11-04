@@ -115,7 +115,7 @@ hello_world () {
   local text
 
   text="hello, world!"
-  echo $hello_world_text
+  echo $text
 }
 {% endhighlight %}
 
