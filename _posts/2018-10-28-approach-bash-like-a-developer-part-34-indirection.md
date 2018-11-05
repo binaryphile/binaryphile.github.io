@@ -302,7 +302,10 @@ are lucky, you can either simply refer to the positional arguments as is
 or reset them as needed with the *`set --`* command.  This method is
 preferable if you can pull it off, but it's not often that you can.
 
+Continue with [part 35] - recursion
+
   [part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Last time]: {% post_url 2018-10-16-approach-bash-like-a-developer-part-33-modules %}
   [references and indirection]: https://en.wikipedia.org/wiki/Reference_(computer_science)
   [indirect expansion]: http://wiki.bash-hackers.org/syntax/pe#indirection
+  [part 35]: {% post_url 2018-10-29-approach-bash-like-a-developer-part-35-recursion %}
