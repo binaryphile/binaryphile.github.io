@@ -115,7 +115,7 @@ IFS=$'\n'
 set -o noglob
 
 Dir=$(dirname $(readlink -f $BASH_SOURCE))/..
-source $Dir/shpec/shpec_helper.bash
+source $Dir/shpec/shpec-helper.bash
 cd $Dir/lib
 
 describe module
@@ -478,7 +478,7 @@ IFS=$'\n'
 set -o noglob
 
 Dir=$(dirname $(readlink -f $BASH_SOURCE))/..
-source $Dir/shpec/shpec_helper.bash
+source $Dir/shpec/shpec-helper.bash
 cd $Dir/lib
 source ./module ''  # new
 
