@@ -81,7 +81,7 @@ foo=bar
 read -r $foo <<END
 my value
 END
-echo $bar
+echo $bar   # echos 'my value'
 {% endhighlight %}
 
 I'm not sure if it has always been true, but you can assign to array and
@@ -93,10 +93,8 @@ foo=myarray[1]
 read -r $foo <<END
 my value
 END
-echo ${myarray[1]}
+echo ${myarray[1]}  # echos 'my value'
 {% endhighlight %}
-
-Still, this isn't very convenient.
 
 At some point, bash also added the ability to set variables with
 *printf* as well:
@@ -145,8 +143,8 @@ example, this does work:
 
 {% highlight bash %}
 myrefs_=( varzero varone )
-varone="my value"
-echo ${!myrefs_[1]}   # echos "my value"
+varone='my value'
+echo ${!myrefs_[1]}   # echos 'my value'
 {% endhighlight %}
 
 This works because it looks at the array item at index 1 first, then
@@ -155,7 +153,10 @@ dereferences it with the *!* operator.
 One neat thing about indirect expansion is that it can reference
 positional arguments as well.  For example, if *ref_* holds the value
 "1", then *${!ref_}* expands to the value of the positional argument
-*$1*.  You can't do that with a nameref, described next.
+*$1*.  We've also already seen the very meta *${!#}* expansion, which
+refers to the last positional argument (since $# is the index of the
+last argument). You can't do either of those with a nameref, described
+next.
 
 Nameref Indirection
 -------------------
