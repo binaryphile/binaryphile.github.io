@@ -15,12 +15,17 @@ See [part 1] if you want to catch the series from the start.
 talk about [functional programming], or fp.
 
 Functional programming is a philosophy that centers around immutability,
-functions as first-class entities and deterministic results for given
-inputs to functions.  Long story short, it's way more than I'm ready to
-explore, especially with a language like bash.
+functions as first-class entities, lack of side effects and
+deterministic results for given inputs to functions.  Long story short,
+it's way more than I'm ready to explore in a single short blog post,
+especially with a language like bash.
 
 If you want to learn a bit more about functional principles, here's a
 good [blog entry] on the basics.
+
+So I'll call this "light" functional programming in bash.  If you're
+interested in something heavier in bash, you can do a google search
+which will turn up some much more fleshed-out functional bash libraries.
 
 That said, there are a few tools which are popularly borrowed from
 fp by non-functional languages.  In particular, most languages implement
@@ -37,7 +42,6 @@ the following list-oriented functions:
     binary function to an accumulator and each term, returning the
     result from the accumulator
 
-You can find plenty of implementations of these and more for bash.
 Let's learn a little bit about how we might implement these ourselves.
 
 Map
@@ -101,6 +105,12 @@ Each time, *map* applies whatever function was requested to the current
 argument.  Even though the function to apply is provided as a string,
 bash expands the argument before attempting to run the command.  No eval
 nor other magic is required.
+
+As it so happens, since function names are strings and bash makes
+strings and variable expansions first-class citizens, by extension it
+makes functions first-class citizens.  They can easily be stored in
+variables and invoked without a lot of extra syntax.  Whod've thunk that
+bash is so forward-looking when it comes to fp?
 
 Map with a Lambda
 -----------------
