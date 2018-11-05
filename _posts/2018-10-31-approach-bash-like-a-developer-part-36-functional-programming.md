@@ -70,7 +70,7 @@ describe map
     strings=( zero one )
     result=$(echo "${strings[*]}" | map uppercase)
     expecteds=( Zero One )
-    assert equal "${expecteds[*]}" "${result[*]}"
+    assert equal "${expecteds[*]}" "$result"
   ti
 end_describe
 {% endhighlight %}
@@ -133,7 +133,7 @@ it "takes a lambda"
   strings=( zero one )
   result=$(echo "${strings[*]}" | map '${1^}')
   expecteds=( Zero One )
-  assert equal "${expecteds[*]}" "${result[*]}"
+  assert equal "${expecteds[*]}" "$result"
 ti
 {% endhighlight %}
 
@@ -176,7 +176,7 @@ it "takes a command substitution"
   strings=( zero one )
   result=$(echo "${strings[*]}" | map '$(echo ${1^})')
   expecteds=( Zero One )
-  assert equal "${expecteds[*]}" "${result[*]}"
+  assert equal "${expecteds[*]}" "$result"
 ti
 {% endhighlight %}
 
@@ -196,7 +196,7 @@ it "takes an arithmetic substitution"
   integers=( 1 2 )
   result=$(echo "${integers[*]}" | map '$(( $1*2 ))')
   expecteds=( 2 4 )
-  assert equal "${expecteds[*]}" "${result[*]}"
+  assert equal "${expecteds[*]}" "$result"
 ti
 {% endhighlight %}
 
@@ -312,7 +312,7 @@ reduce () {
 
   while read -r arg; do
     accumulator=$($function_to_apply $accumulator $arg)
-  done;:
+  done
   echo $accumulator
 }
 {% endhighlight %}
