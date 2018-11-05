@@ -108,6 +108,9 @@ We'll use the name *module* for the library which will implement the
 functionality. We'll leave off the *.bash* extension since we'll be
 using it more like a command than a library.
 
+On a side note, I've put all of the shpec aliases into a separate file
+called *lib/shpec-helper.bash*
+
 *shpec/module\_shpec.bash:*
 
 {% highlight bash %}
@@ -115,7 +118,7 @@ IFS=$'\n'
 set -o noglob
 
 Dir=$(dirname $(readlink -f $BASH_SOURCE))/..
-source $Dir/shpec/shpec-helper.bash
+source $Dir/lib/shpec-helper.bash
 cd $Dir/lib
 
 describe module
@@ -478,7 +481,7 @@ IFS=$'\n'
 set -o noglob
 
 Dir=$(dirname $(readlink -f $BASH_SOURCE))/..
-source $Dir/shpec/shpec-helper.bash
+source $Dir/lib/shpec-helper.bash
 cd $Dir/lib
 source ./module ''  # new
 

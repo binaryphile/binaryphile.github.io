@@ -58,7 +58,7 @@ IFS=$'\n'
 set -o noglob
 
 Dir=$(dirname $(readlink -f $BASH_SOURCE))/..
-source $Dir/shpec/shpec-helper.bash
+source $Dir/lib/shpec-helper.bash
 source $Dir/lib/fibonacci.bash
 
 describe fibonacci
