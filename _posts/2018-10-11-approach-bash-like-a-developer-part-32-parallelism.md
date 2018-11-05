@@ -679,26 +679,13 @@ not_transferred () {
 }
 
 running? () {
-  ps -p $(<$Lockfile) >/dev/null
+  [[ -e $Lockfile ]] && ps -p $(<$Lockfile) >/dev/null
 }
 
 singleton? () {
-  local i
-
-  for (( i = 0; i < 2; i++ )); do
-    ! lockfile?
-    case $? in
-      0 )
-        trap "rm $Lockfile;"' echo "stopped at $(date)"' EXIT
-        return
-        ;;
-      * )
-        ! running?    || return
-        rm $Lockfile  || return
-        ;;
-    esac
-  done
-  return 1
+  ! running?    || return
+  rm $Lockfile  || return
+  ! lockfile? && trap "rm $Lockfile;"' echo "stopped at $(date)"' EXIT
 }
 
 start_monitor () {
