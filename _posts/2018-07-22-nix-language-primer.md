@@ -37,13 +37,21 @@ You will see more on this in the following sections.
 Nix REPL
 --------
 
-{% highlight bash %}
+Playing with expressions in the nix command-line interpreter
+(Read-Evaluate-Print-Loop) is encouraged.
+
+In nix 1:
+
+{% highlight nix %}
 nix-env -ibA nixpkgs.nix-repl
 nix-repl
 {% endhighlight %}
 
-Playing with expressions in the nix command-line interpreter
-(Read-Evaluate-Print-Loop) is encouraged.
+Nix 2 includes the repl by default.  You can access with:
+
+{% highlight nix %}
+nix repl
+{% endhighlight %}
 
 Whitespace
 ----------
@@ -133,7 +141,8 @@ URLs
 http://domain.com/path
 {% endhighlight %}
 
-URLs are a basic type. Again, no quotes.
+URLs evaluate to strings, but have their own literal format.  They do
+not require quotes.
 
 Lists
 -----
@@ -565,6 +574,25 @@ the same directory in which the expression's own file is located:
 {% highlight nix %}
 import ./.
 {% endhighlight %}
+
+Nix Path
+--------
+
+In addition to files, you can use nix path references with import:
+
+{% highlight nix %}
+import <nixpkgs>
+{% endhighlight %}
+
+The angle brackets are literal and instruct nix to consult the
+*NIX_PATH* environment variable for resolution.
+
+*NIX_PATH* contains a colon-delimited string of *key=path* pairs.  The
+keys are available as expansions to nix using the angle brackets, and
+the values are the paths to which those keys expand.
+
+Per usual, if the path is a directory, then it references *default.nix*
+in that directory.
 
 Resources
 ---------
