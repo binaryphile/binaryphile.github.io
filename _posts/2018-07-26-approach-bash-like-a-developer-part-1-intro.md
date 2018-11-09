@@ -166,6 +166,88 @@ Now for the good stuff:
 
 Continue with [part 2] - vim.
 
+If you want to jump ahead to any specific topic, here's a table of
+contents for the series:
+
+-   [Part 1 - Intro]
+-   [Part 2 - Vim]
+-   [Part 3 - The Start]
+-   [Part 4 - Failure!]
+-   [Part 5 - Success!]
+-   [Part 6 - Outline Script]
+-   [Part 7 - Sourcing]
+-   [Part 8 - Support Library]
+-   [Part 9 - Another Test]
+-   [Part 10 - Test Independence]
+-   [Part 10.5 - Aside on Aliases]
+-   [Part 11 - Strict Mode]
+-   [Part 12 - Working in Strict Mode]
+-   [Part 13 - Implementing Strict Mode]
+-   [Part 14 - Updated Outline]
+-   [Part 15 - Strict Mode Caveats]
+-   [Part 16 - Recap]
+-   [Part 17 - Command Processing]
+-   [Part 18 - Word Splitting]
+-   [Part 19 - Disabling Word Splitting]
+-   [Part 19.5 - Disabling Path Expansion]
+-   [Part 20 - Scoping]
+-   [Part 21 - Environment Variables]
+-   [Part 22 - Data Types]
+-   [Part 22.5 - Naming and Namespaces]
+-   [Part 23 - Passing Arguments]
+-   [Part 24 - Passing Arrays]
+-   [Part 25 - Passing Hashes]
+-   [Part 26 - Returning Values]
+-   [Part 27 - Traps]
+-   [Part 28 - Tracebacks]
+-   [Part 29 - Debugging]
+-   [Part 30 - Option Parsing]
+-   [Part 31 - getopt]
+-   [Part 32 - Parallelism]
+-   [Part 33 - Modules]
+-   [Part 34 - Indirection]
+-   [Part 35 - Recursion]
+-   [Part 36 - Functional Programming]
+
+  [Part 1 - Intro]: /bash/2018/07/26/approach-bash-like-a-developer-part-1-intro.html
+  [Part 2 - Vim]: /bash/vim/2018/07/26/approach-bash-like-a-developer-part-2-vim.html
+  [Part 3 - The Start]: /bash/2018/07/26/approach-bash-like-a-developer-part-3-the-start.html
+  [Part 4 - Failure!]: /bash/2018/07/28/approach-bash-like-a-developer-part-4-failure.html
+  [Part 5 - Success!]: /bash/2018/07/29/approach-bash-like-a-developer-part-5-success.html
+  [Part 6 - Outline Script]: /bash/2018/07/30/approach-bash-like-a-developer-part-6-outline-script.html
+  [Part 7 - Sourcing]: /bash/2018/08/04/approach-bash-like-a-developer-part-7-sourcing.html
+  [Part 8 - Support Library]: /bash/2018/08/04/approach-bash-like-a-developer-part-8-support-library.html
+  [Part 9 - Another Test]: /bash/2018/08/05/approach-bash-like-a-developer-part-9-another-test.html
+  [Part 10 - Test Independence]: /bash/2018/08/06/approach-bash-like-a-developer-part-10-test-independence.html
+  [Part 10.5 - Aside on Aliases]: /bash/2018/08/23/approach-bash-like-a-developer-part-10.5-aside-on-aliases.html
+  [Part 11 - Strict Mode]: /bash/2018/08/09/approach-bash-like-a-developer-part-11-strict-mode.html
+  [Part 12 - Working in Strict Mode]: /bash/2018/08/09/approach-bash-like-a-developer-part-12-working-in-strict-mode.html
+  [Part 13 - Implementing Strict Mode]: /bash/2018/08/12/approach-bash-like-a-developer-part-13-implementing-strict-mode.html
+  [Part 14 - Updated Outline]: /bash/2018/08/13/approach-bash-like-a-developer-part-14-updated-outline.html
+  [Part 15 - Strict Mode Caveats]: /bash/2018/08/13/approach-bash-like-a-developer-part-15-strict-mode-caveats.html
+  [Part 16 - Recap]: /bash/2018/08/24/approach-bash-like-a-developer-part-16-recap.html
+  [Part 17 - Command Processing]: /bash/2018/08/25/approach-bash-like-a-developer-part-17-command-processing.html
+  [Part 18 - Word Splitting]: /bash/2018/08/31/approach-bash-like-a-developer-part-18-word-splitting.html
+  [Part 19 - Disabling Word Splitting]: /bash/2018/09/01/approach-bash-like-a-developer-part-19-disabling-word-splitting.html
+  [Part 19.5 - Disabling Path Expansion]: /bash/2018/09/09/approach-bash-like-a-developer-part-19.5-disabling-path-expansion.html
+  [Part 20 - Scoping]: /bash/2018/09/01/approach-bash-like-a-developer-part-20-scoping.html
+  [Part 21 - Environment Variables]: /bash/2018/09/02/approach-bash-like-a-developer-part-21-environment-variables.html
+  [Part 22 - Data Types]: /bash/2018/09/02/approach-bash-like-a-developer-part-22-data-types.html
+  [Part 22.5 - Naming and Namespaces]: /bash/2018/09/17/approach-bash-like-a-developer-part-22.5-naming-and-namespaces.html
+  [Part 23 - Passing Arguments]: /bash/2018/09/13/approach-bash-like-a-developer-part-23-passing-arguments.html
+  [Part 24 - Passing Arrays]: /bash/2018/09/16/approach-bash-like-a-developer-part-24-passing-arrays.html
+  [Part 25 - Passing Hashes]: /bash/2018/09/18/approach-bash-like-a-developer-part-25-passing-hashes.html
+  [Part 26 - Returning Values]: /bash/2018/09/22/approach-bash-like-a-developer-part-26-returning-values.html
+  [Part 27 - Traps]: /bash/2018/09/23/approach-bash-like-a-developer-part-27-traps.html
+  [Part 28 - Tracebacks]: /bash/2018/09/24/approach-bash-like-a-developer-part-28-tracebacks.html
+  [Part 29 - Debugging]: /bash/2018/09/27/approach-bash-like-a-developer-part-29-debugging.html
+  [Part 30 - Option Parsing]: /bash/2018/09/28/approach-bash-like-a-developer-part-30-option-parsing.html
+  [Part 31 - getopt]: /bash/2018/10/08/approach-bash-like-a-developer-part-31-getopt.html
+  [Part 32 - Parallelism]: /bash/2018/10/11/approach-bash-like-a-developer-part-32-parallelism.html
+  [Part 33 - Modules]: /bash/2018/10/16/approach-bash-like-a-developer-part-33-modules.html
+  [Part 34 - Indirection]: /bash/2018/10/28/approach-bash-like-a-developer-part-34-indirection.html
+  [Part 35 - Recursion]: /bash/2018/10/29/approach-bash-like-a-developer-part-35-recursion.html
+  [Part 36 - Functional Programming]: /bash/2018/10/31/approach-bash-like-a-developer-part-36-functional-programming.html
   [bash exercises]:                   https://exercism.io/profiles/binaryphile
   [the bash hacker's wiki]:           http://wiki.bash-hackers.org/
   [the google shell style guide]:     https://google.github.io/styleguide/shell.xml
