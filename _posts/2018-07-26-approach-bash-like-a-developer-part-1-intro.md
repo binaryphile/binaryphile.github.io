@@ -6,9 +6,9 @@ categories: bash
 ---
 
 Update: For examples of my coding approach, I've written solutions to a
-number of the exercism [bash exercises] that you can inspect.  They
-won't all make sense until you've gone through most of the series, but
-they're a good resource to examine these techniques in action.
+number of the exercism [bash exercises] that you can inspect. They won't
+all make sense until you've gone through most of the series, but they're
+a good resource to examine these techniques in action.
 
 This is part one of a series on how to approach bash programming in a
 way that's safer and more structured than your basic script.
@@ -64,7 +64,7 @@ ability to easily call external programs. There's no standard library
 aside from what is builtin or distributed on most unix systems.
 
 Bash doesn't have a standard packaging system nor language support for
-modules. Nor does it have a standard logging system.  While these are
+modules. Nor does it have a standard logging system. While these are
 minuses for functionality, they're also pluses for simplicity.
 
 ### Ubiquity
@@ -132,10 +132,10 @@ It's not particularly friendly to newcomers to the language, and you're
 definitely in for at least one lecture on why you shouldn't be trying to
 do what you're trying to do with bash.
 
-I also would not recommend the Bashism wiki.  It's full of good
+I also would not recommend the Bashism wiki. It's full of good
 information tinged with inaccuracies, bad opinions and outright bad
-advice.  Bash is better than they make it out to be, and you deserve
-better too.  There's nothing there you can't find elsewhere.
+advice. Bash is better than they make it out to be, and you deserve
+better too. There's nothing there you can't find elsewhere.
 
 In general I would also say not to listen to anyone who tells you to not
 do this or that with bash. So long as you are trying to learn, no one
@@ -209,6 +209,11 @@ contents for the series:
 -   [Part 35 - Recursion]
 -   [Part 36 - Functional Programming]
 
+  [bash exercises]: https://exercism.io/profiles/binaryphile
+  [the bash hacker's wiki]: http://wiki.bash-hackers.org/
+  [the google shell style guide]: https://google.github.io/styleguide/shell.xml
+  [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
+  [part 2]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim %}
   [Part 1 - Intro]: /bash/2018/07/26/approach-bash-like-a-developer-part-1-intro.html
   [Part 2 - Vim]: /bash/vim/2018/07/26/approach-bash-like-a-developer-part-2-vim.html
   [Part 3 - The Start]: /bash/2018/07/26/approach-bash-like-a-developer-part-3-the-start.html
@@ -248,8 +253,3 @@ contents for the series:
   [Part 34 - Indirection]: /bash/2018/10/28/approach-bash-like-a-developer-part-34-indirection.html
   [Part 35 - Recursion]: /bash/2018/10/29/approach-bash-like-a-developer-part-35-recursion.html
   [Part 36 - Functional Programming]: /bash/2018/10/31/approach-bash-like-a-developer-part-36-functional-programming.html
-  [bash exercises]:                   https://exercism.io/profiles/binaryphile
-  [the bash hacker's wiki]:           http://wiki.bash-hackers.org/
-  [the google shell style guide]:     https://google.github.io/styleguide/shell.xml
-  [one of the "awesome shell" lists]: https://github.com/alebcay/awesome-shell
-  [part 2]:                           {% post_url 2018-07-26-approach-bash-like-a-developer-part-2-vim %}
