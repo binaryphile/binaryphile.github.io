@@ -5,6 +5,9 @@ date:   2018-10-16 01:00:00 +0000
 categories: bash
 ---
 
+Update: There's a [github repo] with a more developed version of this
+approach if you want to try it in practice.
+
 This is part 33 of a series on how to approach bash programming in a way
 that's safer and more structured than your basic script.
 
@@ -840,6 +843,7 @@ victory. Modules!
 
 Continue with [part 34] - indirection
 
+  [github repo]: https://github.com/binaryphile/module
   [part 1]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
   [Last time]: {% post_url 2018-10-11-approach-bash-like-a-developer-part-32-parallelism %}
   [-v test]: http://wiki.bash-hackers.org/commands/classictest#misc_syntax
