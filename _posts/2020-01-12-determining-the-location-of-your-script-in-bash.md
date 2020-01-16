@@ -21,7 +21,7 @@ modularize your script into a few files if it gets unwieldy and source
 them from your main file.  Pretty soon you may even have a few must-have
 functions for all of your scripts that you include as a library, in
 which case you'll need to load them without the trouble of sticking them
-on the **PATH** (the "source" builtin can search PATH, you knew that
+on the **PATH** (the source builtin searches PATH, you knew that
 right?).
 
 TL;DR
