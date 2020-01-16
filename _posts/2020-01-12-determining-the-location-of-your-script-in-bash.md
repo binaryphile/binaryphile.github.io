@@ -146,8 +146,7 @@ present a problem if we can rely on two other factors:
     symlinks, then the relative files we're trying to locate from it may
     not have similar symlinks and so appear to be missing based on the
     user's invocation via the symlinked location. (remember that we're
-    using BASH_SOURCE, and it can only give us the user's invocation, at
-    least in the non-PATH scenario)
+    using BASH_SOURCE, and it can only give us the symlink location)
 
 Let's tackle the issue of a symlink next.  Consider the following
 filesystem layout:
