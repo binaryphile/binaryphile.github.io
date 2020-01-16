@@ -145,8 +145,9 @@ present a problem if we can rely on two other factors:
 -   there are no symlinks involved.  If the path to a script includes
     symlinks, then the relative files we're trying to locate from it may
     not have similar symlinks and so appear to be missing based on the
-    user's invocation via the symlinked location (which is what
-    BASH_SOURCE gives us)
+    user's invocation via the symlinked location. (remember that we're
+    using BASH_SOURCE, and it can only give us the user's invocation, at
+    least in the non-PATH scenario)
 
 Let's tackle the issue of a symlink next.  Consider the following
 filesystem layout:
