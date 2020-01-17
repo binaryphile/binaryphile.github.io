@@ -30,14 +30,14 @@ TL;DR
 Here's the general solution, details further down:
 
 ``` bash
-HERE=$({ cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"; } >/dev/null; pwd)
+HERE=$(cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"; pwd)
 ```
 
 For a simpler version which returns a normalized (i.e. resolved for
 symlinks in the path), absolute location for the file:
 
 ``` bash
-HERE=$(cd -P "$(dirname "$BASH_SOURCE")" >/dev/null; pwd)
+HERE=$(cd -P "$(dirname "$BASH_SOURCE")"; pwd)
 ```
 
 The down-side to that one is that it won't properly resolve if the file
@@ -224,7 +224,7 @@ to invalidate the relative location of sibling files, having the actual
 path can't hurt and is arguably good if you're a purist:
 
 ``` bash
-HERE=$(cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)) >/dev/null; pwd)
+HERE=$(cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)); pwd)
 ```
 
 This changes to the script's directory and prints the working path
@@ -235,10 +235,6 @@ If we didn't care about the true path, we could drop the **-P** option
 to cd since that resolves symlinks on the path, but as I said, it can't
 hurt. When you run the bash builtin pwd, it outputs the full path of the
 current directory, which is what we're looking for.
-
-I'm also binning cd's output to **/dev/null** since setting **CDPATH**
-can make it generate output to stdout which we don't want. Normally
-that's not an issue but I've seen it happen. Can't be too safe here.
 
 Note that for pwd, we could also have echoed the special **PWD**
 variable. It doesn't matter, pwd is just shorter to write.
@@ -260,17 +256,13 @@ The problem here is that our dirname/readlink will return
 **../scripts**, but we won't be in the correct working directory when we
 try to cd to it.
 
-The answer is just to cd to that directory first. Since we're sending
-cd's output to **/dev/null**, we can group the two cd commands together
-with braces and bin their collective output:
+The answer is just to cd to that directory first:
 
 ``` bash
-HERE=$({ cd $(dirname $BASH_SOURCE); cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)); } >/dev/null; pwd)
+HERE=$(cd $(dirname $BASH_SOURCE); cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)); pwd)
 ```
 
-The second cd does require a semicolon before the closing brace.
-
-There you go, a battle-hardened, fully normalized directory spec which
-handles relative symlinks on both Mac and Linux. Whew!
+There you go, a battle-hardened, fully normalized directory locator
+which handles relative symlinks on both Mac and Linux. Whew!
 
   [approaching bash like a developer]: {% post_url 2018-07-26-approach-bash-like-a-developer-part-1-intro %}
