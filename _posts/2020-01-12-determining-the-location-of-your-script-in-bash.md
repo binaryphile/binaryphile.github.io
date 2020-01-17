@@ -7,13 +7,7 @@ categories: bash
 
 Hey there! Long time no blog. It's been about a year and a half since I
 concluded the series on [approaching bash like a developer]. It's good
-to be back! I've learned a lot since then and a number of my practices
-have evolved, a subject which I hope to get into with perhaps a summary
-of my current best practices.
-
-But that's not the subject of today's post. This one is to blow out the
-rust and get familiar with the github pages blogging system again. So
-here we go.
+to be back!
 
 One of the first things I end up doing in almost all of my bash scripts
 is to figure out where the heck it is. This is important so you can
