@@ -33,8 +33,8 @@ Here's the general solution, details further down:
 HERE=$({ cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"; } >/dev/null; pwd)
 ```
 
-For a simpler version which returns a normalized absolute location for
-the file:
+For a simpler version which returns a normalized (i.e. resolved for
+symlinks in the path), absolute location for the file:
 
 ``` bash
 HERE=$(cd -P "$(dirname "$BASH_SOURCE")" >/dev/null; pwd)
