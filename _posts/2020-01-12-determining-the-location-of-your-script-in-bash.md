@@ -268,7 +268,7 @@ together with braces and bin their collective output:
 HERE=$({ cd $(dirname $BASH_SOURCE); cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)); } >/dev/null; pwd)
 ```
 
-The second cd does require a semicolon before closing the braces.
+The second cd does require a semicolon before the closing brace.
 
 There you go, a battle-hardened, fully normalized directory spec which
 handles relative symlinks on both Mac and Linux. Whew!
