@@ -33,22 +33,25 @@ Here's the general solution, details further down:
 HERE=$({ cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"; } >/dev/null; pwd)
 ```
 
-For a simpler version which gives an absolute path but doesn't allow you
-to symlink to the script itself, here's the less-recommended version:
+For a simpler version which returns a normalized absolute location for
+the file:
 
 ``` bash
 HERE=$(cd -P "$(dirname "$BASH_SOURCE")" >/dev/null; pwd)
 ```
 
-If you don't care about absolute pathnames and just want something you
-can remember, again no symlinking:
+The down-side to that one is that it won't properly resolve if the file
+is actually a symlink to a file in another directory.
+
+If you don't care about a normalized absolute pathname to your file,
+i.e. a relative pathname is ok, this is the simplest:
 
 ``` bash
 HERE=$(dirname "$BASH_SOURCE")
 ```
 
-That last one is for when you won't be changing working directory before
-using the value and you don't care how it looks when printed.
+That one is for when you won't be changing working directory before
+using the value, and when you don't care how the path looks when printed.
 
 The Long Way Round
 ------------------
