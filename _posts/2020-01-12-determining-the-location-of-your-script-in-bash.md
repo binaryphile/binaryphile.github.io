@@ -201,7 +201,7 @@ expression executes, which simply echos to dirname the original
 BASH\_SOURCE.
 
 So long as the symlink contains a full path to the script and that path
-doesn't itself point to another symlink, HERE will get the correct
+doesn't itself chain to another symlink, HERE will get the correct
 original directory of the script. **readlink -f** would resolve any
 number of chained symlinks, but I'm not going to be able to do the same
 with a one-liner and I've decided to be happy categorizing chained
