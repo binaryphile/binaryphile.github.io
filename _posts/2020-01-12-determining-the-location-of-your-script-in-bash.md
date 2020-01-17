@@ -261,8 +261,8 @@ The problem here is that our dirname/readlink will return
 try to cd to it.
 
 The answer is just to cd to that directory first. Since we're sending
-cd's output to **/dev/null**, we can group to the two cd commands
-together with braces and bin their collective output:
+cd's output to **/dev/null**, we can group the two cd commands together
+with braces and bin their collective output:
 
 ``` bash
 HERE=$({ cd $(dirname $BASH_SOURCE); cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)); } >/dev/null; pwd)
