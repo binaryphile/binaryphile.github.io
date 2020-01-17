@@ -101,7 +101,7 @@ IFS to newline.
 `dirname $BASH_SOURCE` gives us a few possible results based on how the
 script was found:
 
--   **`source ./myscript`** - dirname will explicitly pull the basename
+-   **`source ./myscript`** - dirname will explicitly trim the basename
     off the given path, returning "."
 
 -   **`source scripts/myscript`** - this time we'll get the relative
