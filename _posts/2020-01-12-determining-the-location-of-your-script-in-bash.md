@@ -240,7 +240,7 @@ I'm also binning cd's output to **/dev/null** since setting **CDPATH**
 can make it generate output to stdout which we don't want. Normally
 that's not an issue but I've seen it happen. Can't be too safe here.
 
-Note that for **pwd**, we could also have echoed the special **PWD**
+Note that for pwd, we could also have echoed the special **PWD**
 variable. It doesn't matter, pwd is just shorter to write.
 
 The Last Bit, Relative Symlinks
