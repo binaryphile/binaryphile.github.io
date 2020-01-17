@@ -128,8 +128,8 @@ script was found:
     being on the PATH.
 
 The first two options return relative paths, as does the case where the
-file isn't on the PATH in the second-to-last option.  Even a "." is considered a
-correct, if superfluous, relative path.
+file isn't on the PATH in the second-to-last option.  Note that a "."
+qualifies as a a correct, if superfluous, relative path.
 
 We can ignore the full path scenario since that will always work
 correctly, so long as we don't munge it when it is given.
