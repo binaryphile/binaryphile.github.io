@@ -17,12 +17,17 @@ here we go.
 
 One of the first things I end up doing in almost all of my bash scripts
 is to figure out where the heck it is. This is important so you can
-modularize your script into a few files if it gets unwieldy and source
-them from your main file. Pretty soon you may even have a few must-have
-functions for all of your scripts that you include as a library, in
-which case you'll need to load them without the trouble of sticking them
-on the **PATH** (the source builtin searches PATH, you knew that
-right?).
+modularize your script. If a script starts getting too unwieldy, you can
+break it into a few files which get distributed together. When the main
+part of your script runs, it can source the other files relative to
+itself by using its own location.
+
+Pretty soon you may even have a few must-have functions for all of your
+scripts that you include as a library. Again, you can distribute this as
+a file alongside your script, or say in a **/lib** subdirectory.  By
+determining the location of your script with this technique, you can
+avoid the trouble of having to stick the library file on your **PATH**,
+which is the other way of sourcing bash libraries.
 
 TL;DR
 -----
