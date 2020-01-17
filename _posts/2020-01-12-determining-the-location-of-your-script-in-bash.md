@@ -113,10 +113,10 @@ script was found:
 
 -   **`source myscript`** - if no path was given with the script name,
     there are two possibilities: the file is on the PATH, in which case
-    we'll get the PATH directory in which it was found.  Or the file
-    wasn't on the PATH but is in the current directory, in which case
-    dirname will only see the bare filename and will return ".".  The
-    PATH search comes first, so if both are true, PATH wins.
+    we'll get the fully-qualified PATH directory in which it was found.
+    Or the file wasn't on the PATH but is in the current directory, in
+    which case dirname will only see the bare filename and will return
+    ".".  The PATH search comes first, so if both are true, PATH wins.
 
 -   **`myscript`** - if we are executing the file rather than sourcing
     it there's a slight difference.  While source will find a file which
