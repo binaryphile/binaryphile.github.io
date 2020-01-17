@@ -20,8 +20,9 @@ Pretty soon you may even have a few must-have functions for all of your
 scripts that you include as a library. Again, you can distribute this as
 a file alongside your script, or say in a **/lib** subdirectory.  By
 determining the location of your script with this technique, you can
-avoid the trouble of having to stick the library file on your **PATH**,
-which is the other way of sourcing bash libraries.
+avoid the trouble of having to install the library file on your
+**PATH**, which is the other way of locating bash libraries when you
+source them.
 
 TL;DR
 -----
