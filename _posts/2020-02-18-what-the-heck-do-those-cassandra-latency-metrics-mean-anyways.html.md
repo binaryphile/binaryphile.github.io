@@ -2,7 +2,7 @@
 layout: post
 title: "What the Heck do those Cassandra Latency Metrics Mean, Anyways?"
 date: 2020-02-18 14:15 UTC
-categories: metrics, cassandra:
+categories: metrics, cassandra
 ---
 
 I work for a company with a reasonably large Cassandra deployment.  I
