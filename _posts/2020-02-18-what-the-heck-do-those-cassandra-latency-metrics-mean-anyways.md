@@ -74,8 +74,9 @@ Here they are:
 
 You can find the mappings of attribute names to code in the Dropwizard
 [JMX reporter] and the implementation of the metrics in the Dropwizard
-[Timer], [Meter] and [Histogram] source code.  The version used by
-Cassandra 2.1.13 is 2.2.0, per the [build file].
+[Timer], [Meter] and [Histogram] source code.  The Dropwizard version
+used by Cassandra 2.1.13 is 2.2.0, per the [build file], and is called
+"yammer" instead of "dropwizard" because of the history of that project.
 
 [JMX reporter]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java
 [Timer]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Timer.java
