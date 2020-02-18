@@ -5,11 +5,10 @@ date: 2020-02-18 14:15 UTC
 categories: metrics, cassandra
 ---
 
-I work for a company with a reasonably large Cassandra deployment.  I
-wanted to get a better idea of how the latency metrics for the
-deployment were gathered and what exactly they represent, so I spent
-some time walking through code and developer materials.  Here's what I
-found.
+I recently looked at a DataDog graph of Cassandra client write latencies
+and realized I had no idea what the words on it actually meant.  I spent
+quite some time walking through the Cassandra code to figure it out.
+Here are the bullet points from that exploration.
 
 To set the stage, I'm dealing with a Cassandra 2.1.13 environment.
 Quite a bit has changed with metrics in Cassandra since then, as that
@@ -27,14 +26,14 @@ The Dropwizard metrics are exposed via Dropwizard's own MBean underneath
 the **org.apache.cassandra.metrics** interface.  For example, the client
 request write latency metrics are accessed under
 **org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency,Attribute=xxx**.
-This is the data being polled by DataDog.
+This is the data being polled by DataDog's Cassandra integration.
 
 The custom metrics are exposed under **org.apache.cassandra.db**.  For
-example, the read and write latency metrics are accessed under
+example, the custom read and write latency metrics are accessed under
 **org.apache.cassandra.db:type=StorageProxy,Attribute=xxx**.  This data
-is not under DataDog at the moment, but could be added with the proviso
-that the histogram data is not digested into a percentile format and is
-also not as good as the Dropwizard data we are already collecting.
+is not tracked by DataDog's Cassandra integration.  That's ok though,
+since that the histogram data is not digested into a percentile format
+and is also not as good as the Dropwizard data.
 
 The following data is available through the **.metrics** (i.e.
 Dropwizard) interface:
