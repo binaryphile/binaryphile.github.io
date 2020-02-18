@@ -36,7 +36,11 @@ since that the histogram data is not digested into a percentile format
 and is also not as good as the Dropwizard data.
 
 The following data is available through the **.metrics** (i.e.
-Dropwizard) interface:
+Dropwizard) interface.  I break them up into two groups since that is
+how Dropwizard breaks up their implementation internally.  There is no
+"histogram" nor "meter" component to the JMX path specifications.
+
+Here they are:
 
 -   **Histogram:** - distribution of the latency of the operations
     (read/write).  The percentiles are heavily biased to the last five
