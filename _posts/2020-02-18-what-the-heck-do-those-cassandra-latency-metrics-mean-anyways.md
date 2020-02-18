@@ -37,15 +37,16 @@ and is also not as good as the Dropwizard data.
 
 The following data is available through the **.metrics** (i.e.
 Dropwizard) interface.  I break them up into two groups since that is
-how Dropwizard breaks up their implementation internally.  There is no
-"histogram" nor "meter" component to the JMX path specifications.
+how Dropwizard breaks up their implementation internally.  Note that
+these names are not reflected in JMX, that is to say there are no
+"histogram" nor "meter" components in the JMX path specifications.
 
 Here they are:
 
 -   **Histogram:** - distribution of the latency of the operations
     (read/write).  The percentiles are heavily biased to the last five
-    minutes.  The count, mean, etc. other metrics are not and are for
-    the lifetime of the service.
+    minutes.  The count, mean, etc. other metrics are not biased and
+    instead are for the lifetime of the service.
 
     -   **durationUnit** - the unit of the returned latency values,
         namely milliseconds
