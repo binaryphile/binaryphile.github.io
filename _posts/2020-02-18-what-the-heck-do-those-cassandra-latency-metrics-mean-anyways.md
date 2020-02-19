@@ -32,8 +32,8 @@ The custom metrics are exposed under **org.apache.cassandra.db**.  For
 example, the custom read and write latency metrics are accessed under
 **org.apache.cassandra.db:type=StorageProxy,Attribute=xxx**.  This data
 is not tracked by DataDog's Cassandra integration.  That's ok though,
-since that the histogram data is not digested into a percentile format
-and is also not as good as the Dropwizard data.
+since that histogram data is not digested into a percentile format and
+is also not as good as the Dropwizard data.
 
 The following data is available through the **.metrics** (i.e.
 Dropwizard) interface.  I break them up into two groups since that is
@@ -44,7 +44,7 @@ these names are not reflected in JMX, that is to say there are no
 Here they are:
 
 -   **Histogram:** - distribution of the latency of the operations
-    (read/write).  The percentiles are heavily biased to the last five
+    (read/write).  The percentiles are [heavily biased] to the last five
     minutes.  The count, mean, etc. other metrics are not biased and
     instead are for the lifetime of the service.
 
@@ -72,14 +72,25 @@ Here they are:
     -   **One, Five, FifteenMinuteRate** - one, five and fifteen-minute
         exponential moving average rate of operations
 
+Write latency in this context means the amount of time for a Cassandra
+node to successfully replicate to the required set of nodes, based on
+quorum level, and get acknowledgements.  You can see the how the
+statistics are updated by the in [`mutate`] by the
+[`writeMetrics`].[`addNano`] call.  (Dropwizard tracks raw data in
+nanoseconds, but reports in milliseconds.)
+
 You can find the mappings of attribute names to code in the Dropwizard
 [JMX reporter] and the implementation of the metrics in the Dropwizard
 [Timer], [Meter] and [Histogram] source code.  The Dropwizard version
 used by Cassandra 2.1.13 is 2.2.0, per the [build file], and is called
 "yammer" instead of "dropwizard" because of the history of that project.
 
+[heavily biased]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Histogram.java#L41
 [JMX reporter]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java
 [Timer]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Timer.java
 [Meter]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Meter.java
 [Histogram]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Histogram.java
 [build file]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/build.xml#L403
+[`mutate`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L554
+[`writeMetrics`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L632
+[`addNano`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/metrics/LatencyMetrics.java#L105
