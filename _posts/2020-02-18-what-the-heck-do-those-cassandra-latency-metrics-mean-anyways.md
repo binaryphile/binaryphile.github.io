@@ -156,6 +156,8 @@ where [Cassandra initializes] the latency metrics:
     private static final ClientRequestMetrics writeMetrics = new ClientRequestMetrics("Write");
 ```
 
+> src/java/org/apache/cassandra/service/StorageProxy.java, line 92
+
 Here's the [ClientRequestMetrics] definition:
 
 ```java
@@ -168,6 +170,8 @@ public class ClientRequestMetrics extends LatencyMetrics
         [...]
     }
 ```
+
+> src/java/org/apache/cassandra/metrics/ClientRequestMetrics.java, line 29
 
 Ok, so that's just a wrapper around LatencyMetrics. (I edited out some
 other attributes I wasn't interested in)
@@ -200,6 +204,7 @@ public class LatencyMetrics
     [...]
 }
 ```
+> src/java/org/apache/cassandra/metrics/LatencyMetrics.java, line 34
 
 While it may seem like I'd be interested in the recentLatencyHistogram,
 that is actually the custom Cassandra version of the histogram.  I'm
@@ -214,6 +219,7 @@ the [MBean definition for Dropwizard's Timer]:
         TimeUnit getLatencyUnit();
     }
 ```
+> metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java, line 258
 
 That's just an extension of the [HistogramMBean], which is where the
 quantiles are:
@@ -246,6 +252,8 @@ quantiles are:
     }
 ```
 
+> metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java, line 154
+
 Finally, now we're getting somewhere!  These method names, minus the
 "get" prefix, are the attributes exposed to JMX!  Let's look at what's
 behind **get50thPercentile**.  For that, we need to look at the
@@ -265,6 +273,8 @@ behind **get50thPercentile**.  For that, we need to look at the
         [...]
     }
 ```
+
+> metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java, line 181
 
 So here we have a Histogram object from the metrics.core package being
 called to satisfy the attribute request.
@@ -295,6 +305,8 @@ argument representing the 50th percentile:
         return lower + (pos - floor(pos)) * (upper - lower);
     }
 ```
+
+> metrics-core/src/main/java/com/yammer/metrics/stats/Snapshot.java, line 54
 
 Here, quantile is 0.5.
 
@@ -351,6 +363,8 @@ mutate which also updates metrics too)
         }
     }
 ```
+
+> src/java/org/apache/cassandra/service/StorageProxy.java, line 554
 
 If there are no exceptions (most of which mark their own metrics), then
 **addNano** is called, which ends up adding itself to the Histogram,
