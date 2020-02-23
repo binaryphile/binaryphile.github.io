@@ -275,8 +275,12 @@ points which is being managed by Dropwizard to track events with an
 algorithm that weights recent data more heavily.  It also converts from
 nanoseconds to milliseconds.  We'll skip that.
 
-The important part is [**getValue**], which pulls the 50th percentile
-from the sample values when supplied the proper argument:
+Suffice to say that Histogram holds a Sample instance, which is being
+updated with write latencies.  When getSnapshot is called, it makes a
+copy of the sample which can then have calculations run on it.
+
+When **Snapshot#getMedian** is called, it calls [**getValue**] with an
+argument representing the 50th percentile:
 
 ```java
     public double getValue(double quantile) {
