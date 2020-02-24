@@ -5,7 +5,7 @@ date: 2020-02-18 14:15 UTC
 categories: [ metrics, cassandra ]
 ---
 
-I recently looked at a DataDog graph of Cassandra client write latencies
+I recently looked at a Datadog graph of Cassandra client write latencies
 and realized I had no idea what the words on it actually meant. I spent
 quite some time walking through the Cassandra code to figure it out.
 Here are the bullet points from that exploration.
@@ -28,14 +28,14 @@ The Dropwizard metrics are exposed via Dropwizard's own MBean
 implementation underneath the **org.apache.cassandra.metrics** bean. For
 example, the client request write latency metrics are accessed under
 **org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency,Attribute=xxx**.
-This is the data being polled by DataDog's Cassandra integration.
+This is the data being polled by Datadog's Cassandra integration.
 
 Cassandra's own custom metrics are exposed under
 **org.apache.cassandra.db**. For example, the custom read and write
 latency metrics are accessed under
 **org.apache.cassandra.db:type=StorageProxy,Attribute=xxx**. This data
-is not tracked by DataDog's Cassandra integration. That's ok though,
-since it can be added to DataDog just as any JMX data can be.
+is not tracked by Datadog's Cassandra integration. That's ok though,
+since it can be added to Datadog just as any JMX data can be.
 
 The following data is available through the **\*.metrics** (i.e.
 Dropwizard) interface. I break them up into two groups since that is how
@@ -139,7 +139,7 @@ I'll mention it.
 
 The percentiles are the most interesting piece of this since you can get
 a perspective of the durations of a wide swath of your writes, and they
-tell you about what's been going on recently. Tracking these in DataDog
+tell you about what's been going on recently. Tracking these in Datadog
 allows you to see a picture over a wide time-range as well.
 
 ### Examining the Implementation through Code
