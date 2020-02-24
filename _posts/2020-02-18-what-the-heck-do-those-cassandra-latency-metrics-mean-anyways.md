@@ -292,8 +292,8 @@ behind **get50thPercentile**. For that, we need to look at the
 > line 181
 
 This is somewhat confusing because Dropwizard calls its MBean
-implementation class a Histogram the same thing as the Histogram metric
-class itself, but they are two different classes as you can see.
+implementation class a Histogram the same as the Histogram metric class
+itself, but they are two different classes as you can see.
 
 So here we have a Histogram object from the metrics.core package being
 called to satisfy the attribute request.
