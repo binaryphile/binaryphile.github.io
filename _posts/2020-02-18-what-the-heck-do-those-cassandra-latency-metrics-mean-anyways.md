@@ -323,8 +323,8 @@ Here, quantile is 0.5.
 
 So that's how the data comes out through the MBean. How does it get in
 there in the first place? For that we have to go back to where Cassandra
-uses the metrics, in [`mutate`]: (there's another method like mutate
-which also updates metrics too)
+uses the metrics, in [`mutate`]: (there's one other method like mutate
+which also updates these metrics btw)
 
 ``` java
     public static void mutate(Collection<? extends IMutation> mutations, ConsistencyLevel consistency_level)
@@ -339,7 +339,7 @@ which also updates metrics too)
 
         try
         {
-            [writing stuff]
+            [writing stuff to replicas]
         }
         catch (WriteTimeoutException ex)
         {
