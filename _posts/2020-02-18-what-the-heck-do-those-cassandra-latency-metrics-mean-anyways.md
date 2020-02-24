@@ -402,8 +402,8 @@ collector like Datadog.
 The [second] is a presentation by the developer of the Dropwizard
 metrics library. While this one ranges over more topics than I'm
 interested in, the parts which do apply were also very useful. I've made
-the link start at the point in the video where he talks about the
-constructs used by the write latency metrics.
+the link start at the point in the video where he starts talking about
+the constructs used by the write latency metrics.
 
 Finally, while not related to metrics, I also want to point out [this
 presentation on Cassandra tuning], which I found very detailed, since
