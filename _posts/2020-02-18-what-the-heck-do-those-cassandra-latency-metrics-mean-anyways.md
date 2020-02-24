@@ -300,7 +300,7 @@ called to satisfy the JMX request.
 
 If you look at **Histogram\#getSnapshot**, you'll see that there's some
 extra stuff going on, namely that there's a sampling pool of the data
-points which is being managed by Dropwizard to track events with an
+points which is being managed by Dropwizard to track events, with an
 algorithm that weights recent data more heavily. It also converts from
 nanoseconds to milliseconds. We'll skip that.
 
