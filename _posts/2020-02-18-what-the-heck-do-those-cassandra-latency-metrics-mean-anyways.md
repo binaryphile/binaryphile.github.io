@@ -86,7 +86,9 @@ Here they are:
     -   **MeanRate** - average rate over the lifetime of the service
 
     -   **One, Five, FifteenMinuteRate** - one, five and fifteen-minute
-        exponential moving average rate of operations
+        exponential moving average rate of operations.  These are still
+        operations per second rates, but averages over a window of the
+        last one/five/fifteen minutes.
 
 Write latency in this context means the amount of time for a Cassandra
 node to successfully replicate to the required set of nodes, based on
