@@ -82,13 +82,13 @@ Here they are:
     -   **EventType** - what's being measured by these metrics, namely
         rate of calls (i.e. read/write operations, not latency)
 
-    -   **RateUnit** - the unit of the returned rates, namely
-        operations per second
+    -   **RateUnit** - the unit of the returned rates, namely operations
+        per second
 
     -   **MeanRate** - average rate over the lifetime of the service
 
     -   **One, Five, FifteenMinuteRate** - one, five and fifteen-minute
-        exponential moving average rate of operations.  These are still
+        exponential moving average rate of operations. These are still
         operations-per-second rates, but averages over a window of the
         last one/five/fifteen minutes.
 
@@ -387,11 +387,11 @@ With that, you should have a shot at tracing down the exact behavior of
 any of Cassandra's published metrics!
 
 If you'd like to dive deeper, here are two resources I found useful to
-understand the topic.  The [first] is a presentation by one of the
+understand the topic. The [first] is a presentation by one of the
 Cassandra developers discussing their metrics implementation. I thought
 it was particularly nice of him to go through the changes through
-history, which helped with the version I was looking for.  While he
-seems to throw some shade on the usefulness of Dropwizard's Histogram
+history, which helped with the version I was looking for. While he seems
+to throw some shade on the usefulness of Dropwizard's Histogram
 (quantiles), I don't fully agree since a) the Cassandra replacement is a
 histogram, which is not apples-to-apples and not as easily consumable by
 Datadog, and b) they were more interested in the storage size of the
@@ -400,7 +400,7 @@ since it should be done outside Cassandra anyway with a collector like
 Datadog.
 
 The [second] is a presentation by the developer of the Dropwizard
-metrics library.  While this one ranges over more topics than I'm
+metrics library. While this one ranges over more topics than I'm
 interested in, the parts which do apply were also very useful.
 
 Finally, while not related to metrics, I also want to point out [this
@@ -425,8 +425,8 @@ looking at write latencies in the first place.
   [percentiles]: https://www.mathsisfun.com/data/percentiles.html
   [Cassandra initializes]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L92
   [ClientRequestMetrics]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/metrics/ClientRequestMetrics.java#L29
-  [EstimatedHistogram]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/utils/EstimatedHistogram.java#L33
   [LatencyMetrics]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/metrics/LatencyMetrics.java#L34
+  [EstimatedHistogram]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/utils/EstimatedHistogram.java#L33
   [MBean definition for Dropwizard's Timer]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L258
   [HistogramMBean]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L154
   [HistogramMBean implementation]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L181
