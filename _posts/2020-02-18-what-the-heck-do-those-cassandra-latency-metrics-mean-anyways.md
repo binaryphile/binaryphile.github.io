@@ -329,12 +329,19 @@ argument representing the 50th percentile:
 > metrics-core/src/main/java/com/yammer/metrics/stats/Snapshot.java,
 > line 54
 
-Here, quantile is 0.5.
+Here, quantile is 0.5.  I'm not so much interested in understanding how
+it calculates the median in this case, so I'm not going to try to
+understand or explain the code above.  Instead I'm interested in knowing
+that I can track down how the code works whenever I do have a question
+about how it works precisely, as we've done here.
 
-So that's how the data comes out through the MBean. How does it get in
-there in the first place? For that we have to go back to where Cassandra
-uses the metrics, in [`mutate`]: (there's one other method like mutate
-which also updates these metrics btw)
+So that's how the data comes out through the MBean.  Mission
+accomplished so far.  The next question is how it gets in there in the
+first place.
+
+For that we have to go back to where Cassandra uses the metrics, in
+[`mutate`]: (there's one other method like mutate which also updates
+these metrics btw)
 
 ``` java
     public static void mutate(Collection<? extends IMutation> mutations, ConsistencyLevel consistency_level)
