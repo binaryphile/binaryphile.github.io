@@ -60,7 +60,8 @@ graph, for example.
 Here they are:
 
 -   **Histogram:** - distribution of the latency of the operations
-    (read/write). The percentiles are [heavily biased] to the last five
+    (read/write). The underlying sample on which the percentiles are
+    based is continually updated and [heavily biased] to the last five
     minutes. The count, mean, etc. metrics other than the percentiles
     are not biased and instead are for the lifetime of the service.
 
