@@ -296,7 +296,7 @@ implementation class a Histogram the same as the Histogram metric class
 itself, but they are two different classes as you can see.
 
 So here we have a Histogram object from the metrics.core package being
-called to satisfy the attribute request.
+called to satisfy the JMX request.
 
 If you look at **Histogram\#getSnapshot**, you'll see that there's some
 extra stuff going on, namely that there's a sampling pool of the data
