@@ -48,7 +48,7 @@ being provided here. A histogram is a *count of data points* which fall
 into buckets, where each bucket represents a distinct range of values.
 
 That's not what the Dropwizard bean supplies. It instead supplies
-quantiles. A quantile is a data point *value* (not a *count of data
+[quantiles]. A quantile is a data point *value* (not a *count of data
 points*) which is higher than the values of a certain proportion of all
 data points (say, 75% of all data points).
 
@@ -429,6 +429,7 @@ looking at write latencies in the first place.
 
   [Dropwizard metrics]: https://metrics.dropwizard.io/4.1.2/
   [Cassandra integration]: https://github.com/DataDog/integrations-core/blob/master/cassandra/datadog_checks/cassandra/data/conf.yaml.example#L146
+  [quantiles]: http://www.techbookreport.com/tutorials/quantiles.html
   [heavily biased]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Histogram.java#L41
   [`mutate`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L554
   [`writeMetrics`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L632
