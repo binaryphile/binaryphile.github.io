@@ -386,6 +386,28 @@ exercise for the reader.
 With that, you should have a shot at tracing down the exact behavior of
 any of Cassandra's published metrics!
 
+If you'd like to dive deeper, here are two resources I found useful to
+understand the topic.  The [first] is a presentation by one of the
+Cassandra developers discussing their metrics implementation. I thought
+it was particularly nice of him to go through the changes through
+history, which helped with the version I was looking for.  While he
+seems to throw some shade on the usefulness of Dropwizard's Histogram
+(quantiles), I don't fully agree since a) the Cassandra replacement is a
+histogram, which is not apples-to-apples and not as easily consumable by
+Datadog, and b) they were more interested in the storage size of the
+data structure for historical tracking, which is not such a concern
+since it should be done outside Cassandra anyway with a collector like
+Datadog.
+
+The [second] is a presentation by the developer of the Dropwizard
+metrics library.  While this one ranges over more topics than I'm
+interested in, the parts which do apply were also very useful.
+
+Finally, while not related to metrics, I also want to point out [this
+presentation on Cassandra tuning], which I found very detailed, since
+fixing an issue with Cassandra performance was the reason I began
+looking at write latencies in the first place.
+
   [Dropwizard metrics]: https://metrics.dropwizard.io/4.1.2/
   [Cassandra integration]: https://github.com/DataDog/integrations-core/blob/master/cassandra/datadog_checks/cassandra/data/conf.yaml.example#L146
   [heavily biased]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Histogram.java#L41
@@ -412,3 +434,6 @@ any of Cassandra's published metrics!
   [ExponentiallyDecayingSample]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/ExponentiallyDecayingSample.java#L23
   [Snapshot]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/Snapshot.java#L13
   [**getValue**]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/Snapshot.java#L54
+  [first]: https://www.youtube.com/watch?v=vcniEFmFY0E
+  [second]: https://www.youtube.com/watch?v=czes-oa0yik&t=12m30s
+  [this presentation on Cassandra tuning]: https://www.youtube.com/watch?v=bQRjfHwjAL4
