@@ -28,7 +28,7 @@ The Dropwizard metrics are exposed via Dropwizard's own MBean
 implementation underneath the **org.apache.cassandra.metrics** bean. For
 example, the client request write latency metrics are accessed under
 **org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency,Attribute=xxx**.
-This is the data being polled by Datadog's Cassandra integration.
+This is the data being polled by Datadog's [Cassandra integration].
 
 Cassandra's own custom metrics are exposed under
 **org.apache.cassandra.db**. For example, the custom read and write
@@ -208,9 +208,9 @@ public class LatencyMetrics
 > src/java/org/apache/cassandra/metrics/LatencyMetrics.java, line 34
 
 While it may seem like I'd be interested in the recentLatencyHistogram,
-that is actually the custom Cassandra version of the histogram. I'm
-interested in Dropwizard's quantiles (a.k.a. Histogram). Those are
-inside the Timer called "latency" here.
+that is actually the custom Cassandra version of the histogram
+([EstimatedHistogram]). I'm interested in Dropwizard's quantiles (a.k.a.
+Histogram). Those are inside the Timer called "latency" here.
 
 Since I know I want to look at the Timer's JMX information, let's find
 the [MBean definition for Dropwizard's Timer]:
@@ -383,6 +383,7 @@ With that, you should have a shot at tracing down the exact behavior of
 any of Cassandra's published metrics!
 
   [Dropwizard metrics]: https://metrics.dropwizard.io/4.1.2/
+  [Cassandra integration]: https://github.com/DataDog/integrations-core/blob/master/cassandra/datadog_checks/cassandra/data/conf.yaml.example#L146
   [heavily biased]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/core/Histogram.java#L41
   [`mutate`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L554
   [`writeMetrics`]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L632
@@ -398,6 +399,7 @@ any of Cassandra's published metrics!
   [percentiles]: https://www.mathsisfun.com/data/percentiles.html
   [Cassandra initializes]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/service/StorageProxy.java#L92
   [ClientRequestMetrics]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/metrics/ClientRequestMetrics.java#L29
+  [EstimatedHistogram]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/utils/EstimatedHistogram.java#L33
   [LatencyMetrics]: https://github.com/apache/cassandra/blob/cassandra-2.1.13/src/java/org/apache/cassandra/metrics/LatencyMetrics.java#L34
   [MBean definition for Dropwizard's Timer]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L258
   [HistogramMBean]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L154
