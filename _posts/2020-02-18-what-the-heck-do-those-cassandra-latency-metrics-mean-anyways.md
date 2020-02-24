@@ -362,7 +362,7 @@ these metrics btw)
         {
             if (consistency_level == ConsistencyLevel.ANY)
             {
-              [...]
+              [note that this code path fails to track any metric!]
             }
             else
             {
