@@ -388,16 +388,16 @@ any of Cassandra's published metrics!
 
 If you'd like to dive deeper, here are two resources I found useful to
 understand the topic. The [first] is a presentation by one of the
-Cassandra developers discussing their metrics implementation. I thought
-it was particularly nice of him to go through the changes through
-history, which helped with the version I was looking for. While he seems
-to throw some shade on the usefulness of Dropwizard's Histogram
-(quantiles), I don't fully agree since a) the Cassandra replacement is a
-histogram, which is not apples-to-apples and not as easily consumable by
-Datadog, and b) they were more interested in the storage size of the
-data structure for historical tracking, which is not such a concern
-since it should be done outside Cassandra anyway with a collector like
-Datadog.
+DataStax developers discussing the metrics implementation. I thought it
+was particularly nice of him to go through the changes through history,
+which helped with the version I was looking for. While he seems to throw
+some shade on the usefulness of Dropwizard's Histogram (quantiles), a)
+the Cassandra replacement has a number of its own issues, one of which
+is that it's not easily consumable by Datadog and therefore not very
+useful, and b) they were more interested in the storage size of the data
+structure for historical tracking, which is not such a concern in the
+first place since it should be done outside Cassandra anyway with a
+collector like Datadog.
 
 The [second] is a presentation by the developer of the Dropwizard
 metrics library. While this one ranges over more topics than I'm
