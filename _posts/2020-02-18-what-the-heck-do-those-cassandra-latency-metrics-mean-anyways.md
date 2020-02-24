@@ -62,8 +62,8 @@ Here they are:
 -   **Histogram:** - distribution of the latency of the operations
     (read/write). The underlying sample on which the percentiles are
     based is continually updated and [heavily biased] to the last five
-    minutes. The count, mean, etc. metrics other than the percentiles
-    are not biased and instead are for the lifetime of the service.
+    minutes. The rest of the metrics (count, mean, etc.) are not biased
+    and instead are for the lifetime of the service.
 
     -   **durationUnit** - the unit of the returned latency values,
         namely milliseconds
