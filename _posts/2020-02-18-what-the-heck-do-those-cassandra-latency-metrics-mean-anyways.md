@@ -123,8 +123,8 @@ acknowledged, the timer is stopped and the duration of the operation in
 nanoseconds is submitted first to Cassandra's ClientRequestMetrics
 object, which in turn submits it to the Dropwizard Timer instance. The
 ClientRequestMetrics instance employs a few other fields to track
-related metrics such as timeouts (a Dropwizard Counter), but I'll
-discuss those later.
+related metrics such as timeouts (a Dropwizard Counter), but I won't be
+discussing those.
 
 A [Timer] tracks both the rate at which some code is called, as well as
 the distribution of durations that the code took. It does this by
@@ -374,9 +374,9 @@ which also updates metrics too)
 > src/java/org/apache/cassandra/service/StorageProxy.java, line 554
 
 If there are no exceptions (most of which mark their own metrics), then
-**addNano** is called, which ends up adding itself to the Histogram,
-which then updates its sample pool internally. Cassandra's own
-EstimatedHistogram also gets the update, but tracing that path is an
+**addNano** is called, which ends up adding the measured latency to the
+Histogram, which itself updates the sample pool internally. Cassandra's
+own EstimatedHistogram also gets the update, but tracing that path is an
 exercise for the reader.
 
 With that, you should have a shot at tracing down the exact behavior of
