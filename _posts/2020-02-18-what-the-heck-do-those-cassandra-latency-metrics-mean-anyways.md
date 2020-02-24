@@ -216,8 +216,14 @@ that is actually the custom Cassandra version of the histogram
 ([EstimatedHistogram]). I'm interested in Dropwizard's quantiles (a.k.a.
 Histogram). Those are inside the Timer called "latency" here.
 
-Since I know I want to look at the Timer's JMX information, let's find
-the [MBean definition for Dropwizard's Timer]:
+At this point, I've made it through Cassandra's initialization code to
+the point where it has created the Dropwizard object in which I'm
+interested.  That's all I was interested at first, to see exactly what
+it was using from that library.
+
+Knowing now that it really is a Timer, I want to look at the Timer's JMX
+information next. Let's find the [MBean definition for Dropwizard's
+Timer]:
 
 ``` java
     public interface TimerMBean extends MeterMBean, HistogramMBean {
