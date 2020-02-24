@@ -285,9 +285,10 @@ points which is being managed by Dropwizard to track events with an
 algorithm that weights recent data more heavily.  It also converts from
 nanoseconds to milliseconds.  We'll skip that.
 
-Suffice to say that Histogram holds a Sample instance, which is being
-updated with write latencies.  When getSnapshot is called, it makes a
-copy of the sample which can then have calculations run on it.
+Suffice to say that Histogram holds a [Sample] implementation (an
+[ExponentiallyDecayingSample] in our case), which is being updated with
+write latencies.  When getSnapshot is called, it makes a [Snapshot] copy
+of the sample which can then have calculations run on it.
 
 When **Snapshot#getMedian** is called, it calls [**getValue**] with an
 argument representing the 50th percentile:
@@ -397,3 +398,6 @@ any of Cassandra's published metrics!
   [HistogramMBean]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L154
   [HistogramMBean implementation]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/reporting/JmxReporter.java#L181
   [**getValue**]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/Snapshot.java#L54
+  [Sample]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/Sample.java#L6
+  [ExponentiallyDecayingSample]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/ExponentiallyDecayingSample.java#L23
+  [Snapshot]: https://github.com/dropwizard/metrics/blob/v2.2.0/metrics-core/src/main/java/com/yammer/metrics/stats/Snapshot.java#L13
