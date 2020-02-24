@@ -81,14 +81,14 @@ Here they are:
     -   **EventType** - what's being measured by these metrics, namely
         rate of calls (i.e. read/write operations, not latency)
 
-    -   **RateUnit** - the unit of the returned rates, namely per
+    -   **RateUnit** - the unit of the returned rates, namely
         operations per second
 
     -   **MeanRate** - average rate over the lifetime of the service
 
     -   **One, Five, FifteenMinuteRate** - one, five and fifteen-minute
         exponential moving average rate of operations.  These are still
-        operations per second rates, but averages over a window of the
+        operations-per-second rates, but averages over a window of the
         last one/five/fifteen minutes.
 
 Write latency in this context means the amount of time for a Cassandra
