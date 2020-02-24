@@ -81,7 +81,8 @@ Here they are:
     -   **EventType** - what's being measured by these metrics, namely
         rate of calls (i.e. read/write operations, not latency)
 
-    -   **RateUnit** - the unit of the returned rates, namely per second
+    -   **RateUnit** - the unit of the returned rates, namely per
+        operations per second
 
     -   **MeanRate** - average rate over the lifetime of the service
 
