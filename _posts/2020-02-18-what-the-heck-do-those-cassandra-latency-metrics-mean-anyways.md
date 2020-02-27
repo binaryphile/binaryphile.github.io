@@ -156,10 +156,29 @@ Let's do one of the Dropwizard ones since that is fewer steps. Here's
 where [Cassandra initializes] the latency metrics:
 
 ``` java
+[...]
+import org.apache.cassandra.metrics.*
+
+[...]
+public class StorageProxy implements StorageProxyMBean
+{
+    [...]
+
     private static final ClientRequestMetrics writeMetrics = new ClientRequestMetrics("Write");
+
+    [...]
+}
 ```
 
 > src/java/org/apache/cassandra/service/StorageProxy.java, line 92
+
+**writeMetrics** is the instance of
+**org.apache.cassandra.metrics.ClientRequestMetrics** which tracks
+client write requests.
+
+It's initialized with the the argument **"Write"**, which translates to
+the "scope" parameter for the related MBean published by JMX.  The
+"type" parameter of the same JMX interface is "ClientRequest".
 
 Here's the [ClientRequestMetrics] definition:
 
@@ -210,6 +229,19 @@ public class LatencyMetrics
 ```
 
 > src/java/org/apache/cassandra/metrics/LatencyMetrics.java, line 34
+
+So there are a couple items that may be interesting here:
+
+-   **latency** - a Dropwizard Timer - this is the big one
+
+-   **totalLatency** - a Counter which is used to total the latency for
+    all writes since the system start
+
+-   **totalLatencyHistogram** - Cassandra's custom histogram for all
+    time
+
+-   **recentLatencyHistogram** - Cassandra's custom histogram cleared
+    each time it's read
 
 While it may seem like I'd be interested in the recentLatencyHistogram,
 that is actually the custom Cassandra version of the histogram
@@ -362,7 +394,7 @@ these metrics btw)
         {
             if (consistency_level == ConsistencyLevel.ANY)
             {
-              [note that this code path fails to track any metric!]
+              [no other metric is tracked here, but latency is still tracked]
             }
             else
             {
@@ -394,11 +426,38 @@ these metrics btw)
 
 > src/java/org/apache/cassandra/service/StorageProxy.java, line 554
 
-If there are no exceptions (most of which mark their own metrics), then
-**addNano** is called, which ends up adding the measured latency to the
-Histogram, which itself updates the sample pool internally. Cassandra's
-own EstimatedHistogram also gets the update, but tracing that path is an
-exercise for the reader.
+If exceptions occur, most of them mark specific metrics to denote their
+occurrence.  In all cases, **addNano** is called by the **finally**
+block, which ends up adding the measured latency to the Dropwizard
+Histogram.  The Histogram in turn updates the sample pool internally.
+Cassandra's own EstimatedHistogram also gets the update, but tracing
+that path is an exercise for the reader.
+
+At this point I should note that there's a lot of information in the
+latency sample...not only successful writes, but also unsuccessful ones
+with any type of exception, which may mean several different modes in
+the resulting data.  Unfortunately, in practice this means that the
+resulting metrics aren't always terribly useful at describing the what's
+actually going on with the sample because there's too little
+information!
+
+For example, I can only get 50th, 75th and 99th percentile from my
+Datadog implementation.  I can't modify its configuration, and even if I
+could, JMX would only allow me to add 95th and 99.9th, which still isn't
+enough.  In practice, the graph of these points over time is dominated
+by the 99th percentile, which dwarfs the others and makes 50th and 75th
+look identical.  That's because we have been seeing high exception rates
+in the writes, which puts 50th and 75th in a small band of good,
+performant write values, while the 99th is way out in the tail of the
+bad write values.
+
+To address this, I've started pulling the EstimatedHistogram results
+directly from JMX, which contains 90+ buckets and provides a granular
+enough picture to see all of the modes in the distribution.  I've only
+started playing with this, and visualization (not to mention data
+collection) is difficult, but because the different write latencies
+(success, failure modes) aren't available separately, this seems to be
+the only way to inspect the data usefully.
 
 With that, you should have a shot at tracing down the exact behavior of
 any of Cassandra's published metrics!
