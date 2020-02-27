@@ -94,12 +94,12 @@ Here they are:
 
 Write latency in this context means the amount of time for a Cassandra
 node to successfully replicate to the required set of nodes, based on
-quorum level, and get acknowledgements. Cassandra calls this a mutation,
-which is different from, say, what you might think of as a write to a
-disk. Mutation includes replication to the cluster. You can see the how
-the statistics are updated in the [`mutate`] method by the
-[`writeMetrics`].[`addNano`] call. (note that Dropwizard tracks raw data
-in nanoseconds, but reports in milliseconds.)
+the write consistency setting, and get acknowledgements. Cassandra calls
+this a mutation, which is different from, say, what you might think of
+as a write to a disk. Mutation includes replication to the cluster. You
+can see the how the statistics are updated in the [`mutate`] method by
+the [`writeMetrics`].[`addNano`] call. (note that Dropwizard tracks raw
+data in nanoseconds, but reports in milliseconds.)
 
 You can find the mappings of attribute names to code in the Dropwizard
 [JMX reporter] and the implementation of the metrics in the Dropwizard
