@@ -234,7 +234,8 @@ public class LatencyMetrics
 So there are a couple items that may be interesting here:
 
 -   **latency** - a Dropwizard Timer - this is the big one. You can see
-    that it is initialized with the TimeUnit MICROSECONDS.
+    that it is initialized with the TimeUnit MICROSECONDS for the
+    latency reporting and SECONDS (really ops/s) for the rate reporting.
 
 -   **totalLatency** - a Counter which is used to total the latency for
     all writes since the system start.  There is no timeunit specified,
