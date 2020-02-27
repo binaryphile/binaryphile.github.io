@@ -99,7 +99,8 @@ this a mutation, which is different from, say, what you might think of
 as a write to a disk. Mutation includes replication to the cluster. You
 can see the how the statistics are updated in the [`mutate`] method by
 the [`writeMetrics`].[`addNano`] call. (note that Dropwizard tracks raw
-data in nanoseconds, but reports in microseconds.)
+data in nanoseconds, but can be configured to report in any time unit,
+which Cassandra sets to microseconds.)
 
 You can find the mappings of attribute names to code in the Dropwizard
 [JMX reporter] and the implementation of the metrics in the Dropwizard
