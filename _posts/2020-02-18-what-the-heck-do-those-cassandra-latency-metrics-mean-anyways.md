@@ -66,7 +66,7 @@ Here they are:
     and instead are for the lifetime of the service.
 
     -   **durationUnit** - the unit of the returned latency values,
-        namely milliseconds
+        namely microseconds
 
     -   **50thPercentile** - the median value
 
@@ -99,7 +99,7 @@ this a mutation, which is different from, say, what you might think of
 as a write to a disk. Mutation includes replication to the cluster. You
 can see the how the statistics are updated in the [`mutate`] method by
 the [`writeMetrics`].[`addNano`] call. (note that Dropwizard tracks raw
-data in nanoseconds, but reports in milliseconds.)
+data in nanoseconds, but reports in microseconds.)
 
 You can find the mappings of attribute names to code in the Dropwizard
 [JMX reporter] and the implementation of the metrics in the Dropwizard
@@ -334,7 +334,7 @@ If you look at **Histogram\#getSnapshot**, you'll see that there's some
 extra stuff going on, namely that there's a sampling pool of the data
 points which is being managed by Dropwizard to track events, with an
 algorithm that weights recent data more heavily. It also converts from
-nanoseconds to milliseconds. We'll skip that.
+nanoseconds to microseconds. We'll skip that.
 
 Suffice to say that Histogram holds a [Sample] implementation (an
 [ExponentiallyDecayingSample] in our case), which is being updated with
