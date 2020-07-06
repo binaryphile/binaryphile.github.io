@@ -60,8 +60,8 @@ The basics had been re-imagined and made better.
 But, I always would end up needing to work with systems that didn't have
 fish, and I couldn't bring fish with me. In the back of my mind, I knew
 that everything I learned in fish was keeping from learning the same
-thing in bash, and I would never get good with precisely the systems
-with which I needed to be my best.
+thing in bash, and I would never get good where I needed to be at my
+best; production systems.
 
 The straw that broke the camel's back was when I wanted to start
 automating tasks on production systems. Shell scripting was the best
