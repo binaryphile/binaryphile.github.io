@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How I Bash - A New Series"
-date: 2020-07-01 12:00 UTC
+date: 2020-07-02 12:00 UTC
 categories: [ bash ]
 ---
 
@@ -25,7 +25,8 @@ I've written a pretty decent series on approaching bash already (see the
 blog index).  I'm going to try to write some short entries on how I use
 bash.  Follow me if you will...
 
-More to come.
+See [part 2] of the series.
 
 [4DOS]: https://www.4dos.info/4dinfo.htm
 [fish]: https://fishshell.com/
+  [part 2]: {% post_url 2020-07-06-i-was-scared-of-bash %}
