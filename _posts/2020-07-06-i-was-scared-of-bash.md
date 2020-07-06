@@ -68,7 +68,9 @@ automating tasks on production systems. Shell scripting was the best
 tool for the job. I'm well-versed in Python and Ruby, having done each
 professionally, but neither is as suited for gluing together
 command-line utilities as bash. To top it off, fish is weak on
-scripting, admittedly focusing on interactive use.
+scripting. At the time (don't know about nowadays), the fish team
+admittedly focused on interactive use and encouraged you to look
+elsewhere for a scripting language.
 
 I decided that if I were to learn scripting, I would need to immerse
 myself in bash, including interactively. As I've found out, bash may not
