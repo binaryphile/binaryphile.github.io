@@ -37,7 +37,7 @@ showed useful things like the status of git repo directories. It used
 color, and had a plugin system for initialization files and additional
 functionality. It seemed like a slam dunk.
 
-However. zsh started to lose its appeal. Yes, there was an easy, cool
+However, zsh started to lose its appeal. Yes, there was an easy, cool
 prompt. But I started paying attention to those who were saying
 oh-my-zsh (the plugin system) was bloated and slow. I also didn't learn
 much new about how to use the shell. zsh was designed to be mostly
@@ -51,11 +51,11 @@ can do, and now the difference between them as well.
 
 At this point, I started realizing it was going to be difficult not to
 learn bash. I hadn't quite given up yet. I tried fish shell, the
-*f*riendly *i*nteractive *sh*ell. I loved it. It was so well designed,
+*f*riendly *i*nteractive *sh*ell. I loved it. It was so well-designed,
 with excellent defaults and simplified setup for those things that I
 needed to customize (aliases, for example). I had to relearn the basics
 since it didn't share anything with bash, but that was a strong point.
-The basics had been rethought and made better.
+The basics had been re-imagined and made better.
 
 But, I always would end up needing to work with systems that didn't have
 fish, and I couldn't bring fish with me. In the back of my mind, I knew
