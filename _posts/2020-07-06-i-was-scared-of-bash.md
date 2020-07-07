@@ -80,5 +80,8 @@ environment. I've finished my learning curve and could switch back to
 another shell, but now I have no need. Bash does everything I want, and
 does it everywhere I need.
 
+See [part 3], *Getting Bash*.
+
   [part 1]: {% post_url 2020-07-02-how-i-bash-a-new-series %}
   [tcsh]: https://www.tcsh.org/
+  [part 3]: {% post_url 2020-07-06-getting-bash %}

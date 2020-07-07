@@ -25,7 +25,7 @@ I've written a pretty decent series on approaching bash already (see the
 blog index). I'm going to try to write some short entries on how I use
 bash. Follow me if you will...
 
-See [part 2] of the series.
+See [part 2], *I Was Scared Of Bash*.
 
   [4DOS]: https://www.4dos.info/4dinfo.htm
   [fish]: https://fishshell.com/
