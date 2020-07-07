@@ -9,7 +9,7 @@ If you're interested, start the series with [part 1].
 
 If you're on linux, you're in luck. You've already got the latest bash
 for your release on your system. If you aren't using it already, you
-just need to [change your default shell to bash][]: run
+just need to [change your default shell to bash]: run
 `chsh -s /bin/bash`.
 
 If you're on macos, it's a bit more involved. The system bash is an
