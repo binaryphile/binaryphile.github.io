@@ -5,6 +5,10 @@ date:   2020-01-12 05:00:00 +0000
 categories: bash
 ---
 
+Updated 2021-04-06: when using the relative pathname to invoke a script,
+I noticed the most general format wasn't working properly!  I've updated
+the `echo $BASH_SOURCE` in that form to `echo .` instead.
+
 Hey there! Long time no blog. It's been about a year and a half since I
 concluded the series on [approaching bash like a developer]. It's good
 to be back!
@@ -30,7 +34,7 @@ TL;DR
 Here's the general solution, details further down:
 
 ``` bash
-HERE=$(cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"; pwd)
+HERE=$(cd "$(dirname "$BASH_SOURCE")"; cd -P "$(dirname "$(readlink "$BASH_SOURCE" || echo .)")"; pwd)
 ```
 
 For a simpler version which returns a normalized (i.e. resolved for
@@ -259,8 +263,12 @@ try to cd to it.
 The answer is just to cd to that directory first:
 
 ``` bash
-HERE=$(cd $(dirname $BASH_SOURCE); cd -P $(dirname $(readlink $BASH_SOURCE || echo $BASH_SOURCE)); pwd)
+HERE=$(cd $(dirname $BASH_SOURCE); cd -P $(dirname $(readlink $BASH_SOURCE || echo .)); pwd)
 ```
+
+Update: When we add the first `cd`, however, the second `cd` needs to
+not change directory when the file is _not_ a link, so if `readlink`
+fails, we need to echo the current directory (.) instead.
 
 There you go, a battle-hardened, fully normalized directory locator
 which handles relative symlinks on both Mac and Linux. Whew!
