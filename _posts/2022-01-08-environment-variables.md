@@ -127,17 +127,17 @@ general solution in that case.  However, if not, I stick with
 
 You'll see .bashrc mistakenly recommended as a place to set or modify
 environment variables.  The problem with .bashrc for environment
-variables is that it's frequently loaded.  Whenever a new interactive
-shell is started, .bashrc is loaded.  If it is the first time that the
-shell is being loaded, an environment variable set in .bashrc will be
-set correctly.  However, the process may not end there.  If a command
-ends up spawning another interactive shell, .bashrc will be loaded
-again.  The environment variable will already exist from the ancestor
-shell, when .bashrc sets/changes it again.  If the variable is being set
-in .bashrc, any intervening change to the environment variable will then
-be overwritten.  Alternatively if the variable is being modified in
-.bashrc, the change will occur again.  This can, for example, extend
-PATH with multiple copies of the directory.
+variables is that it's frequently loaded then reloaded.  Whenever a new
+interactive shell is started, .bashrc is loaded.  If it is the first
+time that the shell is being loaded, an environment variable set in
+.bashrc will be set correctly.  However, the process may not end there.
+If a command ends up spawning another interactive shell, .bashrc will be
+loaded again.  The environment variable will already exist from the
+ancestor shell, when .bashrc sets/changes it again.  If the variable is
+being set in .bashrc, any intervening change to the environment variable
+will then be overwritten.  Alternatively if the variable is being
+modified in .bashrc, the change will occur again.  This can, for
+example, extend PATH with multiple copies of the directory.
 
 For these reasons, .bash_profile is the right place to modify
 environment variables like PATH.  It is only loaded once, by the
