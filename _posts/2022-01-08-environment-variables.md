@@ -140,9 +140,9 @@ modified in .bashrc, the change will occur again.  This can, for
 example, extend PATH with multiple copies of the directory.
 
 For these reasons, .bash_profile is the right place to modify
-environment variables like PATH.  It is only loaded once, by the
-original login shell, the ultimate parent.  Child shells will only run
-.bashrc, not .bash_profile again.
+environment variables like PATH.  It is only loaded once by the original
+login shell, the ultimate parent.  Child shells will only run .bashrc,
+not .bash_profile again.
 
 If you already have a .bash_profile, we can add our line to it.  The
 best location is at the end of the file.  That way, if .bash_profile
@@ -178,7 +178,7 @@ bit)
 On Ubuntu however, the desktop system typically runs ~/.profile.
 Opening a new terminal shell will run an interactive shell (not login)
 and only .bashrc will be run.  In that case, the change will only happen
-if you log off and back one.  So do that if necessary.
+if you log off and back on.  So do that if necessary.
 
 Now, open a new terminal and `echo $PATH`.  Is our directory there?
 Great!  Otherwise you'll need to do some snooping.  Start by sourcing
