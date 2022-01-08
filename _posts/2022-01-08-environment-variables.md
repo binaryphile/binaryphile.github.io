@@ -25,7 +25,7 @@ command you run.
 
 PATH is the most famous of the environment variables.  On a Linux
 system, PATH is a colon-separated list of directories.  The directories
-are locations that are searchec one-at-a-time to find an executable
+are locations that are searched one-at-a-time to find an executable
 program when you don't supply that program's location on the command
 line.
 
@@ -104,12 +104,12 @@ command-line, I allow myself to use `~` for succinctness.
 So we're almost done here.  The last thing to do is determine *where* to
 add this line.  There's generally four options:
 
--   ~/.profile
 -   ~/.bash_profile
+-   ~/.profile
+-   ~/.bash_login
 -   ~/.bashrc (not really an option, but you might think so)
--   ~/.bash_login (also not an option)
 
-As we saw in the diagram from the [last part], all three of these files
+As we saw in the diagram from the [last part], all four of these files
 are normally somewhere in the mix of shell startup.  It gets confusing
 though.  Without going into extraordinary detail, the usual place is
 .bash_profile.
