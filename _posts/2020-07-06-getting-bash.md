@@ -30,6 +30,9 @@ use the latest bash. Close your existing window, open a new one and run
 `echo $BASH_VERSION` to see what version you are on now. It should be a
 version of bash 5.
 
+Continue with the [next part], customizing bash.
+
   [part 1]: {% post_url 2020-07-02-how-i-bash-a-new-series %}
   [change your default shell to bash]: https://linux.die.net/man/1/chsh
   [homebrew]: https://brew.sh/
+  [next part]: {% post_url 2020-07-12-customizing-bash %}
