@@ -71,3 +71,4 @@ That's enough for an overview.  See the [next part] for more details.
   [part 1]: {% post_url 2020-07-02-how-i-bash-a-new-series %}
   [last part]: {% post_url 2020-07-06-getting-bash %}
   [when the various files are loaded]: https://www.solipsys.co.uk/images/BashStartupFiles1.png
+  [next part]: {% post_url 2022-01-08-environment-variables %}
