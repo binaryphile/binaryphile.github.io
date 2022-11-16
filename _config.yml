@@ -3,11 +3,10 @@ title: binary.phile
 description: >-
   Musings, mostly on technology.
 url: "https://binaryphile.github.io"
-github_username:  binaryphile
 
 # Build settings
 markdown: kramdown
-theme: minima
+remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
 
@@ -20,3 +19,12 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - bin/
+
+minima:
+  social_links:
+    - platform: github
+      user_url: https://github.com/binaryphile
+    - platform: keybase
+      user_url: https://keybase.io/binaryphile
+    - platform: mastodon
+      user_url: https://cryptodon.lol/@binaryphile
