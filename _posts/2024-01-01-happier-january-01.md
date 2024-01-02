@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Happier January 2024"
+title: "Happier January 2024 - Jan 1"
 date: 2024-01-01 12:00 UTC
 categories: [ life ]
 ---
