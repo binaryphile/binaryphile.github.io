@@ -13,8 +13,15 @@ Continuing with this [printable calendar] I found on [Fosstodon].
 <dl>
   <dt>Jan 3</dt>
   <dd>Do a kind act for someone to brighten their day</dd>
+</dl>
 
+<dl>
   <dt>Plan</dt>
   <dd>I may take this one more extemporaneously.  But if not, probably something nice for my wife
   in the morning, like making breakfast or getting the kid dressed.</dd>
+</dl>
+
+<dl>
+  <dt>How it went</dt>
+  <dd></dd>
 </dl>
