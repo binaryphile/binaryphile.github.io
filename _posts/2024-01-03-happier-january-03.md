@@ -18,7 +18,7 @@ Continuing with this [printable calendar] I found on [Fosstodon].
 <dl>
   <dt>Plan</dt>
   <dd>I may take this one more extemporaneously.  But if not, probably something nice for my wife
-  in the morning, like making breakfast or getting the kid dressed.</dd>
+  in the morning, like making breakfast or getting the kiddo dressed.</dd>
 </dl>
 
 <dl>
