@@ -22,3 +22,10 @@ see, what could I do?
 - family -- be with them.  I think this is probably the best bet.  I'll have to convince
   someone to come in the bedroom and watch TV with me.  My daughter won't take any
   convincing.  We'll try that.
+
+<dl>
+  <dt>How it went</dt>
+  <dd>I didn't get my daughter to come join me after all, there wasn't enough opportunity
+  with me being flat on my back.  However, I did get up and make myself some tea, so that
+  will have to do for this one.</dd>
+</dl>
