@@ -23,5 +23,10 @@ Continuing with this [printable calendar] I found on [Fosstodon].
 
 <dl>
   <dt>How it went</dt>
-  <dd></dd>
+  <dd>Well, I didn't have a lot of opportunities today, but I did make up a bit for
+  yesterday and watched a "What If..." episode and one of my daughter's favorite Disney
+  franchises (Zombies 2) with her.  We talked about the money she made cat-sitting for our
+  neighbors and how I reverse-borrowed a tenner from her by putting a twenty in her piggy
+  bank and taking a ten.  So my cheese-out nice thing was to "forgive" the ten I was still
+  owed, effectively giving her the money.  She was grateful, so I suppose it counts.</dd>
 </dl>
