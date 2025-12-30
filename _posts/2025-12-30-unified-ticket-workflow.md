@@ -31,10 +31,10 @@ mermaid: true
 
 **Appendices**
 - [A: Rosetta Stone](#appendix-a-rosetta-stone)
-- [C: Compliance Checklist](#appendix-c-compliance-checklist)
-- [D: Quick Reference Cards](#appendix-d-quick-reference-cards)
-- [E: AI-Assisted Sizing](#appendix-e-ai-assisted-sizing)
-- [F: Sources](#appendix-f-sources)
+- [B: Compliance Checklist](#appendix-b-compliance-checklist)
+- [C: Quick Reference Cards](#appendix-c-quick-reference-cards)
+- [D: AI-Assisted Sizing](#appendix-d-ai-assisted-sizing)
+- [E: Sources](#appendix-e-sources)
 
 ---
 
@@ -1410,7 +1410,7 @@ flowchart TB
 
 ---
 
-## Appendix C: Compliance Checklist
+## Appendix B: Compliance Checklist
 
 ### ISO 9001:2015 Audit Checklist
 
@@ -1476,7 +1476,7 @@ flowchart LR
 
 ---
 
-## Appendix D: Quick Reference Cards
+## Appendix C: Quick Reference Cards
 
 ### TameFlow Quick Reference
 
@@ -1587,7 +1587,7 @@ stateDiagram-v2
 
 ---
 
-## Appendix E: AI-Assisted Sizing
+## Appendix D: AI-Assisted Sizing
 
 ### The Estimation Problem
 
@@ -1645,7 +1645,7 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 ---
 
-## Appendix F: Sources
+## Appendix E: Sources
 
 ### Frameworks & Methodologies
 
