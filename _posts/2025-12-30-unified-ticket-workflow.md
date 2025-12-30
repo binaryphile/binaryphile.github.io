@@ -1605,37 +1605,37 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 ## Appendix F: Sources
 
-### Primary Sources
+### Frameworks & Methodologies
 
 1. Goldratt, E. M. & Cox, J. (1984). *The Goal: A process of ongoing improvement*. [North River Press](https://northriverpress.com/the-goal-30th-anniversary-edition/). — The origin of Theory of Constraints (TOC), presented as a business novel about a manufacturing plant manager learning to identify and exploit constraints.
 
-2. Hopp, W. J. & Spearman, M. L. (2008). *Factory Physics* (3rd ed.). [Waveland Press](https://www.waveland.com/browse.php?t=587). — Mathematical foundations of production systems; Law of Variability ("Increasing variability always degrades the performance of a production system"); Law of Variability Buffering; Little's Law applications. [Summary](http://www.aleanjourney.com/2010/04/laws-of-manufacturing.html)
+2. Tendon, S. & Muller, W. (2014). *Hyper-productive knowledge work performance: The TameFlow approach*. [TameFlow](https://tameflow.com/book/hyper-productive-knowledge-work-performance/). — Applies TOC to software development; introduces Drum-Buffer-Rope for knowledge work.
 
-3. Tendon, S. & Muller, W. (2014). *Hyper-productive knowledge work performance: The TameFlow approach*. [TameFlow](https://tameflow.com/book/hyper-productive-knowledge-work-performance/). — Applies TOC to software development.
+3. Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*. TOC Strategic Solutions. — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival.
 
-4. Forsgren, N., Humble, J., & Kim, G. (2018). *Accelerate: The science of lean software and DevOps*. [IT Revolution Press](https://itrevolution.com/product/accelerate/).
+4. Forsgren, N., Humble, J., & Kim, G. (2018). *Accelerate: The science of lean software and DevOps*. [IT Revolution Press](https://itrevolution.com/product/accelerate/). — DORA research; four key metrics; statistical validation of DevOps practices.
 
-### Queueing Theory Foundations
+5. Kniberg, H. (2017). *Multiple WIP vs One Piece Flow* [Video]. [YouTube](https://www.youtube.com/watch?v=Yqi9Gwt-OEA). — Visual demonstration that even perfect multitaskers deliver 2-3x slower; with realistic context-switching, 5-7x slower.
 
-5. Gunther, N. J. (2002). "Hit-and-Run Tactics Enable Guerrilla Capacity Planning." *IT Professional*, July/August 2002, pp. 40-46. IEEE. [PDF](http://www.perfdynamics.com/Papers/ieeeitpro.pdf) — Introduces the universal scalability model; demonstrates spreadsheet-based capacity modeling.
+### Mathematical Foundations
 
-6. Gunther, N. J. (2007). *Guerrilla Capacity Planning*. [Springer](https://link.springer.com/book/10.1007/978-3-540-31010-5). Ch. 1 "The Guerrilla Manual." — Rules of thumb for capacity modeling; Little's Law applications; C(N) universal law derivation.
+6. Hopp, W. J. & Spearman, M. L. (2008). *Factory Physics* (3rd ed.). [Waveland Press](https://www.waveland.com/browse.php?t=587). — Mathematical foundations of production systems; Law of Variability; Law of Variability Buffering; Little's Law applications. [Summary](http://www.aleanjourney.com/2010/04/laws-of-manufacturing.html)
 
-7. Jain, R. (2012). *Introduction to Queueing Theory* [Lecture slides]. UC Berkeley Mini-Course. [PDF](https://www.cse.wustl.edu/~jain/cse567-11/ftp/k_30iqt.pdf) — Formal treatment of Kendall notation, Little's Law proof, Markov/Poisson processes.
+7. Gunther, N. J. (2002). "Hit-and-Run Tactics Enable Guerrilla Capacity Planning." *IT Professional*, July/August 2002, pp. 40-46. IEEE. [PDF](http://www.perfdynamics.com/Papers/ieeeitpro.pdf) — Introduces the universal scalability model; demonstrates spreadsheet-based capacity modeling.
 
-8. Schwartz, B. (2016). *The Essential Guide to Queueing Theory* (Rev. 3). VividCortex. [PDF](https://www.dbta.com/DBTA-Downloads/WhitePapers/The-Essential-Guide-to-Queueing-Theory-7128.aspx) — Accessible practitioner guide; hockey-stick curve; Erlang formulas; square-root staffing rule.
+8. Gunther, N. J. (2007). *Guerrilla Capacity Planning*. [Springer](https://link.springer.com/book/10.1007/978-3-540-31010-5). Ch. 1 "The Guerrilla Manual." — Rules of thumb for capacity modeling; Little's Law applications; C(N) universal law derivation.
 
-### Standards & Frameworks
+9. Jain, R. (2012). *Introduction to Queueing Theory* [Lecture slides]. UC Berkeley Mini-Course. [PDF](https://www.cse.wustl.edu/~jain/cse567-11/ftp/k_30iqt.pdf) — Formal treatment of Kendall notation, Little's Law proof, Markov/Poisson processes.
 
-9. Kniberg, H. (2017). *Multiple WIP vs One Piece Flow* [Video]. [YouTube](https://www.youtube.com/watch?v=Yqi9Gwt-OEA). — Visual demonstration that even perfect multitaskers deliver 2-3x slower; with realistic context-switching, 5-7x slower.
+10. Schwartz, B. (2016). *The Essential Guide to Queueing Theory* (Rev. 3). VividCortex. [PDF](https://www.dbta.com/DBTA-Downloads/WhitePapers/The-Essential-Guide-to-Queueing-Theory-7128.aspx) — Accessible practitioner guide; hockey-stick curve; Erlang formulas; square-root staffing rule.
 
-10. International Organization for Standardization. (2015). *Quality management systems — Requirements* (ISO 9001:2015). [ISO](https://www.iso.org/standard/62085.html).
+### Standards & Compliance
 
-11. PCI Security Standards Council. (2024). *Payment Card Industry Data Security Standard* (PCI DSS v4.0.1). [PCI SSC](https://www.pcisecuritystandards.org/document_library/).
+11. International Organization for Standardization. (2015). *Quality management systems — Requirements* (ISO 9001:2015). [ISO](https://www.iso.org/standard/62085.html). — Quality management standard; requires documented procedures, continual improvement, PDCA cycles.
 
-12. HeroDevs. (2024). *PCI DSS 4.0 Requirement 6: How to Develop and Maintain Secure Systems and Software*. [HeroDevs](https://www.herodevs.com/blog-posts/pci-dss-4-0-requirement-6-how-to-develop-and-maintain-secure-systems-and-software). — Practitioner guide to PCI DSS Requirement 6 compliance.
+12. PCI Security Standards Council. (2024). *Payment Card Industry Data Security Standard* (PCI DSS v4.0.1). [PCI SSC](https://www.pcisecuritystandards.org/document_library/). — Security standard for payment card handling; Requirement 6 covers secure development practices.
 
-13. Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*. TOC Strategic Solutions. — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival.
+13. HeroDevs. (2024). *PCI DSS 4.0 Requirement 6: How to Develop and Maintain Secure Systems and Software*. [HeroDevs](https://www.herodevs.com/blog-posts/pci-dss-4-0-requirement-6-how-to-develop-and-maintain-secure-systems-and-software). — Practitioner guide to PCI DSS Requirement 6 compliance.
 
 ### Development Practices
 
