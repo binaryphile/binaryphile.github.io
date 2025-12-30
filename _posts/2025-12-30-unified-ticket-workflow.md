@@ -288,6 +288,34 @@ In JIRA/GitLab, the rope is implemented through WIP limits:
 
 **When to tighten the rope:** If the review queue exceeds 3 PRs per reviewer, stop starting new work and help clear the queue. The system's throughput depends on the constraint, not on keeping developers busy.
 
+### What the Rope Doesn't Control
+
+A natural question arises: if the rope limits work entering the system, what about all the tickets piling up in the backlog? Can't the backlog grow unbounded?
+
+Yes—and that's by design. The rope was never meant to control demand.
+
+In manufacturing, customer orders arrive independently of the factory's capacity. Goldratt's rope doesn't reach back to customers placing orders; it reaches to the *release of raw materials* onto the shop floor. The order book—the queue of accepted orders waiting to start production—sits outside the rope's scope. Manufacturing deals with excess demand through commercial mechanisms: quoting longer lead times, raising prices, or declining orders.
+
+> "Material should be released Not Earlier Than the time calculated by using the CCR Buffer. This concept is called—The Rope—which means chocking the release according to the planned time."
+> — Cohen & Fedurko, *Theory of Constraints Fundamentals* (2012)
+
+The same applies to software. Tickets arrive from users, stakeholders, and other teams—demand you don't control. The backlog can grow indefinitely. The rope controls when work is *committed* (moved to "In Progress"), not when tickets are *created*.
+
+**Why this distinction matters:**
+
+The backlog and active WIP are economically different queues:
+
+| Queue | Inventory Cost | Opportunity Cost |
+|-------|---------------|------------------|
+| **Backlog** | Near zero (database rows) | Real (features delayed, context decay) |
+| **Active WIP** | High (developer attention, context switching, blocked capacity) | Real (same as above) |
+
+The rope solves the *inventory cost* problem—preventing the expensive pile-up of half-finished work consuming developer attention. The backlog problem is an *opportunity cost* problem, requiring different tools: aggressive triage, prioritization by cost of delay, saying "no" more often, or expanding capacity.
+
+**But here's the connection:** Starting more WIP increases lead time for *everything* in the system (Little's Law). Longer lead times mean customers wait longer—which is opportunity cost. So while the rope doesn't control backlog size, it does reduce the lead time of items already committed. Optimizing flow optimizes both costs simultaneously.
+
+In short: DBR keeps your production system healthy and minimizes how long committed work takes. Managing backlog *size* is a separate concern—but flow optimization reduces the *lead time* of whatever's in the backlog by getting to it faster, therefore minimizing the opportunity cost.
+
 ### How DBR Connects to the Five Focusing Steps
 
 DBR is how you *operationalize* the Five Focusing Steps from Section 5:
@@ -1450,6 +1478,8 @@ stateDiagram-v2
 10. International Organization for Standardization. (2015). *Quality management systems — Requirements* (ISO 9001:2015).
 
 11. PCI Security Standards Council. (2024). *Payment Card Industry Data Security Standard* (PCI DSS v4.0.1).
+
+12. Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*. TOC Strategic Solutions. — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival.
 
 ### External Resources
 
