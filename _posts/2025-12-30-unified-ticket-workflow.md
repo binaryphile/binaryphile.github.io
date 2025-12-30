@@ -1615,7 +1615,7 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 4. Forsgren, N., Humble, J., & Kim, G. (2018). *Accelerate: The science of lean software and DevOps*. [IT Revolution Press](https://itrevolution.com/product/accelerate/). — DORA research; four key metrics; statistical validation of DevOps practices.
 
-5. Kniberg, H. (2017). *Multiple WIP vs One Piece Flow* [Video]. [YouTube](https://www.youtube.com/watch?v=Yqi9Gwt-OEA). — Visual demonstration that even perfect multitaskers deliver 2-3x slower; with realistic context-switching, 5-7x slower.
+5. Kniberg, H. (2017). *Multiple WIP vs One Piece Flow* (video). [YouTube](https://www.youtube.com/watch?v=Yqi9Gwt-OEA). — Visual demonstration that even perfect multitaskers deliver 2-3x slower; with realistic context-switching, 5-7x slower.
 
 ### Mathematical Foundations
 
@@ -1625,7 +1625,7 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 8. Gunther, N. J. (2007). *Guerrilla Capacity Planning*. [Springer](https://link.springer.com/book/10.1007/978-3-540-31010-5). Ch. 1 "The Guerrilla Manual." — Rules of thumb for capacity modeling; Little's Law applications; C(N) universal law derivation.
 
-9. Jain, R. (2012). *Introduction to Queueing Theory* [Lecture slides]. UC Berkeley Mini-Course. [PDF](https://www.cse.wustl.edu/~jain/cse567-11/ftp/k_30iqt.pdf) — Formal treatment of Kendall notation, Little's Law proof, Markov/Poisson processes.
+9. Jain, R. (2012). *Introduction to Queueing Theory* (lecture slides). UC Berkeley Mini-Course. [PDF](https://www.cse.wustl.edu/~jain/cse567-11/ftp/k_30iqt.pdf) — Formal treatment of Kendall notation, Little's Law proof, Markov/Poisson processes.
 
 10. Schwartz, B. (2016). *The Essential Guide to Queueing Theory* (Rev. 3). VividCortex. [PDF](https://www.dbta.com/DBTA-Downloads/WhitePapers/The-Essential-Guide-to-Queueing-Theory-7128.aspx) — Accessible practitioner guide; hockey-stick curve; Erlang formulas; square-root staffing rule.
 
