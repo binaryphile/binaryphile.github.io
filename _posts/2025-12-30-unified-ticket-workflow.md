@@ -636,6 +636,29 @@ But this isn't about cutting corners. Development concerns—quality, security, 
 
 Result: Ship the fix in 2 days. Refactor is a separate, prioritized ticket—not abandoned scope.
 
+```mermaid
+flowchart TB
+    P["#1234: PDF Export Issues<br/>(parent)"]
+    A["#1235: Fix PDF bug<br/>2 days"]
+    B["#1236: Refactor export<br/>5 days"]
+
+    P --> A
+    P --> B
+
+    A -->|"deploys Jan 9"| DA[✓ Done]
+    B -->|"deploys Jan 15"| DB[✓ Done]
+    DA & DB -->|"all children done"| PD["Parent → Done"]
+```
+
+**DORA timing for this example:**
+
+| Ticket | First Commit | Deployed | Lead Time |
+|--------|--------------|----------|-----------|
+| #1235: Fix PDF bug | Jan 7 | Jan 9 | 2 days |
+| #1236: Refactor export | Jan 10 | Jan 15 | 5 days |
+
+DORA measures each child independently. The parent is for tracking scope, not metrics.
+
 **What happens to decomposed tickets?**
 
 The refactor ticket (B) isn't thrown away—it goes to the backlog with proper context. But here's the risk: if refactor tickets never get prioritized, developers learn to bundle them to ensure they happen.
@@ -647,6 +670,25 @@ To prevent this:
 - **Make the tradeoff visible** to PO: "We shipped fast, but B is now waiting"
 
 If your team's refactor tickets consistently rot in the backlog, that's a prioritization problem—not a sizing problem. Address it at the team/PO level, not by bundling scope.
+
+**Automation rule (Jira):**
+
+```
+Trigger: Sub-task transitioned
+Condition: All sub-tasks match status "Done" OR "Won't Do"
+Action: Transition parent to "Done"
+```
+
+Setup: Project Settings → Automation → Create Rule → "When sub-task transitions"
+
+**Edge cases:**
+
+| Situation | Action | DORA Impact |
+|-----------|--------|-------------|
+| Child cancelled | Mark "Won't Do" with reason. Parent completes when remaining children done. | Cancelled work not measured. |
+| Child blocked | Move to Blocked status. Unblock or split out blocker as new ticket. | Lead time pauses. |
+| Partial delivery | Each child deploys independently. Parent stays open. | Each deploy counted. |
+| Rework needed | Create new bug ticket linked to original. Don't reopen. | Rework measured separately. |
 
 ---
 
