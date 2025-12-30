@@ -654,8 +654,8 @@ The refactor ticket (B) isn't thrown away—it goes to the backlog with proper c
 
 To prevent this:
 - **Tag decomposed tickets** with their origin ("split from #1234")
-- **Track tech debt tickets** as a backlog category
-- **Allocate capacity** for tech debt (e.g., 20% of sprint)
+- **Track refactoring tickets** as a backlog category
+- **Allocate capacity** for refactoring (e.g., 20% of sprint)
 - **Make the tradeoff visible** to PO: "We shipped fast, but B is now waiting"
 
 If your team's refactor tickets consistently rot in the backlog, that's a prioritization problem—not a sizing problem. Address it at the team/PO level, not by bundling scope.
@@ -742,7 +742,7 @@ The constraint you found in Section 5? Keep it visible. If PR review is your bot
 - Local tests passing
 - Code follows standards
 
-> **Ready signal:** Your code works locally and you're not ashamed of it. If you're hiding tech debt, address it now.
+> **Ready signal:** Your code works locally and you're not ashamed of it. If you're hiding shortcuts, address them now.
 
 ---
 
@@ -990,7 +990,7 @@ Don't ask "how much have I spent?" Ask:
 
 1. **How much remains on the current path?** (Estimate honestly)
 2. **How much would replanning cost?** (Include ramp-up time)
-3. **What's the quality difference?** (Will current path create tech debt?)
+3. **What's the quality difference?** (Will current path create model drift?)
 
 If (current path remaining + future debt) > (replan cost), stop and replan. The math is cold but correct.
 
