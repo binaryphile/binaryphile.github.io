@@ -368,7 +368,7 @@ If you're 50% through the work but have consumed 70% of your buffer, you're in t
 
 The fever chart becomes your early warning system (Tendon & Muller, 2014, Ch. 25). Part III (Section 11) explains how to read it in detail; for now, understand that *buffer consumption is the vital sign* that tells you whether flow is healthy or sick.
 
-> **Manager Summary:** Every productivity gain depends on protecting the system's constraint and limiting WIP. Flow is a governed system, not a heroic one.
+> **Manager Summary:** Every productivity gain depends on protecting the bottleneck step—the one where work piles up—and limiting WIP. Flow is a governed system, not a heroic one.
 
 ---
 
