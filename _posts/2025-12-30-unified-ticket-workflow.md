@@ -45,9 +45,9 @@ This rubric moves the team from **resource efficiency** (keeping everyone busy) 
 1. **TameFlow** — Manage the constraint; protect it with buffers
 2. **DORA** — Measure speed and stability with four key metrics
 3. **ISO 9001** — Ensure quality through repeatable PDCA cycles
-4. **PCI DSS 4.0** — Maintain security in payment-handling environments (some best practices apply universally)
+4. **PCI DSS 4.0** — Maintain security in payment-handling environments
 
-> **Note:** The PCI DSS sections apply only to teams handling payment card data. If your team doesn't process payments, skip those sections.
+> **Note:** The PCI DSS sections apply only to teams handling payment card data. If your team doesn't process payments, skip those sections—though some best practices apply universally.
 
 All four frameworks address the same root cause: **variability**. If work were perfectly predictable, none of this would be necessary.
 
