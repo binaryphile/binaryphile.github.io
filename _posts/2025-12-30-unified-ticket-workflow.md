@@ -130,6 +130,34 @@ Why does the math work this way? Because real work has variability. Tasks don't 
 
 But only CPUs run on synchronized clock ticks. The more variability in arrivals or job sizes, the more waste occurs (Schwartz, 2015, line 165). This is Hopp & Spearman's **Law of Variability**: "Increasing variability always degrades the performance of a production system" (Hopp & Spearman, *Factory Physics*, Law #5). The buffer exists to absorb it. WIP limits exist to contain it. The entire system is designed to manage variability, not pretend it doesn't exist.
 
+### Batch Size: The Controllable Variability
+
+One major source of variability is often overlooked: **batch size**—the scope of each ticket.
+
+Hopp & Spearman's **Law of Move Batching**: "Cycle times over a segment of a routing are roughly proportional to the transfer batch sizes" (Law #9). Double the batch size, roughly double the lead time.
+
+When one ticket takes 2 hours and another takes 2 weeks, that's not just "different tickets"—that's *service time variability*. It degrades flow the same way arrival variability does.
+
+DORA is explicit about the ceiling:
+
+> "Any batch of code that takes longer than a week to complete and check is too big."
+> (Forsgren et al., 2018)
+
+**Why smaller batches improve flow:**
+- Faster feedback (catch problems early)
+- Lower risk (smaller changes, easier rollback)
+- More predictable lead times (less variance)
+- Higher motivation (frequent completion)
+
+The practitioner sweet spot is 1-3 days per ticket (Fuqua, 2015; Kelly, n.d.), though tickets up to a week are acceptable by DORA standards.
+
+**The developer's tension:** Engineering-minded developers often see a "right" solution that's larger and more maintainable. But development concerns—quality, security, maintainability—add processing time for good reason. They prevent future problems. The question isn't "quality vs speed"—it's "is this ONE thing done thoroughly, or MULTIPLE things bundled together?"
+
+If one thing: that's the ticket size. Do it right.
+If multiple things: decompose. Do each one right.
+
+See Phase 2 (Sizing) for the practical decision procedure.
+
 **Before/After:**
 
 | Scenario | Resource Efficient Team | Flow Efficient Team |
@@ -562,7 +590,40 @@ flowchart TD
 
 ---
 
-### Phase 2: Planning
+### Phase 2: Sizing
+
+**Purpose:** Ensure this ticket has singular scope and is right-sized before planning.
+
+**Why this phase exists:** Batch size variability is service time variability. The Law of Move Batching says cycle time is roughly proportional to batch size (§2). If you skip sizing and plan a 2-week solution when the ticket could be decomposed into three 3-day tickets, you've chosen longer lead time for no reason.
+
+But this isn't about cutting corners. Development concerns—quality, security, maintainability—add processing time because they prevent future problems. The question is scope: is this ONE thing done thoroughly, or MULTIPLE things bundled together?
+
+**Actions:**
+1. Estimate the *quality* solution in hours/days (not the hack)
+2. Check: Is this ONE deliverable or MULTIPLE things bundled?
+3. If estimate > 1 week: apply splitting patterns (Workflow, Data, Rules, Simple/Complex)
+4. If singular but large: accept the size—complex work is complex
+5. Create child tickets for decomposed scope
+
+**Splitting patterns** (from Humanizing Work, 2020):
+- **Workflow steps:** Build end-to-end first, then add middle steps
+- **Operations:** Split CRUD (Create, Read, Update, Delete) into separate tickets
+- **Business rules:** One rule per ticket
+- **Data variations:** Start with one data type, add others later
+- **Simple/Complex:** "What's the simplest version?" becomes the first ticket
+
+**Exit Criteria:**
+- Scope is singular (one deliverable outcome)
+- Estimate reflects doing it right (tests, quality, security)
+- Ticket is ≤ 1 week (DORA ceiling)
+- If decomposed: child tickets created, each independently valuable
+- No "nice to have" bundled with required scope
+
+> **Ready signal:** This ticket does ONE thing, and you know how long it takes to do that one thing *well*. If it's bigger than a week, you've split it.
+
+---
+
+### Phase 3: Planning
 
 **Purpose:** Design the solution before coding.
 
@@ -574,7 +635,7 @@ Assuming you've confirmed the bug exists and understand it, let's plan the fix.
 1. Design solution approach
 2. Break into tasks (if complex)
 3. Identify test strategy
-4. Note any cross-team dependencies → Phase 2.5
+4. Note any cross-team dependencies → See Section 8
 
 **Exit Criteria:**
 - Solution approach documented
@@ -590,7 +651,7 @@ Assuming you've confirmed the bug exists and understand it, let's plan the fix.
 
 ---
 
-### Phase 3: Implementation (TDD)
+### Phase 4: Implementation (TDD)
 
 **Purpose:** Write failing tests, then code to pass them.
 
@@ -627,13 +688,13 @@ The constraint you found in Section 5? Keep it visible. If PR review is your bot
 
 ---
 
-### Phase 4: Verification
+### Phase 5: Verification
 
 **Purpose:** Confirm the fix works and nothing else broke.
 
 **Why this phase exists:** Defects found later cost more. "Change fail rate" is a DORA metric—high fail rates mean rework, which is hidden WIP that consumes buffer without delivering value. Catching defects here protects downstream flow.
 
-Tests were written in Phase 3. This phase runs the full suite and validates the change.
+Tests were written in Phase 4. This phase runs the full suite and validates the change.
 
 **Actions:**
 1. Run full test suite (not just your new tests)
@@ -650,7 +711,7 @@ Tests were written in Phase 3. This phase runs the full suite and validates the 
 
 ---
 
-### Phase 5: CI/CD Pipeline
+### Phase 6: CI/CD Pipeline
 
 **Purpose:** Automated build, test, and deployment preparation.
 
@@ -685,7 +746,7 @@ Tests were written in Phase 3. This phase runs the full suite and validates the 
 
 ---
 
-### Phase 6: PR Review
+### Phase 7: PR Review
 
 **Purpose:** Peer review before merge.
 
@@ -723,7 +784,7 @@ PR review is often the #1 constraint in development workflows. Signs of a review
 
 ---
 
-### Phase 7: Complete
+### Phase 8: Complete
 
 **Purpose:** Merge and verify in production.
 
@@ -850,7 +911,7 @@ This is the hardest moment. The temptation is to think about what you've already
 
 Compare:
 - **Cost to continue:** remaining work on current path + cost to user for interim wrong scope + later rework (this is not the same as agile iteration, agile always targets scope appropriate for the phase)
-- **Cost to replan:** return to Phase 2 + implement new approach
+- **Cost to replan:** return to Phase 3 + implement new approach
 
 If you're one step from done and the release has value, push through. If you're early and the new scope doubles remaining work, stop and replan. The crossover depends on how far along you are and how wrong the current direction is.
 
@@ -859,7 +920,7 @@ If you're one step from done and the release has value, push through. If you're 
 | Signal                        | What It Means            | Action                              |
 | ----------------------------- | ------------------------ | ----------------------------------- |
 | Buffer consumption > progress | You're falling behind    | Check for blockers, reduce scope    |
-| New requirements emerged      | Original plan incomplete | Return to Phase 2, re-estimate      |
+| New requirements emerged      | Original plan incomplete | Return to Phase 3, re-estimate      |
 | Dependency blocked            | External constraint      | Parallel work, escalate, or descope |
 | Technical approach failing    | Wrong solution           | Stop, spike alternatives, replan    |
 
@@ -1309,9 +1370,9 @@ flowchart LR
 
 | Phase | Workflow Mapping | TameFlow Equivalent | DORA Connection |
 |-------|------------------|--------------------|--------------------|
-| **Plan** | Phase 1-2 (Research, Planning) | Identify constraint | Define target metrics |
-| **Do** | Phase 3-5 (Implement, Verify, CI/CD) | Exploit, Subordinate | Execute with automation |
-| **Check** | Phase 6-7 (Review, Complete) | Measure throughput | Track metrics |
+| **Plan** | Phase 1-3 (Research, Sizing, Planning) | Identify constraint | Define target metrics |
+| **Do** | Phase 4-6 (Implement, Verify, CI/CD) | Exploit, Subordinate | Execute with automation |
+| **Check** | Phase 7-8 (Review, Complete) | Measure throughput | Track metrics |
 | **Act** | Retrospective | Elevate, Repeat | Improve based on data |
 
 ### PCI DSS Requirement 6 Checklist
@@ -1441,15 +1502,71 @@ stateDiagram-v2
     Blocked --> InProgress: Dependency resolved
 
     note right of Open: Phase 0-1
-    note right of InProgress: Phase 2-5
-    note right of InReview: Phase 6
-    note right of ReadyToDeploy: Phase 7 (pre)
-    note right of Done: Phase 7 (post)
+    note right of InProgress: Phase 2-6
+    note right of InReview: Phase 7
+    note right of ReadyToDeploy: Phase 8 (pre)
+    note right of Done: Phase 8 (post)
 ```
 
 ---
 
-## Appendix E: Sources
+## Appendix E: AI-Assisted Sizing
+
+### The Estimation Problem
+
+Humans are systematically bad at estimating ticket size. The planning fallacy—underestimating how long tasks will take—is well-documented in cognitive psychology. Developers forget similar past work, anchor on optimistic scenarios, and can't hold hundreds of historical patterns in their heads.
+
+But the data exists. Every completed ticket has:
+- A description and acceptance criteria
+- An actual cycle time (start to done)
+- Associated code changes (files touched, diff size, complexity)
+- Context: what area of the codebase, what type of work
+
+### What AI Could Learn From
+
+Historical tickets mapped to actual outcomes:
+
+| Input | Output |
+|-------|--------|
+| Ticket description + affected code areas | Similar past tickets with actual cycle times |
+| "Tickets touching module X" | "Average 1.8x their initial estimate" |
+| Keyword patterns | "Tickets with 'migration' in title take 3x longer" |
+
+### What AI Could Output
+
+At Phase 2 (Sizing), AI assistance could provide:
+
+1. **Similar tickets:** "This looks like tickets #142, #287, #301 which took 4, 6, and 5 hours respectively"
+2. **Area-based adjustment:** "Work in this area of the codebase averages 2x initial estimates"
+3. **Confidence interval:** "70% confidence this is ≤ 3 days, 30% it's 4-7 days"
+4. **Decomposition prompt:** "Tickets this size have 40% chance of missing the 1-week ceiling—consider splitting"
+
+### Why AI Might Be Better
+
+- **No planning fallacy:** AI isn't doing the work, so it has no ego investment in optimistic estimates
+- **Pattern recognition at scale:** Can identify correlations humans miss across thousands of tickets
+- **Calibrated confidence:** Can learn from prediction errors and adjust
+- **Consistent application:** Same heuristics applied every time, no mood-dependent variation
+
+### What You'd Need to Build This
+
+1. **Historical data pipeline:** Ticket → actual cycle time → code diff mapping
+2. **Embedding similarity:** Find "tickets like this one" based on description and code areas
+3. **Codebase complexity metrics:** Identify high-variance areas
+4. **Calibration loop:** Compare AI estimates to actuals, refine model
+
+### Current State
+
+This is speculative—no off-the-shelf tool does this well yet. But the components exist:
+- LLMs can understand ticket descriptions and code context
+- Embedding similarity is well-understood
+- Cycle time data is available in most issue trackers
+
+The opportunity is assembling these into a sizing assistant that augments human judgment at Phase 2, providing calibrated data instead of gut feel.
+
+---
+
+## Appendix F: Sources
 
 ### Primary Sources
 
@@ -1480,6 +1597,16 @@ stateDiagram-v2
 11. PCI Security Standards Council. (2024). *Payment Card Industry Data Security Standard* (PCI DSS v4.0.1).
 
 12. Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*. TOC Strategic Solutions. — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival.
+
+### Batch Size & Story Splitting
+
+13. Humanizing Work. (2020). *The Humanizing Work Guide to Splitting User Stories*. https://www.humanizingwork.com/the-humanizing-work-guide-to-splitting-user-stories/ — Comprehensive guide to story splitting patterns; INVEST criteria; vertical slicing.
+
+14. DORA. (2025). *Working in Small Batches*. https://dora.dev/capabilities/working-in-small-batches/ — "Any batch of code that takes longer than a week to complete and check is too big."
+
+15. Fuqua, A. (2015). *Agile Story Points: How Many Stories Per Sprint?* LiminalArc. https://www.liminalarc.co/2015/05/agile-story-points-how-many-user-stories-per-sprint-rules-of-thumb/ — Practitioner guidance: 5-15 stories per sprint, 1-3 days each.
+
+16. Kelly, A. (n.d.). *What is the right size for a User Story?* https://www.allankelly.net/archives/646/what-is-right-size-for-user-story/ — "Smaller is better... both are possible, both are the right answer."
 
 ### External Resources
 
