@@ -47,6 +47,8 @@ This rubric moves the team from **resource efficiency** (keeping everyone busy) 
 3. **ISO 9001** — Ensure quality through repeatable PDCA cycles
 4. **PCI DSS 4.0** — Maintain security in payment-handling environments (some best practices apply universally)
 
+> **Note:** The PCI DSS sections apply only to teams handling payment card data. If your team doesn't process payments, skip those sections.
+
 All four frameworks address the same root cause: **variability**. If work were perfectly predictable, none of this would be necessary.
 
 ---
