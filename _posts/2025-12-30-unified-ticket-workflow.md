@@ -327,7 +327,7 @@ Yes—and that's by design. The rope was never meant to control demand.
 In manufacturing, customer orders arrive independently of the factory's capacity. Goldratt's rope doesn't reach back to customers placing orders; it reaches to the *release of raw materials* onto the shop floor. The order book—the queue of accepted orders waiting to start production—sits outside the rope's scope. Manufacturing deals with excess demand through commercial mechanisms: quoting longer lead times, raising prices, or declining orders.
 
 > "Material should be released Not Earlier Than the time calculated by using the CCR Buffer. This concept is called—The Rope—which means chocking the release according to the planned time."
-> — Cohen & Fedurko, *Theory of Constraints Fundamentals* (2012)
+> — TOCPA (2015), citing Cohen & Fedurko, *Theory of Constraints Fundamentals* (2012)
 
 The same applies to software. Tickets arrive from users, stakeholders, and other teams—demand you don't control. The backlog can grow indefinitely. The rope controls when work is *committed* (moved to "In Progress"), not when tickets are *created*.
 
@@ -1611,7 +1611,7 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 2. Tendon, S. & Muller, W. (2014). *Hyper-productive knowledge work performance: The TameFlow approach*. [TameFlow](https://tameflow.com/book/hyper-productive-knowledge-work-performance/). — Applies TOC to software development; introduces Drum-Buffer-Rope for knowledge work.
 
-3. Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*. TOC Strategic Solutions. — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival.
+3. TOCPA. (2015). *SDBR (Simplified Drum–Buffer–Rope) and DBR (Drum–Buffer–Rope)*. [TOCPA](https://tocpractice.org/references/2015/08/02/sdbr-simplified-drum-buffer-rope-and-dbr-ified-drum-buffer-rope/). — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival. [Citing Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*.]
 
 4. Forsgren, N., Humble, J., & Kim, G. (2018). *Accelerate: The science of lean software and DevOps*. [IT Revolution Press](https://itrevolution.com/product/accelerate/). — DORA research; four key metrics; statistical validation of DevOps practices.
 
