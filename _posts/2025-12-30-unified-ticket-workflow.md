@@ -569,7 +569,7 @@ flowchart TD
 | Approach | Action | Result | Time |
 |----------|--------|--------|------|
 | **Wrong (Theory First)** | Assume Safari-specific CSS issue, spend 2 days on CSS debugging | Discover actual cause was a Safari-specific JavaScript error | 3 days wasted |
-| **Right (Test First)** | Open Safari, click button, check console | See JavaScript error immediately | 10 minutes |
+| **Right (Verify First)** | Open Safari, click button, check console | See JavaScript error immediately | 10 minutes |
 
 **Actions:**
 1. Read ticket thoroughly
