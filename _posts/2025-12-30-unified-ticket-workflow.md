@@ -38,19 +38,6 @@ mermaid: true
 
 ---
 
-## How to Read This
-
-| If you are... | Start here | Skip | Focus on |
-|---------------|------------|------|----------|
-| **New to a team** | Page 1 | Nothing | Parts I-II, Phase 0-1 deep dive |
-| **Experienced dev seeking reference** | Part II | Part I | Phases, Appendix D |
-| **Manager or lead** | Part I | Phase details | Parts I, III, metrics |
-| **Auditor or compliance** | Appendix C | Narrative sections | Gates, checklists |
-
-> **Note:** The PCI DSS sections apply only to teams handling payment card data. If your team doesn't process payments, skip those sections.
-
----
-
 ## Executive Summary
 
 This rubric moves the team from **resource efficiency** (keeping everyone busy) to **flow efficiency** (keeping work moving). Four frameworks unify the approach:
