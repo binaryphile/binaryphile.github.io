@@ -1,0 +1,17 @@
+{% if page.mermaid %}
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Convert code blocks with language-mermaid to mermaid divs
+    document.querySelectorAll('code.language-mermaid').forEach(function(code) {
+      var pre = code.parentElement;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      pre.parentElement.replaceChild(div, pre);
+    });
+    mermaid.initialize({ startOnLoad: true });
+    mermaid.init();
+  });
+</script>
+{% endif %}

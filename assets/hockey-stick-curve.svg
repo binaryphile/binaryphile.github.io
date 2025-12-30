@@ -1,0 +1,111 @@
+<svg viewBox="0 0 400 335" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .axis { stroke: #333; stroke-width: 2; }
+      .axis-label { font-family: system-ui, sans-serif; font-size: 12px; fill: #333; }
+      .tick { stroke: #333; stroke-width: 1; }
+      .tick-label { font-family: system-ui, sans-serif; font-size: 10px; fill: #666; }
+      .grid { stroke: #e0e0e0; stroke-width: 1; }
+      .curve { fill: none; stroke: #c62828; stroke-width: 3; }
+      .zone-safe { fill: #e8f5e9; }
+      .zone-caution { fill: #fff3e0; }
+      .zone-danger { fill: #ffcdd2; }
+      .zone-label { font-family: system-ui, sans-serif; font-size: 10px; font-weight: 600; }
+      .annotation { font-family: system-ui, sans-serif; font-size: 9px; fill: #333; }
+      .point { stroke: #333; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- Background zones -->
+  <!-- Safe zone: 0-70% utilization -->
+  <rect x="50" y="50" width="210" height="240" class="zone-safe" />
+  <!-- Caution zone: 70-85% utilization -->
+  <rect x="260" y="50" width="45" height="240" class="zone-caution" />
+  <!-- Danger zone: 85-100% utilization -->
+  <rect x="305" y="50" width="45" height="240" class="zone-danger" />
+
+  <!-- Grid lines -->
+  <line x1="50" y1="266" x2="350" y2="266" class="grid" />
+  <line x1="50" y1="218" x2="350" y2="218" class="grid" />
+  <line x1="50" y1="170" x2="350" y2="170" class="grid" />
+  <line x1="50" y1="122" x2="350" y2="122" class="grid" />
+  <line x1="50" y1="74" x2="350" y2="74" class="grid" />
+
+  <!-- Vertical grid -->
+  <line x1="110" y1="50" x2="110" y2="290" class="grid" />
+  <line x1="170" y1="50" x2="170" y2="290" class="grid" />
+  <line x1="230" y1="50" x2="230" y2="290" class="grid" />
+  <line x1="290" y1="50" x2="290" y2="290" class="grid" />
+
+  <!-- Axes -->
+  <line x1="50" y1="290" x2="350" y2="290" class="axis" />
+  <line x1="50" y1="290" x2="50" y2="50" class="axis" />
+
+  <!-- X-axis ticks and labels (Utilization) -->
+  <line x1="50" y1="290" x2="50" y2="295" class="tick" />
+  <text x="50" y="308" class="tick-label" text-anchor="middle">0%</text>
+  <line x1="110" y1="290" x2="110" y2="295" class="tick" />
+  <text x="110" y="308" class="tick-label" text-anchor="middle">20%</text>
+  <line x1="170" y1="290" x2="170" y2="295" class="tick" />
+  <text x="170" y="308" class="tick-label" text-anchor="middle">40%</text>
+  <line x1="230" y1="290" x2="230" y2="295" class="tick" />
+  <text x="230" y="308" class="tick-label" text-anchor="middle">60%</text>
+  <line x1="290" y1="290" x2="290" y2="295" class="tick" />
+  <text x="290" y="308" class="tick-label" text-anchor="middle">80%</text>
+  <line x1="350" y1="290" x2="350" y2="295" class="tick" />
+  <text x="350" y="308" class="tick-label" text-anchor="middle">100%</text>
+
+  <!-- Y-axis ticks and labels (Wait Time Multiplier) -->
+  <line x1="45" y1="290" x2="50" y2="290" class="tick" />
+  <text x="40" y="294" class="tick-label" text-anchor="end">0×</text>
+  <line x1="45" y1="266" x2="50" y2="266" class="tick" />
+  <text x="40" y="270" class="tick-label" text-anchor="end">1×</text>
+  <line x1="45" y1="218" x2="50" y2="218" class="tick" />
+  <text x="40" y="222" class="tick-label" text-anchor="end">3×</text>
+  <line x1="45" y1="170" x2="50" y2="170" class="tick" />
+  <text x="40" y="174" class="tick-label" text-anchor="end">5×</text>
+  <line x1="45" y1="122" x2="50" y2="122" class="tick" />
+  <text x="40" y="126" class="tick-label" text-anchor="end">7×</text>
+  <line x1="45" y1="74" x2="50" y2="74" class="tick" />
+  <text x="40" y="78" class="tick-label" text-anchor="end">9×</text>
+  <text x="40" y="58" class="tick-label" text-anchor="end">→∞</text>
+
+  <!-- Hockey-stick curve: Wait = U/(1-U)
+       Points calculated:
+       10% → 0.11x, 20% → 0.25x, 30% → 0.43x, 40% → 0.67x, 50% → 1.0x
+       60% → 1.5x, 70% → 2.33x, 80% → 4.0x, 85% → 5.67x, 90% → 9.0x
+       X: 50 + (U * 300), Y: 290 - (multiplier * 24) capped at 50 -->
+  <path d="M 50 290
+           C 80 288, 100 286, 110 284
+           C 130 280, 150 276, 170 274
+           C 190 270, 210 264, 230 254
+           C 250 242, 260 230, 275 206
+           C 290 174, 305 130, 320 74
+           L 320 50"
+        class="curve" />
+
+  <!-- Key data points -->
+  <circle cx="260" cy="234" r="5" fill="#ff9800" class="point" />
+  <text x="248" y="250" class="annotation">70%: 2.3×</text>
+
+  <circle cx="290" cy="194" r="5" fill="#f44336" class="point" />
+  <text x="278" y="210" class="annotation">80%: 4×</text>
+
+  <circle cx="320" cy="74" r="5" fill="#b71c1c" class="point" />
+  <text x="308" y="90" class="annotation">90%: 9×</text>
+
+  <!-- Zone labels -->
+  <text x="155" y="68" class="zone-label" fill="#2e7d32">SUSTAINABLE</text>
+  <text x="155" y="80" class="tick-label" fill="#2e7d32">≤70%</text>
+
+  <text x="263" y="68" class="zone-label" fill="#e65100">RISKY</text>
+
+  <text x="315" y="68" class="zone-label" fill="#c62828">CRISIS</text>
+
+  <!-- Formula annotation -->
+  <text x="85" y="150" class="annotation" fill="#666">Wait Time = U / (1 - U)</text>
+
+  <!-- Axis titles -->
+  <text x="200" y="325" class="axis-label" text-anchor="middle">Resource Utilization</text>
+  <text x="15" y="170" class="axis-label" text-anchor="middle" transform="rotate(-90, 15, 170)">Wait Time Multiplier</text>
+</svg>

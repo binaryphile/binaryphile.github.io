@@ -1,0 +1,92 @@
+<svg viewBox="0 0 400 335" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .axis { stroke: #333; stroke-width: 2; }
+      .axis-label { font-family: system-ui, sans-serif; font-size: 12px; fill: #333; }
+      .zone-label { font-family: system-ui, sans-serif; font-size: 11px; font-weight: 600; }
+      .baseline { stroke: #666; stroke-width: 2; stroke-dasharray: 6,4; }
+      .zone-boundary { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
+      .tick { stroke: #333; stroke-width: 1; }
+      .tick-label { font-family: system-ui, sans-serif; font-size: 10px; fill: #666; }
+      .point { stroke: #333; stroke-width: 2; }
+      .point-label { font-family: system-ui, sans-serif; font-size: 9px; fill: #333; }
+    </style>
+  </defs>
+
+  <!-- Zone boundaries per Prof. Holt (Washington State):
+       Green/Yellow: (0%,0%) to (100%,66%)
+       Yellow/Red: (0%,33%) to (100%,100%)
+
+       SVG coords: origin (50,290), end (350,50)
+       X: 50-350 (300px = 100%)
+       Y: 290-50 (240px = 100%, inverted)
+
+       Green/Yellow line: (50,290) to (350, 290-0.66*240) = (350, 132)
+       Yellow/Red line: (50, 290-0.33*240) to (350,50) = (50, 211) to (350, 50)
+  -->
+
+  <!-- Red zone: above yellow/red boundary -->
+  <polygon points="50,50 350,50 50,211" fill="#ffcdd2" />
+
+  <!-- Yellow zone: between boundaries -->
+  <polygon points="50,211 350,50 350,132 50,290" fill="#fff3e0" />
+
+  <!-- Green zone: below green/yellow boundary -->
+  <polygon points="50,290 350,132 350,290" fill="#e8f5e9" />
+
+  <!-- Axes -->
+  <line x1="50" y1="290" x2="350" y2="290" class="axis" />
+  <line x1="50" y1="290" x2="50" y2="50" class="axis" />
+
+  <!-- X-axis ticks and labels -->
+  <line x1="50" y1="290" x2="50" y2="295" class="tick" />
+  <text x="50" y="308" class="tick-label" text-anchor="middle">0%</text>
+  <line x1="125" y1="290" x2="125" y2="295" class="tick" />
+  <text x="125" y="308" class="tick-label" text-anchor="middle">25%</text>
+  <line x1="200" y1="290" x2="200" y2="295" class="tick" />
+  <text x="200" y="308" class="tick-label" text-anchor="middle">50%</text>
+  <line x1="275" y1="290" x2="275" y2="295" class="tick" />
+  <text x="275" y="308" class="tick-label" text-anchor="middle">75%</text>
+  <line x1="350" y1="290" x2="350" y2="295" class="tick" />
+  <text x="350" y="308" class="tick-label" text-anchor="middle">100%</text>
+
+  <!-- Y-axis ticks and labels -->
+  <line x1="45" y1="290" x2="50" y2="290" class="tick" />
+  <text x="40" y="294" class="tick-label" text-anchor="end">0%</text>
+  <line x1="45" y1="211" x2="50" y2="211" class="tick" />
+  <text x="40" y="215" class="tick-label" text-anchor="end">33%</text>
+  <line x1="45" y1="132" x2="50" y2="132" class="tick" />
+  <text x="40" y="136" class="tick-label" text-anchor="end">66%</text>
+  <line x1="45" y1="50" x2="50" y2="50" class="tick" />
+  <text x="40" y="54" class="tick-label" text-anchor="end">100%</text>
+
+  <!-- Diagonal baseline: "on pace" line from (0,0) to (100%,100%) -->
+  <line x1="50" y1="290" x2="350" y2="50" class="baseline" />
+
+  <!-- Zone labels -->
+  <text x="80" y="100" class="zone-label" fill="#c62828">RED</text>
+  <text x="80" y="115" class="tick-label" fill="#c62828">Act now</text>
+
+  <text x="160" y="200" class="zone-label" fill="#e65100">YELLOW</text>
+  <text x="160" y="215" class="tick-label" fill="#e65100">Watch closely</text>
+
+  <text x="270" y="270" class="zone-label" fill="#2e7d32">GREEN</text>
+  <text x="270" y="285" class="tick-label" fill="#2e7d32">On track</text>
+
+  <!-- Example points -->
+  <!-- Healthy: 50% progress, 20% buffer used - in green -->
+  <circle cx="200" cy="242" r="6" fill="#4caf50" class="point" />
+  <text x="210" y="238" class="point-label">Ahead</text>
+
+  <!-- On pace: 50% progress, 50% buffer used - on baseline, in yellow -->
+  <circle cx="200" cy="170" r="6" fill="#ff9800" class="point" />
+  <text x="210" y="166" class="point-label">On pace</text>
+
+  <!-- Fever: 50% progress, 75% buffer used - in red -->
+  <circle cx="200" cy="110" r="6" fill="#f44336" class="point" />
+  <text x="210" y="106" class="point-label">Fever!</text>
+
+  <!-- Axis titles -->
+  <text x="200" y="325" class="axis-label" text-anchor="middle">Project Progress</text>
+  <text x="15" y="170" class="axis-label" text-anchor="middle" transform="rotate(-90, 15, 170)">Buffer Consumed</text>
+</svg>
