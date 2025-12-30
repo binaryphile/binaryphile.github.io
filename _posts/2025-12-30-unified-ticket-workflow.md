@@ -990,9 +990,9 @@ Don't ask "how much have I spent?" Ask:
 
 1. **How much remains on the current path?** (Estimate honestly)
 2. **How much would replanning cost?** (Include ramp-up time)
-3. **What's the quality difference?** (Will current path create model drift?)
+3. **What's the quality difference?** (Will current path create model disparity?)
 
-If (current path remaining + future debt) > (replan cost), stop and replan. The math is cold but correct.
+If (current path remaining + future rework) > (replan cost), stop and replan. The math is cold but correct.
 
 > **Manager Summary:** The workflow turns chaos into flow by creating visible, auditable checkpoints. Predictability beats speed—because predictability *creates* speed over time.
 
