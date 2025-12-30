@@ -79,13 +79,15 @@ Traditional project management optimizes for keeping everyone busy. This guide o
 
 This sounds obvious. Of course you want work to flow. But most organizations prioritize keeping everyone busy—which means giving people more to juggle. When everyone's working on five things, each one takes longer to finish.
 
-**What you'll learn:**
+You've got 15 tickets in flight, everyone's busy, and nothing's shipping. Sound familiar?
 
-- **Part I** explains *why* flow matters—the math behind the intuition, and a system (TameFlow) for managing it.
-- **Part II** shows *how* to apply it—finding your constraint, routing work correctly, and executing phases.
-- **Part III** tells you *if it's working*—the metrics, the warning signs, and the feedback loop that keeps you improving.
+This guide explains why that happens and gives you a system to fix it.
 
-The journey is: understand the problem → learn the system → apply the method → measure the results → adjust and repeat.
+You'll learn the math of variability—why 100% utilization kills throughput—and TameFlow's constraint-based approach: Drum-Buffer-Rope, fever charts, the Five Focusing Steps. You'll get an 8-phase workflow from ticket intake to done, with sizing discipline that caps work at DORA's ≤1 week ceiling. You'll see how the four DORA metrics connect to Little's Law, how ISO 9001's PDCA cycle maps to continuous improvement, and where PCI DSS requirements fit the same pattern.
+
+By the end, you'll have one habit that ties it all together.
+
+The journey: understand the problem → learn the system → apply the method → measure the results → adjust and repeat.
 
 Let's start with the problem.
 
@@ -620,6 +622,31 @@ But this isn't about cutting corners. Development concerns—quality, security, 
 - No "nice to have" bundled with required scope
 
 > **Ready signal:** This ticket does ONE thing, and you know how long it takes to do that one thing *well*. If it's bigger than a week, you've split it.
+
+**Worked Example:**
+
+*Ticket: "Users can't export reports to PDF"*
+
+| Step | Question | Answer | Action |
+|------|----------|--------|--------|
+| 1 | Estimate quality solution? | "Fix the bug: 2 days. But the export code is a mess—proper fix needs refactoring the export module: 8 days total." | Estimate is 8 days |
+| 2 | One thing or multiple? | Bug fix is one thing. Refactor is another. They're bundled. | Multiple things |
+| 3 | Decompose | Split into: (A) "Fix PDF export bug" ~2 days, (B) "Refactor export module" ~6 days | Two tickets |
+| 4 | Proceed | Work ticket A now. Ticket B goes to backlog. | Continue with A |
+
+Result: Ship the fix in 2 days. Refactor is a separate, prioritized ticket—not abandoned scope.
+
+**What happens to decomposed tickets?**
+
+The refactor ticket (B) isn't thrown away—it goes to the backlog with proper context. But here's the risk: if refactor tickets never get prioritized, developers learn to bundle them to ensure they happen.
+
+To prevent this:
+- **Tag decomposed tickets** with their origin ("split from #1234")
+- **Track tech debt tickets** as a backlog category
+- **Allocate capacity** for tech debt (e.g., 20% of sprint)
+- **Make the tradeoff visible** to PO: "We shipped fast, but B is now waiting"
+
+If your team's refactor tickets consistently rot in the backlog, that's a prioritization problem—not a sizing problem. Address it at the team/PO level, not by bundling scope.
 
 ---
 
@@ -1222,6 +1249,12 @@ PDCA isn't a bureaucratic overlay. It's the shape of effective work.
 
 ---
 
+We started with a paradox: teams that start less finish more. We traced it through the math—variability and the busy trap explain why 100% utilization kills flow. We built the system: TameFlow's constraint-based approach with DBR, buffers, and fever charts to surface problems early. We walked through the method: 8 phases from research to release, with sizing as Phase 2 to keep batches under DORA's ≤1 week ceiling. We connected the metrics: the four DORA keys map directly to Little's Law, and all four frameworks (TameFlow, DORA, ISO 9001, PCI DSS) converge on the same principles.
+
+What remains is the habit.
+
+---
+
 ## 15. The One Thing to Remember
 
 Metrics tell you if the system is working. But systems are made of habits. Here's the one habit that matters most:
@@ -1240,6 +1273,8 @@ This single habit:
 None of this works without psychological safety. The DORA research (Westrum organizational culture model) shows that high-performing teams require a culture where people can report problems—including red fever charts—without fear. If "red" means blame, people will hide problems until they explode.
 
 Flow efficiency beats resource efficiency. Now you know why.
+
+**Where to start:** Pick one thing this week. Limit your personal WIP to 2. Track lead time for a few tickets. Try the fever chart on one project. Small experiments, fast feedback.
 
 ---
 
@@ -1562,7 +1597,9 @@ This is speculative—no off-the-shelf tool does this well yet. But the componen
 - Embedding similarity is well-understood
 - Cycle time data is available in most issue trackers
 
-The opportunity is assembling these into a sizing assistant that augments human judgment at Phase 2, providing calibrated data instead of gut feel.
+Research shows promise: Choetkiertikul et al. (2018) achieved mean absolute error of 2.09 story points on industrial data using deep learning, and a 2024 study using SBERT with gradient-boosted trees showed 18% improvement over prior state-of-the-art (Yalçıner et al., 2024). However, models perform poorly on cross-project prediction—story points are too subjective and contextual to transfer between teams.
+
+The opportunity is assembling these into a sizing assistant that augments human judgment at Phase 2, providing calibrated data instead of gut feel. The key constraint: you need your own team's historical data, not a generic model.
 
 ---
 
@@ -1607,6 +1644,12 @@ The opportunity is assembling these into a sizing assistant that augments human 
 15. Fuqua, A. (2015). *Agile Story Points: How Many Stories Per Sprint?* LiminalArc. https://www.liminalarc.co/2015/05/agile-story-points-how-many-user-stories-per-sprint-rules-of-thumb/ — Practitioner guidance: 5-15 stories per sprint, 1-3 days each.
 
 16. Kelly, A. (n.d.). *What is the right size for a User Story?* https://www.allankelly.net/archives/646/what-is-right-size-for-user-story/ — "Smaller is better... both are possible, both are the right answer."
+
+### AI-Assisted Estimation Research
+
+17. Choetkiertikul, M., Dam, H. K., Tran, T., Pham, T., Ghose, A., & Menzies, T. (2018). A deep learning model for estimating story points. *IEEE Transactions on Software Engineering*, 45(7), 637-656. https://ieeexplore.ieee.org/document/8255666 — Achieved MAE of 2.09 story points using LSTM+RHN on 23,313 issues from 16 projects; cross-project prediction performs poorly (24-81% worse).
+
+18. Yalçıner, B., Dinçer, K., Karaçor, A.G., & Efe, M.Ö. (2024). Enhancing Agile Story Point Estimation: Integrating Deep Learning, Machine Learning, and Natural Language Processing with SBERT and Gradient Boosted Trees. *Applied Sciences*, 14(16), 7305. https://www.mdpi.com/2076-3417/14/16/7305 — SBERT-LGBM achieved MAE 2.15, 18% improvement over prior state-of-the-art; confirms models struggle with cross-project prediction.
 
 ### External Resources
 
