@@ -194,7 +194,7 @@ If you have 20 things in progress and finish 5 per week, each thing takes 4 week
 
 This is Little's Law, proven in 1961 for queueing systems in steady state (Jain, 2012, slide 30-25). Gunther (2007, §1.1) calls it "the one equation you must learn by heart." Most development workflows fit this model well enough: tickets come in, get worked, and close out. The law says that for such systems, these three variables are locked together. Change one, the others must follow.
 
-> **See it to believe it:** Watch Henrik Kniberg's [7-minute sticky-note demo][kniberg-wip]. He delivers the same three projects two ways: focused (one at a time) vs. juggling (all three "in progress"). The counterintuitive finding: even a *perfect* multitasker with zero context-switching cost delivers each item 2-3x slower when juggling—same total output, but customers wait 2-3x longer. Add realistic switching costs? Time to market becomes 5-7x worse *and* total productivity drops.
+> **See it to believe it:** Watch Henrik Kniberg's [7-minute sticky-note demo](https://www.youtube.com/watch?v=Yqi9Gwt-OEA). He delivers the same three projects two ways: focused (one at a time) vs. juggling (all three "in progress"). The counterintuitive finding: even a *perfect* multitasker with zero context-switching cost delivers each item 2-3x slower when juggling—same total output, but customers wait 2-3x longer. Add realistic switching costs? Time to market becomes 5-7x worse *and* total productivity drops.
 >
 > "You don't get to violate math."
 > —Kniberg
