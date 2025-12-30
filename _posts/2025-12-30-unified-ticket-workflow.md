@@ -128,7 +128,7 @@ The intuition: the denominator `(1 - U)` is your slack—the capacity left over 
 
 Why does the math work this way? Because real work has variability. Tasks don't take exactly their estimates. People get sick. Urgent requests interrupt. If everything ran on clock ticks—deterministic, predictable—you could run at 100% utilization with no queues.
 
-But only CPUs run on clock ticks. The more variability in arrivals or job sizes, the more waste occurs (Schwartz, 2015, line 165). This is Hopp & Spearman's **Law of Variability**: "Increasing variability always degrades the performance of a production system" (Hopp & Spearman, *Factory Physics*, Law #5). The buffer exists to absorb it. WIP limits exist to contain it. The entire system is designed to manage variability, not pretend it doesn't exist.
+But only CPUs run on synchronized clock ticks. The more variability in arrivals or job sizes, the more waste occurs (Schwartz, 2015, line 165). This is Hopp & Spearman's **Law of Variability**: "Increasing variability always degrades the performance of a production system" (Hopp & Spearman, *Factory Physics*, Law #5). The buffer exists to absorb it. WIP limits exist to contain it. The entire system is designed to manage variability, not pretend it doesn't exist.
 
 **Before/After:**
 
