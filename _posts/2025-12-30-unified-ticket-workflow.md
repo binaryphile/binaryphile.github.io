@@ -31,10 +31,10 @@ mermaid: true
 
 **Appendices**
 - [A: Rosetta Stone](#appendix-a-rosetta-stone)
-- [B: Team-Specific Details](#appendix-b-team-specific-details)
 - [C: Compliance Checklist](#appendix-c-compliance-checklist)
 - [D: Quick Reference Cards](#appendix-d-quick-reference-cards)
-- [E: Sources](#appendix-e-sources)
+- [E: AI-Assisted Sizing](#appendix-e-ai-assisted-sizing)
+- [F: Sources](#appendix-f-sources)
 
 ---
 
