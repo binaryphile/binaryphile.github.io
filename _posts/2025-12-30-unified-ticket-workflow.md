@@ -1627,7 +1627,7 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 ### Standards & Frameworks
 
-9. Kniberg, H. (2017). *Multiple WIP vs One Piece Flow* [Video]. YouTube. https://www.youtube.com/watch?v=Yqi9Gwt-OEA — Visual demonstration that even perfect multitaskers deliver 2-3x slower; with realistic context-switching, 5-7x slower.
+9. Kniberg, H. (2017). *Multiple WIP vs One Piece Flow* [Video]. [YouTube](https://www.youtube.com/watch?v=Yqi9Gwt-OEA). — Visual demonstration that even perfect multitaskers deliver 2-3x slower; with realistic context-switching, 5-7x slower.
 
 10. International Organization for Standardization. (2015). *Quality management systems — Requirements* (ISO 9001:2015).
 
@@ -1637,19 +1637,19 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 ### Batch Size & Story Splitting
 
-13. Humanizing Work. (2020). *The Humanizing Work Guide to Splitting User Stories*. https://www.humanizingwork.com/the-humanizing-work-guide-to-splitting-user-stories/ — Comprehensive guide to story splitting patterns; INVEST criteria; vertical slicing.
+13. Humanizing Work. (2020). *The Humanizing Work Guide to Splitting User Stories*. [Humanizing Work](https://www.humanizingwork.com/the-humanizing-work-guide-to-splitting-user-stories/). — Comprehensive guide to story splitting patterns; INVEST criteria; vertical slicing.
 
-14. DORA. (2025). *Working in Small Batches*. https://dora.dev/capabilities/working-in-small-batches/ — "Any batch of code that takes longer than a week to complete and check is too big."
+14. DORA. (2025). *Working in Small Batches*. [DORA](https://dora.dev/capabilities/working-in-small-batches/). — "Any batch of code that takes longer than a week to complete and check is too big."
 
-15. Fuqua, A. (2015). *Agile Story Points: How Many Stories Per Sprint?* LiminalArc. https://www.liminalarc.co/2015/05/agile-story-points-how-many-user-stories-per-sprint-rules-of-thumb/ — Practitioner guidance: 5-15 stories per sprint, 1-3 days each.
+15. Fuqua, A. (2015). *Agile Story Points: How Many Stories Per Sprint?* [LiminalArc](https://www.liminalarc.co/2015/05/agile-story-points-how-many-user-stories-per-sprint-rules-of-thumb/). — Practitioner guidance: 5-15 stories per sprint, 1-3 days each.
 
-16. Kelly, A. (n.d.). *What is the right size for a User Story?* https://www.allankelly.net/archives/646/what-is-right-size-for-user-story/ — "Smaller is better... both are possible, both are the right answer."
+16. Kelly, A. (n.d.). *What is the right size for a User Story?* [Allan Kelly](https://www.allankelly.net/archives/646/what-is-right-size-for-user-story/). — "Smaller is better... both are possible, both are the right answer."
 
 ### AI-Assisted Estimation Research
 
-17. Choetkiertikul, M., Dam, H. K., Tran, T., Pham, T., Ghose, A., & Menzies, T. (2018). A deep learning model for estimating story points. *IEEE Transactions on Software Engineering*, 45(7), 637-656. https://ieeexplore.ieee.org/document/8255666 — Achieved MAE of 2.09 story points using LSTM+RHN on 23,313 issues from 16 projects; cross-project prediction performs poorly (24-81% worse).
+17. Choetkiertikul, M., Dam, H. K., Tran, T., Pham, T., Ghose, A., & Menzies, T. (2018). A deep learning model for estimating story points. *IEEE Transactions on Software Engineering*, 45(7), 637-656. [IEEE](https://ieeexplore.ieee.org/document/8255666). — Achieved MAE of 2.09 story points using LSTM+RHN on 23,313 issues from 16 projects; cross-project prediction performs poorly (24-81% worse).
 
-18. Yalçıner, B., Dinçer, K., Karaçor, A.G., & Efe, M.Ö. (2024). Enhancing Agile Story Point Estimation: Integrating Deep Learning, Machine Learning, and Natural Language Processing with SBERT and Gradient Boosted Trees. *Applied Sciences*, 14(16), 7305. https://www.mdpi.com/2076-3417/14/16/7305 — SBERT-LGBM achieved MAE 2.15, 18% improvement over prior state-of-the-art; confirms models struggle with cross-project prediction.
+18. Yalçıner, B., Dinçer, K., Karaçor, A.G., & Efe, M.Ö. (2024). Enhancing Agile Story Point Estimation: Integrating Deep Learning, Machine Learning, and Natural Language Processing with SBERT and Gradient Boosted Trees. *Applied Sciences*, 14(16), 7305. [MDPI](https://www.mdpi.com/2076-3417/14/16/7305). — SBERT-LGBM achieved MAE 2.15, 18% improvement over prior state-of-the-art; confirms models struggle with cross-project prediction.
 
 ### External Resources
 
