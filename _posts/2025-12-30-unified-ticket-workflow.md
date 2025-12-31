@@ -990,7 +990,7 @@ Don't ask "how much have I spent?" Ask:
 
 1. **How much remains on the current path?** (Estimate honestly)
 2. **How much would replanning cost?** (Include ramp-up time)
-3. **What's the quality difference?** (Will current path create model disparity?)
+3. **What's the quality difference?** (Will current path create model incongruity?)
 
 If (current path remaining + future rework) > (replan cost), stop and replan. The math is cold but correct.
 
