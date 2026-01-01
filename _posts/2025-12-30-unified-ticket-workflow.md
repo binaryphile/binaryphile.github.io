@@ -12,7 +12,7 @@ mermaid: true
 1. [The One Idea](#1-the-one-idea)
 2. [The Busy Trap](#2-the-busy-trap)
 3. [The Three Levers](#3-the-three-levers)
-4. [The TameFlow Framework](#4-the-tameflow-framework)
+4. [The TameFlow Approach](#4-the-tameflow-approach)
 
 **Part II: The Method**
 5. [Finding Your Constraint](#5-finding-your-constraint)
@@ -86,6 +86,11 @@ Let's start with the problem.
 
 Traditional project management optimizes for **resource efficiency**: keeping everyone busy 100% of the time. This seems logical but creates serious problems.
 
+**Why does this happen?** Goldratt identified the root cause: *Cost Accounting*. Traditional accounting treats labor as a cost to minimize—"I pay your salary, so you better stay busy." This drives managers to maximize utilization, which kills flow (as we'll see below). Cost Accounting optimizes locally (keep each person busy) while degrading globally (everything takes longer).
+
+> "Cost Accounting is productivity's public enemy number one."
+> (Goldratt, quoted in Tendon & Muller, 2014, Ch. 11)
+
 **Queueing Theory 101:**
 
 Queueing theory is the mathematics of waiting lines—the study of what happens when "customers" (work items) arrive at "servers" (workers or machines) for processing. It applies anywhere work waits: grocery checkouts, call centers, emergency rooms, and yes—development teams processing tickets.
@@ -140,7 +145,13 @@ DORA is explicit about the ceiling:
 - More predictable lead times (less variance)
 - Higher motivation (frequent completion)
 
-The practitioner sweet spot is 1-3 days per ticket (Fuqua, 2015; Kelly, n.d.), though tickets up to a week are acceptable by DORA standards.
+Practitioners often cite 1-3 days per ticket as a sweet spot (Fuqua, 2015; Kelly, n.d.), and DORA validates that tickets exceeding a week are a warning signal. But time is a *proxy*, not the thing itself.
+
+**The real sizing question:** Do you understand what to do?
+- "Yeah, we can do it" → Scope is understood; proceed
+- "We have no idea" → Scope is undefined; research spike first (Phase 1)
+
+Cognitive load—not elapsed time—is the discriminant. A 5-day ticket where the team knows exactly what to build is fine. A 2-day ticket where nobody understands the problem is not. Time-based ceilings (DORA's ≤1 week) are external warning signals; internal sizing decisions should be based on understanding and constraint impact.
 
 **The developer's tension:** Engineering-minded developers often see a "right" solution that's larger and more maintainable. But development concerns—quality, security, maintainability—add processing time for good reason. They prevent future problems. The question isn't "quality vs speed"—it's "is this ONE thing done thoroughly, or MULTIPLE things bundled together?"
 
@@ -177,9 +188,13 @@ Before the equation, let's ground the terms in experience:
 
 **WIP (Work in Progress):** Count the things you've started but haven't finished. Open tickets assigned to you, half-written code, PRs waiting for review, that branch you haven't touched in a week. That's your WIP. You can feel it—the mental inventory you carry, the context switch tax when you jump between tasks, the "where was I?" when you return to something half-done.
 
-**Throughput:** How many things you *finish* per unit time. Tickets closed per week. Features shipped per month. It's the rate of done-ness—the pace at which work leaves your system. You feel this too: the satisfaction of closing something out, the momentum when things are shipping.
+**Throughput:** How many things you *finish* per unit time. Tickets closed per week. Features shipped per month. It's the rate of done-ness—the pace at which work leaves your system. You feel this too: the satisfaction of closing something out, the momentum when things are shipping. This is *operational* throughput—the rate of completion.
 
-**Flow Time:** How long something takes from start to finish. Not effort—elapsed time. A ticket might need two hours of coding, but if it sat in queues for two weeks, its flow time is two weeks. You've felt this as a customer: "I submitted this bug report a month ago and it's still open."
+> **TameFlow distinction:** In Theory of Constraints, "Throughput" has a stricter meaning: Revenue − Totally Variable Costs. This *economic* throughput focuses not just on finishing work, but on finishing the *right* work—work that generates value. Flow efficiency (start less) reduces WIP; Throughput efficiency (start *right* things) maximizes value per unit of constraint capacity.
+
+**Flow Time:** Elapsed time from commitment to completion. Not effort—wall clock time. A ticket might need two hours of coding, but if it sat in queues for two weeks, its flow time is two weeks. You've felt this as a customer: "I submitted this bug report a month ago and it's still open."
+
+> **When does the clock start?** When you promise delivery—whether that's sprint planning, a customer commitment, or moving a ticket to "committed." Queue time after commitment counts. This is why backlog grooming matters: don't commit to more than you can deliver, because the clock starts at commitment, not at work-start.
 
 Now the equation:
 
@@ -269,7 +284,7 @@ Find the constraint—the bottleneck that sets the pace for everything else.
 
 ---
 
-## 4. The TameFlow Framework
+## 4. The TameFlow Approach
 
 Little's Law gives you the math. TameFlow gives you the system.
 
@@ -299,13 +314,33 @@ In development: don't start new features until the PR queue drops below a thresh
 
 ### The Rope in Practice
 
-In JIRA/GitLab, the rope is implemented through WIP limits:
+The rope is a *replenishment signal*, not a column WIP limit.
 
-- **"In Progress" column:** Limit to number of developers (e.g., 5 devs = max 5 tickets)
-- **"In Review" column:** Limit to 2-3 per reviewer
-- **"Blocked" column:** Move blocked tickets here—don't pull a new primary ticket to fill the gap (see S3's "Filling the gaps" for how secondary work can absorb idle time without affecting primary flow)
+> "Every time a task is finished, a team member is allowed to open a new task."
+> (Tendon & Muller, 2014, Ch. 24)
 
-**When to tighten the rope:** If the review queue exceeds 3 PRs per reviewer, stop starting new work and help clear the queue. The system's throughput depends on the constraint, not on keeping developers busy.
+**How it works:**
+- When work exits the system (merged, deployed), that signals capacity for new work
+- The signal propagates upstream: "one out, one in"
+- System-wide WIP stays bounded without per-column limits
+
+**Why not column WIP limits?**
+
+Column WIP limits (e.g., "max 5 in Review") are *Kanban*—what Tendon calls "2nd generation" production control. TameFlow uses *DBR* ("3rd generation"), where WIP is controlled by the constraint, not by artificial limits at each stage:
+
+> "In TameFlow-Kanban we will still keep the cards unchanged, but we will forgo the WIP-limited columns... work-state (column) WIP limits hide the real constraint."
+> (Tendon & Muller, 2014, Ch. 18)
+
+Column limits can create *artificial* bottlenecks—the column fills up even though the real constraint has capacity. DBR keeps focus on the *actual* constraint.
+
+**In practice:**
+- Use the Kanban board for visualization (columns, cards)
+- Don't enforce per-column WIP limits
+- Instead: when constraint has capacity (buffer isn't full), pull new work
+- Monitor buffer health via fever chart—that tells you when to tighten the rope
+- When blocked: don't pull a new primary ticket to fill the gap (see S3's "Filling the gaps" for how secondary work can absorb idle time without affecting primary flow)
+
+**When to tighten the rope:** When the buffer runs "yellow" or "red" (Section 11), stop starting new work. The signal comes from buffer consumption, not from counting items in a column.
 
 ### What the Rope Doesn't Control
 
@@ -605,8 +640,9 @@ But this isn't about cutting corners. Development concerns—quality, security, 
 
 **Exit Criteria:**
 - Scope is singular (one deliverable outcome)
+- Scope is understood ("we know what to do")
 - Estimate reflects doing it right (tests, quality, security)
-- Ticket is ≤ 1 week (DORA ceiling)
+- If estimate > 1 week: verified it's ONE coherent thing, not multiple bundled (DORA's ≤1 week is a warning signal, not a hard rule—if work is singular and understood, proceed)
 - If decomposed: child tickets created, each independently valuable
 - No "nice to have" bundled with required scope
 
@@ -1641,6 +1677,13 @@ The opportunity is assembling these into a sizing assistant that augments human 
 1. Goldratt, E. M. & Cox, J. (1984). *The Goal: A process of ongoing improvement*. [North River Press](https://northriverpress.com/the-goal-30th-anniversary-edition/). — The origin of Theory of Constraints (TOC), presented as a business novel about a manufacturing plant manager learning to identify and exploit constraints.
 
 2. Tendon, S. & Muller, W. (2014). *Hyper-productive knowledge work performance: The TameFlow approach*. [TameFlow](https://tameflow.com/book/hyper-productive-knowledge-work-performance/). — Applies TOC to software development; introduces Drum-Buffer-Rope for knowledge work.
+
+> **Note on source synthesis:** This rubric synthesizes multiple frameworks (TameFlow, DORA, Hopp & Spearman, ISO 9001, PCI DSS). These sources generally align but differ on some points:
+> - **Batch sizing:** DORA uses time-based ceilings (≤1 week); TameFlow prefers cognitive load and constraint impact
+> - **WIP limiting:** Kanban uses column WIP limits; TameFlow/DBR uses buffer-based replenishment signals
+> - **Throughput:** Common usage means completion rate; TameFlow means Revenue − TVC
+>
+> Where sources conflict, we've noted the tension rather than presenting false consensus.
 
 3. TOCPA. (2015). *SDBR (Simplified Drum–Buffer–Rope) and DBR (Drum–Buffer–Rope)*. [TOCPA](https://tocpractice.org/references/2015/08/02/sdbr-simplified-drum-buffer-rope-and-dbr-ified-drum-buffer-rope/). — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival. [Citing Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*.]
 
