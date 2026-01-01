@@ -151,7 +151,16 @@ Practitioners often cite 1-3 days per ticket as a sweet spot (Fuqua, 2015; Kelly
 - "Yeah, we can do it" → Scope is understood; proceed
 - "We have no idea" → Scope is undefined; research spike first (Phase 1)
 
-Cognitive load—not elapsed time—is the discriminant. A 5-day ticket where the team knows exactly what to build is fine. A 2-day ticket where nobody understands the problem is not. Time-based ceilings (DORA's ≤1 week) are external warning signals; internal sizing decisions should be based on understanding and constraint impact.
+Cognitive load may be a better predictor than elapsed time. A 5-day ticket where the team knows exactly what to build often ships cleaner than a 2-day ticket where nobody understands the problem. But this is a hypothesis, not a settled fact—DORA's empirical research emphasizes time, while TameFlow emphasizes understanding.
+
+> **An open question for your team.** DORA's research (thousands of teams) finds batches >1 week correlate with worse outcomes—stated as a hard ceiling. TameFlow argues cognitive load is the real discriminant. Reinertsen's U-curve framework shows batch size has an optimal range (transaction cost vs holding cost), not "always smaller."
+>
+> This is an opportunity for discovery. Track both:
+> - **Time**: How long did this batch take?
+> - **Cognitive load**: Did we understand what to do upfront?
+> - **Outcome**: Did it ship cleanly? Require rework?
+>
+> After a quarter, examine your data. Does time or cognitive load better predict success for YOUR team? This is PDCA applied to your own process.
 
 **The developer's tension:** Engineering-minded developers often see a "right" solution that's larger and more maintainable. But development concerns—quality, security, maintainability—add processing time for good reason. They prevent future problems. The question isn't "quality vs speed"—it's "is this ONE thing done thoroughly, or MULTIPLE things bundled together?"
 
@@ -645,6 +654,8 @@ But this isn't about cutting corners. Development concerns—quality, security, 
 - If estimate > 1 week: verified it's ONE coherent thing, not multiple bundled (DORA's ≤1 week is a warning signal, not a hard rule—if work is singular and understood, proceed)
 - If decomposed: child tickets created, each independently valuable
 - No "nice to have" bundled with required scope
+
+> **Tracking for experimentation:** When closing tickets, record: (1) actual elapsed time, (2) whether scope was understood upfront (yes/no/partial), (3) outcome quality (clean ship / minor rework / significant rework). After a quarter, analyze which input better predicts outcome.
 
 > **Ready signal:** This ticket does ONE thing, and you know how long it takes to do that one thing *well*. If it's bigger than a week, you've split it.
 
@@ -1683,7 +1694,7 @@ The opportunity is assembling these into a sizing assistant that augments human 
 > - **WIP limiting:** Kanban uses column WIP limits; TameFlow/DBR uses buffer-based replenishment signals
 > - **Throughput:** Common usage means completion rate; TameFlow means Revenue − TVC
 >
-> Where sources conflict, we've noted the tension rather than presenting false consensus.
+> Where sources conflict (notably on batch sizing), we frame these as experimentation opportunities. DORA and TameFlow genuinely disagree on whether time or cognitive load is the better sizing criterion. Track your own data and discover what works for your team.
 
 3. TOCPA. (2015). *SDBR (Simplified Drum–Buffer–Rope) and DBR (Drum–Buffer–Rope)*. [TOCPA](https://tocpractice.org/references/2015/08/02/sdbr-simplified-drum-buffer-rope-and-dbr-ified-drum-buffer-rope/). — Formal definitions of DBR and S-DBR; clarifies that the rope controls material release timing, not demand arrival. [Citing Cohen, O. & Fedurko, J. (2012). *Theory of Constraints Fundamentals*.]
 
@@ -1727,11 +1738,23 @@ The opportunity is assembling these into a sizing assistant that augments human 
 
 19. Kelly, A. (n.d.). *What is the right size for a User Story?* [Allan Kelly](https://www.allankelly.net/archives/646/what-is-right-size-for-user-story/). — "Smaller is better... both are possible, both are the right answer."
 
+### Batch Size Economics
+
+20. Reinertsen, D. (2009). *The Principles of Product Development Flow*. Celeritas Publishing. — U-curve optimization: optimal batch size balances transaction cost against holding cost.
+
+21. Fabók, Z. (2013). [The Optimal Batch Size](https://zsoltfabok.com/blog/2013/03/the-optimal-batch-size/). — Accessible explanation of Reinertsen's U-curve.
+
+22. Innolution. (n.d.). [U-curve optimization Definition](https://innolution.com/resources/glossary/u-curve-optimization). — Quick reference.
+
+23. Siddiqi, Z. (n.d.). [A Theory of User Story Sizing](https://www.linkedin.com/pulse/theory-user-story-sizing-zarar-siddiqi). — Transaction cost vs holding cost framework.
+
+24. Michaels, P. (2017). [Irreducible Complexity in Agile](https://pmichaels.net/2017/09/03/irreducible-complexity-agile/). — Some work resists decomposition.
+
 ### AI-Assisted Estimation Research
 
-20. Choetkiertikul, M., Dam, H. K., Tran, T., Pham, T., Ghose, A., & Menzies, T. (2018). A deep learning model for estimating story points. *IEEE Transactions on Software Engineering*, 45(7), 637-656. [IEEE](https://ieeexplore.ieee.org/document/8255666). — Achieved MAE of 2.09 story points using LSTM+RHN on 23,313 issues from 16 projects; cross-project prediction performs poorly (24-81% worse).
+25. Choetkiertikul, M., Dam, H. K., Tran, T., Pham, T., Ghose, A., & Menzies, T. (2018). A deep learning model for estimating story points. *IEEE Transactions on Software Engineering*, 45(7), 637-656. [IEEE](https://ieeexplore.ieee.org/document/8255666). — Achieved MAE of 2.09 story points using LSTM+RHN on 23,313 issues from 16 projects; cross-project prediction performs poorly (24-81% worse).
 
-21. Yalçıner, B., Dinçer, K., Karaçor, A.G., & Efe, M.Ö. (2024). Enhancing Agile Story Point Estimation: Integrating Deep Learning, Machine Learning, and Natural Language Processing with SBERT and Gradient Boosted Trees. *Applied Sciences*, 14(16), 7305. [MDPI](https://www.mdpi.com/2076-3417/14/16/7305). — SBERT-LGBM achieved MAE 2.15, 18% improvement over prior state-of-the-art; confirms models struggle with cross-project prediction.
+26. Yalçıner, B., Dinçer, K., Karaçor, A.G., & Efe, M.Ö. (2024). Enhancing Agile Story Point Estimation: Integrating Deep Learning, Machine Learning, and Natural Language Processing with SBERT and Gradient Boosted Trees. *Applied Sciences*, 14(16), 7305. [MDPI](https://www.mdpi.com/2076-3417/14/16/7305). — SBERT-LGBM achieved MAE 2.15, 18% improvement over prior state-of-the-art; confirms models struggle with cross-project prediction.
 
 ---
 
