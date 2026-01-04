@@ -15,7 +15,7 @@ This is what happened on January 3, 2026. Various characterizations have been of
 
 In plain language: a kidnapping, a bombing, an announced occupation, and an explicit claim on another nation's resources.
 
-This is an act of war. The UN General Assembly spent fifty years, from the League of Nations through 1974, defining what constitutes aggression. Resolution 3314 lists acts that qualify "regardless of a declaration of war." The list includes "invasion or attack by the armed forces of a State of the territory of another State" and "bombardment by the armed forces of a State against the territory of another State." This morning's action fits both.[^35]
+This is aggression. The UN General Assembly spent fifty years, from the League of Nations through 1974, defining what that word means. Resolution 3314 lists acts that qualify "regardless of a declaration of war." The list includes "invasion or attack by the armed forces of a State of the territory of another State" and "bombardment by the armed forces of a State against the territory of another State." This morning's action fits both.[^35]
 
 The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not kidnapped — *captured*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not an act of war — *executing an arrest warrant*.
 
