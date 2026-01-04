@@ -13,7 +13,7 @@ Hours later, the American president held a press conference at his private club 
 
 This is what happened on January 3, 2026. Various characterizations have been offered. Cuba called it "state terrorism." Russia called it "armed aggression." The UN Secretary-General said "the rules of international law have not been respected." Each has a claim. "State terrorism" overstates — terrorism typically means targeting civilians to create fear, and this action targeted a head of state and military installations. "Armed aggression" is accurate but vague. The UN formulation is diplomatic understatement for "illegal."
 
-In plain language: a kidnapping, a bombing, an announced occupation, and an explicit claim on another nation's resources.
+In plain language: the kidnapping of a sitting president of a country with which we are not at war, the bombing of that nation's capital, the announced occupation of said country, and an explicit claim on that nation's resources.
 
 This is aggression. The UN General Assembly spent fifty years, from the League of Nations through 1974, defining what that word means. Resolution 3314 lists acts that qualify "regardless of a declaration of war." The list includes "invasion or attack by the armed forces of a State of the territory of another State" and "bombardment by the armed forces of a State against the territory of another State." This morning's action fits both.[^35]
 
