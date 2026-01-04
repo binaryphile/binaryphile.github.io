@@ -41,15 +41,19 @@ President Dwight D. Eisenhower refused to permit it.
 
 The United States condemned the invasion publicly, joining the Soviet Union in demanding withdrawal — a remarkable alignment of Cold War adversaries against America's closest allies. But Eisenhower went further than words. When the fighting began, Nasser blocked the canal with sunken ships and saboteurs shut down a major pipeline bringing oil from Iraq to Western Europe. Deprived of their major sources of oil, the British needed American dollars to purchase fuel. The Eisenhower administration refused to cooperate.[^12]
 
-On October 31, Eisenhower addressed the American people by radio and television. His words were precise: "There can be no peace — without law. And there can be no law — if we were to invoke one code of international conduct for those who oppose us — and another for our friends."[^13]
+On October 31, Eisenhower addressed the American people by radio and television. His words were precise:
+
+> There can be no peace — without law. And there can be no law — if we were to invoke one code of international conduct for those who oppose us — and another for our friends.[^13]
 
 Within days, Britain and France agreed to a ceasefire. By December, their forces were withdrawing. By March 1957, Israel had withdrawn from the Sinai. British Prime Minister Anthony Eden, humiliated, resigned in January 1957.
 
 In the postwar order the United States had helped construct, great powers did not simply seize the resources of weaker nations by military force. Not even allies. Not even when the property in question had genuinely been "theirs."
 
-"For we do not accept the use of force as a wise or proper instrument for the settlement of international disputes," Eisenhower said that night.[^13]
+Eisenhower again:
 
-The language of the current administration — "they stole it from us," "the largest thefts of American property in the history of our country" — is precisely the language Britain and France used about the Suez Canal. The action — military intervention to recover resources a weaker nation had "taken" — is precisely the action Eisenhower stopped. The difference is that now there is no Eisenhower. No outside power capable of imposing consequences.
+> For we do not accept the use of force as a wise or proper instrument for the settlement of international disputes.[^13]
+
+The language of the current administration — *"they stole it from us,"* *"the largest thefts of American property in the history of our country"* — is precisely the language Britain and France used about the Suez Canal. The action — military intervention to recover resources a weaker nation had "taken" — is precisely the action Eisenhower stopped. The difference is that now there is no Eisenhower. No outside power capable of imposing consequences.
 
 ### Crimea, 2014
 
@@ -103,7 +107,11 @@ The United States did not arrive here suddenly. The conditions that permitted th
 
 The Constitution grants Congress the power to declare war. The last time Congress exercised that power was December 1941. Since then, American presidents have ordered military action in Korea, Vietnam, Grenada, Panama, Iraq (twice), Afghanistan, Libya, Syria, and dozens of smaller operations — none with a declaration of war. The War Powers Resolution of 1973, passed to reassert Congressional authority after Vietnam, has been treated by every subsequent president as advisory at best. Congress has largely acquiesced.
 
-The Authorization for Use of Military Force passed three days after September 11, 2001, authorizes force against those who "planned, authorized, committed, or aided the terrorist attacks that occurred on September 11, 2001, or harbored such organizations or persons."[^19] That language — sixty words in total — has been invoked to justify operations in at least twenty-two countries.[^20] Groups that did not exist on September 11. Countries with no connection to the attacks. The legal architecture of the war on terror created a template: take a narrow authorization, stretch it beyond recognition, and treat Congressional silence as consent. Venezuela is not justified under the AUMF — even that stretched fabric would not cover a drug-trafficking indictment. But the pattern holds: act first, define the legal basis later, and count on Congress to acquiesce.
+The Authorization for Use of Military Force passed three days after September 11, 2001, authorizes force against those who:
+
+> planned, authorized, committed, or aided the terrorist attacks that occurred on September 11, 2001, or harbored such organizations or persons.[^19]
+
+That language — sixty words in total — has been invoked to justify operations in at least twenty-two countries.[^20] Groups that did not exist on September 11. Countries with no connection to the attacks. The legal architecture of the war on terror created a template: take a narrow authorization, stretch it beyond recognition, and treat Congressional silence as consent. Venezuela is not justified under the AUMF — even that stretched fabric would not cover a drug-trafficking indictment. But the pattern holds: act first, define the legal basis later, and count on Congress to acquiesce.
 
 The war on drugs created a parallel template. For decades, America has treated drug trafficking as a national security threat justifying military and paramilitary action abroad. Plan Colombia. The Mérida Initiative. Operations in Honduras, Guatemala, the Caribbean. The line between law enforcement and military action blurred. The 2020 indictment of Nicolás Maduro on drug trafficking charges was not unusual in itself — Washington has indicted foreign leaders before. What changed was the willingness to treat such an indictment as sufficient justification for invasion.
 
@@ -133,9 +141,11 @@ The history of American intervention in Latin America is long and often brutal �
 
 The mask is off — and the world is watching.
 
-Within hours of the American strikes, Brazilian President Luiz Inácio Lula da Silva issued a statement: "Bombings on Venezuelan territory and the capture of its president cross an unacceptable line." He continued: "These acts represent a most serious affront to Venezuela's sovereignty and yet another extremely dangerous precedent for the entire international community." The action, Lula wrote, "recalls the worst moments of interference in the politics of Latin America and the Caribbean and threatens the preservation of the region as a zone of peace."[^24]
+Within hours of the American strikes, Brazilian President Luiz Inácio Lula da Silva issued a statement:
 
-Colombian President Gustavo Petro, whose country shares a 1,400-mile border with Venezuela, announced the deployment of military forces to that border and called for an emergency session of the UN Security Council. Mexico's President Claudia Sheinbaum condemned the strikes as a violation of the UN Charter. Cuba's Miguel Díaz-Canel called it "state terrorism."[^25]
+> Bombings on Venezuelan territory and the capture of its president cross an unacceptable line. These acts represent a most serious affront to Venezuela's sovereignty and yet another extremely dangerous precedent for the entire international community... [This] recalls the worst moments of interference in the politics of Latin America and the Caribbean and threatens the preservation of the region as a zone of peace.[^24]
+
+Colombian President Gustavo Petro, whose country shares a 1,400-mile border with Venezuela, announced the deployment of military forces to that border and called for an emergency session of the UN Security Council. Mexico's President Claudia Sheinbaum condemned the strikes as a violation of the UN Charter. Cuba's Miguel Díaz-Canel called it *"state terrorism."*[^25]
 
 Not all of Latin America condemned. Argentina's Javier Milei — a close Trump ally who attended his inauguration and has cultivated strong ties to Washington — celebrated on social media: "That's excellent news for the free world." Ecuador's Daniel Noboa called on María Corina Machado and Edmundo González to "reclaim your country." El Salvador's Nayib Bukele, another Trump ally, was more cryptic: rather than comment directly, he reposted an old statement attacking Maduro.[^26]
 
@@ -147,9 +157,15 @@ UN Secretary-General António Guterres, through his spokesperson, declared himse
 
 America's European allies responded with careful distance. British Prime Minister Keir Starmer said Britain was "not involved" and that "we should all uphold international law." France's Foreign Minister Jean-Noël Barrot stated that "no lasting political solution can be imposed from the outside." Germany's Chancellor Friedrich Merz, while noting that Germany had not recognized Maduro's disputed presidency, called the legal classification of the intervention "complex" and said Germany would "take time" on the matter.[^29] Britain and France were the nations Eisenhower stopped at Suez.
 
-A German member of parliament, Roderich Kiesewetter of the conservative Christian Democratic Union, was more direct: "With President Trump, the U.S. are abandoning the rules-based order that has shaped us since 1945." He described it as "a return to the old U.S. doctrine from before 1940: a mindset of thinking in terms of spheres of influence."[^30]
+A German member of parliament, Roderich Kiesewetter of the conservative Christian Democratic Union, was more direct:
 
-China's Foreign Ministry issued a statement: "China is deeply shocked and strongly condemns the use of force by the U.S. against a sovereign country and the use of force against the president of a country. China firmly opposes such hegemonic behaviour by the U.S., which seriously violates international law." Russia's Foreign Ministry called the action "an unacceptable assault" on Venezuela's sovereignty and "an act of armed aggression."[^31]
+> With President Trump, the U.S. are abandoning the rules-based order that has shaped us since 1945... a return to the old U.S. doctrine from before 1940: a mindset of thinking in terms of spheres of influence.[^30]
+
+China's Foreign Ministry issued a statement:
+
+> China is deeply shocked and strongly condemns the use of force by the U.S. against a sovereign country and the use of force against the president of a country. China firmly opposes such hegemonic behaviour by the U.S., which seriously violates international law.[^31]
+
+Russia's Foreign Ministry called the action *"an unacceptable assault"* on Venezuela's sovereignty and *"an act of armed aggression."*[^31]
 
 The split among leaders mirrored a split among people — or at least, the people we can see from here. In Caracas, Maduro supporters gathered near Miraflores palace and burned an American flag. But what Venezuelans are experiencing on the ground, in a country now under American military control, is largely invisible to international media. The Venezuelan voices most audible are those who already left: in Florida, Madrid, Bogotá, exiles celebrated the fall of the man who drove them out.[^32]
 
@@ -159,7 +175,7 @@ These responses will not change what happens in Venezuela.
 
 For eighty years, the United States positioned itself as the guarantor of the rules-based international order. Other nations violated that order — the Soviet Union in Hungary and Czechoslovakia, Russia in Georgia and Ukraine, Iraq in Kuwait — but America was supposed to be different. America enforced the rules. When it bent them, as in Iraq in 2003, it at least constructed elaborate justifications: weapons of mass destruction, UN resolutions, coalition partners. The justifications were often false or exaggerated, but they paid tribute to the idea that rules existed and mattered.
 
-This morning, the American president announced that American companies would take Venezuela's oil because "they stole it from us." He did not invoke international law. He did not claim UN authorization. He did not pretend the action served Venezuelan democracy — he said the United States would "run the country." The resource claim was explicit.
+This morning, the American president announced that American companies would take Venezuela's oil because *"they stole it from us."* He did not invoke international law. He did not claim UN authorization. He did not pretend the action served Venezuelan democracy — he said the United States would "run the country." The resource claim was explicit.
 
 The German parliamentarian's phrase is precise: a return to thinking in terms of spheres of influence. Not rules that apply to all, but power that applies to some. Latin America is America's sphere; Venezuela is in that sphere; therefore America can take what it wants. This is not the language of international law. It is the language of imperialism.
 
