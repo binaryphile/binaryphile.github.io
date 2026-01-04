@@ -13,11 +13,11 @@ Hours later, the American president held a press conference at his private club 
 
 This is what happened on January 3, 2026. Various characterizations have been offered. Cuba called it "state terrorism." Russia called it "armed aggression." The UN Secretary-General said "the rules of international law have not been respected." Each has a claim. "State terrorism" overstates — terrorism typically means targeting civilians to create fear, and this action targeted a head of state and military installations. "Armed aggression" is accurate but vague. The UN formulation is diplomatic understatement for "illegal."
 
-In plain language: the kidnapping of a sitting president of a country with which we are not at war, the bombing of that nation's capital, the announced occupation of said country, and an explicit claim on that nation's resources.
+In plain language: the abduction of a sitting president of a country with which we are not at war, the bombing of that nation's capital, the announced occupation of said country, and an explicit claim on that nation's resources.
 
 This is aggression. The UN General Assembly spent fifty years, from the League of Nations through 1974, defining what that word means. Resolution 3314 lists acts that qualify "regardless of a declaration of war." The list includes "invasion or attack by the armed forces of a State of the territory of another State" and "bombardment by the armed forces of a State against the territory of another State." This morning's action fits both.[^35]
 
-The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not kidnapped — *captured*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not an act of war — *executing an arrest warrant*.
+The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not abducted — *captured*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not an act of war — *executing an arrest warrant*.
 
 Axios notes that administration officials had "for months" been comparing Maduro to Noriega — "This could be Noriega part 2," one official told the outlet in August.[^8] One CNN analysis piece describes the operation as "abducting a sitting president from his capital in the dead of night" — but this plain language appears in opinion, not in headlines, not in live coverage.[^9]
 
@@ -175,7 +175,7 @@ Russia's Foreign Ministry called the action *"an unacceptable assault"* on Venez
 
 The split among leaders mirrored a split among people — or at least, the people we can see from here. In Caracas, Maduro supporters gathered near Miraflores palace and burned an American flag. But what Venezuelans are experiencing on the ground is largely invisible to international media. The Venezuelan voices most audible are those who already left: in Florida, Madrid, Bogotá, exiles celebrated the fall of the man who drove them out.[^32]
 
-The rest of the world read it differently. In Mexico City, protesters threw rocks at the U.S. Embassy and painted red handprints on its walls. In Buenos Aires, Rome, Berlin, crowds gathered at American embassies with variations on the same message: aggression, kidnapping, Yankees out.[^33]
+The rest of the world read it differently. In Mexico City, protesters threw rocks at the U.S. Embassy and painted red handprints on its walls. In Buenos Aires, Rome, Berlin, crowds gathered at American embassies with variations on the same message: aggression, abduction, Yankees out.[^33]
 
 For eighty years, the United States positioned itself as the guarantor of the rules-based international order. Other nations violated that order — the Soviet Union in Hungary and Czechoslovakia, Russia in Georgia and Ukraine, Iraq in Kuwait — but America was supposed to be different. America enforced the rules. When it bent them, as in Iraq in 2003, it at least constructed elaborate justifications: weapons of mass destruction, UN resolutions, coalition partners. The justifications were often false or exaggerated, but they paid tribute to the idea that rules existed and mattered.
 
