@@ -16,6 +16,7 @@
           bundler        # Ruby Bundler for dependency management
           nodejs         # Node.js for JavaScript runtime (required by some Jekyll themes/plugins)
           yarn           # Yarn package manager for managing JS dependencies
+          gh
           git            # Git for version control
           openssl        # OpenSSL for secure communication
           libffi         # Library for foreign function interfaces (needed for some gems)
