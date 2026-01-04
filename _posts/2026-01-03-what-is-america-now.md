@@ -15,7 +15,7 @@ This is what happened on January 3, 2026. In plain language: a kidnapping, an in
 
 The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not kidnapped — *captured*. Not invasion — *strike*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not invasion — *protecting those executing a warrant*. But a US warrant has no legal force in another sovereign nation. The phrase "executing the arrest warrant" makes an act of war sound like law enforcement.
 
-International coverage used different language. Al Jazeera's headline: "World reacts to US bombing of Venezuela."[^24] Not strike — *bombing*.
+Some outlets used different language. Al Jazeera and China's Global Times both headlined "US bombing of Venezuela."[^24][^31] Not strike — *bombing*.
 
 Axios notes that administration officials had "for months" been comparing Maduro to Noriega — "This could be Noriega part 2," one official told the outlet in August.[^8] One CNN analysis piece describes the operation as "abducting a sitting president from his capital in the dead of night" — but this plain language appears in opinion, not in headlines, not in live coverage.[^9]
 
