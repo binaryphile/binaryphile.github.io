@@ -171,8 +171,6 @@ The split among leaders mirrored a split among people — or at least, the peopl
 
 The rest of the world read it differently. In Mexico City, protesters threw rocks at the U.S. Embassy and painted red handprints on its walls. In Buenos Aires, Rome, Berlin, crowds gathered at American embassies with variations on the same message: aggression, kidnapping, Yankees out.[^33]
 
-These responses will not change what happens in Venezuela.
-
 For eighty years, the United States positioned itself as the guarantor of the rules-based international order. Other nations violated that order — the Soviet Union in Hungary and Czechoslovakia, Russia in Georgia and Ukraine, Iraq in Kuwait — but America was supposed to be different. America enforced the rules. When it bent them, as in Iraq in 2003, it at least constructed elaborate justifications: weapons of mass destruction, UN resolutions, coalition partners. The justifications were often false or exaggerated, but they paid tribute to the idea that rules existed and mattered.
 
 This morning, the American president announced that American companies would take Venezuela's oil because *"they stole it from us."* He did not invoke international law. He did not claim UN authorization. He did not pretend the action served Venezuelan democracy — he said the United States would "run the country." The resource claim was explicit.
