@@ -13,7 +13,7 @@ Hours later, the American president held a press conference at his private club 
 
 This is what happened on January 3, 2026. In plain language: a kidnapping, a bombing, an announced occupation, and an explicit claim on another nation's resources.
 
-The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not kidnapped — *captured*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not an act of war — *executing an arrest warrant*.
+The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not kidnapped — *captured*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not an act of war — *executing an arrest warrant*. When one nation bombs another and seizes its head of state by military force, that is an act of war. A domestic indictment does not change this.
 
 Axios notes that administration officials had "for months" been comparing Maduro to Noriega — "This could be Noriega part 2," one official told the outlet in August.[^8] One CNN analysis piece describes the operation as "abducting a sitting president from his capital in the dead of night" — but this plain language appears in opinion, not in headlines, not in live coverage.[^9]
 
