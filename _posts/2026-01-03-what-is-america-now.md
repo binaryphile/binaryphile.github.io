@@ -17,8 +17,6 @@ The language in American coverage is different. CNN's live updates headline: "Ma
 
 Axios notes that administration officials had "for months" been comparing Maduro to Noriega — "This could be Noriega part 2," one official told the outlet in August.[^8] One CNN analysis piece describes the operation as "abducting a sitting president from his capital in the dead of night" — but this plain language appears in opinion, not in headlines, not in live coverage.[^9]
 
-The vocabulary is sorted by who acts. When Russian forces seized Crimea in 2014, American media called it an "invasion" and an "annexation." When Iraq took Kuwait in 1990, it was an "invasion." The same action, when America does it, becomes a "strike" and a "capture."
-
 Across most coverage, the tone is procedural. Live updates track developments. Analysts discuss oil prices. Legal experts debate whether Congress should have been notified. The questions being asked — Will there be a trial? What happens next? Who governs Venezuela now? — are not unimportant. But they are procedural questions, not fundamental ones.
 
 The Panama comparison is instructive in what it elides. Panama in 1989 had two million people. The United States had maintained a military presence in the Canal Zone for decades. Noriega had annulled an election seven months earlier; the opposition candidate, Guillermo Endara, was sworn in as president on a U.S. military base the day of the invasion — December 20, 1989. The legal framework, while contested internationally, rested on treaty obligations and an immediate democratic restoration. The man who won the election took office.[^10]
