@@ -167,7 +167,7 @@ China's Foreign Ministry issued a statement:
 
 Russia's Foreign Ministry called the action *"an unacceptable assault"* on Venezuela's sovereignty and *"an act of armed aggression."*[^31]
 
-The split among leaders mirrored a split among people — or at least, the people we can see from here. In Caracas, Maduro supporters gathered near Miraflores palace and burned an American flag. But what Venezuelans are experiencing on the ground, in a country now under American military control, is largely invisible to international media. The Venezuelan voices most audible are those who already left: in Florida, Madrid, Bogotá, exiles celebrated the fall of the man who drove them out.[^32]
+The split among leaders mirrored a split among people — or at least, the people we can see from here. In Caracas, Maduro supporters gathered near Miraflores palace and burned an American flag. But what Venezuelans are experiencing on the ground is largely invisible to international media. The Venezuelan voices most audible are those who already left: in Florida, Madrid, Bogotá, exiles celebrated the fall of the man who drove them out.[^32]
 
 The rest of the world read it differently. In Mexico City, protesters threw rocks at the U.S. Embassy and painted red handprints on its walls. In Buenos Aires, Rome, Berlin, crowds gathered at American embassies with variations on the same message: aggression, kidnapping, Yankees out.[^33]
 
