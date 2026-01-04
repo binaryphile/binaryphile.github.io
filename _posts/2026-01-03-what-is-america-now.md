@@ -27,30 +27,6 @@ When nations have done what the United States did this morning — invaded a nei
 
 The question is whether Americans are prepared to see their nation in that company. What follows is the evidence that allows you to judge.
 
----
-
-**Sources:**
-
-[^1]: "Maduro and his wife were dragged from their bedroom by US forces during the raid, two sources familiar with the matter said." CNN, ["The US has captured Venezuelan leader Maduro. Here's what to know,"](https://www.cnn.com/2026/01/03/americas/venezuela-explosions-intl-hnk) January 3, 2026.
-
-[^2]: President Donald Trump, press conference, Mar-a-Lago, January 3, 2026. NBC News, ["Trump says U.S. will govern Venezuela until there's a 'proper transition.'"](https://www.nbcnews.com/politics/white-house/trump-venezuela-nicolas-maduro-strikes-run-country-transition-military-rcna252044)
-
-[^3]: Ibid.
-
-[^4]: NBC News, ["Trump says U.S. will govern Venezuela until there's a 'proper transition,'"](https://www.nbcnews.com/politics/white-house/trump-venezuela-nicolas-maduro-strikes-run-country-transition-military-rcna252044) January 3, 2026.
-
-[^5]: President Donald Trump, press conference, Mar-a-Lago, January 3, 2026. Time, ["Trump Says U.S. Will 'Run' Venezuela and Take Control of Oil."](https://time.com/7342937/venezuela-trump-maduro-oil/)
-
-[^6]: CNN, ["Live Updates: Maduro captured after US strike on Venezuela, Trump says,"](https://edition.cnn.com/world/live-news/venezuela-explosions-caracas-intl-hnk-01-03-26) January 3, 2026.
-
-[^7]: Senator Mike Lee, [post on X,](https://x.com/basedmikelee/status/2007395531023352319) January 3, 2026, describing briefing from Secretary of State Marco Rubio.
-
-[^8]: Axios, ["Maduro's capture draws echoes of Noriega in 1990,"](https://www.axios.com/2026/01/03/trump-venezuela-maduro-panama-noriega) January 3, 2026.
-
-[^9]: CNN, ["Trump's snatching of Maduro shows a new level of unrestrained global power,"](https://www.cnn.com/2026/01/03/americas/trump-flexes-global-maduro-intl) January 3, 2026. The piece uses "abducting" in analysis; CNN's headlines and live coverage use "captured."
-
-[^10]: On Panama: Election May 1989; annulled by Noriega; U.S. invasion December 20, 1989; Endara sworn in same day. See Britannica, ["Operation Just Cause"](https://www.britannica.com/event/Operation-Just-Cause); History.com, ["The U.S. invades Panama."](https://www.history.com/this-day-in-history/december-20/the-u-s-invades-panama)
-
 ## II. The Three Analogues
 
 ### Suez, 1956
@@ -193,7 +169,27 @@ Lula's phrase: "the law of the strongest prevails over multilateralism."[^24]
 
 ---
 
-**Sources (Section II):**
+**Sources:**
+
+[^1]: "Maduro and his wife were dragged from their bedroom by US forces during the raid, two sources familiar with the matter said." CNN, ["The US has captured Venezuelan leader Maduro. Here's what to know,"](https://www.cnn.com/2026/01/03/americas/venezuela-explosions-intl-hnk) January 3, 2026.
+
+[^2]: President Donald Trump, press conference, Mar-a-Lago, January 3, 2026. NBC News, ["Trump says U.S. will govern Venezuela until there's a 'proper transition.'"](https://www.nbcnews.com/politics/white-house/trump-venezuela-nicolas-maduro-strikes-run-country-transition-military-rcna252044)
+
+[^3]: Ibid.
+
+[^4]: NBC News, ["Trump says U.S. will govern Venezuela until there's a 'proper transition,'"](https://www.nbcnews.com/politics/white-house/trump-venezuela-nicolas-maduro-strikes-run-country-transition-military-rcna252044) January 3, 2026.
+
+[^5]: President Donald Trump, press conference, Mar-a-Lago, January 3, 2026. Time, ["Trump Says U.S. Will 'Run' Venezuela and Take Control of Oil."](https://time.com/7342937/venezuela-trump-maduro-oil/)
+
+[^6]: CNN, ["Live Updates: Maduro captured after US strike on Venezuela, Trump says,"](https://edition.cnn.com/world/live-news/venezuela-explosions-caracas-intl-hnk-01-03-26) January 3, 2026.
+
+[^7]: Senator Mike Lee, [post on X,](https://x.com/basedmikelee/status/2007395531023352319) January 3, 2026, describing briefing from Secretary of State Marco Rubio.
+
+[^8]: Axios, ["Maduro's capture draws echoes of Noriega in 1990,"](https://www.axios.com/2026/01/03/trump-venezuela-maduro-panama-noriega) January 3, 2026.
+
+[^9]: CNN, ["Trump's snatching of Maduro shows a new level of unrestrained global power,"](https://www.cnn.com/2026/01/03/americas/trump-flexes-global-maduro-intl) January 3, 2026. The piece uses "abducting" in analysis; CNN's headlines and live coverage use "captured."
+
+[^10]: On Panama: Election May 1989; annulled by Noriega; U.S. invasion December 20, 1989; Endara sworn in same day. See Britannica, ["Operation Just Cause"](https://www.britannica.com/event/Operation-Just-Cause); History.com, ["The U.S. invades Panama."](https://www.history.com/this-day-in-history/december-20/the-u-s-invades-panama)
 
 [^11]: On the Suez Crisis and Anglo-French-Israeli collusion: Office of the Historian, U.S. Department of State, ["The Suez Crisis, 1956"](https://history.state.gov/milestones/1953-1960/suez); Bill of Rights Institute, ["Eisenhower and the Suez Canal Crisis."](https://billofrightsinstitute.org/essays/eisenhower-and-the-suez-canal-crisis)
 
@@ -211,8 +207,6 @@ Lula's phrase: "the law of the strongest prevails over multilateralism."[^24]
 
 [^18]: Office of the Historian, U.S. Department of State, ["The Gulf War, 1991."](https://history.state.gov/milestones/1989-1992/gulf-war) Coalition size: "Comprising forces from thirty-four countries."
 
-**Sources (Sections III & IV):**
-
 [^19]: Authorization for Use of Military Force, [Public Law 107-40,](https://www.congress.gov/107/plaws/publ40/PLAW-107publ40.pdf) September 18, 2001. Section 2(a), quoted verbatim.
 
 [^20]: Stephanie Savell, ["The 2001 Authorization for Use of Military Force: A Comprehensive Look at Where and How It Has Been Used,"](https://watson.brown.edu/costsofwar/papers/2021/2001AUMF) Costs of War Project, Brown University, 2021. The study found the AUMF cited to justify operations in 22 countries.
@@ -222,8 +216,6 @@ Lula's phrase: "the law of the strongest prevails over multilateralism."[^24]
 [^22]: Slobodan Milošević was indicted by the International Criminal Tribunal for the former Yugoslavia in 1999. NATO's intervention in Kosovo that year lacked UN Security Council authorization; Russia and China had indicated they would veto. The legal basis remains contested. See Independent International Commission on Kosovo, ["The Kosovo Report,"](https://reliefweb.int/report/albania/kosovo-report) 2000.
 
 [^23]: See footnotes 2, 3, and 4 above.
-
-**Sources (Section V):**
 
 [^24]: President Luiz Inácio Lula da Silva, statements on X, January 3, 2026. Al Jazeera, ["World reacts to US bombing of Venezuela, 'capture' of Maduro."](https://www.aljazeera.com/news/2026/1/3/world-reacts-to-reported-us-bombing-of-venezuela) The phrase "the law of the strongest prevails over multilateralism" is from Lula's full statement.
 
