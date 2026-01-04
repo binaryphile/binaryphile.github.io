@@ -181,7 +181,7 @@ This morning, the American president announced that American companies would tak
 
 The German parliamentarian's phrase is precise: a return to thinking in terms of spheres of influence. Not rules that apply to all, but power that applies to some. Latin America is America's sphere; Venezuela is in that sphere; therefore America can take what it wants. This is not the language of international law. It is the language of imperialism.
 
-The world sees this. America's allies distance themselves. America's rivals condemn. None of it will change what happens next.
+The world sees this. America's allies distance themselves. America's rivals condemn.
 
 Eighty years ago, the United States helped build an international order in which great powers did not simply take what they wanted from weaker nations. This morning, an American president announced that American companies would extract Venezuelan oil because "they stole it from us." He did not pretend otherwise.
 
