@@ -41,15 +41,11 @@ President Dwight D. Eisenhower refused to permit it.
 
 The United States condemned the invasion publicly, joining the Soviet Union in demanding withdrawal — a remarkable alignment of Cold War adversaries against America's closest allies. But Eisenhower went further than words. When the fighting began, Nasser blocked the canal with sunken ships and saboteurs shut down a major pipeline bringing oil from Iraq to Western Europe. Deprived of their major sources of oil, the British needed American dollars to purchase fuel. The Eisenhower administration refused to cooperate.[^12]
 
-On October 31, Eisenhower addressed the American people by radio and television. His words were precise:
-
-> There can be no peace — without law. And there can be no law — if we were to invoke one code of international conduct for those who oppose us — and another for our friends.[^13]
-
 Within days, Britain and France agreed to a ceasefire. By December, their forces were withdrawing. By March 1957, Israel had withdrawn from the Sinai. British Prime Minister Anthony Eden, humiliated, resigned in January 1957.
 
 In the postwar order the United States had helped construct, great powers did not simply seize the resources of weaker nations by military force. Not even allies. Not even when the property in question had genuinely been "theirs."
 
-Eisenhower again:
+Eisenhower:
 
 > For we do not accept the use of force as a wise or proper instrument for the settlement of international disputes.[^13]
 
@@ -181,7 +177,9 @@ The German parliamentarian's phrase is precise: a return to thinking in terms of
 
 The world sees this. America's allies distance themselves. America's rivals condemn.
 
-Lula's phrase: "the law of the strongest prevails over multilateralism."[^24]
+Eisenhower's words from 1956:
+
+> There can be no peace — without law. And there can be no law — if we were to invoke one code of international conduct for those who oppose us — and another for our friends.
 
 ---
 
@@ -233,7 +231,7 @@ Lula's phrase: "the law of the strongest prevails over multilateralism."[^24]
 
 [^23]: See footnotes 2, 3, and 4 above.
 
-[^24]: President Luiz Inácio Lula da Silva, statements on X, January 3, 2026. Al Jazeera, ["World reacts to US bombing of Venezuela, 'capture' of Maduro."](https://www.aljazeera.com/news/2026/1/3/world-reacts-to-reported-us-bombing-of-venezuela) The phrase "the law of the strongest prevails over multilateralism" is from Lula's full statement.
+[^24]: President Luiz Inácio Lula da Silva, statements on X, January 3, 2026. Al Jazeera, ["World reacts to US bombing of Venezuela, 'capture' of Maduro."](https://www.aljazeera.com/news/2026/1/3/world-reacts-to-reported-us-bombing-of-venezuela)
 
 [^25]: On Colombia: Al Jazeera, ibid. Colombia shares a 2,219 km (1,379 mi) border with Venezuela. On Mexico: NPR, ["U.S. strikes on Venezuela spark alarm across Latin America and beyond."](https://www.npr.org/2026/01/03/nx-s1-5665659/venezuela-us-strikes-maduro) On Cuba: Al Jazeera, ibid.
 
