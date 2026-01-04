@@ -7,11 +7,11 @@ categories: [ politics, venezuela ]
 
 ## I.
 
-Early this morning, American soldiers broke into the home of a foreign head of state while he slept. They dragged him and his wife from their bedroom and flew them by helicopter to a warship in the Caribbean.[^1] Explosions struck the capital city. Military installations burned. Civilians died — how many, we do not yet know.
+Early this morning, American soldiers broke into the home of a foreign head of state while he slept. They dragged him and his wife from their bedroom and flew them by helicopter to a warship in the Caribbean.[^1] Explosions struck the capital city. Military installations burned. Civilians died — how many, we do not yet know. The seizure by military force of a sitting head of state of a nation of twenty-eight million people, without a preceding invasion or occupation, appears to be without modern precedent.
 
 Hours later, the American president held a press conference at his private club in Florida. He announced that the United States would "run the country until such time as we can do a safe, proper and judicious transition."[^2] He said American oil companies — "the biggest anywhere in the world" — would "go in, spend billions of dollars, fix the badly broken infrastructure, the oil infrastructure, and start making money for the country."[^3] Asked about the cost, he said it wouldn't cost the United States anything, "because the money coming out of the ground is very substantial."[^4] He claimed Venezuela's oil had been "stolen" from America: "We built Venezuela's oil industry with American talent, drive and skill, and the socialist regime stole it from us... This constituted one of the largest thefts of American property in the history of our country."[^5]
 
-This is what happened on January 3, 2026. In plain language: a kidnapping, a bombing, an announced occupation, an explicit claim on another nation's resources, and an act of war. Article 2 of the UN Charter requires member states to refrain from "the threat or use of force against the territorial integrity or political independence of any state." Bombing another nation's territory and seizing its head of state by military force is a use of force against its territorial integrity and political independence. That is what "act of war" means.
+This is what happened on January 3, 2026. In plain language: a kidnapping, a bombing, an announced occupation, an explicit claim on another nation's resources, and an act of war. The UN General Assembly spent fifty years, from the League of Nations through 1974, defining what constitutes aggression. Resolution 3314 lists acts that qualify "regardless of a declaration of war." The list includes "invasion or attack by the armed forces of a State of the territory of another State" and "bombardment by the armed forces of a State against the territory of another State." This morning's action fits both.[^35]
 
 The language in American coverage is different. CNN's live updates headline: "Maduro captured after US strike on Venezuela, Trump says."[^6] Not kidnapped — *captured*. Senator Mike Lee, briefed by the Secretary of State, described the bombardment of Caracas as "kinetic action... deployed to protect and defend those executing the arrest warrant."[^7] Not bombing — *kinetic action*. Not an act of war — *executing an arrest warrant*.
 
@@ -252,4 +252,6 @@ Eisenhower's words from 1956:
 [^33]: On Mexico City embassy protest: U.S. Embassy Mexico, ["Demonstration Alert: Protests and Vandalism Outside the U.S. Embassy, Mexico City."](https://mx.usembassy.gov/demonstration-alert-protests-and-vandalism-outside-the-u-s-embassy-mexico-city/) On Buenos Aires, Rome, Berlin: Al Jazeera live coverage and wire services.
 
 [^34]: TASS, ["Russian Foreign Ministry condemns US armed aggression against Venezuela."](https://tass.com/politics/2068043)
+
+[^35]: United Nations General Assembly Resolution 3314 (XXIX), ["Definition of Aggression,"](https://legal.un.org/avl/ha/da/da.html) December 14, 1974. Article 3 lists acts qualifying as aggression "regardless of a declaration of war."
 
