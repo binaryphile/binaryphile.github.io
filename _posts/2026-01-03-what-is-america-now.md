@@ -161,7 +161,7 @@ China's Foreign Ministry issued a statement:
 
 > China is deeply shocked and strongly condemns the use of force by the U.S. against a sovereign country and the use of force against the president of a country. China firmly opposes such hegemonic behaviour by the U.S., which seriously violates international law.[^31]
 
-Russia's Foreign Ministry called the action *"an unacceptable assault"* on Venezuela's sovereignty and *"an act of armed aggression."*[^31]
+Russia's Foreign Ministry called the action *"an unacceptable assault"* on Venezuela's sovereignty and *"an act of armed aggression."*[^34]
 
 The split among leaders mirrored a split among people — or at least, the people we can see from here. In Caracas, Maduro supporters gathered near Miraflores palace and burned an American flag. But what Venezuelans are experiencing on the ground is largely invisible to international media. The Venezuelan voices most audible are those who already left: in Florida, Madrid, Bogotá, exiles celebrated the fall of the man who drove them out.[^32]
 
@@ -245,9 +245,11 @@ Eisenhower's words from 1956:
 
 [^30]: Roderich Kiesewetter MP (CDU), quoted in CNBC, ibid. Kiesewetter is a member of the Bundestag's Foreign Affairs Committee.
 
-[^31]: On China: Global Times, ibid. On Russia: TASS, ["Russian Foreign Ministry condemns US armed aggression against Venezuela."](https://tass.com/politics/2068043)
+[^31]: Global Times, ["Multiple countries react after US bombing of Venezuela."](https://www.globaltimes.cn/page/202601/1352111.shtml)
 
 [^32]: On Caracas flag-burning: Al Jazeera, ["Updates: Maduro brought to New York after being seized by US in Venezuela."](https://www.aljazeera.com/news/liveblog/2026/1/3/live-loud-noises-heard-in-venezuelas-capital-amid-us-tensions) On diaspora celebrations: US News, ["Venezuela Diaspora Celebrates Maduro's Deposition, Wonders What's Next"](https://www.usnews.com/news/world/articles/2026-01-03/venezuela-diaspora-celebrates-maduros-deposition-wonders-whats-next); Al Jazeera, ["Fear, joy, hope: Venezuelans react to Maduro capture."](https://www.aljazeera.com/video/newsfeed/2026/1/3/fear-joy-hope-venezuelans-react-to-maduro-capture)
 
 [^33]: On Mexico City embassy protest: U.S. Embassy Mexico, ["Demonstration Alert: Protests and Vandalism Outside the U.S. Embassy, Mexico City."](https://mx.usembassy.gov/demonstration-alert-protests-and-vandalism-outside-the-u-s-embassy-mexico-city/) On Buenos Aires, Rome, Berlin: Al Jazeera live coverage and wire services.
+
+[^34]: TASS, ["Russian Foreign Ministry condemns US armed aggression against Venezuela."](https://tass.com/politics/2068043)
 
