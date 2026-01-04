@@ -179,11 +179,11 @@ This morning, the American president announced that American companies would tak
 
 The German parliamentarian's phrase is precise: a return to thinking in terms of spheres of influence. Not rules that apply to all, but power that applies to some. Latin America is America's sphere; Venezuela is in that sphere; therefore America can take what it wants. This is not the language of international law. It is the language of imperialism.
 
-The world sees this. America's allies distance themselves. America's rivals condemn.
+The world sees this. America's allies distance themselves. America's rivals condemn. None of it will change what happens next.
 
-Eisenhower's words from 1956:
+Eighty years ago, the United States helped build an international order in which great powers did not simply take what they wanted from weaker nations. This morning, an American president announced that American companies would extract Venezuelan oil because "they stole it from us." He did not pretend otherwise.
 
-> There can be no peace — without law. And there can be no law — if we were to invoke one code of international conduct for those who oppose us — and another for our friends.
+There is an old word for taking another nation's wealth by force, outside any legal framework, because no one can stop you. At sea, we called it piracy.
 
 ---
 
