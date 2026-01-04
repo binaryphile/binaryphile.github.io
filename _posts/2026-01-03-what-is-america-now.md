@@ -125,7 +125,7 @@ The final condition is the absence of constraint. In 1956, Britain and France we
 
 ## IV. What Makes This Different
 
-Begin with an objection. Nicolás Maduro is not an innocent victim. He violently suppressed dissent. On July 28, 2024, he lost an election — opposition tallies showed his opponent receiving 67 percent of the vote — and refused to leave.[^21] The opposition candidate, Edmundo González, fled to Spain; the opposition leader, María Corina Machado, went into hiding. Maduro is a dictator who stole an election. Many Venezuelans — including many who fled to the United States — are celebrating his capture this morning.
+Nicolás Maduro is not an innocent victim. He violently suppressed dissent. On July 28, 2024, he lost an election — opposition tallies showed his opponent receiving 67 percent of the vote — and refused to leave.[^21] The opposition candidate, Edmundo González, fled to Spain; the opposition leader, María Corina Machado, went into hiding. Maduro is a dictator who stole an election. Many Venezuelans — including many who fled to the United States — are celebrating his capture this morning.
 
 Does this change the analysis?
 
@@ -139,7 +139,11 @@ Previous interventions — American and otherwise — at least paid tribute to t
 
 Maduro's crimes do not change this. Saddam Hussein was a brutal dictator; his invasion of Kuwait was still an invasion. Slobodan Milošević committed atrocities in Kosovo; NATO's intervention was still controversial precisely because it lacked UN authorization.[^22] The badness of a leader does not confer upon other nations the right to invade, occupy, and claim resources.
 
-The history of American intervention in Latin America is long and often brutal — from the overthrow of Jacobo Árbenz in Guatemala (1954) to the support for Augusto Pinochet in Chile (1973) to the funding of the Contras in Nicaragua (1980s). But those interventions were covert, deniable, conducted through proxies. They violated international law, but they did not openly repudiate it. What happened this morning is different in kind: a public invasion, an announced occupation, an explicit claim on resources, defended not with embarrassment but with pride. The mask is off.
+The history of American intervention in Latin America is long and often brutal — from the overthrow of Jacobo Árbenz in Guatemala (1954) to the support for Augusto Pinochet in Chile (1973) to the funding of the Contras in Nicaragua (1980s). But those interventions were covert, deniable, conducted through proxies. They violated international law, but they did not openly repudiate it.
+
+Even overt military actions have historically involved Congress. When George H. W. Bush invaded Panama in 1989, he called congressional leaders the night of the operation.[^36] Before bombing Baghdad in 2003, Congress voted to authorize the use of force.[^37] This morning, the administration did not notify the Gang of Eight — the congressional leaders who are briefed on the most sensitive operations — until after the strikes began. The president had said weeks earlier that he would not brief lawmakers because he feared they would "leak."[^38]
+
+What happened this morning is different in kind: a public invasion, an announced occupation, an explicit claim on resources, no consultation with the legislature, defended not with embarrassment but with pride. The mask is off.
 
 ## V. What the World Sees
 
@@ -260,4 +264,10 @@ There is an old word for taking another nation's wealth by force, outside any le
 [^34]: TASS, ["Russian Foreign Ministry condemns US armed aggression against Venezuela."](https://tass.com/politics/2068043)
 
 [^35]: United Nations General Assembly Resolution 3314 (XXIX), ["Definition of Aggression,"](https://legal.un.org/avl/ha/da/da.html) December 14, 1974. Article 3 lists acts qualifying as aggression "regardless of a declaration of war."
+
+[^36]: UPI, ["Military action wins bipartisan support from Congress,"](https://www.upi.com/Archives/1989/12/20/Military-action-wins-bipartisan-support-from-Congress/1197618314205/) December 20, 1989. "Bush informed congressional leaders, in keeping with the requirements of the War Powers Act, reaching Senate Democratic leader George Mitchell of Maine on a secure line at the U.S. Embassy in Mexico City after midnight."
+
+[^37]: Council on Foreign Relations, ["TWE Remembers: Congress's Vote to Authorize the Gulf War,"](https://www.cfr.org/blog/twe-remembers-congresss-vote-authorize-gulf-war) January 2016. The Authorization for Use of Military Force Against Iraq was passed by Congress on October 16, 2002.
+
+[^38]: CNBC, ["Trump's removal of Maduro prompts questions from Congress,"](https://www.cnbc.com/2026/01/03/trumps-maduro-venezuela-congress.html) January 3, 2026. "Top congressional leaders — comprising the 'Gang of 8' — did not receive a briefing from the administration before the U.S. strike in Venezuela began."
 
