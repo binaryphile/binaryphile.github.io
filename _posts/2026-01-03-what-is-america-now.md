@@ -71,8 +71,6 @@ Two days after the vote, Putin signed a treaty annexing Crimea. The operation ha
 
 The international response was unanimous condemnation. The United States and European Union imposed sanctions on Russian officials and entities. Diplomatic isolation followed.
 
-None of it reversed the annexation.
-
 Crimea remains under Russian control. The sanctions hurt but did not reverse the annexation. Putin absorbed the costs. If a great power acts quickly, presents the world with a fait accompli, and is willing to absorb consequences, condemnation without enforcement changes nothing.
 
 ### Iraq-Kuwait, 1990
