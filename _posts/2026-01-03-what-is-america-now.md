@@ -43,15 +43,13 @@ On October 29, 1956, Israeli forces attacked across Egypt's Sinai Peninsula. Two
 
 President Dwight D. Eisenhower refused to permit it.
 
+> For we do not accept the use of force as a wise or proper instrument for the settlement of international disputes.[^13]
+
 The United States condemned the invasion publicly, joining the Soviet Union in demanding withdrawal — a remarkable alignment of Cold War adversaries against America's closest allies. But Eisenhower went further than words. When the fighting began, Nasser blocked the canal with sunken ships and saboteurs shut down a major pipeline bringing oil from Iraq to Western Europe. Deprived of their major sources of oil, the British needed American dollars to purchase fuel. The Eisenhower administration refused to cooperate.[^12]
 
 Within days, Britain and France agreed to a ceasefire. By December, their forces were withdrawing. By March 1957, Israel had withdrawn from the Sinai. British Prime Minister Anthony Eden, humiliated, resigned in January 1957.
 
 In the postwar order the United States had helped construct, great powers did not simply seize the resources of weaker nations by military force. Not even allies. Not even when the property in question had genuinely been "theirs."
-
-Eisenhower:
-
-> For we do not accept the use of force as a wise or proper instrument for the settlement of international disputes.[^13]
 
 The language of the current administration — *"they stole it from us,"* *"the largest thefts of American property in the history of our country"* — is precisely the language Britain and France used about the Suez Canal. The action — military intervention to recover resources a weaker nation had "taken" — is precisely the action Eisenhower stopped. The difference is that now there is no Eisenhower. No outside power capable of imposing consequences.
 
