@@ -51,7 +51,7 @@ On October 31, Eisenhower addressed the American people by radio and television.
 
 Within days, Britain and France agreed to a ceasefire. By December, their forces were withdrawing. By March 1957, Israel had withdrawn from the Sinai. British Prime Minister Anthony Eden, humiliated, resigned in January 1957.
 
-In the postwar order the United States had helped construct, great powers did not simply seize the resources of weaker nations by military force. Not even allies. Not even when the property in question had genuinely been "theirs."
+In the postwar order the United States had helped construct, great powers did not simply seize the resources of weaker nations by military force — not even when the property in question had genuinely been "theirs."
 
 Eisenhower again:
 
