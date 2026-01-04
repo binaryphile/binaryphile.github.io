@@ -93,7 +93,7 @@ Three kinds of nations appear in these cases.
 
 Britain and France in 1956 were fading colonial powers whose empires were dissolving. They failed because a greater power stopped them.
 
-Russia in 2014 was a dominant regional power, seizing territory where it held military dominance. It succeeded because no greater power could stop it.
+Russia in 2014 was a faded superpower and dominant regional power, seizing territory where it held military dominance. It succeeded because no greater power could stop it.
 
 Iraq in 1990 was a regional power overreaching, invading a neighbor in a region where it did not hold ultimate military dominance. It failed because a greater power reversed the action.
 
