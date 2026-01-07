@@ -3,6 +3,7 @@ layout: post
 title: "Khorikov Unit Testing Guide"
 date: 2026-01-07 12:00:00 -05:00
 categories: [ testing, go, software-engineering ]
+mermaid: true
 ---
 
 A practical guide to Vladimir Khorikov's unit testing principles, extracted from *Unit Testing: Principles, Practices, and Patterns* (2020). Go-focused examples throughout.
@@ -192,14 +193,15 @@ Design your code to enable output-based testing. Push side effects to the bounda
 
 ## 5. The Four Quadrants (What to Test)
 
-```
-                    Few Collaborators    Many Collaborators
-                    ─────────────────    ──────────────────
-High Complexity     Domain/Algorithms    Overcomplicated
-or Domain Sig       → UNIT TEST          → REFACTOR
-
-Low Complexity      Trivial              Controllers
-                    → DON'T TEST         → INTEGRATION TEST
+```mermaid
+quadrantChart
+    title Code Quadrants: What to Test
+    x-axis Few Collaborators --> Many Collaborators
+    y-axis Low Complexity --> High Complexity
+    quadrant-1 Overcomplicated → REFACTOR
+    quadrant-2 Domain/Algorithms → UNIT TEST
+    quadrant-3 Trivial → DON'T TEST
+    quadrant-4 Controllers → INTEGRATION TEST
 ```
 
 **Key insight**: "Complexity OR domain significance"—only one is required to warrant unit testing.
@@ -366,17 +368,21 @@ func TestCalculateOrderTotal(t *testing.T) {
 
 ### Hexagonal Architecture
 
-```
-┌─────────────────────────────────────────┐
-│           Application Service           │  ← Integration test
-│         (Controller/Orchestrator)       │
-├─────────────────────────────────────────┤
-│              Domain Layer               │  ← Unit test
-│     (Business logic, algorithms)        │
-├─────────────────────────────────────────┤
-│           Infrastructure                │
-│    (DB, APIs, file system, etc.)        │
-└─────────────────────────────────────────┘
+```mermaid
+block-beta
+    columns 1
+    block:app["Application Service (Controller/Orchestrator)"]
+        app_label["← Integration test"]
+    end
+    block:domain["Domain Layer (Business logic, algorithms)"]
+        domain_label["← Unit test"]
+    end
+    block:infra["Infrastructure (DB, APIs, file system, etc.)"]
+    end
+
+    style app fill:#e3f2fd
+    style domain fill:#e8f5e9
+    style infra fill:#f5f5f5
 ```
 
 - **Domain layer**: Pure business logic, no external dependencies → unit test
@@ -606,14 +612,15 @@ A condensed version for team wikis, PR templates, or coding guidelines.
 
 ### What to Test (Four Quadrants)
 
-```
-                    Few Collaborators    Many Collaborators
-                    ─────────────────    ──────────────────
-High Complexity     Domain/Algorithms    Overcomplicated
-or Domain Sig       → UNIT TEST          → REFACTOR
-
-Low Complexity      Trivial              Controllers
-                    → DON'T TEST         → INTEGRATION TEST
+```mermaid
+quadrantChart
+    title Code Quadrants
+    x-axis Few Collaborators --> Many Collaborators
+    y-axis Low Complexity --> High Complexity
+    quadrant-1 Overcomplicated → REFACTOR
+    quadrant-2 Domain/Algorithms → UNIT TEST
+    quadrant-3 Trivial → DON'T TEST
+    quadrant-4 Controllers → INTEGRATION TEST
 ```
 
 ### Mocks
