@@ -3,7 +3,6 @@ layout: post
 title: "Khorikov Unit Testing Guide"
 date: 2026-01-07 12:00:00 -05:00
 categories: [ testing, go, software-engineering ]
-mermaid: true
 ---
 
 A practical guide to Vladimir Khorikov's unit testing principles, extracted from *Unit Testing: Principles, Practices, and Patterns* (2020). Go-focused examples throughout.
@@ -193,26 +192,15 @@ Design your code to enable output-based testing. Push side effects to the bounda
 
 ## 5. The Four Quadrants (What to Test)
 
-```mermaid
-flowchart TB
-    subgraph high["High Complexity / Domain Significance"]
-        direction LR
-        Q2["Domain/Algorithms<br/>→ UNIT TEST"]
-        Q1["Overcomplicated<br/>→ REFACTOR"]
-    end
-    subgraph low["Low Complexity"]
-        direction LR
-        Q3["Trivial<br/>→ DON'T TEST"]
-        Q4["Controllers<br/>→ INTEGRATION TEST"]
-    end
-
-    style Q2 fill:#e8f5e9
-    style Q1 fill:#ffcdd2
-    style Q3 fill:#f5f5f5
-    style Q4 fill:#e3f2fd
 ```
+                    Few Collaborators    Many Collaborators
+                    ─────────────────    ──────────────────
+High Complexity     Domain/Algorithms    Overcomplicated
+or Domain Sig       → UNIT TEST          → REFACTOR
 
-<p style="text-align: center; margin-top: -1em;"><em>← Few Collaborators | Many Collaborators →</em></p>
+Low Complexity      Trivial              Controllers
+                    → DON'T TEST         → INTEGRATION TEST
+```
 
 **Key insight**: "Complexity OR domain significance"—only one is required to warrant unit testing.
 
@@ -378,24 +366,17 @@ func TestCalculateOrderTotal(t *testing.T) {
 
 ### Hexagonal Architecture
 
-```mermaid
-flowchart TB
-    subgraph app["Application Service (Controller/Orchestrator)"]
-        app_test["← Integration test"]
-    end
-    subgraph domain["Domain Layer (Business logic, algorithms)"]
-        domain_test["← Unit test"]
-    end
-    subgraph infra["Infrastructure (DB, APIs, file system, etc.)"]
-        infra_items["Database, External APIs, File System"]
-    end
-
-    app --> domain
-    domain --> infra
-
-    style app fill:#e3f2fd
-    style domain fill:#e8f5e9
-    style infra fill:#f5f5f5
+```
+┌─────────────────────────────────────────┐
+│           Application Service           │  ← Integration test
+│         (Controller/Orchestrator)       │
+├─────────────────────────────────────────┤
+│              Domain Layer               │  ← Unit test
+│     (Business logic, algorithms)        │
+├─────────────────────────────────────────┤
+│           Infrastructure                │
+│    (DB, APIs, file system, etc.)        │
+└─────────────────────────────────────────┘
 ```
 
 - **Domain layer**: Pure business logic, no external dependencies → unit test
@@ -625,26 +606,15 @@ A condensed version for team wikis, PR templates, or coding guidelines.
 
 ### What to Test (Four Quadrants)
 
-```mermaid
-flowchart TB
-    subgraph high["High Complexity / Domain Significance"]
-        direction LR
-        Q2["Domain/Algorithms<br/>→ UNIT TEST"]
-        Q1["Overcomplicated<br/>→ REFACTOR"]
-    end
-    subgraph low["Low Complexity"]
-        direction LR
-        Q3["Trivial<br/>→ DON'T TEST"]
-        Q4["Controllers<br/>→ INTEGRATION TEST"]
-    end
-
-    style Q2 fill:#e8f5e9
-    style Q1 fill:#ffcdd2
-    style Q3 fill:#f5f5f5
-    style Q4 fill:#e3f2fd
 ```
+                    Few Collaborators    Many Collaborators
+                    ─────────────────    ──────────────────
+High Complexity     Domain/Algorithms    Overcomplicated
+or Domain Sig       → UNIT TEST          → REFACTOR
 
-<p style="text-align: center; margin-top: -1em;"><em>← Few Collaborators | Many Collaborators →</em></p>
+Low Complexity      Trivial              Controllers
+                    → DON'T TEST         → INTEGRATION TEST
+```
 
 ### Mocks
 
