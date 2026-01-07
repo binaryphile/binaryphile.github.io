@@ -194,15 +194,25 @@ Design your code to enable output-based testing. Push side effects to the bounda
 ## 5. The Four Quadrants (What to Test)
 
 ```mermaid
-quadrantChart
-    title Code Quadrants: What to Test
-    x-axis Few Collaborators --> Many Collaborators
-    y-axis Low Complexity --> High Complexity
-    quadrant-1 Overcomplicated → REFACTOR
-    quadrant-2 Domain/Algorithms → UNIT TEST
-    quadrant-3 Trivial → DON'T TEST
-    quadrant-4 Controllers → INTEGRATION TEST
+flowchart TB
+    subgraph high["High Complexity / Domain Significance"]
+        direction LR
+        Q2["Domain/Algorithms<br/>→ UNIT TEST"]
+        Q1["Overcomplicated<br/>→ REFACTOR"]
+    end
+    subgraph low["Low Complexity"]
+        direction LR
+        Q3["Trivial<br/>→ DON'T TEST"]
+        Q4["Controllers<br/>→ INTEGRATION TEST"]
+    end
+
+    style Q2 fill:#e8f5e9
+    style Q1 fill:#ffcdd2
+    style Q3 fill:#f5f5f5
+    style Q4 fill:#e3f2fd
 ```
+
+<p style="text-align: center; margin-top: -1em;"><em>← Few Collaborators | Many Collaborators →</em></p>
 
 **Key insight**: "Complexity OR domain significance"—only one is required to warrant unit testing.
 
@@ -369,16 +379,19 @@ func TestCalculateOrderTotal(t *testing.T) {
 ### Hexagonal Architecture
 
 ```mermaid
-block-beta
-    columns 1
-    block:app["Application Service (Controller/Orchestrator)"]
-        app_label["← Integration test"]
+flowchart TB
+    subgraph app["Application Service (Controller/Orchestrator)"]
+        app_test["← Integration test"]
     end
-    block:domain["Domain Layer (Business logic, algorithms)"]
-        domain_label["← Unit test"]
+    subgraph domain["Domain Layer (Business logic, algorithms)"]
+        domain_test["← Unit test"]
     end
-    block:infra["Infrastructure (DB, APIs, file system, etc.)"]
+    subgraph infra["Infrastructure (DB, APIs, file system, etc.)"]
+        infra_items["Database, External APIs, File System"]
     end
+
+    app --> domain
+    domain --> infra
 
     style app fill:#e3f2fd
     style domain fill:#e8f5e9
@@ -613,15 +626,25 @@ A condensed version for team wikis, PR templates, or coding guidelines.
 ### What to Test (Four Quadrants)
 
 ```mermaid
-quadrantChart
-    title Code Quadrants
-    x-axis Few Collaborators --> Many Collaborators
-    y-axis Low Complexity --> High Complexity
-    quadrant-1 Overcomplicated → REFACTOR
-    quadrant-2 Domain/Algorithms → UNIT TEST
-    quadrant-3 Trivial → DON'T TEST
-    quadrant-4 Controllers → INTEGRATION TEST
+flowchart TB
+    subgraph high["High Complexity / Domain Significance"]
+        direction LR
+        Q2["Domain/Algorithms<br/>→ UNIT TEST"]
+        Q1["Overcomplicated<br/>→ REFACTOR"]
+    end
+    subgraph low["Low Complexity"]
+        direction LR
+        Q3["Trivial<br/>→ DON'T TEST"]
+        Q4["Controllers<br/>→ INTEGRATION TEST"]
+    end
+
+    style Q2 fill:#e8f5e9
+    style Q1 fill:#ffcdd2
+    style Q3 fill:#f5f5f5
+    style Q4 fill:#e3f2fd
 ```
+
+<p style="text-align: center; margin-top: -1em;"><em>← Few Collaborators | Many Collaborators →</em></p>
 
 ### Mocks
 
