@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+progName=$(basename "$0")
+prog=$(command -v $progName)
+(( IN_NIX_DEVELOP )) && exec $prog "$@" || IN_NIX_DEVELOP=1 exec nix develop -c $progName "$@"
