@@ -276,6 +276,7 @@ Needing mocks for internal collaborators indicates bad code design.
 
 **If you need internal mocks, refactor:**
 
+{% raw %}
 ```go
 // SMELL: Mocking internal repository
 func TestOrderService_MocksRepository(t *testing.T) {
@@ -294,6 +295,7 @@ func TestCalculateOrderTotal(t *testing.T) {
     assert.Equal(t, 30.0, total)
 }
 ```
+{% endraw %}
 
 **The fix is to redesign:**
 - Extract pure domain logic (testable without mocks)
