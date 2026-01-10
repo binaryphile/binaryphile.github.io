@@ -829,7 +829,7 @@ port := option.Getenv("PORT").Or("8080")
 // Ternary
 max := ternary.If[int](a > b).Then(a).Else(b)
 
-// must: wrap fallible functions (prefix with "must")
+// mustAtoi wraps strconv.Atoi to panic on error
 mustAtoi := must.Of(strconv.Atoi)
 ints := slice.From(strings).ToInt(mustAtoi)
 ```
