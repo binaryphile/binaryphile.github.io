@@ -1601,3 +1601,7 @@ Two arguments. Works for any transformation on any list. That's a deep interface
 - No shared mutable state to track
 
 > If Ousterhout's goal is "fighting complexity" and FP's tools are "abstraction and composition," they're attacking the same problem from different angles.
+
+---
+
+*Based on Tran, Minh Quang. "The Art of Functional Programming." No Starch Press, 2024. ISBN 978-1718503410.*

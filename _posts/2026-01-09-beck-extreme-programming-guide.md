@@ -727,3 +727,7 @@ Both emphasize that simple solutions require more thought, not less. "Simplest t
 > "After Five Whys, you find the people problem lying at the heart of the defect."
 
 > "Everything in software changes... the problem is our inability to cope with change."
+
+---
+
+*Based on Beck, Kent. "Extreme Programming Explained: Embrace Change." Addison-Wesley, 2004. ISBN 978-0321278654.*
