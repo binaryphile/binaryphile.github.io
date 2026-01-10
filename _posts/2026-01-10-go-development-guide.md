@@ -57,11 +57,13 @@ func processUsers(users []User) {
 **After (functional, immutable):**
 ```go
 func processUsers(users []User) []User {
-    return slice.From(users).Convert(func(u User) User {
+    // activate normalizes and activates a user.
+    activate := func(u User) User {
         u.Name = strings.ToUpper(u.Name)
         u.Active = true
         return u
-    })
+    }
+    return slice.From(users).Convert(activate)
 }
 ```
 
@@ -164,10 +166,12 @@ Use imperative style when it's clearly more readable.
 
 ```go
 // Struct field assignment in a Convert lambda
-slice.From(entries).Convert(func(e Entry) Entry {
+// withComputed adds the computed field value.
+withComputed := func(e Entry) Entry {
     e.Field = computeValue(e)
-    return e  // Imperative but clear
-})
+    return e
+}
+slice.From(entries).Convert(withComputed)
 
 // Early return on error
 func process(items []Item) error {
@@ -425,7 +429,9 @@ activeNames := slice.From(users).
 slice.From(developers).KeepIf(Developer.IsIdle).ToString(Developer.GetName)
 
 // Fold to sum
-sum := slice.Fold(numbers, 0, func(acc, n int) int { return acc + n })
+// sumInt adds two integers.
+sumInt := func(acc, n int) int { return acc + n }
+sum := slice.Fold(numbers, 0, sumInt)
 
 // Extract multiple fields in one pass
 ids, amounts := slice.Unzip2(orders, Order.GetID, Order.GetAmount)
@@ -440,10 +446,12 @@ Don't chain when a single pass suffices:
 slice.From(xs).ToInt(f).ToInt(g)
 
 // BETTER: Single pass
-slice.From(xs).ToInt(func(x int) int { return g(f(x)) })
+// gOfF composes g and f.
+gOfF := func(x int) int { return g(f(x)) }
+slice.From(xs).ToInt(gOfF)
 ```
 
-See [Section 12: When NOT to Use fluentfp](#12-when-not-to-use-fluentfp) for early exit, map accumulation, and performance considerations.
+See [Section 13: When NOT to Use fluentfp](#13-when-not-to-use-fluentfp) for early exit, map accumulation, and performance considerations.
 
 ---
 
@@ -512,7 +520,9 @@ if val, ok := opt.Get(); ok {
 }
 
 // Transform
-userOpt := option.Map(opt, func(s string) User { return User{Name: s} })
+// userFromName creates a User from a name string.
+userFromName := func(s string) User { return User{Name: s} }
+userOpt := option.Map(opt, userFromName)
 ```
 
 ---
@@ -580,9 +590,9 @@ pairs := pair.Zip(names, ages)
 // [{Alice 30}, {Bob 25}, {Carol 35}]
 
 // ZipWith applies function to corresponding elements
-sums := pair.ZipWith([]int{1, 2, 3}, []int{10, 20, 30}, func(a, b int) int {
-    return a + b
-})
+// sumInt adds two integers.
+sumInt := func(a, b int) int { return a + b }
+sums := pair.ZipWith([]int{1, 2, 3}, []int{10, 20, 30}, sumInt)
 // [11, 22, 33]
 ```
 
@@ -590,7 +600,48 @@ sums := pair.ZipWith([]int{1, 2, 3}, []int{10, 20, 30}, func(a, b int) int {
 
 ---
 
-## 12. When NOT to Use fluentfp
+## 12. Error Handling with must
+
+Convert fallible functions for use in pipelines.
+
+```go
+import "github.com/binaryphile/fluentfp/must"
+```
+
+### must Package
+
+| Function | Signature | Purpose |
+|----------|-----------|---------|
+| `Of` | `Of[T,R](func(T)(R,error)) func(T)R` | Wrap fallible function |
+| `BeNil` | `BeNil(error)` | Panic if error non-nil |
+| `Get` | `Get[T](T, error) T` | Return value or panic |
+| `Getenv` | `Getenv(string) string` | Get env var or panic |
+
+### Examples
+
+```go
+// Wrap strconv.Atoi for pipeline use
+// atoi converts string to int, panics on error.
+atoi := must.Of(strconv.Atoi)
+ints := slice.From(strings).ToInt(atoi)
+
+// Check errors inline
+err := file.Close()
+must.BeNil(err)
+
+// Extract value or panic
+contents := must.Get(os.ReadFile("config.json"))
+```
+
+### When to Use
+
+- Scripts where panics are acceptable failure mode
+- Tests where errors should fail fast
+- Pipeline operations that can't propagate errors
+
+---
+
+## 13. When NOT to Use fluentfp
 
 Raw loops are better in specific situations.
 
@@ -658,7 +709,7 @@ for i := 1; i < len(items)-1; i++ {
 
 ---
 
-## 13. Documentation First
+## 14. Documentation First
 
 Write documentation before implementation.
 
@@ -673,7 +724,7 @@ Write documentation before implementation.
 
 Use Mermaid for architecture and flows:
 
-```markdown
+````markdown
 ```mermaid
 flowchart TD
     A[Input] --> B{Validate}
@@ -681,7 +732,7 @@ flowchart TD
     B -->|Invalid| D[Error]
     C --> E[Output]
 ```
-```
+````
 
 ### Markdown Style
 
@@ -692,7 +743,7 @@ flowchart TD
 
 ---
 
-## 14. Summary
+## 15. Summary
 
 ### Core Practices
 
@@ -737,9 +788,9 @@ Start
 
 ---
 
-## 15. Quick Reference for CLAUDE.md
+## 16. Quick Reference for CLAUDE.md
 
-```markdown
+````markdown
 ### Go Development Practices
 
 **Code Style:**
@@ -780,7 +831,7 @@ max := ternary.If[int](a > b).Then(a).Else(b)
 ```
 
 **Documentation:** Write use-cases.md and design.md first.
-```
+````
 
 ---
 
