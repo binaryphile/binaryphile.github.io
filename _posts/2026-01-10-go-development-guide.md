@@ -5,7 +5,6 @@ date: 2026-01-10
 categories: software-engineering
 tags: [go, golang, functional-programming, testing, fluentfp]
 excerpt: "A practical guide to Go development practices emphasizing readability, testability, and functional patterns. Self-contained reference for Go projects using fluentfp."
-mermaid: true
 ---
 
 # Go Development Guide
