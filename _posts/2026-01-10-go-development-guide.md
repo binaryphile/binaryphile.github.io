@@ -621,9 +621,9 @@ import "github.com/binaryphile/fluentfp/must"
 
 ```go
 // Wrap strconv.Atoi for pipeline use
-// atoi converts string to int, panics on error.
-atoi := must.Of(strconv.Atoi)
-ints := slice.From(strings).ToInt(atoi)
+// mustAtoi converts string to int, panics on error.
+mustAtoi := must.Of(strconv.Atoi)
+ints := slice.From(strings).ToInt(mustAtoi)
 
 // Check errors inline
 err := file.Close()
@@ -828,6 +828,10 @@ port := option.Getenv("PORT").Or("8080")
 
 // Ternary
 max := ternary.If[int](a > b).Then(a).Else(b)
+
+// must: wrap fallible functions (prefix with "must")
+mustAtoi := must.Of(strconv.Atoi)
+ints := slice.From(strings).ToInt(mustAtoi)
 ```
 
 **Documentation:** Write use-cases.md and design.md first.
