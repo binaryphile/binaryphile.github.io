@@ -70,9 +70,9 @@ Why: These domains have verifiable criteria. You can objectively assess complete
 
 Try it on your next draft:
 
-1. Ask the AI to grade its output with specific point deductions
+1. Ask the AI: "grade the plan" when planning or "grade your work" after implementation
 2. Glance at the deductions — redirect only if something looks off
-3. Ask it to improve
+3. Ask it, "improve" (nothing specific)
 4. Repeat until deductions total less than 5 points
 5. Now invest your attention in the result
 
@@ -201,9 +201,9 @@ Why: Verifiable criteria exist. You can objectively assess completeness, accurac
 
 ## Quick Start
 
-1. "Grade this with specific deductions"
+1. "Grade the plan" (when planning) or "Grade your work" (after implementation)
 2. Glance at deductions — redirect only if something looks off
-3. "Improve"
+3. "Improve" (nothing specific)
 4. Repeat until <5 points remaining
 5. Invest your attention in the final result
 ```
