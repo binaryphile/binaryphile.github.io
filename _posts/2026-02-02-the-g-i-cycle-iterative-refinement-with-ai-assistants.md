@@ -35,7 +35,7 @@ Three mechanisms:
 
 **2. Exposes thinking for course correction.** Grading externalizes the model's assessment. You can see what it thinks is wrong. Most of the time, you let it run. But occasionally you notice something off — a wrong assumption, a misguided priority. That's when you redirect. A single course correction can prevent entire avenues of wasted inquiry.
 
-**3. Surfaces unknown unknowns.** Grading forces the model to ask "what didn't I check?" — questions it wouldn't ask if just told to "improve." For deeper blind spots, grade at a meta level: ask it to grade its thinking process, not just the output.
+**3. Surfaces unknown unknowns.** Grading forces the model to ask "what didn't I check?" — questions it wouldn't ask if just told to "improve." For deeper blind spots, use "grade your analysis" to grade at a meta level: the thinking process, not just the output.
 
 **A note on self-grading:** LLMs grade themselves leniently. If you find gaps after an A, the A was wrong. B is not "acceptable" — B is incomplete work. Push past it.
 
@@ -52,7 +52,7 @@ Right: LLM iterates to its best → you evaluate final output → you build on t
 
 ## One Caveat
 
-Self-run G/I cycles in a single response don't work as well as separate prompts. "Grade yourself and improve" in one prompt produces weaker results than separate "grade" → "improve" prompts. The mechanism isn't clear, but the pattern is consistent.
+Self-run G/I cycles in a single response aren't worthwhile — except that they expose thinking for course correction. The value is in the separate prompts: you see the thinking, you can redirect if needed, then you say "improve." Ignore the grade itself — focus on the deductions. If there are actionable deductions you find valuable, it's not done, even if it gave itself an A+. It wanted to be done, but shouldn't be. For deeper blind spots, say "grade your analysis" to surface unknown unknowns.
 
 ## When G/I Works
 
@@ -121,7 +121,7 @@ Grading externalizes the model's thinking. Most of the time, you let it run. Occ
 
 ### 3. Surfaces Unknown Unknowns
 
-Grading forces the model to ask "what didn't I check?" — questions it wouldn't ask if just told to "improve."
+Grading forces the model to ask "what didn't I check?" — questions it wouldn't ask if just told to "improve." For deeper blind spots, use "grade your analysis" to grade at a meta level.
 
 ## Why Complexity Requires G/I (Theory)
 
@@ -182,7 +182,7 @@ LLM iterations are cheap. Your attention is expensive. Let the LLM do its best w
 
 ## Observed Limitation
 
-Self-run G/I cycles in a single response don't work as well as separate prompts. "Grade yourself and improve" in one prompt produces weaker results than separate "grade" → "improve" prompts.
+Self-run G/I cycles in a single response aren't worthwhile — except that they expose thinking for course correction. The value is in the separate prompts: you see the thinking, you can redirect if needed, then you say "improve." Ignore the grade — focus on the deductions. If there are actionable deductions you find valuable, it's not done, even with an A+. It wanted to be done, but shouldn't be. For deeper blind spots, "grade your analysis" can surface unknown unknowns.
 
 ## When G/I Works
 
