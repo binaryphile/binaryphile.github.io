@@ -66,7 +66,7 @@ tesht.Main "$(tesht.ListOf "${TestnamesT[@]}")" "$(tesht.ListOf "${FilenamesT[@]
 
 Every file has a Naming Policy header comment (see template below). The rules:
 
-- **Functions**: `namespace.PascalCase` (public), `namespace.camelCase` (private). Namespace is the project name lowercase (`tesht.`, `task.`, `mk.`, `fp.`).
+- **Functions** (libraries): `namespace.PascalCase` (public), `namespace.camelCase` (private). Namespace is the project name lowercase (`tesht.`, `task.`, `mk.`, `fp.`). Libraries are sourced by others and need namespace collision protection; standalone scripts use plain `PascalCase`/`camelCase` (see Standalone scripts below).
 - **Locals**: `camelCase` — begin with lowercase. Compound words that are single semantic concepts stay lowercase: `filename`, `testname`, `fieldname` (not `fileName`, `testName`, `fieldName`). Arrays use plural names (`testnames`, `filenames`, `requestedTests`); scalars use singular. Unpack positional parameters on one `local` line: `local got=$1 want=$2`, `local msg=$1 rc=${2:-$?}`.
 - **Globals**: `PascalCase` — begin with uppercase. Libraries append a (random) project-specific suffix letter (e.g., `DebugM`, `ShowProgressX`, `UnixMilliFuncT`) to prevent namespace collisions. Globals are not public — create accessor functions if consumers need them. Standalone scripts omit the suffix.
 - **Namerefs**: `local -n UPPERCASE=$1` — borrows the environment variable namespace (all-caps). Namerefs point to the caller's variable, so they need names that won't collide with any local. UPPERCASE is safe because locals are always camelCase.
@@ -134,7 +134,14 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **`read -r` discipline**: always use `read -r` to avoid backslash interpretation. Prefer `IFS='' read -r` when consuming raw lines (see FP Pipeline Helpers for the canonical pattern).
 
-**Array expansion**: `${args[@]:-}` for optional arrays. An empty array under `set -u` needs the `:-` fallback.
+**Array expansion**: `"${array[@]}"` preserves element boundaries. Under `set -u`, an empty array needs `${args[@]:-}` as fallback — but prefer `"${array[@]}"` (quoted, no fallback) when the array is guaranteed initialized.
+
+**When to quote.** Under `IFS=$'\n'; set -o noglob`, most expansions are safe unquoted — including simple assignments (`local var=$value`, `var=$value`) which bash handles without splitting. Quotes are still required for:
+
+- **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `[[ $x == $y ]]` treats `*`, `?`, `[` in `$y` as wildcards.
+- **Array expansion** — `"${array[@]}"` to preserve element boundaries. Unquoted `${array[@]}` splits on IFS (newlines).
+- **`_`-suffixed variables** in non-assignment contexts — the existing convention. Contains IFS characters, must quote.
+- **Arguments to commands that re-interpret** — `printf %q "$val"`, `eval`, etc.
 
 ## 6. Conditionals
 
@@ -309,7 +316,7 @@ trap "rm -rf $dir" EXIT
 
 ## 12. FP Pipeline Helpers
 
-Stdin-based composition: command name as first arg, applied to each line via `eval`. Core trio: `Each` (side effects), `Map` (transform), `KeepIf`/`RemoveIf` (filter).
+Stdin-based composition: command name as first arg, applied to each line via `eval`. Core trio: `Each` (side effects), `Map` (transform), `KeepIf`/`RemoveIf` (filter). The `eval "$command $arg"` pattern assumes trusted input — callers are responsible for escaping with `printf %q` if values originate from untrusted sources.
 
 The pattern (from update-env):
 
@@ -350,3 +357,43 @@ END
 ```
 
 Inline versions exist in update-env (`each`, `map`, `keepIf`) and mk.bash (`mk.Each`, `mk.Map`, `mk.KeepIf`). `fp.bash` (`~/projects/fp.bash/`, v0.2) consolidates these as `fp.Each`, `fp.Map`, etc. The library is still evolving — the inline versions in update-env and mk.bash are the proven reference implementations for now.
+
+## 13. Trap Handling
+
+EXIT traps only — no projects use ERR, DEBUG, RETURN, or signal handlers.
+
+**Two patterns coexist**: single assignment (scripts) and stacked (libraries).
+
+**Single assignment** — scripts and test functions that control their own trap:
+
+```bash
+dir=$(mktemp -d)
+trap "rm -rf $dir" EXIT
+```
+
+Direct `trap "..." EXIT` overwrites any previous handler. Safe when the function or script owns its entire trap lifecycle. Used in update-env and task.bash tests.
+
+**Stacked/deferred** — libraries that must not overwrite the caller's trap:
+
+```bash
+tesht.Defer() {
+  local command=$1
+  local NL=$'\n'
+  trap "$command$NL$(tesht.existingDeferlist)" EXIT
+}
+```
+
+New handlers prepend to the existing chain. `tesht.existingDeferlist` extracts the current handler via `trap -p EXIT` and strips the wrapper syntax. Commands execute in FIFO order. Use newlines (not semicolons) as separators — semicolons interact poorly with backgrounding (`&`).
+
+**Temp directory cleanup** — the canonical pattern (from tesht):
+
+```bash
+tesht.MktempDir() {
+  local -n DIR=$1
+  DIR=$(mktemp -d /tmp/tesht.XXXXXX) || { echo 'could not create temporary directory'; return 1; }
+  [[ $DIR == /*/* ]] || { echo 'temporary directory does not comply with naming requirements'; return 1; }
+  tesht.Defer "rm -rf $DIR"
+}
+```
+
+Validates the path before registering cleanup. The `/*/* ` guard prevents `rm -rf /` if `mktemp` returns something unexpected.
