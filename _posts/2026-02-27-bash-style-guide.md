@@ -11,6 +11,8 @@ excerpt: "Conventions derived from five bash projects — naming, error handling
 
 Five bash projects share naming, quoting, error handling, and pipeline conventions that evolved over years — and were never written down in one place. This is the reference, derived from the code.
 
+**Historical divergences**: Some older files (mk.bash, task.bash) predate certain conventions in this guide. Where current code diverges from the documented standard, the guide describes the target convention, not the legacy behavior.
+
 ## 1. Shebang and Version
 
 `#!/usr/bin/env bash`. Bash 4.4+ minimum (for `${var@Q}`).
@@ -21,7 +23,9 @@ File extensions: `.bash` for libraries, no extension for executables.
 
 Two tiers: libraries and scripts.
 
-**Libraries** (task.bash, mk.bash, fp.bash): `IFS` and noglob at top, no `set -e` — callers own error policy.
+**Libraries** (task.bash, mk.bash, fp.bash): expect `IFS=$'\n'` and noglob from their callers, no `set -e` — callers own error policy. The library files themselves don't set these; consumers do after sourcing (see boilerplate below). fp.bash handles IFS internally per-function with `IFS='' read -r`.
+
+Consumers set this after sourcing:
 
 ```bash
 IFS=$'\n'
@@ -71,7 +75,7 @@ Every file has a Naming Policy header comment (see template below). The rules:
 - **Globals**: `PascalCase` — begin with uppercase. Libraries append a (random) project-specific suffix letter (e.g., `DebugM`, `ShowProgressX`, `UnixMilliFuncT`) to prevent namespace collisions. Globals are not public — create accessor functions if consumers need them. Standalone scripts omit the suffix.
 - **Namerefs**: `local -n UPPERCASE=$1` — borrows the environment variable namespace (all-caps). Namerefs point to the caller's variable, so they need names that won't collide with any local. UPPERCASE is safe because locals are always camelCase.
 - **"List" in names**: functions that serialize arrays into newline-separated strings use "List" — `tesht.ListOf()`, `fp.StreamList()`. Variables holding serialized lists also use the name (e.g., `deferlist_` — with `_` because it contains IFS characters).
-- **Standard globals**: `NL=$'\n'` for string interpolation in double quotes. `Prog=$(basename "$0")` is standard in scripts that report their own name (tesht, mk.bash consumers).
+- **Standard globals** (suffix exceptions): `NL=$'\n'` for string interpolation in double quotes. `Prog=$(basename "$0")` is standard in scripts that report their own name (tesht, mk.bash consumers). These are conventional exceptions to the suffix rule — shared across projects as common infrastructure.
 - **Keyword functions** (task.bash only): all lowercase, five letters or shorter. These are the task DSL: `cmd`, `desc`, `exist`, `ok`, `runas`, `prog`, `unchg`.
 - **Standalone scripts** (update-env): no namespace prefix on functions, no suffix letter on globals — not sourced by others, so no collision risk. Task functions suffixed with `Task` (e.g., `aptUpgradeTask`).
 
@@ -115,7 +119,7 @@ DebugM=0                          # global (mk.bash)
 
 `_` suffix on variables means "may contain IFS characters, must quote." Variables without `_` are safe unquoted under `IFS=$'\n'; set -o noglob`.
 
-In practice: `deferlist_` (trap output), `testSource_` (file contents), `Usage_` (multiline heredoc).
+In practice: `deferlist_` (trap output), `testSource_` (file contents), `Usage_` (multiline heredoc). All three are in tesht.
 
 Nameref collision avoidance uses a separate strategy: UPPERCASE names (see Naming).
 
@@ -163,7 +167,7 @@ fatal() {
 }
 ```
 
-mk.bash namespaces this as `mk.Fatal` and prints to stderr.
+mk.bash namespaces this as `mk.Fatal` and prints to stderr. Note: `fp.fatal` and update-env's `fatal()` print to stdout, not stderr — only `mk.Fatal` uses stderr.
 
 **Return code 128 as fatal signal.** Used in tesht. The test framework detects 128 and reports "fatal" distinct from regular failure:
 
@@ -178,7 +182,7 @@ esac
 **RC capture**: `cmd && rc=$? || rc=$?` preserves exit code that `set -e` would otherwise lose. Safe under `set -e` because the `||` makes the overall compound command always succeed; `set -e` only triggers on unchecked failures.
 
 ```bash
-OutputX=$(eval "$CMD" 2>&1) && RC=$? || RC=$?    # task.bash
+OutputX=$(eval "$CMD" 2>&1) && rc=$? || rc=$?    # task.bash
 ```
 
 **`pipefail`**: standard for new scripts. `set -euo pipefail`.
@@ -216,7 +220,7 @@ UnixMilliFuncT=mockUnixMilli
 
 mk.bash consumers follow boilerplate: source → IFS → noglob → set prog/usage → return → HandleOptions → `mk.Main`.
 
-Standard flags: `-h`/`--help`, `-x`/`--trace` (`set -x` for debugging). mk.bash HandleOptions provides these.
+Standard flags: `-h`/`--help`, `-v`/`--version`, `-x`/`--trace` (`set -x` for debugging). mk.bash HandleOptions provides these.
 
 ## 10. Comments
 
@@ -270,7 +274,13 @@ unset -v ok shortrun prog unchg want wanterr
 eval "$(tesht.Inherit "$casename")"
 ```
 
-**Run with `tesht.Run ${!case@}`** — iterates all variables matching `case*`:
+**Run with `tesht.Run ${!case@}`** — pass all case variables at once:
+
+```bash
+tesht.Run ${!case@}
+```
+
+`tesht.Run` iterates its arguments internally and returns 1 if any case failed, 128 on fatal. For per-case error handling (e.g., early return on fatal), use a loop:
 
 ```bash
 local failed=0 casename
@@ -287,11 +297,20 @@ return $failed
 
 ```bash
 [[ $got == $want ]] || {
-  echo "${NL}cmd: got doesn't match want:$NL$(tesht.Diff "$got" "$want" 1)$NL"
+  echo "${NL}cmd: got doesn't match want:$NL$(tesht.Diff "$got" "$want")$NL"
   echo "use this line to update want to match this output:${NL}want=${got@Q}"
   return 1
 }
 ```
+
+**Assertion helpers** — the preferred pattern (replaces the manual version above):
+
+```bash
+tesht.AssertGot "$got" "$want"
+tesht.AssertRC $rc 0
+```
+
+`tesht.AssertGot` compares strings, shows a diff and copy-paste update line on mismatch. `tesht.AssertRC` compares return codes. Both return 1 on failure. tesht's own tests and test_examples.bash use these exclusively; older test files (mk_test.bash, task_test.bash) still use the manual pattern.
 
 **Subshell `()`** for directory isolation in setup helpers — changes to working directory don't leak:
 
@@ -305,11 +324,10 @@ createCloneRepo() (
 ) >/dev/null
 ```
 
-**`tesht.MktempDir`** with trap for cleanup:
+**`tesht.MktempDir`** with deferred cleanup (cleanup is registered automatically via `tesht.Defer`; see Section 13 for the implementation):
 
 ```bash
-local dir=$(tesht.MktempDir) || return 128
-trap "rm -rf $dir" EXIT
+tesht.MktempDir dir || return 128
 ```
 
 **AAA structure**: `## arrange`, `## act`, `## assert` comment sections in each subtest.
@@ -356,7 +374,7 @@ each task.Ln <<'  END'
 END
 ```
 
-Inline versions exist in update-env (`each`, `map`, `keepIf`) and mk.bash (`mk.Each`, `mk.Map`, `mk.KeepIf`). `fp.bash` (`~/projects/fp.bash/`, v0.2) consolidates these as `fp.Each`, `fp.Map`, etc. The library is still evolving — the inline versions in update-env and mk.bash are the proven reference implementations for now.
+Inline versions exist in update-env (`each`, `map`, `keepIf`) and mk.bash (`mk.Each`, `mk.Map`, `mk.KeepIf`). `fp.bash` (`~/projects/fp.bash/`, v0.2) consolidates these as `fp.Each`, `fp.Map`, etc. The update-env versions are the inline originals; fp.bash is the canonical consolidated version. mk.bash's versions predate the `IFS=''` convention and differ in style (lowercase locals in Map, unquoted echo in KeepIf). fp.bash also adds `return 0` to `fp.Each` and `fp.KeepIf` to prevent error propagation from the last `eval` iteration — the update-env inline versions don't.
 
 ## 13. Trap Handling
 
@@ -391,7 +409,11 @@ New handlers prepend to the existing chain. `tesht.existingDeferlist` extracts t
 tesht.MktempDir() {
   local -n DIR=$1
   DIR=$(mktemp -d /tmp/tesht.XXXXXX) || { echo 'could not create temporary directory'; return 1; }
+
   [[ $DIR == /*/* ]] || { echo 'temporary directory does not comply with naming requirements'; return 1; }
+
+  [[ -d $DIR ]] || { echo 'temporary directory was made but does not exist now'; return 1; }
+
   tesht.Defer "rm -rf $DIR"
 }
 ```
