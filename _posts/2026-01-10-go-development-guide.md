@@ -480,6 +480,8 @@ import "github.com/binaryphile/fluentfp/option"
 | `New` | `New[T](T, bool) Basic[T]` | Create from value + ok |
 | `FromOpt` | `FromOpt[T](*T) Basic[T]` | From pointer (nil-safe) |
 | `IfProvided` | `IfProvided[T comparable](T)` | Not-ok if zero value |
+| `IfNotZero` | `IfNotZero[T ZeroChecker](T)` | Not-ok if `t.IsZero()` |
+| `ZeroChecker` | `interface { IsZero() bool }` | Interface for `IfNotZero` |
 | `Getenv` | `Getenv(string) String` | From environment variable |
 | `Map` | `Map[T,R](Basic[T], func(T)R)` | Transform value |
 | `.Get` | `.Get() (T, bool)` | Unwrap with ok |
@@ -523,6 +525,44 @@ if val, ok := opt.Get(); ok {
 // userFromName creates a User from a name string.
 userFromName := func(s string) User { return User{Name: s} }
 userOpt := option.Map(opt, userFromName)
+```
+
+### Pseudo-Option Conventions
+
+Pseudo-options use Go's zero values to represent "absent" without formal Option types.
+
+| Style | Convention | Detection | Conversion to Option |
+|-------|------------|-----------|---------------------|
+| Pointer (`*T`) | Suffix variable with `Opt` | `ptr != nil` | `option.FromOpt(ptr)` |
+| Zero-value (comparable) | No suffix needed | `t != zero` | `option.IfProvided(t)` |
+| Zero-value (struct) | Add `IsZero() bool` method | `!t.IsZero()` | `option.IfNotZero(t)` |
+
+**Pointer pseudo-options (`*T`):**
+```go
+configOpt *Config  // Suffix with "Opt" to clarify nil=absent semantics
+if configOpt != nil { ... }
+```
+
+**Zero-value pseudo-options (non-comparable structs):**
+```go
+// Add IsZero method to enable zero-value-as-absent pattern
+// Implements option.ZeroChecker interface
+type Registry struct {
+    instances map[string]Instance
+}
+
+func (r Registry) IsZero() bool { return r.instances == nil }
+
+// Usage: pass zero value for "none"
+func NewApp(registry Registry) *App {
+    if !registry.IsZero() {
+        // use registry
+    }
+}
+app := NewApp(Registry{})  // standalone mode (no registry)
+
+// Convert to formal Option when needed
+registryOpt := option.IfNotZero(registry)
 ```
 
 ---

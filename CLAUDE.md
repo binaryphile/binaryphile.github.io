@@ -1,2 +1,2 @@
 # Tandem Protocol
-@~/projects/share/tandem-protocol/tandem-protocol.md
+@~/projects/tandem-protocol/tandem-protocol.md
