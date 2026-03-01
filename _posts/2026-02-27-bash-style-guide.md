@@ -142,12 +142,12 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **When to quote.** Under `IFS=$'\n'; set -o noglob`, most scalar expansions are safe unquoted. Quotes are required in these contexts:
 
-- **Trust boundaries and the `_` suffix** — assigning a parameter to a non-`_` variable documents that it won't contain IFS characters: `local command=$1` means "I expect single-line input." If a parameter may contain newlines, assign to a `_`-suffixed variable and quote from there. Command substitution is a judgment call — `"$(command)"` when the result should be one word, unquoted when line splitting is desired.
+- **Trust boundaries and the `_` suffix** — assigning a parameter to a non-`_` variable documents that it won't contain IFS characters: `local command=$1` means "I expect single-line input." If a parameter may contain newlines, assign to a `_`-suffixed variable and quote from there.
 - **`"${array[@]}"` / `"$@"` / `"$*"`** — quote to preserve element boundaries (see above). Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
 - **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `*`, `?`, `[` become wildcards. Leave unquoted for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
 - **`_`-suffixed variables** in non-assignment contexts — contain IFS characters (newlines), must quote: `eval "$testSource_"`, `echo "$Usage_"`.
 - **`eval` arguments** — `eval "$CMD"`. Without quotes, newlines become argument separators; `eval` joins arguments with spaces, changing multi-line code semantics.
-- **Command substitution as argument** — `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines. Safe to unquote when splitting is desired: `local arr=( $(listItems) )`.
+- **Command substitution as argument** — a judgment call. `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines, which is sometimes desired: `local arr=( $(listItems) )`.
 - **`trap` command strings** — `trap "$command$NL$(existing)" EXIT`. The string is stored for later eval; must be a single coherent argument.
 - **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines into separate arguments; echo outputs them space-separated, destroying line structure.
 
