@@ -138,11 +138,11 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **`read -r` discipline**: always use `read -r` to avoid backslash interpretation. Prefer `IFS='' read -r` when consuming raw lines (see FP Pipeline Helpers for the canonical pattern).
 
-**Array/positional expansion**: `"${array[@]}"` and `"$@"` preserve element boundaries. Unquoted, each element undergoes word splitting on IFS — newlines in elements become word breaks. `"$*"` joins elements with the first character of IFS; unquoted `$*` loses that structure. Under `set -u`, an empty array needs `${args[@]:-}` as fallback.
+**Array/positional expansion**: `"${array[@]}"` and `"$@"` preserve element boundaries — each element stays a separate word. `"$*"` joins elements with the first character of IFS (useful for serialization). Unquoted, both `${array[@]}` and `$@` undergo word splitting on IFS, so elements containing newlines get broken apart. Under `set -u`, an empty array needs `${args[@]:-}` as fallback.
 
 **When to quote.** Under `IFS=$'\n'; set -o noglob`, most scalar expansions are safe unquoted. Quotes are required in these contexts:
 
-- **`"${array[@]}"` / `"$@"` / `"$*"`** — always quote to preserve element boundaries. Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
+- **`"${array[@]}"` / `"$@"` / `"$*"`** — quote to preserve element boundaries (see above). Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
 - **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `*`, `?`, `[` become wildcards. Leave unquoted for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
 - **`_`-suffixed variables** in non-assignment contexts — contain IFS characters (newlines), must quote: `eval "$testSource_"`, `echo "$Usage_"`.
 - **`eval` arguments** — `eval "$CMD"`. Without quotes, newlines become argument separators; `eval` joins arguments with spaces, changing multi-line code semantics.
@@ -159,7 +159,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 - **Array subscripts** — `${map[$key]}`, `array[$idx]=val`. Inside brackets, no splitting.
 - **Inside `${...}` operators** — `${1:-$default}`, `${var#$prefix}`. Nested expansions are protected.
 - **Redirection targets** — `>$file`, `<$file`, `<<<$var`. Bash takes the single word.
-- **Scalar command arguments** — `func $simplevar`, `printf $fmt $val`. Safe for newline-free values under `IFS=$'\n'; set -o noglob`. This is the default assumption for variables without the `_` suffix.
+- **Scalar command arguments** — `func $simplevar`, `printf $fmt $val`. No word-splitting surprises for newline-free values under `IFS=$'\n'; set -o noglob`. This is the default assumption for variables without the `_` suffix. (Commands may still interpret values — e.g., printf interprets its format string — but that's command semantics, not expansion behavior.)
 
 ## 6. Conditionals
 
