@@ -142,7 +142,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **When to quote.** Under `IFS=$'\n'; set -o noglob`, most scalar expansions are safe unquoted. Quotes are required in these contexts:
 
-- **External input** — always quote variables whose content you don't control: `"$@"`, `"$1"` from callers, `"$(command)"` from external programs. You can't guarantee these are newline-free, so always quote at trust boundaries. Internal variables with known content (loop counters, function names, paths you constructed) are safe unquoted.
+- **Trust boundaries and the `_` suffix** — assigning a parameter to a non-`_` variable documents that it won't contain IFS characters: `local command=$1` means "I expect single-line input." If a parameter may contain newlines, assign to a `_`-suffixed variable and quote from there. Command substitution is a judgment call — `"$(command)"` when the result should be one word, unquoted when line splitting is desired.
 - **`"${array[@]}"` / `"$@"` / `"$*"`** — quote to preserve element boundaries (see above). Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
 - **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `*`, `?`, `[` become wildcards. Leave unquoted for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
 - **`_`-suffixed variables** in non-assignment contexts — contain IFS characters (newlines), must quote: `eval "$testSource_"`, `echo "$Usage_"`.
