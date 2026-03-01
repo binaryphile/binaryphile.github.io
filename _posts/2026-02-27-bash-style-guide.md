@@ -48,7 +48,7 @@ IFS=$'\n'
 set -o noglob
 
 mk.SetProg $Prog
-mk.SetUsage "$Usage"
+mk.SetUsage "$Usage_"
 mk.SetVersion $Version
 
 return 2>/dev/null    # stop if sourced, for interactive debugging
@@ -150,6 +150,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 - **Command substitution as argument** — a judgment call. `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines, which is sometimes desired: `local arr=( $(listItems) )`.
 - **`trap` command strings** — `trap "$command$NL$(existing)" EXIT`. The string is stored for later eval; must be a single coherent argument.
 - **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines into separate arguments; echo outputs them space-separated, destroying line structure.
+- **External command arguments** — `mkdir -p "$dir"`, `install -m "$mode"`, `ssh-keygen -f "$file"`. Without noglob, unquoted values undergo pathname expansion before the command sees them. Scripts using `set -euo pipefail` without `f` need this; all five projects quote external command args consistently regardless.
 
 **When quoting is unnecessary.** These contexts never split or glob — quoting is harmless but adds no safety:
 
