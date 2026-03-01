@@ -142,13 +142,14 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **When to quote.** Under `IFS=$'\n'; set -o noglob`, most scalar expansions are safe unquoted. Quotes are required in these contexts:
 
+- **External input** — always quote variables whose content you don't control: `"$@"`, `"$1"` from callers, `"$(command)"` from external programs. You can't guarantee these are newline-free, so always quote at trust boundaries. Internal variables with known content (loop counters, function names, paths you constructed) are safe unquoted.
 - **`"${array[@]}"` / `"$@"` / `"$*"`** — quote to preserve element boundaries (see above). Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
 - **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `*`, `?`, `[` become wildcards. Leave unquoted for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
 - **`_`-suffixed variables** in non-assignment contexts — contain IFS characters (newlines), must quote: `eval "$testSource_"`, `echo "$Usage_"`.
 - **`eval` arguments** — `eval "$CMD"`. Without quotes, newlines become argument separators; `eval` joins arguments with spaces, changing multi-line code semantics.
 - **Command substitution as argument** — `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines. Safe to unquote when splitting is desired: `local arr=( $(listItems) )`.
 - **`trap` command strings** — `trap "$command$NL$(existing)" EXIT`. The string is stored for later eval; must be a single coherent argument.
-- **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines and echo rejoins with spaces, destroying line structure.
+- **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines into separate arguments; echo outputs them space-separated, destroying line structure.
 
 **When quoting is unnecessary.** These contexts never split or glob — quoting is harmless but adds no safety:
 
@@ -159,7 +160,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 - **Array subscripts** — `${map[$key]}`, `array[$idx]=val`. Inside brackets, no splitting.
 - **Inside `${...}` operators** — `${1:-$default}`, `${var#$prefix}`. Nested expansions are protected.
 - **Redirection targets** — `>$file`, `<$file`, `<<<$var`. Bash takes the single word.
-- **Scalar command arguments** — `func $simplevar`, `printf $fmt $val`. No word-splitting surprises for newline-free values under `IFS=$'\n'; set -o noglob`. This is the default assumption for variables without the `_` suffix. (Commands may still interpret values — e.g., printf interprets its format string — but that's command semantics, not expansion behavior.)
+- **Scalar command arguments** — `func $simplevar`, `printf $fmt $val`. No word-splitting surprises for newline-free values under `IFS=$'\n'; set -o noglob`. This is the default assumption for variables without the `_` suffix. Note: commands still interpret values (printf parses its format string) — quoting controls splitting, not command semantics.
 
 ## 6. Conditionals
 
