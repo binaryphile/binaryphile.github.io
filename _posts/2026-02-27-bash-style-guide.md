@@ -138,14 +138,28 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **`read -r` discipline**: always use `read -r` to avoid backslash interpretation. Prefer `IFS='' read -r` when consuming raw lines (see FP Pipeline Helpers for the canonical pattern).
 
-**Array expansion**: `"${array[@]}"` preserves element boundaries. Under `set -u`, an empty array needs `${args[@]:-}` as fallback — but prefer `"${array[@]}"` (quoted, no fallback) when the array is guaranteed initialized.
+**Array/positional expansion**: `"${array[@]}"` and `"$@"` preserve element boundaries. Unquoted, each element undergoes word splitting on IFS — newlines in elements become word breaks. `"$*"` joins elements with the first character of IFS; unquoted `$*` loses that structure. Under `set -u`, an empty array needs `${args[@]:-}` as fallback.
 
-**When to quote.** Under `IFS=$'\n'; set -o noglob`, most expansions are safe unquoted — including simple assignments (`local var=$value`, `var=$value`) which bash handles without splitting. Quotes are still required for:
+**When to quote.** Under `IFS=$'\n'; set -o noglob`, most scalar expansions are safe unquoted. Quotes are required in these contexts:
 
-- **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `[[ $x == $y ]]` treats `*`, `?`, `[` in `$y` as wildcards.
-- **Array expansion** — `"${array[@]}"` to preserve element boundaries. Unquoted `${array[@]}` splits on IFS (newlines).
-- **`_`-suffixed variables** in non-assignment contexts — the existing convention. Contains IFS characters, must quote.
-- **Arguments to commands that re-interpret** — `printf %q "$val"`, `eval`, etc.
+- **`"${array[@]}"` / `"$@"` / `"$*"`** — always quote to preserve element boundaries. Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
+- **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `*`, `?`, `[` become wildcards. Leave unquoted for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
+- **`_`-suffixed variables** in non-assignment contexts — contain IFS characters (newlines), must quote: `eval "$testSource_"`, `echo "$Usage_"`.
+- **`eval` arguments** — `eval "$CMD"`. Without quotes, newlines become argument separators; `eval` joins arguments with spaces, changing multi-line code semantics.
+- **Command substitution as argument** — `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines. Safe to unquote when splitting is desired: `local arr=( $(listItems) )`.
+- **`trap` command strings** — `trap "$command$NL$(existing)" EXIT`. The string is stored for later eval; must be a single coherent argument.
+- **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines and echo rejoins with spaces, destroying line structure.
+
+**When quoting is unnecessary.** These contexts never split or glob — quoting is harmless but adds no safety:
+
+- **Assignment RHS** — `local var=$value`, `var=$(command)`, `var=${1:-default}`. Bash assigns the full expansion without splitting.
+- **`[[ ]]` operands** (except RHS of `==`) — `[[ -e $file ]]`, `[[ $var == pattern ]]` (LHS). The conditional command suppresses splitting.
+- **`(( ))` arithmetic** — `(( rc == 0 ))`, `(( ${#array[@]} ))`. Arithmetic context, not string context.
+- **`case` word** — `case $var in`. No splitting.
+- **Array subscripts** — `${map[$key]}`, `array[$idx]=val`. Inside brackets, no splitting.
+- **Inside `${...}` operators** — `${1:-$default}`, `${var#$prefix}`. Nested expansions are protected.
+- **Redirection targets** — `>$file`, `<$file`, `<<<$var`. Bash takes the single word.
+- **Scalar command arguments** — `func $simplevar`, `printf $fmt $val`. Safe for newline-free values under `IFS=$'\n'; set -o noglob`. This is the default assumption for variables without the `_` suffix.
 
 ## 6. Conditionals
 
