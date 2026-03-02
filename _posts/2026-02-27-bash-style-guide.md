@@ -1,8 +1,6 @@
 # Bash Style Guide
 
-Conventions derived from task.bash, tesht, mk.bash, fp.bash, and update-env. Prescriptive for new code; existing variations noted as context.
-
-**Historical divergences**: Some older files (mk.bash, task.bash) predate certain conventions in this guide. Where current code diverges from the documented standard, the guide describes the target convention, not the legacy behavior.
+Prescriptive conventions for bash code under `IFS=$'\n'; set -o noglob`. Techniques are general; examples use standalone script style unless demonstrating library conventions.
 
 ## 1. Shebang and Version
 
@@ -14,7 +12,7 @@ File extensions: `.bash` for libraries, no extension for executables.
 
 Two tiers: libraries and scripts.
 
-**Libraries** (task.bash, mk.bash, fp.bash): expect `IFS=$'\n'` and noglob from their callers, no `set -e` — callers own error policy. The library files themselves don't set these; consumers do after sourcing (see boilerplate below). fp.bash handles IFS internally per-function with `IFS='' read -r`.
+**Libraries**: expect `IFS=$'\n'` and noglob from their callers, no `set -e` — callers own error policy. The library files themselves don't set these; consumers do after sourcing (see boilerplate below). Some libraries handle IFS internally per-function with `IFS='' read -r`.
 
 Consumers set this after sourcing:
 
@@ -23,54 +21,49 @@ IFS=$'\n'
 set -o noglob
 ```
 
-**Scripts** (tesht, update-env): defer strict mode until after option parsing. Option parsing uses `$*` unquoted and tests `${1:-}`, which interact poorly with `set -eu` before args are validated.
+**Scripts**: defer strict mode until after option parsing. Option parsing uses `$*` unquoted and tests `${1:-}`, which interact poorly with `set -eu` before args are validated.
 
-Standard for new scripts: `set -euo pipefail`. Add `f` if noglob is not already set (`f` is equivalent to `set -o noglob`). mk.bash was designed not to force strict mode on its consumers.
+Standard for new scripts: `set -euo pipefail`. Add `f` if noglob is not already set (`f` is equivalent to `set -o noglob`). Libraries should not force strict mode on their consumers.
 
 The `return 2>/dev/null` line before strict mode enables interactive debugging by sourcing the script without executing main.
 
-**Library boilerplate** (mk.bash consumer):
+**Library consumer boilerplate**:
 
 ```bash
-source ~/.local/lib/mk.bash 2>/dev/null || { echo 'fatal: mk.bash not found' >&2; exit 1; }
+source ~/.local/lib/mylib.bash 2>/dev/null || { echo 'fatal: mylib.bash not found' >&2; exit 1; }
 
 # enable safe expansion
 IFS=$'\n'
 set -o noglob
 
-mk.SetProg $Prog
-mk.SetUsage "$Usage_"
-mk.SetVersion $Version
-
 return 2>/dev/null    # stop if sourced, for interactive debugging
-mk.HandleOptions $*   # standard options
-mk.Main ${*:$?+1}     # showtime
+main $*               # entry point — library consumers may strip parsed options first
 ```
 
-**Script bottom** (tesht — new scripts would use `set -euo pipefail`):
+**Script bottom**:
 
 ```bash
 # strict mode
 return 2>/dev/null
-set -euf
+set -euo pipefail
+set -o noglob
 
-tesht.Main "$(tesht.ListOf "${TestnamesT[@]}")" "$(tesht.ListOf "${FilenamesT[@]}")"
+main "$@"
 ```
 
 ## 3. Naming
 
 Every file has a Naming Policy header comment (see template below). The rules:
 
-- **Functions** (libraries): `namespace.PascalCase` (public), `namespace.camelCase` (private). Namespace is the project name lowercase (`tesht.`, `task.`, `mk.`, `fp.`). Libraries are sourced by others and need namespace collision protection; standalone scripts use plain `PascalCase`/`camelCase` (see Standalone scripts below).
+- **Functions** (libraries): `namespace.PascalCase` (public), `namespace.camelCase` (private). Namespace is the project name lowercase (e.g., `lib.`). Libraries are sourced by others and need namespace collision protection; standalone scripts use plain `PascalCase`/`camelCase` (see Standalone scripts below).
 - **Locals**: `camelCase` — begin with lowercase. Compound words that are single semantic concepts stay lowercase: `filename`, `testname`, `fieldname` (not `fileName`, `testName`, `fieldName`). Arrays use plural names (`testnames`, `filenames`, `requestedTests`); scalars use singular. Unpack positional parameters on one `local` line: `local got=$1 want=$2`, `local msg=$1 rc=${2:-$?}`.
-- **Globals**: `PascalCase` — begin with uppercase. Libraries append a (random) project-specific suffix letter (e.g., `DebugM`, `ShowProgressX`, `UnixMilliFuncT`) to prevent namespace collisions. Globals are not public — create accessor functions if consumers need them. Standalone scripts omit the suffix.
+- **Globals**: `PascalCase` — begin with uppercase. Libraries append a randomly-chosen project-specific suffix letter (e.g., `DebugQ`, `ShowProgressQ`, `TimeFuncQ`) to prevent namespace collisions. Globals are not public — create accessor functions if consumers need them. Standalone scripts omit the suffix.
 - **Namerefs**: `local -n UPPERCASE=$1` — borrows the environment variable namespace (all-caps). Namerefs point to the caller's variable, so they need names that won't collide with any local. UPPERCASE is safe because locals are always camelCase.
-- **"List" in names**: functions that serialize arrays into newline-separated strings use "List" — `tesht.ListOf()`, `fp.StreamList()`. Variables holding serialized lists also use the name (e.g., `deferlist_` — with `_` because it contains IFS characters).
-- **Standard globals** (suffix exceptions): `NL=$'\n'` for string interpolation in double quotes. `Prog=$(basename "$0")` is standard in scripts that report their own name (tesht, mk.bash consumers). These are conventional exceptions to the suffix rule — shared across projects as common infrastructure.
-- **Keyword functions** (task.bash only): all lowercase, five letters or shorter. These are the task DSL: `cmd`, `desc`, `exist`, `ok`, `runas`, `prog`, `unchg`.
-- **Standalone scripts** (update-env): no namespace prefix on functions, no suffix letter on globals — not sourced by others, so no collision risk. Task functions suffixed with `Task` (e.g., `aptUpgradeTask`).
+- **"List" in names**: functions that serialize arrays into newline-separated strings use "List" — `ListOf()`, `StreamList()`. Variables holding serialized lists also use the name (e.g., `commands_` — with `_` because it contains IFS characters).
+- **Standard globals** (suffix exceptions): `NL=$'\n'` for string interpolation in double quotes. `Prog=$(basename "$0")` is standard in scripts that report their own name. These are conventional exceptions to the suffix rule.
+- **Standalone scripts**: no namespace prefix on functions, no suffix letter on globals — not sourced by others, so no collision risk.
 
-Example header (mk.bash):
+Example header (library):
 
 ```bash
 # Naming Policy:
@@ -79,13 +72,13 @@ Example header (mk.bash):
 #
 # Private function names begin with lowercase letters.
 # Public function names begin with uppercase letters.
-# Function names are prefixed with "mk." (always lowercase) so they are namespaced.
+# Function names are prefixed with "lib." (always lowercase) so they are namespaced.
 #
 # Local variable names begin with lowercase letters, e.g. localVariable.
 #
 # Global variable names begin with uppercase letters, e.g. GlobalVariable.
 # Since this is a library, global variable names are also namespaced by suffixing them with
-# the randomly-generated letter M, e.g. GlobalVariableM.
+# the randomly-generated letter Q, e.g. GlobalVariableQ.
 # Global variables are not public.  Library consumers should not be aware of them.
 # If users need to interact with them, create accessor functions for the purpose.
 #
@@ -95,39 +88,40 @@ Example header (mk.bash):
 
 ## 4. Namespace Suffix
 
-Single letter per project appended to all globals and DI vars. Prevents collisions when projects are sourced together. Described as "randomly-generated" in headers.
+Single letter per library appended to all globals and DI vars. Prevents collisions when libraries are sourced together. Choose a random letter per library — described as "randomly-generated" in headers.
 
-- `X` = task.bash, `T` = tesht, `M` = mk.bash, `F` = fp.bash
-- Standalone scripts omit — update-env has no suffix because it's not sourced by others.
+Standalone scripts omit the suffix — not sourced by others, so no collision risk.
 
 ```bash
-UnixMilliFuncT=tesht.UnixMilli   # DI variable (tesht)
-ShowProgressX=1                   # global (task.bash)
-DebugM=0                          # global (mk.bash)
+TimeFuncQ=UnixMilli   # DI variable
+ShowProgressQ=1       # global
+DebugQ=0              # global
 ```
 
 ## 5. Quoting
 
 `_` suffix on variables means "may contain IFS characters, must quote." Variables without `_` are safe unquoted under `IFS=$'\n'; set -o noglob`.
 
-In practice: `deferlist_` (trap output), `testSource_` (file contents), `Usage_` (multiline heredoc). All three are in tesht.
+In practice: `commands_` (trap output), `content_` (file contents), `usage_` (multiline heredoc).
 
 Nameref collision avoidance uses a separate strategy: UPPERCASE names (see Naming).
 
 **`printf %q`** escapes a value for shell re-evaluation (eval-safe):
 
 ```bash
-printf -v output '%q ' "$@"    # mk.bash mk.Cue — output is safe to eval
+printf -v output '%q ' "$@"    # output is safe to eval
 ```
 
 **`${var@Q}`** renders a human-readable quoted literal. Used for debug output and test copy-paste lines:
 
 ```bash
-CMD="sudo -u ${RunAsUserX@Q} bash -c ${CMD@Q}"    # task.bash — readable in logs
+CMD="sudo -u ${RunAsUser@Q} bash -c ${CMD@Q}"    # readable in logs
 echo "want=${got@Q}"                                # tests — paste to update expected value
 ```
 
 **`read -r` discipline**: always use `read -r` to avoid backslash interpretation. Prefer `IFS='' read -r` when consuming raw lines (see FP Pipeline Helpers for the canonical pattern).
+
+**Avoid braces in expansion.** `$var`, not `${var}` — braces add noise for no benefit when the variable name is unambiguous. For disambiguation when text follows the name, prefer quotes over braces: `"$var"Suffix` concatenates the quoted expansion with the literal. Use braces when the variable is embedded mid-string and quotes can't delimit it: `"prefix${var}suffix"`.
 
 **Array/positional expansion**: `"${array[@]}"` and `"$@"` preserve element boundaries — each element stays a separate word. `"$*"` joins elements with the first character of IFS (useful for serialization). Unquoted, both `${array[@]}` and `$@` undergo word splitting on IFS, so elements containing newlines get broken apart. Under `set -u`, an empty array needs `${args[@]:-}` as fallback.
 
@@ -151,7 +145,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 - **Command substitution as argument** — a judgment call. `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines, which is sometimes desired: `local arr=( $(listItems) )`.
 - **`trap` command strings** — `trap "$command$NL$(existing)" EXIT`. The string is stored for later eval; must be a single coherent argument.
 - **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines into separate arguments; echo outputs them space-separated, destroying line structure.
-- **External command arguments** — `mkdir -p "$dir"`, `install -m "$mode"`, `ssh-keygen -f "$file"`. Without noglob, unquoted values undergo pathname expansion before the command sees them. Scripts using `set -euo pipefail` without `f` need this; all five projects quote external command args consistently regardless.
+- **External command arguments** — `mkdir -p "$dir"`, `install -m "$mode"`, `ssh-keygen -f "$file"`. Without noglob, unquoted values undergo pathname expansion before the command sees them. Scripts using `set -euo pipefail` without `f` need this; code following these conventions quotes external command args consistently regardless.
 
 **When quoting is unnecessary.** These contexts never split or glob — quoting is harmless but adds no safety:
 
@@ -170,13 +164,13 @@ Bash has dynamic scoping: a function can read and modify variables in its caller
 
 **Mechanism.** When bash resolves a variable name, it walks up the call stack. A callee's `local x` shadows the caller's `x`, but without `local`, the callee accesses the caller's variable directly. This applies to both reads and writes.
 
-**Deliberate use — tesht's subtest counting.** tesht exploits dynamic scoping intentionally. The subtest runner modifies `subtestPassCount` and `subtestFailCount`, which are locals in the calling function:
+**Deliberate use — callback counting.** A test runner can exploit dynamic scoping intentionally. The callback modifies `passCount` and `failCount`, which are locals in the calling function:
 
 ```bash
-subtestPassCount+=1   # in caller's scope
+passCount+=1   # in caller's scope
 ```
 
-The comment `# in caller's scope` documents the intentional cross-scope access. Without this pattern, tesht would need to pass counters through return values or globals.
+The comment `# in caller's scope` documents the intentional cross-scope access. Without this pattern, the runner would need to pass counters through return values or globals.
 
 **Accidental shadowing — the collision risk.** If a callee declares `local x` and the caller also has `local x`, the callee gets its own copy. But if the callee *doesn't* declare `local` and uses `x`, it silently modifies the caller's `x`. This is especially dangerous with namerefs: `local -n REF=$1` — if `$1` is `REF`, the nameref points to itself (circular reference).
 
@@ -207,7 +201,7 @@ Use `()` when a helper needs to `cd` or modify shell state; use `{}` (the defaul
 
 Two patterns coexist.
 
-**`fatal()` with message + optional exit code.** Used in update-env and mk.bash. Default rc is `$?`:
+**`fatal()` with message + optional exit code.** Default rc is `$?`:
 
 ```bash
 fatal() {
@@ -217,22 +211,22 @@ fatal() {
 }
 ```
 
-mk.bash namespaces this as `mk.Fatal` and prints to stderr. Note: `fp.fatal` and update-env's `fatal()` print to stdout, not stderr — only `mk.Fatal` uses stderr.
+Libraries namespace this (e.g., `lib.Fatal`) and typically print to stderr.
 
-**Return code 128 as fatal signal.** Used in tesht. The test framework detects 128 and reports "fatal" distinct from regular failure:
+**Return code 128 as fatal signal.** A test framework can detect 128 and report "fatal" distinct from regular failure:
 
 ```bash
 case $rc in
-  0   ) printf $columns $PassT $duration $testname; subtestPassCount+=1;;
-  128 ) printf $columns $FatalT $duration $YellowT$testname$ResetT;;
-  *   ) printf $columns $FailT $duration $YellowT$testname$ResetT;;
+  0   ) printf $columns $Pass $duration $testname; passCount+=1;;
+  128 ) printf $columns $Fatal $duration $Yellow$testname$Reset;;
+  *   ) printf $columns $Fail $duration $Yellow$testname$Reset;;
 esac
 ```
 
 **RC capture**: `cmd && rc=$? || rc=$?` preserves exit code that `set -e` would otherwise lose. Safe under `set -e` because the `||` makes the overall compound command always succeed; `set -e` only triggers on unchecked failures.
 
 ```bash
-OutputX=$(eval "$CMD" 2>&1) && rc=$? || rc=$?    # task.bash
+output=$(eval "$cmd" 2>&1) && rc=$? || rc=$?
 ```
 
 **`pipefail`**: standard for new scripts. `set -euo pipefail`.
@@ -245,7 +239,7 @@ loosely() {
   "$@"
   set -euo pipefail
 }
-loosely source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+loosely source /etc/profile.d/optional-tool.sh
 ```
 
 ## 9. Dependency Injection
@@ -254,10 +248,10 @@ Assign function names to `PascalCase + suffix` variables. Override in tests:
 
 ```bash
 # production default
-UnixMilliFuncT=tesht.UnixMilli
+TimeFuncQ=UnixMilli
 
 # in test
-UnixMilliFuncT=mockUnixMilli
+TimeFuncQ=mockUnixMilli
 ```
 
 ## 10. Code Organization
@@ -268,9 +262,9 @@ UnixMilliFuncT=mockUnixMilli
 
 **Libraries**: function definitions only, no main call. Consumer scripts call the entry point.
 
-mk.bash consumers follow boilerplate: source → IFS → noglob → set prog/usage → return → HandleOptions → `mk.Main`.
+Library consumers follow boilerplate: source → IFS → noglob → return → entry point.
 
-Standard flags: `-h`/`--help`, `-v`/`--version`, `-x`/`--trace` (`set -x` for debugging). mk.bash HandleOptions provides these.
+Standard flags: `-h`/`--help`, `-v`/`--version`, `-x`/`--trace` (`set -x` for debugging). Libraries typically provide an option handler for these.
 
 ## 11. Comments
 
@@ -279,9 +273,9 @@ Three placements.
 **Function docs** go directly above the definition, no blank line between. Start with the function name:
 
 ```bash
-# tesht.Main runs any test functions in the files given as arguments.
+# lib.Main runs any test functions in the files given as arguments.
 # It outputs success or failure.
-tesht.Main() {
+lib.Main() {
 ```
 
 **Inline comments** explain non-obvious flags, return codes, or surprising behavior:
@@ -304,7 +298,7 @@ local NL=$'\n' # newline works with backgrounding (&) and legal semicolons, semi
 
 ## 12. Testing
 
-tesht conventions.
+Test framework conventions.
 
 **Associative array cases** define test data:
 
@@ -317,25 +311,25 @@ local -A case1=(
 )
 ```
 
-**Unpack with `tesht.Inherit`**. Unset optional fields first so missing keys don't carry over:
+**Unpack with `Inherit`**. Unset optional fields first so missing keys don't carry over:
 
 ```bash
 unset -v ok shortrun prog unchg want wanterr
-eval "$(tesht.Inherit "$casename")"
+eval "$(Inherit "$casename")"
 ```
 
-**Run with `tesht.Run ${!case@}`** — pass all case variables at once:
+**Run with `RunCases ${!case@}`** — pass all case variables at once:
 
 ```bash
-tesht.Run ${!case@}
+RunCases ${!case@}
 ```
 
-`tesht.Run` iterates its arguments internally and returns 1 if any case failed, 128 on fatal. For per-case error handling (e.g., early return on fatal), use a loop:
+`RunCases` iterates its arguments internally and returns 1 if any case failed, 128 on fatal. For per-case error handling (e.g., early return on fatal), use a loop:
 
 ```bash
 local failed=0 casename
 for casename in ${!case@}; do
-  tesht.Run $casename || {
+  RunCases $casename || {
     (( $? == 128 )) && return 128   # fatal
     failed=1
   }
@@ -347,7 +341,7 @@ return $failed
 
 ```bash
 [[ $got == $want ]] || {
-  echo "${NL}cmd: got doesn't match want:$NL$(tesht.Diff "$got" "$want")$NL"
+  echo "${NL}cmd: got doesn't match want:$NL$(Diff "$got" "$want")$NL"
   echo "use this line to update want to match this output:${NL}want=${got@Q}"
   return 1
 }
@@ -356,11 +350,11 @@ return $failed
 **Assertion helpers** — the preferred pattern (replaces the manual version above):
 
 ```bash
-tesht.AssertGot "$got" "$want"
-tesht.AssertRC $rc 0
+AssertGot "$got" "$want"
+AssertRC $rc 0
 ```
 
-`tesht.AssertGot` compares strings, shows a diff and copy-paste update line on mismatch. `tesht.AssertRC` compares return codes. Both return 1 on failure. tesht's own tests and test_examples.bash use these exclusively; older test files (mk_test.bash, task_test.bash) still use the manual pattern.
+`AssertGot` compares strings, shows a diff and copy-paste update line on mismatch. `AssertRC` compares return codes. Both return 1 on failure.
 
 **Subshell `()`** for directory isolation in setup helpers — changes to working directory don't leak:
 
@@ -374,10 +368,10 @@ createCloneRepo() (
 ) >/dev/null
 ```
 
-**`tesht.MktempDir`** with deferred cleanup (cleanup is registered automatically via `tesht.Defer`; see Section 14 for the implementation):
+**`MktempDir`** with deferred cleanup (cleanup is registered automatically via `Defer`; see Section 14 for the implementation):
 
 ```bash
-tesht.MktempDir dir || return 128
+MktempDir dir || return 128
 ```
 
 **AAA structure**: `## arrange`, `## act`, `## assert` comment sections in each subtest.
@@ -386,7 +380,7 @@ tesht.MktempDir dir || return 128
 
 Stdin-based composition: command name as first arg, applied to each line via `eval`. Core trio: `Each` (side effects), `Map` (transform), `KeepIf`/`RemoveIf` (filter). The `eval "$command $arg"` pattern assumes trusted input — callers are responsible for escaping with `printf %q` if values originate from untrusted sources.
 
-The pattern (from update-env):
+The pattern:
 
 ```bash
 each() {
@@ -416,7 +410,7 @@ map() {
 Call site:
 
 ```bash
-each task.Ln <<'  END'
+each Ln <<'  END'
   .config         ~/config
   .local          ~/local
   .ssh            ~/ssh
@@ -424,11 +418,11 @@ each task.Ln <<'  END'
 END
 ```
 
-Inline versions exist in update-env (`each`, `map`, `keepIf`) and mk.bash (`mk.Each`, `mk.Map`, `mk.KeepIf`). `fp.bash` (`~/projects/fp.bash/`, v0.2) consolidates these as `fp.Each`, `fp.Map`, etc. The update-env versions are the inline originals; fp.bash is the canonical consolidated version. mk.bash's versions predate the `IFS=''` convention and differ in style (lowercase locals in Map, unquoted echo in KeepIf). fp.bash also adds `return 0` to `fp.Each` and `fp.KeepIf` to prevent error propagation from the last `eval` iteration — the update-env inline versions don't.
+Inline versions are common in standalone scripts; a shared library consolidates them with `return 0` guards to prevent error propagation from the last iteration.
 
 ## 14. Trap Handling
 
-EXIT traps only — no projects use ERR, DEBUG, RETURN, or signal handlers.
+EXIT traps only — ERR, DEBUG, RETURN, and signal handlers are not used.
 
 **Two patterns coexist**: single assignment (scripts) and stacked (libraries).
 
@@ -439,29 +433,29 @@ dir=$(mktemp -d)
 trap "rm -rf $dir" EXIT
 ```
 
-Direct `trap "..." EXIT` overwrites any previous handler. Safe when the function or script owns its entire trap lifecycle. Used in update-env and task.bash tests.
+Direct `trap "..." EXIT` overwrites any previous handler. Safe when the function or script owns its entire trap lifecycle.
 
 **Stacked/deferred** — libraries that must not overwrite the caller's trap:
 
 ```bash
-tesht.Defer() {
+Defer() {
   local command=$1
   local NL=$'\n'
-  trap "$command$NL$(tesht.existingDeferlist)" EXIT
+  trap "$command$NL$(existingDeferlist)" EXIT
 }
 ```
 
-New handlers prepend to the existing chain. `tesht.existingDeferlist` extracts the current handler via `trap -p EXIT` and strips the wrapper syntax. Commands execute in FIFO order. Use newlines (not semicolons) as separators — semicolons interact poorly with backgrounding (`&`).
+New handlers prepend to the existing chain. `existingDeferlist` extracts the current handler via `trap -p EXIT` and strips the wrapper syntax. Commands execute in FIFO order. Use newlines (not semicolons) as separators — semicolons interact poorly with backgrounding (`&`).
 
-**Temp directory cleanup** — the canonical pattern (from tesht):
+**Temp directory cleanup** — the canonical pattern:
 
 ```bash
-tesht.MktempDir() {
+MktempDir() {
   local -n DIR=$1
-  DIR=$(mktemp -d /tmp/tesht.XXXXXX) || { echo 'could not create temporary directory'; return 1; }
+  DIR=$(mktemp -d /tmp/bash.XXXXXX) || { echo 'could not create temporary directory'; return 1; }
   [[ $DIR == /*/* ]] || { echo 'temporary directory does not comply with naming requirements'; return 1; }
   [[ -d $DIR ]] || { echo 'temporary directory was made but does not exist now'; return 1; }
-  tesht.Defer "rm -rf $DIR"
+  Defer "rm -rf $DIR"
 }
 ```
 
@@ -530,9 +524,9 @@ command | while read -r line; do count+=1; done
 echo $count   # still 0 — the while loop ran in a subshell
 ```
 
-**Mitigation:** use process substitution instead: `while read -r line; do count+=1; done < <(command)`. This runs the loop in the current shell while the command runs in the subshell. All five projects avoid piping into loops.
+**Mitigation:** use process substitution instead: `while read -r line; do count+=1; done < <(command)`. This runs the loop in the current shell while the command runs in the subshell. Code following these conventions avoids piping into loops.
 
-**7. `loosely()` hardcoded restore.** The `loosely()` wrapper in update-env does `set +euo pipefail` then `set -euo pipefail` after the command. It doesn't capture the previous shell options — it assumes the caller always uses `-euo pipefail`:
+**7. `loosely()` hardcoded restore.** The `loosely()` wrapper does `set +euo pipefail` then `set -euo pipefail` after the command. It doesn't capture the previous shell options — it assumes the caller always uses `-euo pipefail`:
 
 ```bash
 set -eu              # no pipefail yet
