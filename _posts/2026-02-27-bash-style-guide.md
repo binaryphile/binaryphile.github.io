@@ -1,15 +1,6 @@
----
-layout: post
-title: "Bash Style Guide"
-date: 2026-02-27
-categories: software-engineering
-tags: [bash, shell, style-guide]
-excerpt: "Conventions derived from five bash projects — naming, error handling, quoting, pipelines. Prescriptive for new code."
----
+# Bash Style Guide
 
-`deferlist_` has a trailing underscore. `DebugM` ends with a capital M. `local -n RESULT` is all caps. None of this is accidental.
-
-Five bash projects share naming, quoting, error handling, and pipeline conventions that evolved over years — and were never written down in one place. This is the reference, derived from the code.
+Conventions derived from task.bash, tesht, mk.bash, fp.bash, and update-env. Prescriptive for new code; existing variations noted as context.
 
 **Historical divergences**: Some older files (mk.bash, task.bash) predate certain conventions in this guide. Where current code diverges from the documented standard, the guide describes the target convention, not the legacy behavior.
 
@@ -140,11 +131,21 @@ echo "want=${got@Q}"                                # tests — paste to update 
 
 **Array/positional expansion**: `"${array[@]}"` and `"$@"` preserve element boundaries — each element stays a separate word. `"$*"` joins elements with the first character of IFS (useful for serialization). Unquoted, both `${array[@]}` and `$@` undergo word splitting on IFS, so elements containing newlines get broken apart. Under `set -u`, an empty array needs `${args[@]:-}` as fallback.
 
+**Quoting decision tree.** Walk this algorithm for any expansion you're unsure about:
+
+1. **No-split context?** Assignment RHS, `[[ ]]` (except RHS of `==` and `=~`), `(( ))`, `case`, array subscripts, `${...}` operators, redirections, here-strings — quoting is unnecessary. These contexts never split or glob regardless of IFS/noglob settings.
+2. **`_`-suffixed variable?** Contains IFS characters (newlines). Must quote in non-assignment contexts: `echo "$Usage_"`, `eval "$testSource_"`.
+3. **Required-quoting context?** Array expansion (`"${arr[@]}"`), RHS of `==` in `[[` (for literal match), `eval` arguments, `trap` strings, external command arguments, process substitution with multi-line content — must quote. See the full list below.
+4. **Otherwise** — safe unquoted under `IFS=$'\n'; set -o noglob`. The variable has no `_` suffix (newline-free by convention), and the context is a shell builtin or function call with scalar arguments.
+
+**Why not quote everything?** Under IFS+noglob, selective quoting signals intent. Quotes mean "this value needs protection" — either it contains IFS characters, or the context demands exact word boundaries. Quoting every expansion adds noise without adding safety, and obscures which values actually require care. When a reviewer sees quotes, they should be able to trust that those quotes are there for a reason.
+
 **When to quote.** Under `IFS=$'\n'; set -o noglob`, most scalar expansions are safe unquoted. Quotes are required in these contexts:
 
 - **Trust boundaries and the `_` suffix** — assigning a parameter to a non-`_` variable documents that it won't contain IFS characters: `local command=$1` means "I expect single-line input." If a parameter may contain newlines, assign to a `_`-suffixed variable and quote from there.
 - **`"${array[@]}"` / `"$@"` / `"$*"`** — quote to preserve element boundaries (see above). Unquote only when IFS splitting is intentional (e.g., populating arrays from command output: `local arr=( $(command) )`).
 - **RHS of `==` in `[[`** — `[[ $x == "$y" ]]` for literal match. Unquoted RHS is a glob pattern: `*`, `?`, `[` become wildcards. Leave unquoted for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
+- **RHS of `=~` in `[[`** — quoting disables regex metacharacter interpretation in bash 3.2+ (`.` becomes literal dot, `*` loses repetition meaning), though the regex engine is still in use. Leave unquoted for regex matching (the common case): `[[ $x =~ ^[0-9]+$ ]]`. For complex patterns, store in a variable: `local pattern='^[0-9]+$'; [[ $x =~ $pattern ]]`.
 - **`_`-suffixed variables** in non-assignment contexts — contain IFS characters (newlines), must quote: `eval "$testSource_"`, `echo "$Usage_"`.
 - **`eval` arguments** — `eval "$CMD"`. Without quotes, newlines become argument separators; `eval` joins arguments with spaces, changing multi-line code semantics.
 - **Command substitution as argument** — a judgment call. `func "$(command)"` when the result should be a single word. Unquoted `$(command)` splits on newlines, which is sometimes desired: `local arr=( $(listItems) )`.
@@ -155,7 +156,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 **When quoting is unnecessary.** These contexts never split or glob — quoting is harmless but adds no safety:
 
 - **Assignment RHS** — `local var=$value`, `var=$(command)`, `var=${1:-default}`. Bash assigns the full expansion without splitting.
-- **`[[ ]]` operands** (except RHS of `==`) — `[[ -e $file ]]`, `[[ $var == pattern ]]` (LHS). The conditional command suppresses splitting.
+- **`[[ ]]` operands** (except RHS of `==` and `=~`) — `[[ -e $file ]]`, `[[ $var == pattern ]]` (LHS). The conditional command suppresses splitting.
 - **`(( ))` arithmetic** — `(( rc == 0 ))`, `(( ${#array[@]} ))`. Arithmetic context, not string context.
 - **`case` word** — `case $var in`. No splitting.
 - **Array subscripts** — `${map[$key]}`, `array[$idx]=val`. Inside brackets, no splitting.
@@ -163,13 +164,46 @@ echo "want=${got@Q}"                                # tests — paste to update 
 - **Redirection targets** — `>$file`, `<$file`, `<<<$var`. Bash takes the single word.
 - **Scalar command arguments** — `func $simplevar`, `printf $fmt $val`. No word-splitting surprises for newline-free values under `IFS=$'\n'; set -o noglob`. This is the default assumption for variables without the `_` suffix. Note: commands still interpret values (printf parses its format string) — quoting controls splitting, not command semantics.
 
-## 6. Conditionals
+## 6. Variable Scoping
+
+Bash has dynamic scoping: a function can read and modify variables in its caller's scope, even `local` variables. This is the opposite of lexical scoping (C, Python, Go) where a function can only see its own locals and globals.
+
+**Mechanism.** When bash resolves a variable name, it walks up the call stack. A callee's `local x` shadows the caller's `x`, but without `local`, the callee accesses the caller's variable directly. This applies to both reads and writes.
+
+**Deliberate use — tesht's subtest counting.** tesht exploits dynamic scoping intentionally. The subtest runner modifies `subtestPassCount` and `subtestFailCount`, which are locals in the calling function:
+
+```bash
+subtestPassCount+=1   # in caller's scope
+```
+
+The comment `# in caller's scope` documents the intentional cross-scope access. Without this pattern, tesht would need to pass counters through return values or globals.
+
+**Accidental shadowing — the collision risk.** If a callee declares `local x` and the caller also has `local x`, the callee gets its own copy. But if the callee *doesn't* declare `local` and uses `x`, it silently modifies the caller's `x`. This is especially dangerous with namerefs: `local -n REF=$1` — if `$1` is `REF`, the nameref points to itself (circular reference).
+
+**Defenses:**
+
+- **Naming conventions** are the primary protection. `camelCase` locals and `PascalCase + suffix` globals occupy separate namespaces. Two callees in the same chain are unlikely to collide if they follow conventions.
+- **UPPERCASE namerefs** (`local -n ARRAY=$1`) borrow the environment variable namespace, which never collides with `camelCase` locals in the caller.
+- **Subshell `()` function bodies** provide hard isolation when dynamic scoping is unwanted. Changes to variables, working directory, and shell options are discarded when the subshell exits:
+
+```bash
+createCloneRepo() (     # () not {} — subshell isolates side effects
+  git init clone
+  cd clone              # doesn't affect caller's pwd
+  echo hello >hello.txt
+  git add hello.txt && git commit -m init
+) >/dev/null
+```
+
+Use `()` when a helper needs to `cd` or modify shell state; use `{}` (the default) when the caller needs to see the function's side effects.
+
+## 7. Conditionals
 
 `[[` exclusively. `[[` is bash's compound command with pattern matching, no word splitting, and `&&`/`||` inside.
 
 **`(( ))` for arithmetic and booleans.** Boolean flags are 0/1 integers tested bare: `(( failed )) && return 1`, `(( hasSubtests )) && echo ...`. Numeric variables use explicit comparison: `(( rc == 0 ))`, `(( pid != 0 ))`. Arithmetic expansion: `$(( endTime - startTime ))`.
 
-## 7. Error Handling
+## 8. Error Handling
 
 Two patterns coexist.
 
@@ -214,7 +248,7 @@ loosely() {
 loosely source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 ```
 
-## 8. Dependency Injection
+## 9. Dependency Injection
 
 Assign function names to `PascalCase + suffix` variables. Override in tests:
 
@@ -226,7 +260,7 @@ UnixMilliFuncT=tesht.UnixMilli
 UnixMilliFuncT=mockUnixMilli
 ```
 
-## 9. Code Organization
+## 10. Code Organization
 
 **Cuddling**: group related lines together, separate concepts with blank lines. One concept per group — similar to golangci-lint's wsl rules.
 
@@ -238,7 +272,7 @@ mk.bash consumers follow boilerplate: source → IFS → noglob → set prog/usa
 
 Standard flags: `-h`/`--help`, `-v`/`--version`, `-x`/`--trace` (`set -x` for debugging). mk.bash HandleOptions provides these.
 
-## 10. Comments
+## 11. Comments
 
 Three placements.
 
@@ -268,7 +302,7 @@ local NL=$'\n' # newline works with backgrounding (&) and legal semicolons, semi
 ## logging             ← major section
 ```
 
-## 11. Testing
+## 12. Testing
 
 tesht conventions.
 
@@ -340,7 +374,7 @@ createCloneRepo() (
 ) >/dev/null
 ```
 
-**`tesht.MktempDir`** with deferred cleanup (cleanup is registered automatically via `tesht.Defer`; see Section 13 for the implementation):
+**`tesht.MktempDir`** with deferred cleanup (cleanup is registered automatically via `tesht.Defer`; see Section 14 for the implementation):
 
 ```bash
 tesht.MktempDir dir || return 128
@@ -348,7 +382,7 @@ tesht.MktempDir dir || return 128
 
 **AAA structure**: `## arrange`, `## act`, `## assert` comment sections in each subtest.
 
-## 12. FP Pipeline Helpers
+## 13. FP Pipeline Helpers
 
 Stdin-based composition: command name as first arg, applied to each line via `eval`. Core trio: `Each` (side effects), `Map` (transform), `KeepIf`/`RemoveIf` (filter). The `eval "$command $arg"` pattern assumes trusted input — callers are responsible for escaping with `printf %q` if values originate from untrusted sources.
 
@@ -392,7 +426,7 @@ END
 
 Inline versions exist in update-env (`each`, `map`, `keepIf`) and mk.bash (`mk.Each`, `mk.Map`, `mk.KeepIf`). `fp.bash` (`~/projects/fp.bash/`, v0.2) consolidates these as `fp.Each`, `fp.Map`, etc. The update-env versions are the inline originals; fp.bash is the canonical consolidated version. mk.bash's versions predate the `IFS=''` convention and differ in style (lowercase locals in Map, unquoted echo in KeepIf). fp.bash also adds `return 0` to `fp.Each` and `fp.KeepIf` to prevent error propagation from the last `eval` iteration — the update-env inline versions don't.
 
-## 13. Trap Handling
+## 14. Trap Handling
 
 EXIT traps only — no projects use ERR, DEBUG, RETURN, or signal handlers.
 
@@ -425,13 +459,95 @@ New handlers prepend to the existing chain. `tesht.existingDeferlist` extracts t
 tesht.MktempDir() {
   local -n DIR=$1
   DIR=$(mktemp -d /tmp/tesht.XXXXXX) || { echo 'could not create temporary directory'; return 1; }
-
   [[ $DIR == /*/* ]] || { echo 'temporary directory does not comply with naming requirements'; return 1; }
-
   [[ -d $DIR ]] || { echo 'temporary directory was made but does not exist now'; return 1; }
-
   tesht.Defer "rm -rf $DIR"
 }
 ```
 
 Validates the path before registering cleanup. The `/*/* ` guard prevents `rm -rf /` if `mktemp` returns something unexpected.
+
+## 15. Risks and Limitations
+
+`IFS=$'\n'` + noglob + naming conventions eliminate most bash footguns, but not all. Each risk below describes the bash mechanism, how it bites, and the mitigation.
+
+**1. Dynamic scoping collision.** A callee that omits `local` silently modifies the caller's variable. A nameref whose name matches its target creates a circular reference:
+
+```bash
+outer() { local x=before; inner; echo $x; }   # prints "after" — inner modified outer's x
+inner() { x=after; }                           # no local — writes to caller's scope
+
+wrapper() { local -n REF=$1; REF=value; }
+wrapper REF   # circular reference — bash emits "circular name reference" error
+```
+
+**Mitigation:** follow naming conventions (Section 3) — `camelCase` locals, `UPPERCASE` namerefs. Document intentional cross-scope access with `# in caller's scope`. See Section 6 for the full explanation.
+
+**2. Eval injection.** The FP helpers execute `eval "$command $arg"` where `$arg` is a line from stdin. If `arg` contains shell metacharacters, they execute as code:
+
+```bash
+echo '; rm -rf /tmp/important' | each processLine   # eval runs: processLine ; rm -rf /tmp/important
+```
+
+**Mitigation:** only pass trusted input through FP pipelines. For untrusted values, escape with `printf -v safe '%q' "$untrusted"` before piping. The trust boundary is the `eval` call — everything reaching it must be safe to execute as shell words.
+
+**3. `[[` RHS pattern matching.** In `[[ $x == $y ]]`, the unquoted RHS is a glob pattern — `*`, `?`, and `[` are wildcards. This is independent of `set -o noglob`, which only affects pathname expansion in command arguments. `[[` has its own pattern-matching rules:
+
+```bash
+want='file[1]'
+[[ 'file[1]' == $want ]]    # false — [1] is a character class matching the single character 1
+[[ 'file[1]' == "$want" ]]  # true — literal comparison
+```
+
+**Mitigation:** quote the RHS for literal comparison: `[[ $x == "$y" ]]`. Leave unquoted only for intentional pattern matching: `[[ $OSTYPE == darwin* ]]`.
+
+**4. Trailing newline stripping.** Command substitution `$(command)` always strips trailing newlines from the output. This is a POSIX requirement, not a bash quirk:
+
+```bash
+output=$(printf 'hello\n\n')   # output is "hello" — both trailing newlines stripped
+content=$(cat "$file")          # file's trailing newline(s) silently lost
+```
+
+**Mitigation:** if trailing newlines matter, append a sentinel and strip it: `output=$(command; echo x); output=${output%x}`. In practice, this rarely matters — most values are single-line identifiers or paths.
+
+**5. `set -e` propagation.** In bash versions before 4.4, `set -e` does not propagate into command substitutions `$(...)`, so failures inside are silently swallowed. Bash 4.4 introduced `shopt -s inherit_errexit` to fix this, but it is **off by default** — you must enable it explicitly. Even with `inherit_errexit`, compound commands inside `$(...)` can still behave unexpectedly. Process substitutions `<(...)` never inherit `set -e` in any version:
+
+```bash
+set -e
+result=$(false; echo "still runs")    # "still runs" executes — errexit not inherited without inherit_errexit
+while read -r line; do
+  process "$line"
+done < <(failing_command)              # failure undetected — process substitution ignores set -e
+```
+
+**Mitigation:** don't rely on `set -e` inside command substitutions. Use explicit RC capture: `result=$(command) && rc=$? || rc=$?`. For critical operations, check `$?` after every command substitution. Alternatively, add `shopt -s inherit_errexit` to the preamble (bash 4.4+) to propagate `set -e` into command substitutions — but process substitutions remain unaffected.
+
+**6. Pipeline subshell variable loss.** Each stage of a pipeline runs in a subshell. Variables modified inside a pipeline stage are lost when it exits:
+
+```bash
+count=0
+command | while read -r line; do count+=1; done
+echo $count   # still 0 — the while loop ran in a subshell
+```
+
+**Mitigation:** use process substitution instead: `while read -r line; do count+=1; done < <(command)`. This runs the loop in the current shell while the command runs in the subshell. All five projects avoid piping into loops.
+
+**7. `loosely()` hardcoded restore.** The `loosely()` wrapper in update-env does `set +euo pipefail` then `set -euo pipefail` after the command. It doesn't capture the previous shell options — it assumes the caller always uses `-euo pipefail`:
+
+```bash
+set -eu              # no pipefail yet
+loosely source lib   # sets +euo pipefail, then -euo pipefail
+# now pipefail is ON even though caller never set it
+```
+
+**Mitigation:** `loosely()` is safe only after `set -euo pipefail` is set. For library code that needs to temporarily relax options, save and restore with `set +o`:
+
+```bash
+local prevOpts
+prevOpts=$(set +o)        # captures restore commands for all options
+set +eu; set +o pipefail
+command
+eval "$prevOpts"           # restores exact previous state
+```
+
+`set +o` outputs `set -o`/`set +o` commands that reproduce the current option state. This handles all options including `pipefail` without fragile string matching.
