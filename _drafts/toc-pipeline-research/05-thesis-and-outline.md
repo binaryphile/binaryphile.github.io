@@ -28,7 +28,7 @@ But the OOM kept happening. Because the OOM wasn't a throughput problem. It was 
 
 The throughput constraint cost us time -- slow indexing. The memory constraint cost us everything -- zero goodput. OOM kills the process. No output at all. You can live with a slow throughput constraint. You can't live with a constraint that kills the process.
 
-Worse: the OOM wasn't visible for a long time. Test runs on the large repo were expensive, so we killed them early to save time. The OOM only manifested in runs we rarely let complete. The greater constraint was invisible in two ways -- no instrumentation on the failing phase, AND the symptom only appeared in runs too expensive to finish routinely.
+Worse: the OOM wasn't visible for a long time. We had an obvious, visible performance problem (embed throughput) that demanded attention first. The process looked like it couldn't finish because it was too slow -- why look at the completion of a process that takes too long to reach the end? We killed test runs early because they were expensive, and focused on the speed problem in front of us. The OOM only manifested when the process ran long enough to reach the phase where memory spiked. The greater constraint was hidden behind the lesser one.
 
 That's what incomplete Step 1 costs you: not wasted effort, but blindness to the greater constraint. We were optimizing for speed while the system couldn't even finish.
 
