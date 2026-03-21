@@ -26,7 +26,9 @@ We did real, valuable work on the throughput constraint. Worktree walk (avoid pa
 
 But the OOM kept happening. Because the OOM wasn't a throughput problem. It was a memory problem in a phase we hadn't instrumented (HNSW finalize). We were improving throughput under partial observability -- unable to see the constraint that was actually killing the process.
 
-The cost: every hour spent on throughput improvements while blind to the memory constraint was time NOT spent on the thing that was crashing the system. The throughput work had value, but we couldn't see that a different constraint needed attention first. That's what incomplete Step 1 costs you -- not wasted effort, but delayed diagnosis of the constraint that matters most.
+The throughput constraint cost us time -- slow indexing. The memory constraint cost us everything -- zero goodput. OOM kills the process. No output at all. You can live with a slow throughput constraint. You can't live with a constraint that kills the process.
+
+That's what incomplete Step 1 costs you: not wasted effort, but blindness to the greater constraint. We were optimizing for speed while the system couldn't even finish.
 
 ### 3. DBR in 60 Seconds
 
