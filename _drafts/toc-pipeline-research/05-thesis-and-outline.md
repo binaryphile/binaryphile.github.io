@@ -28,6 +28,8 @@ But the OOM kept happening. Because the OOM wasn't a throughput problem. It was 
 
 The throughput constraint cost us time -- slow indexing. The memory constraint cost us everything -- zero goodput. OOM kills the process. No output at all. You can live with a slow throughput constraint. You can't live with a constraint that kills the process.
 
+Worse: the OOM wasn't visible for a long time. Test runs on the large repo were expensive, so we killed them early to save time. The OOM only manifested in runs we rarely let complete. The greater constraint was invisible in two ways -- no instrumentation on the failing phase, AND the symptom only appeared in runs too expensive to finish routinely.
+
 That's what incomplete Step 1 costs you: not wasted effort, but blindness to the greater constraint. We were optimizing for speed while the system couldn't even finish.
 
 ### 3. DBR in 60 Seconds
