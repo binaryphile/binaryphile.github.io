@@ -4,9 +4,9 @@
 
 Goldratt's Five Focusing Steps are ordered for a reason. Step 1 (identify the constraint) is cheap -- add instrumentation. Steps 2-4 (exploit, subordinate, elevate) are expensive -- engineering changes, architecture decisions, dependency upgrades. If you get Step 1 wrong, you pay Steps 2-4 prices on the wrong target.
 
-We got Step 1 wrong. We skimped on instrumentation because it looked like over-engineering. We spent weeks optimizing a non-constraint. When we finally instrumented every concurrent station, the real constraint was obvious in the first 2-second stats interval. We stopped wasting time. The constraint moved after elevation, and the same instrumentation caught that too. The same control policy now adapts to any machine -- from an 8GB Chromebook to a 256GB server -- without per-machine tuning.
+We did Step 1 incompletely. We identified the throughput constraint correctly (embed) and improved goodput significantly. But we hadn't instrumented the phase that was killing the process (HNSW finalize), so we couldn't see the constraint that caused the OOM. When we finally instrumented every concurrent station, the active constraint was obvious in the first 2-second stats interval. After elevation, the constraint moved to memory, and the same instrumentation caught that too.
 
-Step 1 is the cheapest step that gates the most expensive ones. This is the story of what happened when we skimped on it, and what changed when we didn't.
+The leverage in Goldratt's process comes from Step 1: if you identify the constraint under partial observability, you can improve throughput on one dimension while being blind to the constraint that's actually killing your system. This is the story of what that cost us, and how full instrumentation changed the game.
 
 ## Structure
 
@@ -20,13 +20,13 @@ Define upfront: System = document ingestion through chunking, embedding, persist
 
 The kicker: the failing phase -- HNSW graph finalization -- had no instrumentation. It ran in a goroutine after the "pipeline" was done. We didn't know what killed us because we hadn't instrumented it. We'd been told instrumenting it was over-engineering.
 
-### 2. The Price of Skipping Step 1
+### 2. The Price of Incomplete Step 1
 
-Before we instrumented: we assumed walk (git tree iteration) was the bottleneck. It's I/O-heavy, it touched every file, it looked slow. We spent engineering time on worktree walk (avoid packfile decode), PathFilter (reduce file count), gen-filter (analyze git history to select files). All Steps 2-4 work. All applied to a non-constraint.
+We did real, valuable work on the throughput constraint. Worktree walk (avoid packfile decode), PathFilter (reduce file count), gen-filter (analyze git history to select relevant files), batch embedding, ORT backend -- all improved goodput. These were correct Steps 2-4 applied to a real throughput constraint (embed).
 
-None of it fixed the OOM. Because the OOM wasn't in walk. It was in HNSW finalize -- a phase we hadn't instrumented.
+But the OOM kept happening. Because the OOM wasn't a throughput problem. It was a memory problem in a phase we hadn't instrumented (HNSW finalize). We were improving throughput under partial observability -- unable to see the constraint that was actually killing the process.
 
-This is what happens when you skip Step 1: you pay Steps 2-4 prices on the wrong target. The Five Focusing Steps are ordered because Step 1 is cheap (instrument) and Steps 2-4 are expensive (engineer). Getting Step 1 wrong wastes the entire engineering budget that follows.
+The cost: every hour spent on throughput improvements while blind to the memory constraint was time NOT spent on the thing that was crashing the system. The throughput work had value, but we couldn't see that a different constraint needed attention first. That's what incomplete Step 1 costs you -- not wasted effort, but delayed diagnosis of the constraint that matters most.
 
 ### 3. DBR in 60 Seconds
 
