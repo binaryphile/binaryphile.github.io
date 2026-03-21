@@ -2,9 +2,11 @@
 
 ## Thesis
 
-A code indexer that worked on a Chromebook broke when we added parallelism. Goldratt's Theory of Constraints gave us a way to get parallelism AND stability back: instrument every concurrent station, identify the constraint, size the rope to it. The constraint moved twice -- from CPU to memory -- and the model handled both transitions without modification. The result: one control policy selects machine-specific operating points -- from an 8GB Chromebook to a 256GB server -- without per-machine tuning.
+Goldratt's Five Focusing Steps are ordered for a reason. Step 1 (identify the constraint) is cheap -- add instrumentation. Steps 2-4 (exploit, subordinate, elevate) are expensive -- engineering changes, architecture decisions, dependency upgrades. If you get Step 1 wrong, you pay Steps 2-4 prices on the wrong target.
 
-The contribution is not the theory (Goldratt, 1992). It's the concrete, instrumented translation into a Go pipeline, the discovery that the constraint moved after elevation, and the full-circle return to working on the original hardware.
+We got Step 1 wrong. We skimped on instrumentation because it looked like over-engineering. We spent weeks optimizing a non-constraint. When we finally instrumented every concurrent station, the real constraint was obvious in the first 2-second stats interval. We stopped wasting time. The constraint moved after elevation, and the same instrumentation caught that too. The same control policy now adapts to any machine -- from an 8GB Chromebook to a 256GB server -- without per-machine tuning.
+
+Step 1 is the cheapest step that gates the most expensive ones. This is the story of what happened when we skimped on it, and what changed when we didn't.
 
 ## Narrative Arc
 
