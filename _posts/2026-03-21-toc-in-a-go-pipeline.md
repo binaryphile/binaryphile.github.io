@@ -207,6 +207,8 @@ RSS over time (sampled every 2s, averaged per 5-minute window):
 | Finalization | 57-60m | 1.9-2.2GB |
 | Completion | 60m | Clean exit |
 
+## The Transient Spike
+
 The spike to 5.4GB is notable and reproducible (observed at the same magnitude in two independent runs). A diagnostic run with `GODEBUG=gctrace=1` showed a correlated Go heap burst:
 
 ```
