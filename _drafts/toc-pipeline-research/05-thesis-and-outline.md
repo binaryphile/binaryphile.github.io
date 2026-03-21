@@ -2,7 +2,7 @@
 
 ## Thesis
 
-A code indexer that worked on a Chromebook broke when we added parallelism. Goldratt's Theory of Constraints gave us a way to get parallelism AND stability back: instrument every concurrent station, identify the constraint, size the rope to it. The constraint moved twice -- from CPU to memory -- and the model handled both transitions without modification. The result: the same binary produces optimal goodput on the Chromebook and on a server, without configuration, because the rope adjusts to whichever constraint is active on that machine.
+A code indexer that worked on a Chromebook broke when we added parallelism. Goldratt's Theory of Constraints gave us a way to get parallelism AND stability back: instrument every concurrent station, identify the constraint, size the rope to it. The constraint moved twice -- from CPU to memory -- and the model handled both transitions without modification. The result: one control policy selects machine-specific operating points -- from an 8GB Chromebook to a 256GB server -- without per-machine tuning.
 
 The contribution is not the theory (Goldratt, 1992). It's the concrete, instrumented translation into a Go pipeline, the discovery that the constraint moved after elevation, and the full-circle return to working on the original hardware.
 
@@ -85,14 +85,33 @@ The indexer that worked, then broke, now works again -- with the throughput it g
 
 7. **One binary, any machine.** The constraint-aware rope adapts to local capacity at startup. Not "degraded mode" on small machines -- the optimal mode for that machine.
 
-## Sections (refined from outline, informed by artifacts)
+## Sections (final structure)
 
-1. **It Worked, Then It Didn't** -- full-circle hook. Chromebook -> fast -> broken -> fixed.
-2. **DBR in 60 Seconds** -- Herbie, drum, buffer, rope. Rope implies drum. One paragraph on where the analogy is partial.
-3. **The Shop Floor** -- 3 pipelines, the stats dashboard, reading it like a factory floor.
-4. **Finding the Drum** -- Five Focusing Steps, concretely. Each step has a commit, a measurement, and a decision.
-5. **When the Constraint Moved** -- elevation -> OOM -> inertia -> reapply the steps. The embarrassing part.
-6. **Same Binary, Any Machine** -- the payoff. Chromebook vs server. Data table. Not "optimal" -- "adaptive and robust."
-7. **What We Got Wrong** -- buffer/rope confusion, "second dimension" mistake, inertia. The corrections ARE the story.
-8. **The Ecosystem** -- honest survey. Reactive Streams, OpenTelemetry, bradenaw, Kanban. Where we fit without overclaiming.
-9. **What's Next** -- hypotheses, not results. Buffer penetration, adaptive rope, PID control.
+1. **It Worked, Then It Didn't** -- full-circle hook. Chromebook -> fast -> broken -> fixed. Define system goal: maximize stable completed embeddings per hour on fixed hardware. Goodput = successful items/hr excluding crashes.
+
+2. **DBR in 60 Seconds** -- Herbie, drum, buffer, rope. Rope implies drum (backpressure without constraint identification is just "the queue is full"). One paragraph on where the analogy is partial (fan-out/fan-in, cache effects, variable work sizes).
+
+3. **The Shop Floor and the Five Steps** -- merged Acts 4+5. Instrumentation AND application together, not separated. Three pipelines, stats dashboard, then immediately: identify (embed 100%), exploit (batching, workers), subordinate (rope), elevate (ORT). Each step has a commit SHA, a measurement, and a decision. Concrete, not expository.
+
+4. **When the Constraint Moved** -- elevation -> OOM symptom -> inertia (we kept optimizing the old drum) -> external review caught it -> reapply 5FS to memory. OOM is symptom, not constraint. The constraint is safe resident memory. Policy vs physical distinction.
+
+5. **The Control Law** -- THE A-MAKER SECTION. Pseudocode for the drum/rope decision. `E = min(cpuMax, memMax)`. ThrottleWeighted enforcement. Two-machine results table. What it is (startup release policy) and what it isn't (runtime re-identification, proof of optimality). This is the section that makes a Go developer able to implement it and a TOC reader able to verify it.
+
+6. **What We Got Wrong** -- buffer/rope confusion, "second dimension" mistake, inertia. These corrections ARE the story and the credibility. Compress.
+
+7. **Where We Fit** -- honest survey. Reactive Streams, OTel, bradenaw, Kanban. Where the vocabulary differs (rope implies drum). What we couldn't find (stage-level constraint stats in Go). Not overclaiming.
+
+8. **What's Next** -- hypotheses, not results. Buffer penetration, adaptive rope, dynamic re-identification. One paragraph each.
+
+## Dropped from insights list per review
+
+- ~~gen-filter is Step 4 applied to input~~ (retrofitted, forced)
+- ~~External review catches inertia~~ (demoted to methodological note in section 6)
+
+## Key insights (revised, 5 not 7)
+
+1. **Instrument first, optimize second.** We optimized the wrong station because the failing station had no telemetry.
+2. **The constraint can move (Step 5 is not decorative).** After elevation, a different resource becomes the limiter. Show it with data.
+3. **Rope implies drum.** Without constraint identification, backpressure is arbitrary. With the drum, the rope is intentional.
+4. **The library grew from constraints.** Bottom-up extraction, visible in commit history.
+5. **One policy, machine-specific operating points.** The control law adapts to local capacity.
