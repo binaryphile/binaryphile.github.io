@@ -112,6 +112,11 @@ documents what the expression computes. The outer expression reads in terms of a
 word instead of a computation.
 
 Both rules work at the smallest scale: one line, one expression. You can check
-them in review without understanding what the program does. They came from an
-itch. Certain lines have always struck me as harder to read than they should be,
-given how little they do. These rules are the closest I've come to saying why.
+them in review without understanding what the program does. As far as I can
+tell, no existing linter enforces either rule. Tools like `nestif`, `gocognit`,
+and ESLint's `max-depth` check control-flow nesting — `if` inside `if` inside
+`if`. None check expression-level delimiter depth or mixed comma membership.
+
+They came from an itch. Certain lines have always struck me as harder to read
+than they should be, given how little they do. These rules are the closest I've
+come to saying why.
