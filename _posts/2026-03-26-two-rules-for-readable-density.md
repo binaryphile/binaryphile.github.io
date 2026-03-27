@@ -94,7 +94,8 @@ parts = append(parts, formatted)
 ```
 
 One extraction and both rules are satisfied. The remaining lines are still
-dense — but neither nests past two, and every comma belongs to one call.
+dense — but neither nests past two, and every comma belongs to one call. Judge
+their legibility for yourself.
 
 The fix is always the same: extract to a named variable. Naming the variable
 documents what the expression computes. The outer expression reads in terms of a
