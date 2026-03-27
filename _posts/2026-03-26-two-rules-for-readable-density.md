@@ -6,7 +6,8 @@ category: development
 
 Most readability advice resists mechanical checking. "Use good names." "Keep
 functions short." You need the whole function, maybe the whole module, to
-evaluate those. These two rules you can check by reading a single line.
+evaluate those. These two rules you can check by reading a single line. The
+examples are in Go, but the rules apply to any language with nested expressions.
 
 ## The uniform comma rule
 
