@@ -80,7 +80,7 @@ value := outer(middle(inner()))
 No commas. Three opens before the first close. Only the shallow nesting rule
 flags this.
 
-Most real offenders trip both:
+Some real offenders trip both:
 
 ```go
 parts = append(parts, strconv.FormatFloat(math.Abs(val), 'f', 2, 64))
