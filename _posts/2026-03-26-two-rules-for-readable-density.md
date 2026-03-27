@@ -48,15 +48,15 @@ No more than two opening delimiters — parentheses, brackets, or braces — bef
 a corresponding close.
 
 ```go
-value := strconv.Itoa(int(config.GetRetryCount()))
+name := strings.ToLower(strings.TrimSpace(header.Get(key)))
 ```
 
-`strconv.Itoa(` is one open. `int(` is two. `config.GetRetryCount(` is three.
-Three levels deep before anything resolves, all to express a type conversion.
+`strings.ToLower(` is one open. `strings.TrimSpace(` is two. `header.Get(` is
+three. Three levels deep before anything resolves, all to clean up a string.
 
 ```go
-retries := int(config.GetRetryCount())
-value := strconv.Itoa(retries)
+raw := strings.TrimSpace(header.Get(key))
+name := strings.ToLower(raw)
 ```
 
 Neither line nests past two.
