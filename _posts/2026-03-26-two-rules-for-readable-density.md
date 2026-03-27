@@ -34,15 +34,16 @@ No more than two opening delimiters — parentheses, brackets, or braces — bef
 a corresponding close.
 
 ```go
-name := strings.ToLower(strings.TrimSpace(header.Get(key)))
+name := strings.ToLower(strings.TrimSpace(strings.ReplaceAll(raw, "_", " ")))
 ```
 
-`strings.ToLower(` is one open. `strings.TrimSpace(` is two. `header.Get(` is
-three. Three levels deep before anything resolves, all to clean up a string.
+`strings.ToLower(` is one open. `strings.TrimSpace(` is two.
+`strings.ReplaceAll(` is three. Three levels deep before anything resolves, all
+to clean up a string.
 
 ```go
-raw := strings.TrimSpace(header.Get(key))
-name := strings.ToLower(raw)
+spaced := strings.ReplaceAll(raw, "_", " ")
+name := strings.ToLower(strings.TrimSpace(spaced))
 ```
 
 Neither line nests past two.
