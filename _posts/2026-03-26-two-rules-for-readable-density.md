@@ -28,20 +28,6 @@ result := append(combined, overflow...)
 
 Every comma on each line belongs to one call.
 
-Struct literals trip the same wire:
-
-```go
-return Response{Data: transform(raw, format), Status: ok}
-```
-
-The comma in `raw, format` belongs to `transform`. The comma between `Data:` and
-`Status:` belongs to the struct. Two argument lists wearing the same punctuation.
-
-```go
-data := transform(raw, format)
-return Response{Data: data, Status: ok}
-```
-
 ## The shallow nesting rule
 
 No more than two opening delimiters — parentheses, brackets, or braces — before
