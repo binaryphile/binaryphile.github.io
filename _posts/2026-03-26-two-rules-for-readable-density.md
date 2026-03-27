@@ -1,0 +1,116 @@
+---
+layout: post
+title: "Two Rules for Readable Density"
+category: development
+---
+
+Most readability advice resists mechanical checking. "Use good names." "Keep
+functions short." You need the whole function, maybe the whole module, to
+evaluate those. These two rules you can check by reading a single line.
+
+## The uniform comma rule
+
+Every comma in an expression should belong to the same argument list.
+
+```go
+result := append(append(items, extra), overflow...)
+```
+
+Two commas, but they belong to different calls. `items, extra` feed the inner
+`append`. `append(items, extra)` and `overflow...` feed the outer. Your eye has
+to match each comma to its call to parse this.
+
+```go
+combined := append(items, extra)
+result := append(combined, overflow...)
+```
+
+Every comma on each line belongs to one call.
+
+Struct literals trip the same wire:
+
+```go
+return Response{Data: transform(raw, format), Status: ok}
+```
+
+The comma in `raw, format` belongs to `transform`. The comma between `Data:` and
+`Status:` belongs to the struct. Two argument lists wearing the same punctuation.
+
+```go
+data := transform(raw, format)
+return Response{Data: data, Status: ok}
+```
+
+## The shallow nesting rule
+
+No more than two opening delimiters — parentheses, brackets, or braces — before
+a corresponding close.
+
+```go
+value := strconv.Itoa(int(config.GetRetryCount()))
+```
+
+`strconv.Itoa(` is one open. `int(` is two. `config.GetRetryCount(` is three.
+Three levels deep before anything resolves, all to express a type conversion.
+
+```go
+retries := int(config.GetRetryCount())
+value := strconv.Itoa(retries)
+```
+
+Neither line nests past two.
+
+Brackets count. Map lookups are delimiter pairs:
+
+```go
+name := users[groups[ids[index]]]
+```
+
+Three opens.
+
+```go
+id := groups[ids[index]]
+name := users[id]
+```
+
+## Why two rules
+
+They catch different things.
+
+```go
+result := process(transform(x, y), z)
+```
+
+Two opens — nesting is fine. But `x, y` belongs to `transform` while
+`transform(x, y), z` belongs to `process`. Commas at two levels. Only the
+uniform comma rule flags this.
+
+```go
+value := outer(middle(inner()))
+```
+
+No commas. Three opens before the first close. Only the shallow nesting rule
+flags this.
+
+Most real offenders trip both:
+
+```go
+parts = append(parts, strconv.FormatFloat(math.Abs(val), 'f', 2, 64))
+```
+
+Three opens and commas at two levels.
+
+```go
+abs := math.Abs(val)
+formatted := strconv.FormatFloat(abs, 'f', 2, 64)
+parts = append(parts, formatted)
+```
+
+The fix is always the same: extract to a named variable. Naming the variable
+documents what the expression computes. The outer expression reads in terms of a
+word instead of a computation.
+
+Both rules work at the smallest scale: one line, one expression. You can check
+them in review without understanding what the program does. They came from an
+itch. Certain lines have always struck me as harder to read than they should be,
+given how little they do. These rules are the closest I've come to saying why.
