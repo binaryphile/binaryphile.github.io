@@ -89,10 +89,13 @@ parts = append(parts, strconv.FormatFloat(math.Abs(val), 'f', 2, 64))
 Three opens and commas at two levels.
 
 ```go
-abs := math.Abs(val)
-formatted := strconv.FormatFloat(abs, 'f', 2, 64)
+formatted := strconv.FormatFloat(math.Abs(val), 'f', 2, 64)
 parts = append(parts, formatted)
 ```
+
+One extraction and both rules are satisfied. The second line is still a
+reasonably dense expression — `append` with two arguments, one a variable — but
+it nests only one level and its commas belong to one call.
 
 The fix is always the same: extract to a named variable. Naming the variable
 documents what the expression computes. The outer expression reads in terms of a
