@@ -23,9 +23,9 @@ circles to you, you grab it, the empty spot comes back. Nobody arrives until
 there's room. No queue possible. That's lockstep.
 
 Now make arrivals independent but keep the schedule fixed. A merry-go-round:
-kids show up every 3.3 minutes, each ride takes exactly 3. A queue exists in
-the design but the timing is too regular to use it. Queuing theory calls this
-D/D/1 --- deterministic arrivals, deterministic service, one server.
+kids show up every 3.3 minutes, each ride takes exactly 3. Queuing theory
+calls this D/D/1 --- deterministic arrivals, deterministic service, one
+server.
 
 ```
 Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
@@ -36,16 +36,14 @@ Flat lines. No waiting.
 
 **Add randomness to one side.** A coffee shop. Every drink takes exactly 3
 minutes. But customers arrive in clusters --- two walk in together, then nobody
-for ten minutes. Average arrival rate is below capacity. The clusters still
-create bursts the server can't absorb instantly. A queue forms and drains,
-forms and drains. That's random arrivals (M/D/1 --- M for memoryless random, D
-for deterministic).
+for ten minutes. The clusters create bursts the server can't absorb instantly.
+Forms and drains. Forms and drains. That's random arrivals (M/D/1 --- M for
+memoryless random, D for deterministic).
 
 Flip it. A dentist with appointments arriving exactly on schedule. Some visits
-are cleanings. Some are root canals. Arrivals are predictable. Service isn't.
-The long appointment blocks the next patient even though they arrived on time.
-That's random service (D/M/1). Either source of randomness alone creates
-queues below capacity.
+are cleanings, some are root canals. The long appointment blocks the next
+patient even though they arrived on time. That's random service (D/M/1).
+Either source of randomness alone creates queues below capacity.
 
 ```
 Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  avg wait: 2.1min
@@ -56,20 +54,18 @@ The flat line is gone. Queues appear and clear, appear and clear --- even
 though average demand is 10% below capacity.
 
 **Add randomness to both sides.** A food truck. Customers show up whenever.
-Some order a taco, some a custom burrito. Neither arrivals nor service are
-predictable. Swings deeper, recovers slower than either one-sided scenario.
-That's M/M/1 --- the closest to how real systems behave.
+Some order a taco, some a custom burrito. Neither side is predictable.
 
 ```
 Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  avg wait: 3.2min
 ```
 
-Deeper peaks, longer recovery. Same target load.
+That's M/M/1. Deeper peaks, longer recovery. Same target load.
 
 **Push the load.** Same model, target load raised from 0.90 to 0.95. A highway
 at 95% capacity. One slow merge and traffic backs up for miles. Then push past
 capacity: the DMV at 8:01 AM, forty people, one clerk. Demand exceeds service
-and the backlog just grows.
+and the backlog grows.
 
 ```
 Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  avg wait: 5.8min
