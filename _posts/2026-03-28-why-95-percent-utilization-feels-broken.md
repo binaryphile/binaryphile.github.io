@@ -30,6 +30,9 @@ wait for an opening. It doesn't, because the timing is still perfectly regular.
 Queuing theory calls this D/D/1 --- deterministic arrivals, deterministic
 service, one server.
 
+In the sparklines below, the low bar (▁) is the baseline --- zero queue depth.
+Taller blocks mean deeper queues.
+
 ```
 Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
 Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
