@@ -47,7 +47,8 @@ memoryless random, D for deterministic).
 Flip it. A dentist with appointments arriving exactly on schedule. Some visits
 are cleanings, some are root canals. The long appointment blocks the next
 patient even though they arrived on time. That's random service (D/M/1).
-Either source of randomness alone creates queues below capacity.
+Either source of randomness alone creates queues, even when the server is fast
+enough on average.
 
 ```
 Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  avg wait: 2.1min
