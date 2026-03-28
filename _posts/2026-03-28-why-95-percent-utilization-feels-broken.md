@@ -15,17 +15,17 @@ it was teaching wrong lessons confidently.
 
 ## What the demo teaches
 
-The demo builds up one idea at a time. Target load is the ratio of arrival
-rate to service rate, written ρ (rho) in queuing theory.
+Target load is the ratio of arrival rate to service rate, written ρ (rho) in
+queuing theory.
 
-**Start with no randomness.** Think of a sushi boat. The chef places a plate,
-it circles to you, you grab it, the empty spot comes back. Arrivals are gated
-by departures. No queue can form because nobody arrives until there's room.
-That's the lockstep scenario. Now make arrivals independent but keep everything
-on a fixed schedule --- a merry-go-round where kids show up every 3.3 minutes
-and each ride takes exactly 3. There's a queue in the design, but the timing is
-so regular it's never used. Queuing theory calls this D/D/1: deterministic
-arrivals, deterministic service, one server.
+**Start with no randomness.** A sushi boat. The chef places a plate, it
+circles to you, you grab it, the empty spot comes back. Nobody arrives until
+there's room. No queue possible. That's lockstep.
+
+Now make arrivals independent but keep the schedule fixed. A merry-go-round:
+kids show up every 3.3 minutes, each ride takes exactly 3. A queue exists in
+the design but the timing is too regular to use it. Queuing theory calls this
+D/D/1 --- deterministic arrivals, deterministic service, one server.
 
 ```
 Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
@@ -34,18 +34,18 @@ Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁�
 
 Flat lines. No waiting.
 
-**Add randomness to one side.** Picture a coffee shop where every drink takes
-exactly 3 minutes to make, but customers arrive in clusters --- two walk in
-together, then nobody for ten minutes. On average, arrival rate is below
-capacity. But the clusters create bursts that the steady server can't absorb
-instantly, so a queue forms and drains, forms and drains. That's the
-random-arrivals scenario (M/D/1 in queuing shorthand --- M for memoryless
-random, D for deterministic). Now flip it: a dentist with appointments
-arriving exactly on schedule, but some visits are cleanings and some are root
-canals. Arrivals are predictable. Service isn't. The long appointment blocks
-the next patient even though they arrived on time. That's random service
-(D/M/1). Either source of randomness alone is enough to create queues below
-capacity.
+**Add randomness to one side.** A coffee shop. Every drink takes exactly 3
+minutes. But customers arrive in clusters --- two walk in together, then nobody
+for ten minutes. Average arrival rate is below capacity. The clusters still
+create bursts the server can't absorb instantly. A queue forms and drains,
+forms and drains. That's random arrivals (M/D/1 --- M for memoryless random, D
+for deterministic).
+
+Flip it. A dentist with appointments arriving exactly on schedule. Some visits
+are cleanings. Some are root canals. Arrivals are predictable. Service isn't.
+The long appointment blocks the next patient even though they arrived on time.
+That's random service (D/M/1). Either source of randomness alone creates
+queues below capacity.
 
 ```
 Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  avg wait: 2.1min
@@ -56,10 +56,9 @@ The flat line is gone. Queues appear and clear, appear and clear --- even
 though average demand is 10% below capacity.
 
 **Add randomness to both sides.** A food truck. Customers show up whenever.
-Some order a taco, some order a custom burrito. Neither arrivals nor service
-are predictable. The queue swings deeper and recovers slower than either
-one-sided scenario. That's the random-everything scenario (M/M/1), and it's
-the closest to how real systems behave.
+Some order a taco, some a custom burrito. Neither arrivals nor service are
+predictable. Swings deeper, recovers slower than either one-sided scenario.
+That's M/M/1 --- the closest to how real systems behave.
 
 ```
 Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  avg wait: 3.2min
@@ -67,11 +66,10 @@ Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂�
 
 Deeper peaks, longer recovery. Same target load.
 
-**Push the load.** Same random-everything model, but raise target load from
-0.90 to 0.95. Think of a highway at 95% capacity --- one slow merge and
-traffic backs up for miles. Then push past capacity entirely: the DMV at 8:01
-AM, forty people waiting, one clerk. Demand exceeds service rate and the
-backlog just grows.
+**Push the load.** Same model, target load raised from 0.90 to 0.95. A highway
+at 95% capacity. One slow merge and traffic backs up for miles. Then push past
+capacity: the DMV at 8:01 AM, forty people, one clerk. Demand exceeds service
+and the backlog just grows.
 
 ```
 Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  avg wait: 5.8min
@@ -100,7 +98,7 @@ Near Full (M/M/1)               │    0.95  │     80 │    16.2 │      6 �
 Overloaded (M/M/1)              │    1.50  │     43 │    21.5 │     10 │   4.0 │   7.4min*
 ```
 
-"95% utilized" sounds like 5% less headroom. The table says otherwise.
+"95% utilized" sounds like 5% less headroom.
 
 These lessons are only as trustworthy as the simulation behind them. The first
 version looked plausible and was subtly dishonest.
@@ -184,8 +182,8 @@ W_q from timestamps. L_q from integration. Neither derived from the other.
 **"Common seeds" aren't matched traces.** Different scenarios consume random
 numbers differently. The fixed-schedule scenario uses none. The
 random-arrivals scenario draws only from the arrival sequence. Sharing a seed
-doesn't mean scenarios see the same arrivals. Fix: pre-generate one interarrival sequence and one service
-sequence. Each scenario slices what it needs.
+doesn't mean scenarios see the same arrivals. Fix: pre-generate one interarrival sequence and one service sequence. Each
+scenario slices what it needs.
 
 **Principle:** Verification that travels the same code path as computation
 isn't verification.
