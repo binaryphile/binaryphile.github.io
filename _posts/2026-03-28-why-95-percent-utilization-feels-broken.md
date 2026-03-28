@@ -84,10 +84,9 @@ time horizon are excluded. This understates congestion.
 Five percentage points of load. Nearly 2x the wait. And the overloaded
 sparkline just climbs.
 
-Here's the full comparison:
-
-These are cold-start finite runs, not steady-state measurements, so the
-numbers will be milder than theory predicts for the higher-load scenarios.
+The full comparison table (cold-start finite runs, not steady-state
+measurements, so the numbers will be milder than theory predicts for the
+higher-load scenarios):
 
 ```
 Scenario                        │ target ρ │ served │ cust/hr │ peak q │ avg q │ avg wait
@@ -101,21 +100,7 @@ Near Full (M/M/1)               │    0.95  │     80 │    16.2 │      6 �
 Overloaded (M/M/1)              │    1.50  │     43 │    21.5 │     10 │   4.0 │   7.4min*
 ```
 
-**Target load 0.95 is stable. It looks broken.** Same model as random
-everything above, target load raised from 0.90 to 0.95. Five percentage
-points. Nearly 2x the wait. "95% utilized" sounds like 5% less headroom. The
-delay says otherwise. Look at the sparkline.
-
-**Randomness creates the queues. Load amplifies them.** Add randomness to
-arrivals alone and queues appear at 10% below capacity. Add it to service
-alone --- same thing. Both sides together makes swings deeper. Without
-randomness, the queue never forms. In these single-server runs, variability
-creates waiting. Load makes it worse.
-
-**Past the tipping point, nothing helps.** Demand exceeds capacity. Backlog
-grows without bound. No steady state. You already knew overloaded queues grow.
-That's what makes the near-full scenario unsettling --- it grows too, and it's
-supposed to be fine.
+"95% utilized" sounds like 5% less headroom. The table says otherwise.
 
 These lessons are only as trustworthy as the simulation behind them. The first
 version looked plausible and was subtly dishonest.
@@ -198,8 +183,8 @@ W_q from timestamps. L_q from integration. Neither derived from the other.
 
 **"Common seeds" aren't matched traces.** Different scenarios consume random
 numbers differently. The fixed-schedule scenario uses none. The
-random-arrivals scenario draws only from the arrival sequence. Sharing a seed doesn't mean scenarios see
-the same arrivals. Fix: pre-generate one interarrival sequence and one service
+random-arrivals scenario draws only from the arrival sequence. Sharing a seed
+doesn't mean scenarios see the same arrivals. Fix: pre-generate one interarrival sequence and one service
 sequence. Each scenario slices what it needs.
 
 **Principle:** Verification that travels the same code path as computation
