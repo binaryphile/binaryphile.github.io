@@ -50,8 +50,7 @@ Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁�
 Random Service (D/M/1):  ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▁▁  avg wait: 2.0min
 ```
 
-The flat line is gone. Queues appear and clear, appear and clear --- even
-though average demand is 10% below capacity.
+Average demand is 10% below capacity. Queues anyway.
 
 **Add randomness to both sides.** A food truck. Customers show up whenever.
 Some order a taco, some a custom burrito. Neither side is predictable.
@@ -75,12 +74,11 @@ Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂
 \* Overloaded wait counts only completed customers. Those still queued at the
 time horizon are excluded. This understates congestion.
 
-Five percentage points of load. Nearly 2x the wait. And the overloaded
-sparkline just climbs.
+Five percentage points of load. Nearly 2x the wait. The overloaded sparkline
+climbs. "95% utilized" sounds like 5% less headroom.
 
-The full comparison table (cold-start finite runs, not steady-state
-measurements, so the numbers will be milder than theory predicts for the
-higher-load scenarios):
+The full comparison (cold-start finite runs, not steady-state, so the numbers
+will be milder than theory predicts for higher-load scenarios):
 
 ```
 Scenario                        │ target ρ │ served │ cust/hr │ peak q │ avg q │ avg wait
@@ -93,8 +91,6 @@ Random Everything (M/M/1)       │    0.90  │     50 │    15.7 │      5 �
 Near Full (M/M/1)               │    0.95  │     80 │    16.2 │      6 │   1.6 │   5.8min
 Overloaded (M/M/1)              │    1.50  │     43 │    21.5 │     10 │   4.0 │   7.4min*
 ```
-
-"95% utilized" sounds like 5% less headroom.
 
 These lessons are only as trustworthy as the simulation behind them. The first
 version looked plausible and was subtly dishonest.
@@ -178,8 +174,8 @@ W_q from timestamps. L_q from integration. Neither derived from the other.
 **"Common seeds" aren't matched traces.** Different scenarios consume random
 numbers differently. The fixed-schedule scenario uses none. The
 random-arrivals scenario draws only from the arrival sequence. Sharing a seed
-doesn't mean scenarios see the same arrivals. Fix: pre-generate one interarrival sequence and one service sequence. Each
-scenario slices what it needs.
+doesn't mean scenarios see the same arrivals. Fix: pre-generate one interarrival sequence and one service sequence.
+Each scenario slices what it needs.
 
 **Principle:** Verification that travels the same code path as computation
 isn't verification.
