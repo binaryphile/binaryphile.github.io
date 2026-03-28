@@ -35,7 +35,8 @@ Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁�
 Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
 ```
 
-Flat lines. No waiting.
+Flat lines. No waiting. Simple and predictable, but nothing in production
+looks like this.
 
 **Add randomness to one side.** A coffee shop. Every drink takes exactly 3
 minutes. But customers arrive in clusters --- two walk in together, then nobody
