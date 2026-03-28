@@ -20,12 +20,15 @@ queuing theory.
 
 **Start with no randomness.** A sushi boat. The chef places a plate, it
 circles to you, you grab it, the empty spot comes back. Nobody arrives until
-there's room. No queue possible. That's lockstep.
+there's room. No queue is possible because arrivals are gated by departures.
+That's lockstep --- a pull system.
 
-Now make arrivals independent but keep the schedule fixed. A merry-go-round:
-kids show up every 3.3 minutes, each ride takes exactly 3. Queuing theory
-calls this D/D/1 --- deterministic arrivals, deterministic service, one
-server.
+Now remove the gate. A merry-go-round: kids show up every 3.3 minutes whether
+or not a horse is free, but each ride takes exactly 3. Arrivals are independent
+of departures for the first time. A queue could form --- arrivals no longer
+wait for an opening. It doesn't, because the timing is still perfectly regular.
+Queuing theory calls this D/D/1 --- deterministic arrivals, deterministic
+service, one server.
 
 ```
 Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
