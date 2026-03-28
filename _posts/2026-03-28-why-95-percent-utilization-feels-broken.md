@@ -17,7 +17,8 @@ it was teaching wrong lessons confidently.
 
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory. These are cold-start finite runs, not steady-state
-measurements.
+measurements, so the numbers will be milder than theory predicts for the
+higher-load scenarios.
 
 ```
 Scenario                        │ target ρ │ served │ cust/hr │ peak q │ avg q │ avg wait
@@ -186,7 +187,8 @@ func runSim(cfg simConfig) simResult {
 }
 ```
 
-Playback at 360x. All metrics in simulated units.
+Playback at 360x. All metrics in simulated units --- "Avg wait: 5.8 min"
+means simulated minutes, not wall-clock.
 
 **Principle:** Coupling simulation to rendering makes both dishonest.
 
