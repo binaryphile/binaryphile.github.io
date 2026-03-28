@@ -55,7 +55,8 @@ Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁�
 Random Service (D/M/1):  ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▁▁  avg wait: 2.0min
 ```
 
-Average demand is 10% below capacity. Queues anyway.
+Average demand is 10% below capacity. Occasional queuing is nevertheless
+visible.
 
 **Add randomness to both sides.** A food truck. Customers show up whenever.
 Some order a taco, some a custom burrito. Neither side is predictable.
