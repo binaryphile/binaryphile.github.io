@@ -15,28 +15,42 @@ it was teaching wrong lessons confidently.
 
 ## What the demo teaches
 
-Target load is the ratio of arrival rate to service rate, written ρ (rho) in
-queuing theory. The scenarios progress from no randomness through randomness on
-one side to both sides random, then push toward and past capacity. Each one
-maps to something you've experienced:
+The demo builds up one idea at a time. Target load is the ratio of arrival
+rate to service rate, written ρ (rho) in queuing theory.
 
-- **Lockstep** --- a sushi boat. The chef places a plate, it circles to you,
-  you grab it. No queue possible.
-- **Fixed schedule** (D/D/1) --- a merry-go-round. Kids arrive steadily, each
-  ride is exactly 3 minutes. Buffer exists but never fills.
-- **Random arrivals** (M/D/1) --- a house party bathroom. Three people all
-  need it at 10:15.
-- **Random service** (D/M/1) --- a dentist. Some appointments are cleanings,
-  some are root canals.
-- **Random everything** (M/M/1) --- Thanksgiving bathroom. Uncle Jerry takes
-  15 minutes, Grandma takes 45 seconds, nobody's on a schedule.
-- **Near full** (M/M/1, ρ=0.95) --- a highway at 95% capacity. One slow merge
-  and traffic backs up for miles.
-- **Overloaded** (M/M/1, ρ=1.5) --- the DMV at 8:01 AM. Forty people, one
-  clerk.
+**Start with no randomness.** Think of a sushi boat. The chef places a plate,
+it circles to you, you grab it, the empty spot comes back. Arrivals are gated
+by departures. No queue can form because nobody arrives until there's room.
+That's the lockstep scenario. Now make arrivals independent but keep everything
+on a fixed schedule --- a merry-go-round where kids show up every 3.3 minutes
+and each ride takes exactly 3. There's a queue in the design, but the timing is
+so regular it's never used. Queuing theory calls this D/D/1: deterministic
+arrivals, deterministic service, one server.
 
-The parenthetical labels are queuing shorthand: M is random, D is fixed, the
-number is servers.
+**Add randomness to one side.** Picture a coffee shop where every drink takes
+exactly 3 minutes to make, but customers arrive in clusters --- two walk in
+together, then nobody for ten minutes. On average, arrival rate is below
+capacity. But the clusters create bursts that the steady server can't absorb
+instantly, so a queue forms and drains, forms and drains. That's the
+random-arrivals scenario (M/D/1 in queuing shorthand --- M for memoryless
+random, D for deterministic). Now flip it: a dentist with appointments
+arriving exactly on schedule, but some visits are cleanings and some are root
+canals. Arrivals are predictable. Service isn't. The long appointment blocks
+the next patient even though they arrived on time. That's random service
+(D/M/1). Either source of randomness alone is enough to create queues below
+capacity.
+
+**Add randomness to both sides.** A food truck. Customers show up whenever.
+Some order a taco, some order a custom burrito. Neither arrivals nor service
+are predictable. The queue swings deeper and recovers slower than either
+one-sided scenario. That's the random-everything scenario (M/M/1), and it's
+the closest to how real systems behave.
+
+**Push the load.** Same random-everything model, but raise target load from
+0.90 to 0.95. Think of a highway at 95% capacity --- one slow merge and
+traffic backs up for miles. Then push past capacity entirely: the DMV at 8:01
+AM, forty people waiting, one clerk. Demand exceeds service rate and the
+backlog just grows.
 
 These are cold-start finite runs, not steady-state measurements, so the
 numbers will be milder than theory predicts for the higher-load scenarios.
