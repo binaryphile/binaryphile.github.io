@@ -16,11 +16,27 @@ it was teaching wrong lessons confidently.
 ## What the demo teaches
 
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
-queuing theory. The scenarios progress from no randomness (lockstep, fixed
-schedule) through randomness on one side (arrivals or service) to both sides
-random, then push toward and past capacity. The parenthetical labels are
-queuing shorthand: M is random, D is fixed, the number is servers. M/D/1 means
-random arrivals, fixed service, one server.
+queuing theory. The scenarios progress from no randomness through randomness on
+one side to both sides random, then push toward and past capacity. Each one
+maps to something you've experienced:
+
+- **Lockstep** --- a sushi boat. The chef places a plate, it circles to you,
+  you grab it. No queue possible.
+- **Fixed schedule** (D/D/1) --- a merry-go-round. Kids arrive steadily, each
+  ride is exactly 3 minutes. Buffer exists but never fills.
+- **Random arrivals** (M/D/1) --- a house party bathroom. Three people all
+  need it at 10:15.
+- **Random service** (D/M/1) --- a dentist. Some appointments are cleanings,
+  some are root canals.
+- **Random everything** (M/M/1) --- Thanksgiving bathroom. Uncle Jerry takes
+  15 minutes, Grandma takes 45 seconds, nobody's on a schedule.
+- **Near full** (M/M/1, ρ=0.95) --- a highway at 95% capacity. One slow merge
+  and traffic backs up for miles.
+- **Overloaded** (M/M/1, ρ=1.5) --- the DMV at 8:01 AM. Forty people, one
+  clerk.
+
+The parenthetical labels are queuing shorthand: M is random, D is fixed, the
+number is servers.
 
 These are cold-start finite runs, not steady-state measurements, so the
 numbers will be milder than theory predicts for the higher-load scenarios.
