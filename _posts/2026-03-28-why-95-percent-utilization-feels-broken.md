@@ -15,7 +15,7 @@ it was teaching wrong lessons confidently.
 
 ## What the demo teaches
 
-Target load is the ratio of arrival rate to service rate, written ρ in
+Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory. These are cold-start finite runs, not steady-state
 measurements.
 
