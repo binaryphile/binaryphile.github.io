@@ -16,9 +16,14 @@ it was teaching wrong lessons confidently.
 ## What the demo teaches
 
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
-queuing theory. These are cold-start finite runs, not steady-state
-measurements, so the numbers will be milder than theory predicts for the
-higher-load scenarios.
+queuing theory. The scenarios progress from no randomness (lockstep, fixed
+schedule) through randomness on one side (arrivals or service) to both sides
+random, then push toward and past capacity. The parenthetical labels are
+queuing shorthand: M is random, D is fixed, the number is servers. M/D/1 means
+random arrivals, fixed service, one server.
+
+These are cold-start finite runs, not steady-state measurements, so the
+numbers will be milder than theory predicts for the higher-load scenarios.
 
 ```
 Scenario                        │ target ρ │ served │ cust/hr │ peak q │ avg q │ avg wait
@@ -46,9 +51,6 @@ Random Everything (M/M/1):      ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
 Near Full (M/M/1, ρ=0.95):      ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁
 Overloaded (M/M/1, ρ=1.5):      ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂▂▃▅▅▅▃▃▃▃▃▃▃▂▄▅▆▇▇▇▅▅▅▇
 ```
-
-M is random. D is fixed. The number is servers. M/D/1: random arrivals, fixed
-service, one server.
 
 **Target load 0.95 is stable. It looks broken.** Same model as random
 everything above, target load raised from 0.90 to 0.95. Five percentage
