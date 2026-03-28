@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Why 95% Utilization Feels Broken: Building a Queuing Demo That Didn't Lie"
+title: "Why 95% Utilization Feels Broken: Building a Queuing Demo That Got It Right"
 category: development
 ---
 
@@ -93,7 +93,7 @@ Overloaded (M/M/1)              │    1.50  │     43 │    21.5 │     10 �
 ```
 
 These lessons are only as trustworthy as the simulation behind them. The first
-version looked plausible and was subtly dishonest.
+version looked plausible and was subtly wrong.
 
 ## Three review rounds that made it trustworthy
 
@@ -216,7 +216,7 @@ func runSim(cfg simConfig) simResult {
 Playback at 360x. All metrics in simulated units --- "Avg wait: 5.8 min"
 means simulated minutes, not wall-clock.
 
-**Principle:** Coupling simulation to rendering makes both dishonest.
+**Principle:** Coupling simulation to rendering makes both unreliable.
 
 ---
 
