@@ -169,21 +169,26 @@ A consistency check, not external validation. But when one side was derived
 from the other, even this check was impossible.
 
 ```go
+// isCompleted returns true if the customer finished service.
+isCompleted := func(c customer) bool { return c.completion > 0 }
+
+// flowTime returns time from arrival to departure.
+flowTime := func(c customer) float64 { return c.completion - c.arrival }
+
 // Flow time — filter completed, map to duration, average.
-completed := slice.From(r.customers).KeepIf(func(c customer) bool {
-    return c.completion > 0
-})
-flowTimes := completed.ToFloat64(func(c customer) float64 {
-    return c.completion - c.arrival
-})
+completed := slice.From(r.customers).KeepIf(isCompleted)
+flowTimes := completed.ToFloat64(flowTime)
 m.avgFlow = flowTimes.Sum() / float64(completed.Len())
 
-// Event-time integrated WIP — fold over the event log.
+// integrateWIP accumulates area under the WIP curve.
 type wipState struct{ area, prevTime float64; prevWIP int }
-final := slice.Fold(r.log, wipState{}, func(s wipState, e logEntry) wipState {
+integrateWIP := func(s wipState, e logEntry) wipState {
     dt := e.time - s.prevTime
     return wipState{s.area + float64(s.prevWIP)*dt, e.time, e.systemSize}
-})
+}
+
+// WIP — fold over event log, then divide by total time.
+final := slice.Fold(r.log, wipState{}, integrateWIP)
 m.avgWIP = final.area / r.endTime
 ```
 
