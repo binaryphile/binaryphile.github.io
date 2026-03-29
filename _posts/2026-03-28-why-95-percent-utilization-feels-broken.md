@@ -176,15 +176,9 @@ A consistency check, not external validation. But when one side was derived
 from the other, even this check was impossible.
 
 ```go
-// isCompleted returns true if the customer finished service.
-isCompleted := func(c customer) bool { return c.completion > 0 }
-
-// flowTime returns time from arrival to departure.
-flowTime := func(c customer) float64 { return c.completion - c.arrival }
-
 // Flow time -- filter completed, map to duration, average.
-completed := slice.From(r.customers).KeepIf(isCompleted)
-flowTimes := completed.ToFloat64(flowTime)
+completed := slice.From(r.customers).KeepIf(customer.IsCompleted)
+flowTimes := completed.ToFloat64(customer.FlowTime)
 m.avgFlow = flowTimes.Sum() / float64(completed.Len())
 
 // integrateWIP accumulates area under the WIP curve.
