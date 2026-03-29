@@ -47,9 +47,9 @@ for ten minutes. The clusters create bursts the server can't absorb instantly.
 Forms and drains. Forms and drains. That's random arrivals (M/D/1 --- M for
 memoryless random, D for deterministic).
 
-Flip it. A dentist with appointments arriving exactly on schedule. Some visits
-are cleanings, some are root canals. The long appointment blocks the next
-patient even though they arrived on time. That's random service (D/M/1).
+Flip it. A dentist with appointments every 30 minutes. Most visits take 25.
+Some run to 40. The patient who arrives on time for the next slot waits because
+the previous one ran over. That's random service (D/M/1).
 Either source of randomness alone creates queues, even when the server is fast
 enough on average.
 
