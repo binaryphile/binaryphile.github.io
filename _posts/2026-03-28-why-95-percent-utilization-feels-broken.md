@@ -18,10 +18,14 @@ it was teaching wrong lessons confidently.
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory.
 
-Two things tell you a queue is in trouble: how long customers wait before being
-served, and how deep the line gets. The sparklines below show queue depth over
-time. The number at the end is average wait. Those are the metrics to watch as
-we add complexity.
+Three metrics tell you how a queue behaves: **throughput** (customers served per
+unit time), **flow time** (how long each customer spends from arrival to
+departure), and **WIP** (how many are in the system — waiting plus being
+served). Little's Law ties them together: flow time = WIP / throughput. When
+one gets worse, the others move with it.
+
+The sparklines below show WIP over time. The number at the end is average flow
+time. Those are the metrics to watch as we add complexity.
 
 Each step removes one simplification: the gate, perfect regularity, randomness
 on one side, both sides, the remaining headroom.
@@ -38,12 +42,12 @@ wait for an opening. It doesn't, because the timing is still perfectly regular.
 Queuing theory calls this D/D/1 --- deterministic arrivals, deterministic
 service, one server.
 
-In the sparklines below, the low bar (▁) is the baseline --- zero queue depth.
-Taller blocks mean deeper queues.
+In the sparklines below, the low bar (▁) is the baseline --- zero WIP. Taller
+blocks mean more customers in the system.
 
 ```
-Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg wait: —
-Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg wait: 0.0min
+Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg flow: —
+Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg flow: 0.0min
 ```
 
 Flat lines. No waiting. Simple and predictable, but nothing in production
@@ -61,8 +65,8 @@ Either source of variability alone creates queues, even when the server is fast
 enough on average.
 
 ```
-Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  avg wait: 2.1min
-Random Service (D/M/1):  ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▁▁  avg wait: 2.0min
+Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  avg flow: 2.1min
+Random Service (D/M/1):  ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▁▁  avg flow: 2.0min
 ```
 
 Average demand is 10% below capacity. Occasional queuing is nevertheless
@@ -72,29 +76,29 @@ visible.
 Some order a taco, some a custom burrito. Neither side is predictable.
 
 ```
-Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  avg wait: 3.2min
+Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  avg flow: 3.2min
 ```
 
-That's M/M/1. Same target load. Average wait jumped from ~2 min to 3.2.
+That's M/M/1. Same target load. Average flow time jumped from ~2 min to 3.2.
 
 **Push the load.** Same model, target load raised from 0.90 to 0.95. Then past
 capacity to 1.5 --- demand exceeds service and the backlog grows.
 
 ```
-Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  avg wait: 5.8min
-Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂▂▃▅▅▅▃▃▃▃▃▃▃▂▄▅▆▇▇▇▅▅▅▇  avg wait: 7.4min*
+Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  avg flow: 5.8min
+Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂▂▃▅▅▅▃▃▃▃▃▃▃▂▄▅▆▇▇▇▅▅▅▇  avg flow: 7.4min*
 ```
 
 \* Overloaded wait counts only completed customers. Those still queued at the
 time horizon are excluded. This understates congestion.
 
-Five percentage points of load. Nearly 2x the wait. "95% utilized" sounds like
+Five percentage points of load. Nearly 2x the flow time. "95% utilized" sounds like
 5% less headroom.
 
 The overloaded sparkline climbs and doesn't come back.
 
 In steady state, near-full is far worse than this demo shows. M/M/1 theory
-predicts about 57 minutes of average queue wait at ρ=0.95 with 3-minute mean
+predicts about 57 minutes of average flow time at ρ=0.95 with 3-minute mean
 service. The demo's 5.8 minutes reflects a short cold-start run that never
 reaches that regime. The nonlinear pain is real. The demo understates it.
 
@@ -102,7 +106,7 @@ Stable scenarios run all customers to completion before measuring. Overloaded
 runs for a fixed time horizon. The full comparison:
 
 ```
-Scenario                        │ target ρ │ peak q │ avg q │ avg wait
+Scenario                        │ target ρ │ peak WIP │ avg WIP │ avg flow
 ─────────────────────────────────────────────────────────────────────
 Lockstep                        │      —   │      0 │   0.0 │        —
 Fixed Schedule (D/D/1)          │    0.90  │      0 │   0.0 │   0.0min
@@ -142,56 +146,57 @@ state.
 
 Two catches.
 
-**Circular Little's Law.** The implementation computed average wait from
-L = lambda * W, then "verified" L = lambda * W. That's algebra, not
-verification.
+**Circular Little's Law.** The implementation computed flow time from
+WIP / throughput, then "verified" that WIP = throughput * flow time. That's
+algebra, not verification.
 
-The fix: timestamp each customer independently. Compute
-wait from timestamps. Compute queue length from event-time integration. Check
-whether L_q = lambda * W_q. The ratio is 1.00 (within rounding) for every
+The fix: timestamp each customer independently. Compute flow time from
+timestamps. Compute average WIP from event-time integration. Check whether
+WIP = throughput * flow time. The ratio is 1.00 (within rounding) for every
 stable scenario:
 
 ```
-Little's Law consistency check (L_q ≈ λ × W_q):
+Little's Law consistency check (WIP ≈ TP × FT):
 
-Random Arrivals (M/D/1)          L_q=0.55  λW_q=0.55  ratio=1.00
-Random Service (D/M/1)           L_q=0.58  λW_q=0.58  ratio=1.00
-Random Everything (M/M/1)        L_q=0.84  λW_q=0.84  ratio=1.00
-Near Full (M/M/1, ρ=0.95)        L_q=1.57  λW_q=1.57  ratio=1.00
+Random Arrivals (M/D/1)          WIP=0.55  TP×FT=0.55  ratio=1.00
+Random Service (D/M/1)           WIP=0.58  TP×FT=0.58  ratio=1.00
+Random Everything (M/M/1)        WIP=0.84  TP×FT=0.84  ratio=1.00
+Near Full (M/M/1, ρ=0.95)        WIP=1.57  TP×FT=1.57  ratio=1.00
 ```
 
 A consistency check, not external validation. But when one side was derived
 from the other, even this check was impossible.
 
 ```go
-// Avg wait (W_q) — only over completed customers.
-var totalWait float64
-var waitCount int
+// Flow time — only over completed customers.
+var totalFlow float64
+var flowCount int
 for _, c := range r.customers {
     if c.completion > 0 {
-        w := c.serviceStart - c.arrival
-        totalWait += w
-        waitCount++
+        ft := c.completion - c.arrival
+        totalFlow += ft
+        flowCount++
     }
 }
-if waitCount > 0 {
-    m.avgWait = totalWait / float64(waitCount)
+if flowCount > 0 {
+    m.avgFlow = totalFlow / float64(flowCount)
 }
 
-// Event-time integrated queue depth (L_q).
-var queueArea float64
+// Event-time integrated WIP.
+var wipArea float64
 prevTime := 0.0
-prevDepth := 0
+prevWIP := 0
 for _, e := range r.log {
     dt := e.time - prevTime
-    queueArea += float64(prevDepth) * dt
+    wipArea += float64(prevWIP) * dt
     prevTime = e.time
-    prevDepth = e.queueDepth
+    prevWIP = e.systemSize
 }
-m.avgQ = queueArea / r.endTime
+m.avgWIP = wipArea / r.endTime
 ```
 
-W_q from timestamps. L_q from integration. Neither derived from the other.
+Flow time from timestamps. WIP from integration. Neither derived from the
+other.
 
 **"Common seeds" aren't matched traces.** Different scenarios consume random
 numbers differently. The fixed-schedule scenario uses none. The
