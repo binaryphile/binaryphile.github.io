@@ -41,7 +41,10 @@ or not a horse is free, but each ride takes exactly 3. Arrivals are independent
 of departures for the first time. A queue could form --- arrivals no longer
 wait for an opening. It doesn't, because the timing is still perfectly regular.
 Queuing theory calls this D/D/1 --- deterministic arrivals, deterministic
-service, one server.
+service, one server. This system stays stable as long as arrivals come slower
+than service completes. That condition --- arrival rate below service rate, or
+ρ < 1 --- is what makes any queuing model stable. When it holds, the queue
+doesn't grow without bound. When it doesn't, no amount of buffering saves you.
 
 In the sparklines below, the low bar (▁) is the baseline --- zero WIP. Taller
 blocks mean more customers in the system.
