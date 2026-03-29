@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Why 95% Utilization Feels Broken: Building a Queuing Demo That Got It Right"
+title: "Why 95% Utilization Feels Broken: A Queue Demo, Three Review Rounds, and a Better Model"
 category: development
 ---
 
@@ -18,10 +18,16 @@ it was teaching wrong lessons confidently.
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory.
 
+Each step removes one simplification from the last: first the gate, then
+perfect regularity, then single-sided randomness, then both sides, then the
+remaining headroom.
+
 **Start with no randomness.** A sushi boat. The chef places a plate, it
 circles to you, you grab it, the empty spot comes back. Nobody arrives until
 there's room. No queue is possible because arrivals are gated by departures.
-That's lockstep --- a pull system.
+That's lockstep --- a pull system. This is not a standard open queue. It's a
+gated handoff, included to show what disappears once arrivals become
+independent.
 
 Now remove the gate. A merry-go-round: kids show up every 3.3 minutes whether
 or not a horse is free, but each ride takes exactly 3. Arrivals are independent
@@ -42,15 +48,15 @@ Flat lines. No waiting. Simple and predictable, but nothing in production
 looks like this.
 
 **Add randomness to one side.** A coffee shop. Every drink takes exactly 3
-minutes. But customers arrive in clusters --- two walk in together, then nobody
-for ten minutes. The clusters create bursts the server can't absorb instantly.
-Forms and drains. Forms and drains. That's random arrivals (M/D/1 --- M for
-memoryless random, D for deterministic).
+minutes. But customers arrive unpredictably --- two walk in together, then
+nobody for ten minutes. The bursts create waits the steady server can't absorb
+instantly. It forms and drains. That's variable arrivals, fixed service
+(M/D/1).
 
 Flip it. A dentist with appointments every 30 minutes. Most visits take 25.
 Some run to 40. The patient who arrives on time for the next slot waits because
-the previous one ran over. That's random service (D/M/1).
-Either source of randomness alone creates queues, even when the server is fast
+the previous one ran over. That's fixed arrivals, variable service (D/M/1).
+Either source of variability alone creates queues, even when the server is fast
 enough on average.
 
 ```
@@ -84,21 +90,25 @@ Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂
 time horizon are excluded. This understates congestion.
 
 Five percentage points of load. Nearly 2x the wait. The overloaded sparkline
-climbs. "95% utilized" sounds like 5% less headroom.
+climbs. "95% utilized" sounds like 5% less headroom. In steady state, it's far
+worse than this demo shows --- M/M/1 theory predicts about 57 minutes of
+average queue wait at ρ=0.95 with 3-minute mean service. The demo's 5.8
+minutes reflects a short cold-start run that never reaches that regime. The
+nonlinear pain is real; the demo understates it.
 
-The full comparison (cold-start finite runs, not steady-state, so the numbers
-will be milder than theory predicts for higher-load scenarios):
+Stable scenarios run all customers to completion before measuring. Overloaded
+runs for a fixed time horizon. The full comparison:
 
 ```
-Scenario                        │ target ρ │ served │ cust/hr │ peak q │ avg q │ avg wait
-─────────────────────────────────────────────────────────────────────────────────────────
-Lockstep                        │      —   │     10 │    20.0 │      0 │   0.0 │        —
-Fixed Schedule (D/D/1)          │    0.90  │     10 │    16.5 │      0 │   0.0 │   0.0min
-Random Arrivals (M/D/1)         │    0.90  │     50 │    16.1 │      4 │   0.6 │   2.1min
-Random Service (D/M/1)          │    0.90  │     50 │    17.0 │      4 │   0.6 │   2.0min
-Random Everything (M/M/1)       │    0.90  │     50 │    15.7 │      5 │   0.8 │   3.2min
-Near Full (M/M/1)               │    0.95  │     80 │    16.2 │      6 │   1.6 │   5.8min
-Overloaded (M/M/1)              │    1.50  │     43 │    21.5 │     10 │   4.0 │   7.4min*
+Scenario                        │ target ρ │ peak q │ avg q │ avg wait
+─────────────────────────────────────────────────────────────────────
+Lockstep                        │      —   │      0 │   0.0 │        —
+Fixed Schedule (D/D/1)          │    0.90  │      0 │   0.0 │   0.0min
+Random Arrivals (M/D/1)         │    0.90  │      4 │   0.6 │   2.1min
+Random Service (D/M/1)          │    0.90  │      4 │   0.6 │   2.0min
+Random Everything (M/M/1)       │    0.90  │      5 │   0.8 │   3.2min
+Near Full (M/M/1)               │    0.95  │      6 │   1.6 │   5.8min
+Overloaded (M/M/1)              │    1.50  │     10 │   4.0 │   7.4min*
 ```
 
 These lessons are only as trustworthy as the simulation behind them. The first
@@ -136,7 +146,8 @@ verification.
 
 The fix: timestamp each customer independently. Compute
 wait from timestamps. Compute queue length from event-time integration. Check
-whether L_q = lambda * W_q. Ratio is 1.00 for every stable scenario:
+whether L_q = lambda * W_q. The ratio is 1.00 (within rounding) for every
+stable scenario:
 
 ```
 Little's Law consistency check (L_q ≈ λ × W_q):
@@ -231,13 +242,10 @@ means simulated minutes, not wall-clock.
 ---
 
 About 1000 lines of Go. Three review rounds and 20 polish passes before the
-first commit. This post went through its own cycle --- adversarial grading
-caught a misleading hook, an overclaimed thesis, a table that contradicted the
-title. External review catches what self-review misses. True for simulations.
-True for prose.
+first commit.
 
 Three questions from these reviews. Is your baseline valid? Is your
 verification independent of your computation? Is your clock decoupled from your
-display? All three mistakes still produced believable output.
+display? Believable output is not the same as a trustworthy model.
 
 [Source code](https://github.com/binaryphile/toc/tree/master/examples/queue-demo)
