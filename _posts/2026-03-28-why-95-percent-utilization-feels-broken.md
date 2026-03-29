@@ -18,8 +18,8 @@ it was teaching wrong lessons confidently.
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory.
 
-Each step removes one simplification: the gate, perfect regularity,
-single-sided randomness, both sides, the remaining headroom.
+Each step removes one simplification: the gate, perfect regularity, randomness
+on one side, both sides, the remaining headroom.
 
 **Start with no randomness.** A sushi boat. The chef places a plate, it
 circles to you, you grab it, the empty spot comes back. Nobody arrives until
@@ -46,8 +46,8 @@ looks like this.
 
 **Add randomness to one side.** A coffee shop. Every drink takes exactly 3
 minutes. But customers arrive unpredictably --- two walk in together, then
-nobody for ten minutes. The server can't absorb the bursts instantly. It forms and drains. That's variable arrivals, fixed service
-(M/D/1).
+nobody for ten minutes. The server can't absorb the bursts instantly. It forms
+and drains. That's variable arrivals, fixed service (M/D/1).
 
 Flip it. A dentist with appointments every 30 minutes. Most visits take 25.
 Some run to 40. The patient who arrives on time for the next slot waits because
