@@ -72,10 +72,8 @@ Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂�
 
 That's M/M/1. Same target load. Average wait jumped from ~2 min to 3.2.
 
-**Push the load.** Same model, target load raised from 0.90 to 0.95. A highway
-at 95% capacity. One slow merge and traffic backs up for miles. Then push past
-capacity: the DMV at 8:01 AM, forty people, one clerk. Demand exceeds service
-and the backlog grows.
+**Push the load.** Same model, target load raised from 0.90 to 0.95. Then past
+capacity to 1.5 --- demand exceeds service and the backlog grows.
 
 ```
 Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  avg wait: 5.8min
