@@ -18,16 +18,13 @@ it was teaching wrong lessons confidently.
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory.
 
-Each step removes one simplification from the last: first the gate, then
-perfect regularity, then single-sided randomness, then both sides, then the
-remaining headroom.
+Each step removes one simplification: the gate, perfect regularity,
+single-sided randomness, both sides, the remaining headroom.
 
 **Start with no randomness.** A sushi boat. The chef places a plate, it
 circles to you, you grab it, the empty spot comes back. Nobody arrives until
 there's room. No queue is possible because arrivals are gated by departures.
-That's lockstep --- a pull system. This is not a standard open queue. It's a
-gated handoff, included to show what disappears once arrivals become
-independent.
+That's lockstep --- a gated handoff, not a standard open queue.
 
 Now remove the gate. A merry-go-round: kids show up every 3.3 minutes whether
 or not a horse is free, but each ride takes exactly 3. Arrivals are independent
@@ -49,8 +46,7 @@ looks like this.
 
 **Add randomness to one side.** A coffee shop. Every drink takes exactly 3
 minutes. But customers arrive unpredictably --- two walk in together, then
-nobody for ten minutes. The bursts create waits the steady server can't absorb
-instantly. It forms and drains. That's variable arrivals, fixed service
+nobody for ten minutes. The server can't absorb the bursts instantly. It forms and drains. That's variable arrivals, fixed service
 (M/D/1).
 
 Flip it. A dentist with appointments every 30 minutes. Most visits take 25.
@@ -89,12 +85,15 @@ Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂
 \* Overloaded wait counts only completed customers. Those still queued at the
 time horizon are excluded. This understates congestion.
 
-Five percentage points of load. Nearly 2x the wait. The overloaded sparkline
-climbs. "95% utilized" sounds like 5% less headroom. In steady state, it's far
-worse than this demo shows --- M/M/1 theory predicts about 57 minutes of
-average queue wait at ρ=0.95 with 3-minute mean service. The demo's 5.8
-minutes reflects a short cold-start run that never reaches that regime. The
-nonlinear pain is real; the demo understates it.
+Five percentage points of load. Nearly 2x the wait. "95% utilized" sounds like
+5% less headroom.
+
+The overloaded sparkline climbs and doesn't come back.
+
+In steady state, near-full is far worse than this demo shows. M/M/1 theory
+predicts about 57 minutes of average queue wait at ρ=0.95 with 3-minute mean
+service. The demo's 5.8 minutes reflects a short cold-start run that never
+reaches that regime. The nonlinear pain is real. The demo understates it.
 
 Stable scenarios run all customers to completion before measuring. Overloaded
 runs for a fixed time horizon. The full comparison:
@@ -240,9 +239,6 @@ means simulated minutes, not wall-clock.
 **Principle:** Coupling simulation to rendering makes both unreliable.
 
 ---
-
-About 1000 lines of Go. Three review rounds and 20 polish passes before the
-first commit.
 
 Three questions from these reviews. Is your baseline valid? Is your
 verification independent of your computation? Is your clock decoupled from your
