@@ -169,21 +169,16 @@ A consistency check, not external validation. But when one side was derived
 from the other, even this check was impossible.
 
 ```go
-// Flow time — only over completed customers.
-var totalFlow float64
-var flowCount int
-for _, c := range r.customers {
-    if c.completion > 0 {
-        ft := c.completion - c.arrival
-        totalFlow += ft
-        flowCount++
-    }
-}
-if flowCount > 0 {
-    m.avgFlow = totalFlow / float64(flowCount)
-}
+// Flow time — filter completed, map to duration, average.
+completed := slice.From(r.customers).KeepIf(func(c customer) bool {
+    return c.completion > 0
+})
+flowTimes := completed.ToFloat64(func(c customer) float64 {
+    return c.completion - c.arrival
+})
+m.avgFlow = flowTimes.Sum() / float64(completed.Len())
 
-// Event-time integrated WIP.
+// Event-time integrated WIP (stateful — each step depends on the previous).
 var wipArea float64
 prevTime := 0.0
 prevWIP := 0
