@@ -183,8 +183,9 @@ W_q from timestamps. L_q from integration. Neither derived from the other.
 **"Common seeds" aren't matched traces.** Different scenarios consume random
 numbers differently. The fixed-schedule scenario uses none. The
 random-arrivals scenario draws only from the arrival sequence. Sharing a seed
-doesn't mean scenarios see the same arrivals. Fix: pre-generate one interarrival sequence and one service sequence.
-Each scenario slices what it needs.
+doesn't mean scenarios see the same arrivals. Fix: pre-generate one
+interarrival sequence and one service sequence. Each scenario slices what it
+needs.
 
 **Principle:** Verification that travels the same code path as computation
 isn't verification.
@@ -240,4 +241,3 @@ verification independent of your computation? Is your clock decoupled from your
 display? All three mistakes still produced believable output.
 
 [Source code](https://github.com/binaryphile/toc/tree/master/examples/queue-demo)
-
