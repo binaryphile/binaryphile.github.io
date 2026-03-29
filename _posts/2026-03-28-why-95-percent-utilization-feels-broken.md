@@ -18,11 +18,12 @@ it was teaching wrong lessons confidently.
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory.
 
-Three metrics tell you how a queue behaves: **throughput** (customers served per
-unit time), **flow time** (how long each customer spends from arrival to
-departure), and **WIP** (how many are in the system — waiting plus being
-served). Little's Law ties them together: flow time = WIP / throughput. When
-one gets worse, the others move with it.
+Three metrics tell you how a queue behaves. **Throughput** is how many
+customers walk out the door per hour. **Flow time** is how long you're stuck
+--- from the moment you get in line to the moment you leave with your order.
+**WIP** (work in process) is everyone currently in the building --- waiting in
+line plus being served. Little's Law ties them together: flow time = WIP /
+throughput. When one gets worse, the others move with it.
 
 The sparklines below show WIP over time. The number at the end is average flow
 time. Those are the metrics to watch as we add complexity.
