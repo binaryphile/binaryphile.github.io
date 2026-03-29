@@ -18,6 +18,11 @@ it was teaching wrong lessons confidently.
 Target load is the ratio of arrival rate to service rate, written ρ (rho) in
 queuing theory.
 
+Two things tell you a queue is in trouble: how long customers wait before being
+served, and how deep the line gets. The sparklines below show queue depth over
+time. The number at the end is average wait. Those are the metrics to watch as
+we add complexity.
+
 Each step removes one simplification: the gate, perfect regularity, randomness
 on one side, both sides, the remaining headroom.
 
@@ -37,8 +42,8 @@ In the sparklines below, the low bar (▁) is the baseline --- zero queue depth.
 Taller blocks mean deeper queues.
 
 ```
-Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
-Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  queue: 0
+Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg wait: —
+Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg wait: 0.0min
 ```
 
 Flat lines. No waiting. Simple and predictable, but nothing in production
