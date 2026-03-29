@@ -50,8 +50,9 @@ In the sparklines below, the low bar (▁) is the baseline --- zero WIP. Taller
 blocks mean more customers in the system.
 
 ```
-Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg flow: —
-Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  avg flow: 0.0min
+                         WIP over time                                TP      avg WIP  avg flow
+Lockstep:               ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  20/hr   0.0      —
+Fixed Schedule (D/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  16.5/hr 0.0      0.0min
 ```
 
 Flat lines. No waiting. Simple and predictable, but nothing in production
@@ -69,8 +70,9 @@ Either source of variability alone creates queues, even when the server is fast
 enough on average.
 
 ```
-Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  avg flow: 2.1min
-Random Service (D/M/1):  ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▁▁  avg flow: 2.0min
+                          WIP over time                                TP      avg WIP  avg flow
+Random Arrivals (M/D/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▃▂▁▁  16.1/hr 0.6      2.1min
+Random Service (D/M/1):  ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▂▁▁  17.0/hr 0.6      2.0min
 ```
 
 Average demand is 10% below capacity. Occasional queuing is nevertheless
@@ -80,7 +82,8 @@ visible.
 Some order a taco, some a custom burrito. Neither side is predictable.
 
 ```
-Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  avg flow: 3.2min
+                            WIP over time                                TP      avg WIP  avg flow
+Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  15.7/hr 0.8      3.2min
 ```
 
 That's M/M/1. Same target load. Average flow time jumped from ~2 min to 3.2.
@@ -89,8 +92,9 @@ That's M/M/1. Same target load. Average flow time jumped from ~2 min to 3.2.
 capacity to 1.5 --- demand exceeds service and the backlog grows.
 
 ```
-Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  avg flow: 5.8min
-Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂▂▃▅▅▅▃▃▃▃▃▃▃▂▄▅▆▇▇▇▅▅▅▇  avg flow: 7.4min*
+                              WIP over time                                TP      avg WIP  avg flow
+Near Full (M/M/1, ρ=0.95):  ▁▁▁▁▁▁▁▁▁▁▂▃▂▁▁▁▁▁▁▁▃▃▄▂▁▂▃▄▃▂▅▁▃▃▁▁▁▂▁▁  16.2/hr 1.6      5.8min
+Overloaded (M/M/1, ρ=1.5):  ▁▂▂▂▃▃▃▂▁▂▂▂▁▁▁▂▂▂▃▅▅▅▃▃▃▃▃▃▃▂▄▅▆▇▇▇▅▅▅▇  21.5/hr 4.0      7.4min*
 ```
 
 \* Overloaded wait counts only completed customers. Those still queued at the
