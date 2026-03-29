@@ -70,7 +70,7 @@ Some order a taco, some a custom burrito. Neither side is predictable.
 Random Everything (M/M/1): ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▂▃▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▄▃▃▁▁  avg wait: 3.2min
 ```
 
-That's M/M/1. Deeper peaks, longer recovery. Same target load.
+That's M/M/1. Same target load. Average wait jumped from ~2 min to 3.2.
 
 **Push the load.** Same model, target load raised from 0.90 to 0.95. A highway
 at 95% capacity. One slow merge and traffic backs up for miles. Then push past
