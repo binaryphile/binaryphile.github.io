@@ -175,7 +175,7 @@ isCompleted := func(c customer) bool { return c.completion > 0 }
 // flowTime returns time from arrival to departure.
 flowTime := func(c customer) float64 { return c.completion - c.arrival }
 
-// Flow time — filter completed, map to duration, average.
+// Flow time - filter completed, map to duration, average.
 completed := slice.From(r.customers).KeepIf(isCompleted)
 flowTimes := completed.ToFloat64(flowTime)
 m.avgFlow = flowTimes.Sum() / float64(completed.Len())
@@ -187,7 +187,7 @@ integrateWIP := func(s wipState, e logEntry) wipState {
     return wipState{s.area + float64(s.prevWIP)*dt, e.time, e.systemSize}
 }
 
-// WIP — fold over event log, then divide by total time.
+// WIP - fold over event log, then divide by total time.
 final := slice.Fold(r.log, wipState{}, integrateWIP)
 m.avgWIP = final.area / r.endTime
 ```
