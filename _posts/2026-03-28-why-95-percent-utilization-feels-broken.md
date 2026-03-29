@@ -178,17 +178,13 @@ flowTimes := completed.ToFloat64(func(c customer) float64 {
 })
 m.avgFlow = flowTimes.Sum() / float64(completed.Len())
 
-// Event-time integrated WIP (stateful — each step depends on the previous).
-var wipArea float64
-prevTime := 0.0
-prevWIP := 0
-for _, e := range r.log {
-    dt := e.time - prevTime
-    wipArea += float64(prevWIP) * dt
-    prevTime = e.time
-    prevWIP = e.systemSize
-}
-m.avgWIP = wipArea / r.endTime
+// Event-time integrated WIP — fold over the event log.
+type wipState struct{ area, prevTime float64; prevWIP int }
+final := slice.Fold(r.log, wipState{}, func(s wipState, e logEntry) wipState {
+    dt := e.time - s.prevTime
+    return wipState{s.area + float64(s.prevWIP)*dt, e.time, e.systemSize}
+})
+m.avgWIP = final.area / r.endTime
 ```
 
 Flow time from timestamps. WIP from integration. Neither derived from the
