@@ -16,10 +16,9 @@ The Chromebook has 8GB of RAM. The embedding model — the neural network
 that turns text into vectors — occupies 2GB just sitting in memory.
 Each concurrent worker needs another 400MB of scratch space. My memory
 budget calculated that seven workers would fit. It was wrong. It
-counted the model and the workers but not the thousands of chunks
-accumulating between pipeline stages, not the search graph growing in
-the background, not the commit indexer running alongside. Seven workers
-pushed past 4.8GB. The OS killed the process.
+counted the model and the workers but not ORT's own runtime overhead,
+not the search graph growing in memory, not the commit indexer running
+alongside. Seven workers pushed past 4.8GB. The OS killed the process.
 
 Two workers at 2.6GB is what actually fits. I needed to make sure the
 pipeline never tried to hold more.
@@ -50,14 +49,12 @@ external reviewer saw the problem before I coded it: "You're inferring
 inventory from completions. That's backwards." At startup, nothing
 has finished. The estimate would be meaningless.
 
-## The thing I should have built first
+## What the telemetry showed
 
-I stopped guessing and built telemetry.
-
-Every two seconds, every stage in the pipeline reports three numbers:
-how busy it is, how much time it spends with nothing to do, and how
-much time it spends blocked waiting for the next stage to accept its
-output.
+I'd already built per-stage telemetry before the limit. Every two
+seconds, every stage reports three numbers: how busy it is, how much
+time it spends with nothing to do, and how much time it spends blocked
+waiting for the next stage to accept its output.
 
 The picture was unambiguous. The embedding stage was working flat out.
 The storage stage had nothing to do most of the time. The graph
@@ -65,9 +62,7 @@ insertion stage had nothing to do almost all of the time. Everything
 upstream of embedding was blocked, waiting for embedding to take more
 work.
 
-One stage working. Five stages waiting. The upstream stages were
-blocked because they'd already produced more chunks than embedding
-could handle, and those chunks were sitting in memory.
+One stage working. Five stages waiting.
 
 ## The limit
 
@@ -97,18 +92,18 @@ produced. The embedding stage returns the number of chunks in its
 batch. The controller reads these numbers directly. No inference, no
 estimation, no translation between units.
 
-One edge remained. A file with 200 chunks arrives when the controller's
-limit is 64. If it blocks, nothing flows. If nothing flows, the
+One edge remained. A heavily documented file can produce hundreds of
+chunks. If it arrives when the controller's limit is 64 — If it blocks, nothing flows. If nothing flows, the
 controller can't measure throughput. If it can't measure throughput, it
 can't raise the limit. Deadlock.
 
 The fix: let one oversized file through without blocking. The
-controller sees 200 chunks suddenly in flight, tightens, and adapts on
-the next tick.
+controller sees the spike on the next tick, tightens, and adapts.
 
 ## What I'd do differently
 
-Build the telemetry before the first fix, not after.
+Build the telemetry earlier. I had it before the limit, but not before
+the memory budget that turned out to be wrong.
 
 Start on the smallest machine. Eight gigabytes leaves no room to be
 wrong about memory.
