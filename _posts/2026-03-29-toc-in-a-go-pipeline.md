@@ -8,9 +8,9 @@ My code indexer worked on my Chromebook until I made it fast.
 
 The slow version had parallel chunking but serial embedding — one
 worker converting chunks into vectors while seven others waited for
-it. Three minutes for 84 Go files. It always finished. I made
-embedding concurrent too. Five times faster. Then the operating system
-killed it.
+it. Three minutes for 84 Go files. It always finished. Then I made
+embedding concurrent too. Five times faster — and then the operating
+system killed it.
 
 The Chromebook has 8GB of RAM. The embedding model occupies 2GB just
 sitting in memory. Each concurrent worker needs another 400MB of
@@ -42,18 +42,20 @@ One stage working. Five stages waiting.
 
 The semaphore limited workers. The pipeline also had per-stage buffer
 limits, but they were static — they didn't respond to how fast
-embedding was consuming. I needed a limit that tracked embedding's
+embedding was consuming. So I needed a limit that tracked embedding's
 throughput.
 
-A file enters the pipeline. It gets split into chunks — maybe one,
-maybe fifty. Those chunks get batched, embedded, stored, and inserted
-into a graph. I was counting files. When the count dropped, less
-accumulated. But a file that produces fifty chunks and a file that
-produces one chunk both counted as one.
+The question was what to count. A file enters the pipeline and gets
+split into chunks — maybe one, maybe fifty. Those chunks get batched,
+embedded, stored, and inserted into a graph. I started by counting
+files. When the count dropped, less accumulated. But a file that
+produces fifty chunks and a file that produces one chunk both counted
+as one.
 
-I proposed estimating chunk counts from completion ratios. An external
-reviewer saw the problem before I coded it: "You're inferring inventory
-from completions. That's backwards." At startup, nothing has finished.
+Next I proposed estimating chunk counts from completion ratios. An
+external reviewer saw the problem before I coded it: "You're inferring
+inventory from completions. That's backwards." At startup, nothing has
+finished.
 
 ## The limit
 
@@ -77,13 +79,13 @@ through it. The admission stage returns the number of embeddable chunks
 the file produced. The embedding stage returns the number of chunks in
 its batch. The controller reads what stages report. No inference.
 
-One edge remained. A heavily documented file can produce hundreds of
-chunks. If it arrives when the controller's limit is 64, it blocks.
+But one edge remained. A heavily documented file can produce hundreds
+of chunks. If it arrives when the controller's limit is 64, it blocks.
 If it blocks, nothing flows. If nothing flows, the controller can't
 measure throughput to raise the limit. Deadlock.
 
-Let one oversized file through without blocking. The controller sees
-the spike on the next tick, tightens, and adapts.
+The fix was to let one oversized file through without blocking. The
+controller sees the spike on the next tick, tightens, and adapts.
 
 ## What I'd do differently
 
