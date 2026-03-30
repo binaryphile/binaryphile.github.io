@@ -11,11 +11,16 @@ Then it OOMed.
 8GB RAM. 4 cores.
 The embedding model loads at 2GB.
 Each concurrent worker adds 400MB.
-Two workers: 2.6GB, stable.
-Three workers: dead.
+The memory budget said seven workers would fit.
+Seven workers hit 4.8GB and the OS killed the process.
 
-The Go runtime doesn't know about native memory.
+Native memory doesn't show up in Go's heap stats.
 GOMEMLIMIT can't help.
+The budget was wrong because it only counted ORT scratch,
+not pipeline buffers, HNSW graph growth, or the commit
+indexer running alongside.
+
+Two workers at 2.6GB is what actually fits.
 
 ## Instrument first
 
