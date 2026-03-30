@@ -6,10 +6,10 @@ category: development
 
 My code indexer worked on my Chromebook until I made it fast.
 
-The slow version processed one file at a time. Three minutes for 84
-Go files. It always finished. I added concurrency — multiple workers
-splitting files into chunks and converting those chunks into search
-vectors simultaneously. Five times faster. Then the operating system
+The slow version had parallel chunking but serial embedding — one
+worker converting chunks into vectors while seven others waited for
+it. Three minutes for 84 Go files. It always finished. I made
+embedding concurrent too. Five times faster. Then the operating system
 killed it.
 
 The Chromebook has 8GB of RAM. The embedding model — the neural network
@@ -39,16 +39,16 @@ were in flight, and the pipeline doesn't count in one unit. Files enter
 at the top. Chunks flow through the middle. Batches of chunks flow
 through the bottom.
 
-First I counted files. It worked — when the count dropped, memory
-dropped. But a file that produces fifty chunks and a file that produces
-one chunk both counted as one. The limit was blunt. It kept the
-Chromebook alive but couldn't track actual memory pressure.
+I counted files. It worked — when the count dropped, memory dropped.
+But a file that produces fifty chunks and a file that produces one
+chunk both counted as one. The limit was blunt. It kept the Chromebook
+alive but couldn't tell me how much memory was actually in use.
 
-An external reviewer saw the problem before I did: "You're inferring
-inventory from completions. That's backwards." I'd been trying to
-estimate chunk counts from how many files had finished and how many
-chunks they'd produced. At startup, nothing had finished. The estimate
-was meaningless.
+I proposed estimating chunk counts from completion ratios — if ten
+files produced three hundred chunks, maybe the next ten would too. An
+external reviewer saw the problem before I coded it: "You're inferring
+inventory from completions. That's backwards." At startup, nothing
+has finished. The estimate would be meaningless.
 
 ## The thing I should have built first
 
@@ -84,9 +84,9 @@ in flight. Within a few ticks the controller tightened to 6, then
 settled at 13 as its estimate converged. 2.6GB of memory. The
 Chromebook hummed.
 
-I ran the same binary on a kernel source tree — 15,000 C files. The
-controller settled at 62 chunks in flight. No oscillation. No tuning.
-Same machine.
+I ran the same binary on a subset of a kernel source tree — about a
+hundred C files filtered from 15,000. The controller settled at 62
+chunks in flight. No oscillation. No tuning. Same machine.
 
 ## What finally worked for counting
 
@@ -113,7 +113,7 @@ Build the telemetry before the first fix, not after.
 Start on the smallest machine. Eight gigabytes leaves no room to be
 wrong about memory.
 
-| | 137 Go files | 15,000 C files |
+| | 166 files (era) | ~100 files (kernel subset) |
 |---|---|---|
 | Workers | 2 | 2 |
 | Chunks in flight (steady) | 13 | 62 |
