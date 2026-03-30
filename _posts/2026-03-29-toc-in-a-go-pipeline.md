@@ -20,8 +20,8 @@ not the pipeline buffers between stages, not the search graph growing
 in memory, not the commit indexer running alongside. Seven workers
 pushed past 4.8GB. The OS killed the process.
 
-Two workers at 2.6GB is what actually fits. A memory-weighted semaphore
-limits how many workers run concurrently based on available RAM. That
+Two workers at 2.6GB is what actually fits. I added a memory-weighted
+semaphore that limits concurrent workers based on available RAM. That
 fixed the OOM.
 
 ## What the telemetry showed
