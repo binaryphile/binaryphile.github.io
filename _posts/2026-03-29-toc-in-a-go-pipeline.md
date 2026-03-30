@@ -31,12 +31,10 @@ seconds, every stage reports how busy it is, how much time it spends
 with nothing to do, and how much time it spends blocked waiting for
 the next stage to accept its output.
 
-The embedding stage was working flat out. The storage stage had nothing
-to do most of the time. The graph insertion stage had nothing to do
-almost all of the time. Everything upstream of embedding was blocked,
-waiting for it to take more work.
-
-One stage working. Five stages waiting.
+Embedding was the bottleneck — 80 to 98 percent of wall time on every
+repo I tested. Everything upstream was blocked against it. Everything
+downstream was waiting for it. Having a bottleneck is normal. The
+question is what to do about the stages piling up behind it.
 
 ## The wrong unit
 
