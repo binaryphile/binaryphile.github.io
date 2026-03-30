@@ -16,9 +16,9 @@ The Chromebook has 8GB of RAM. The embedding model — the neural network
 that turns text into vectors — occupies 2GB just sitting in memory.
 Each concurrent worker needs another 400MB of scratch space. My memory
 budget calculated that seven workers would fit. It was wrong. It
-counted the model and the workers but not ORT's own runtime overhead,
-not the search graph growing in memory, not the commit indexer running
-alongside. Seven workers pushed past 4.8GB. The OS killed the process.
+counted the model and the per-worker scratch but not the pipeline
+buffers between stages, not the search graph growing in memory, not
+the commit indexer running alongside. Seven workers pushed past 4.8GB. The OS killed the process.
 
 Two workers at 2.6GB is what actually fits. A memory-weighted semaphore
 limits how many workers run concurrently based on available RAM. That
@@ -48,9 +48,10 @@ the other. In between, a file gets split into chunks — maybe one, maybe
 fifty — and those chunks get batched, embedded, stored, and inserted
 into a graph.
 
-The semaphore fixed the OOM by limiting workers. But the pipeline
-still had no way to limit how much work accumulated between stages.
-I needed a second limit: how many chunks could be in flight at once.
+The semaphore fixed the OOM by limiting workers. The pipeline had
+per-stage buffer limits, but they were static — they didn't respond
+to how fast embedding was actually consuming. I needed a limit that
+tracked the bottleneck's throughput.
 
 The problem was measuring them. Files enter at the top. Chunks flow
 through the middle. Batches of chunks flow through the bottom.
@@ -105,8 +106,9 @@ controller sees the spike on the next tick, tightens, and adapts.
 ## What I'd do differently
 
 Build the telemetry earlier. I had it before the rope, but not before
-the semaphore. I fixed the OOM by guessing a worker count, then built
-the telemetry that would have told me why.
+the semaphore. The first memory budget was a formula that undercounted.
+The fix was a more conservative formula. The telemetry I built a week
+later would have shown me exactly what the budget missed.
 
 Start on the smallest machine. Eight gigabytes leaves no room to be
 wrong about memory.
