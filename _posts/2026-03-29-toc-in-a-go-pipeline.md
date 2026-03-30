@@ -4,31 +4,44 @@ title: "Theory of Constraints in a Go Pipeline"
 category: development
 ---
 
-My code indexer ran fine on my Chromebook.
-Then I made it parallel.
-Then it OOMed.
+My code indexer worked on my Chromebook until I made it fast.
 
-8GB RAM. 4 cores.
-The embedding model loads at 2GB.
-Each concurrent worker adds 400MB.
-The memory budget said seven workers would fit.
-Seven workers hit 4.8GB and the OS killed the process.
+The slow version processed 84 Go files in three minutes. Embedding
+dominated — 315ms per text, single-threaded. I added concurrent
+workers and a pipeline. Throughput jumped 5x on my work machine. The
+Chromebook OOMed.
 
-Native memory doesn't show up in Go's heap stats.
-GOMEMLIMIT can't help.
-The budget was wrong because it only counted ORT scratch,
-not pipeline buffers, HNSW graph growth, or the commit
-indexer running alongside.
+I spent two weeks fixing that OOM. I tried three different approaches
+to controlling how much work the pipeline held in flight. All three
+were wrong. The fix, when I found it, was four lines of code. But I
+couldn't write those four lines until I could see what the pipeline
+was doing, and I didn't build that visibility until after I'd failed
+three times. That's the story I want to tell.
 
-Two workers at 2.6GB is what actually fits.
+## The problem I couldn't see
 
-## Instrument first
+The Chromebook has 8GB of RAM and 4 cores. ORT loads a 2GB embedding
+model. Each concurrent worker adds 400MB of native scratch memory —
+memory the Go runtime can't see and GOMEMLIMIT can't limit. My
+initial memory budget said seven workers would fit. It was wrong. It
+counted ORT scratch but not pipeline buffers, not the HNSW graph
+growing in memory, not the commit indexer running alongside. Seven
+workers hit 4.8GB and the OS killed the process.
 
-I should have started here.
-I didn't. I built the telemetry after three failed fixes.
+I knew the fix was to limit concurrency. I didn't know how much. So I
+guessed. I tried three different ways to estimate how much work was in
+the pipeline, and all three produced numbers I couldn't trust.
 
-Every 2 seconds, each pipeline stage reports utilization, starvation,
-and blocking.
+The first counted items. But a file that produces 50 chunks and a file
+that produces one chunk both counted as one item. The second inferred
+chunk counts from completion ratios — zero divided by zero at startup.
+The third used running averages that drifted when the workload changed.
+The estimate and the measurement disagreed, and I couldn't tell which
+was wrong.
+
+After the third failure I stopped and built telemetry. Every two
+seconds, every pipeline stage reports its utilization, starvation, and
+blocking ratio. The picture it showed was unambiguous:
 
 ```
 embed:       saturated  util=175%
@@ -37,89 +50,75 @@ hnsw-insert: starved    util=1%
 chunk-admit: blocked
 ```
 
-Embed is the bottleneck. 80--98% of wall time. Everything downstream
-waits. Everything upstream backs up.
+Embed was the bottleneck. Always had been. Everything downstream sat
+idle waiting for it. Everything upstream was backed up against it. And
+everything upstream that was backed up was holding memory.
 
-Upstream producing faster than embed can consume just builds inventory.
-Inventory is memory.
+## The four lines
 
-## The rope
+Once I could see the bottleneck, the fix was obvious. Don't let
+upstream produce faster than embed can consume.
 
-A rope limits how much work enters the system based on how fast the
-bottleneck drains it. A controller runs every 2 seconds, measures embed
-throughput and upstream flow time, and computes a target WIP.
+A controller runs every two seconds. It reads embed's throughput and
+the time items spend in transit upstream. It multiplies them to get a
+target: how many chunks should be in flight right now. Then it limits
+admission to that number.
+
+On the Chromebook, indexing this repo:
 
 ```
-Startup:   length=64  wip=105  penetration=164%
-Adapting:  length=6   wip=0    goodput=50.5/s
-Stable:    length=13  wip=0    goodput=103.6/s
+Startup:   rope=64  wip=105  penetration=164%
+Adapting:  rope=6   wip=0    goodput=50.5/s
+Stable:    rope=13  wip=0    goodput=103.6/s
 ```
 
-Starts generous. Burst. Tightens to 6. Settles at 13.
-Embed saturated, everything else subordinated.
-2.6GB RSS. No OOM.
+It starts permissive — 64 chunks allowed in flight. The first burst
+overshoots. Within a few ticks it tightens to 6, then settles at 13
+as the throughput estimate converges. Embed runs saturated. Everything
+else is subordinated. 2.6GB RSS. No OOM.
 
-On accelerated-linux --- 15,000 C files --- it stabilizes at 62 with
-90% penetration. No oscillation.
+I ran the same binary on accelerated-linux, a kernel tree with 15,000
+C files. The controller stabilized at 62 chunks in flight, 90%
+utilization of the limit. No oscillation, no tuning. Same machine.
 
-Same code. Same controller. Same machine.
+## What made the fix possible
 
-## Getting the units wrong
+Not the controller. The telemetry.
 
-A file goes into chunk. Out come N chunks. Maybe 1, maybe 50.
+The three failed approaches all tried to model the pipeline from the
+outside — inferring what was happening from aggregate numbers. The
+telemetry let me stop modeling and start observing. Each stage reports
+what it's holding. The controller reads those reports. No inference,
+no estimation, no translation between unit domains. Just a count.
 
-The rope measures WIP from admission to the bottleneck. Admission sees
-files. The bottleneck sees chunks.
-
-First attempt: count items. A 50-chunk file and a 1-chunk file look
-the same. Directionally correct, not precise.
-
-Second attempt: infer chunk counts from completion ratios. Edge cases
-everywhere. Zero divided by zero at startup.
-
-Third attempt: running averages. Drifted under workload changes. The
-estimate and the measurement disagreed, and I couldn't tell which was
-wrong.
-
-What worked: ask each stage what it's holding. Each one declares a
-weight function. The admission stage returns `len(texts)`. No
-inference. No translation. Just a count.
-
-One problem remained. A file with 200 texts arrives when the rope
-limit is 64. If oversized items block, and nothing flows, the rope
-can't observe throughput to raise the limit. Deadlock.
-
-Admit one oversized item without blocking. The rope sees elevated WIP
-on the next tick. Tightens. Brief overshoot. No deadlock.
+The hardest part was the unit mismatch. A file enters the chunk stage.
+Out come N chunks — maybe one, maybe fifty. Admission counts files.
+The bottleneck counts chunks. I needed a stage between them whose only
+job was to weigh each file in chunks as it passed through. An identity
+stage. A shim. It does no work, but it gives the controller a number
+it can trust.
 
 ## What I'd do differently
 
-Instrument first.
+Build the telemetry first. I wrote it after three failures. Every one
+of those failures would have been caught in minutes if I could see
+per-stage utilization. I couldn't, so each failure took days.
 
-I built the telemetry after the third broken WIP adapter. Without it,
-every fix was guesswork. With it, the bottleneck was always obvious.
-
-Start on the constrained machine. 8GB forces every memory decision to
-be explicit.
-
-## Numbers
-
-Chromebook. i5-1135G7. 8GB RAM. 4 cores.
+Start on the smallest machine. The Chromebook's 8GB forced me to
+account for every allocation. The work machine had enough headroom to
+hide the problem.
 
 | | era (137 Go files) | accelerated-linux (15K C) |
 |---|---|---|
 | Embed workers | 2 | 2 |
-| Rope length | 13 | 62 |
+| Target WIP | 13 | 62 |
 | WIP penetration | 0% (drained fast) | 90% |
 | Bottleneck | embed | embed |
 | RSS | 2.6 GB | 2.2 GB |
 | OOM | never | never |
 
-Same binary. Same controller.
-Two workloads. Both stable.
+Same binary. Same controller. Two workloads. Both stable.
 
-## Code
-
-[toc](https://codeberg.org/binaryphile/toc) --- Theory of Constraints
-pipeline control for Go.
-[era](https://codeberg.org/binaryphile/era) --- the indexer.
+The pipeline is built with [toc](https://codeberg.org/binaryphile/toc),
+a Go library for Theory of Constraints pipeline control. The indexer is
+[era](https://codeberg.org/binaryphile/era).
