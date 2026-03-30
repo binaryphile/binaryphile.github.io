@@ -9,8 +9,8 @@ My code indexer worked on my Chromebook until I made it fast.
 The slow version processed one file at a time. Three minutes for 84
 Go files. It always finished. I added concurrency — multiple workers
 splitting files into chunks and converting those chunks into search
-vectors simultaneously. On my work machine, five times faster. On the
-Chromebook, the operating system killed it.
+vectors simultaneously. Five times faster. Then the operating system
+killed it.
 
 The Chromebook has 8GB of RAM. The embedding model — the neural network
 that turns text into vectors — occupies 2GB just sitting in memory.
