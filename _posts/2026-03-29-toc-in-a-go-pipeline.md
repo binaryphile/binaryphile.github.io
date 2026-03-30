@@ -20,38 +20,15 @@ counted the model and the workers but not ORT's own runtime overhead,
 not the search graph growing in memory, not the commit indexer running
 alongside. Seven workers pushed past 4.8GB. The OS killed the process.
 
-Two workers at 2.6GB is what actually fits. I needed to make sure the
-pipeline never tried to hold more.
+Two workers at 2.6GB is what actually fits. A memory-weighted semaphore
+limits how many workers run concurrently based on available RAM. That
+fixed the OOM.
 
-## The wrong unit
-
-The pipeline has eight stages. Files enter at one end. Vectors come out
-the other. In between, a file gets split into chunks — maybe one, maybe
-fifty — and those chunks get batched, embedded, stored, and inserted
-into a graph. The stage that converts chunks into vectors is the
-slowest by far. It consumes 80 to 98 percent of the total time. Every
-other stage spends most of its time waiting.
-
-I needed to limit how many chunks could be in the pipeline at once.
-Fewer chunks in flight means less memory. But I had to measure how many
-were in flight, and the pipeline doesn't count in one unit. Files enter
-at the top. Chunks flow through the middle. Batches of chunks flow
-through the bottom.
-
-I counted files. It worked — when the count dropped, memory dropped.
-But a file that produces fifty chunks and a file that produces one
-chunk both counted as one. The limit was blunt. It kept the Chromebook
-alive but couldn't tell me how much memory was actually in use.
-
-I proposed estimating chunk counts from completion ratios — if ten
-files produced three hundred chunks, maybe the next ten would too. An
-external reviewer saw the problem before I coded it: "You're inferring
-inventory from completions. That's backwards." At startup, nothing
-has finished. The estimate would be meaningless.
+But it didn't tell me what the pipeline was doing.
 
 ## What the telemetry showed
 
-I'd already built per-stage telemetry before the limit. Every two
+I built per-stage telemetry a week after the semaphore. Every two
 seconds, every stage reports three numbers: how busy it is, how much
 time it spends with nothing to do, and how much time it spends blocked
 waiting for the next stage to accept its output.
@@ -63,6 +40,30 @@ upstream of embedding was blocked, waiting for embedding to take more
 work.
 
 One stage working. Five stages waiting.
+
+## The wrong unit
+
+The pipeline has eight stages. Files enter at one end. Vectors come out
+the other. In between, a file gets split into chunks — maybe one, maybe
+fifty — and those chunks get batched, embedded, stored, and inserted
+into a graph.
+
+The semaphore fixed the OOM by limiting workers. But the pipeline
+still had no way to limit how much work accumulated between stages.
+I needed a second limit: how many chunks could be in flight at once.
+
+The problem was measuring them. Files enter at the top. Chunks flow
+through the middle. Batches of chunks flow through the bottom.
+
+I counted files. It worked — when the count dropped, less accumulated.
+But a file that produces fifty chunks and a file that produces one
+chunk both counted as one. The limit was blunt.
+
+I proposed estimating chunk counts from completion ratios — if ten
+files produced three hundred chunks, maybe the next ten would too. An
+external reviewer saw the problem before I coded it: "You're inferring
+inventory from completions. That's backwards." At startup, nothing
+has finished. The estimate would be meaningless.
 
 ## The limit
 
@@ -93,17 +94,19 @@ batch. The controller reads these numbers directly. No inference, no
 estimation, no translation between units.
 
 One edge remained. A heavily documented file can produce hundreds of
-chunks. If it arrives when the controller's limit is 64 — If it blocks, nothing flows. If nothing flows, the
-controller can't measure throughput. If it can't measure throughput, it
-can't raise the limit. Deadlock.
+chunks. If it arrives when the controller's limit is 64, it blocks.
+If it blocks, nothing flows. If nothing flows, the controller can't
+measure throughput. If it can't measure throughput, it can't raise the
+limit. Deadlock.
 
 The fix: let one oversized file through without blocking. The
 controller sees the spike on the next tick, tightens, and adapts.
 
 ## What I'd do differently
 
-Build the telemetry earlier. I had it before the limit, but not before
-the memory budget that turned out to be wrong.
+Build the telemetry earlier. I had it before the rope, but not before
+the semaphore. I fixed the OOM by guessing a worker count, then built
+the telemetry that would have told me why.
 
 Start on the smallest machine. Eight gigabytes leaves no room to be
 wrong about memory.
