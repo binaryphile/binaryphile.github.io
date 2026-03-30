@@ -6,118 +6,124 @@ category: development
 
 My code indexer worked on my Chromebook until I made it fast.
 
-The slow version processed 84 Go files in three minutes. Embedding
-dominated — 315ms per text, single-threaded. I added concurrent
-workers and a pipeline. Throughput jumped 5x on my work machine. The
-Chromebook OOMed.
+The slow version processed one file at a time. Three minutes for 84
+Go files. It always finished. I added concurrency — multiple workers
+splitting files into chunks and converting those chunks into search
+vectors simultaneously. On my work machine, five times faster. On the
+Chromebook, the operating system killed it.
 
-I spent two weeks fixing that OOM. I tried three different approaches
-to controlling how much work the pipeline held in flight. All three
-were wrong. The fix, when I found it, was four lines of code. But I
-couldn't write those four lines until I could see what the pipeline
-was doing, and I didn't build that visibility until after I'd failed
-three times. That's the story I want to tell.
+The Chromebook has 8GB of RAM. The embedding model — the neural network
+that turns text into vectors — occupies 2GB just sitting in memory.
+Each concurrent worker needs another 400MB of scratch space. My memory
+budget calculated that seven workers would fit. It was wrong. It
+counted the model and the workers but not the thousands of chunks
+accumulating between pipeline stages, not the search graph growing in
+the background, not the commit indexer running alongside. Seven workers
+pushed past 4.8GB. The OS killed the process.
 
-## The problem I couldn't see
+Two workers at 2.6GB is what actually fits. I needed to make sure the
+pipeline never tried to hold more.
 
-The Chromebook has 8GB of RAM and 4 cores. ORT loads a 2GB embedding
-model. Each concurrent worker adds 400MB of native scratch memory —
-memory the Go runtime can't see and GOMEMLIMIT can't limit. My
-initial memory budget said seven workers would fit. It was wrong. It
-counted ORT scratch but not pipeline buffers, not the HNSW graph
-growing in memory, not the commit indexer running alongside. Seven
-workers hit 4.8GB and the OS killed the process.
+## Three wrong answers
 
-I knew the fix was to limit concurrency. I didn't know how much. So I
-guessed. I tried three different ways to estimate how much work was in
-the pipeline, and all three produced numbers I couldn't trust.
+The pipeline has eight stages. Files enter at one end. Vectors come out
+the other. In between, a file gets split into chunks — maybe one, maybe
+fifty — and those chunks get batched, embedded, stored, and inserted
+into a graph. The stage that converts chunks into vectors is the
+slowest by far. It consumes 80 to 98 percent of the total time. Every
+other stage spends most of its time waiting.
 
-The first counted items. But a file that produces 50 chunks and a file
-that produces one chunk both counted as one item. The second inferred
-chunk counts from completion ratios — zero divided by zero at startup.
-The third used running averages that drifted when the workload changed.
-The estimate and the measurement disagreed, and I couldn't tell which
+I needed to limit how many chunks could be in the pipeline at once.
+Fewer chunks in flight means less memory. But I had to measure how many
+were in flight, and the pipeline doesn't count in one unit. Files enter
+at the top. Chunks flow through the middle. Batches of chunks flow
+through the bottom.
+
+First I counted files. But a file that produces fifty chunks takes
+fifty times more memory than a file that produces one. The count was
+meaningless.
+
+Then I tried to infer chunk counts from how many files had finished.
+If ten files completed and produced three hundred chunks, maybe the
+next ten would produce about three hundred too. At startup, nothing
+had finished. Zero divided by zero.
+
+Then I tried running averages. The average drifted when the workload
+changed — large documented files followed by small utility files. The
+estimate and the actual count disagreed, and I couldn't tell which one
 was wrong.
 
-After the third failure I stopped and built telemetry. Every two
-seconds, every pipeline stage reports its utilization, starvation, and
-blocking ratio. The picture it showed was unambiguous:
+## The thing I should have built first
 
-```
-embed:       saturated  util=175%
-store:       starved    util=10%
-hnsw-insert: starved    util=1%
-chunk-admit: blocked
-```
+After the third failure I stopped guessing and built telemetry.
 
-Embed was the bottleneck. Always had been. Everything downstream sat
-idle waiting for it. Everything upstream was backed up against it. And
-everything upstream that was backed up was holding memory.
+Every two seconds, every stage in the pipeline reports three numbers:
+how busy it is, how much time it spends with nothing to do, and how
+much time it spends blocked waiting for the next stage to accept its
+output.
 
-## The four lines
+The picture was unambiguous. The embedding stage was working flat out.
+The storage stage had nothing to do most of the time. The graph
+insertion stage had nothing to do almost all of the time. Everything
+upstream of embedding was blocked, waiting for embedding to take more
+work.
 
-Once I could see the bottleneck, the fix was obvious. Don't let
-upstream produce faster than embed can consume.
+One stage working. Five stages waiting. The upstream stages were
+blocked because they'd already produced more chunks than embedding
+could handle, and those chunks were sitting in memory.
 
-A controller runs every two seconds. It reads embed's throughput and
-the time items spend in transit upstream. It multiplies them to get a
-target: how many chunks should be in flight right now. Then it limits
-admission to that number.
+## The limit
 
-On the Chromebook, indexing this repo:
+The fix was to stop upstream from producing faster than embedding could
+consume.
 
-```
-Startup:   rope=64  wip=105  penetration=164%
-Adapting:  rope=6   wip=0    goodput=50.5/s
-Stable:    rope=13  wip=0    goodput=103.6/s
-```
+A controller reads the embedding stage's throughput — how many chunks
+per second it completes — and the time chunks spend in transit from
+admission to embedding. It multiplies them to get a target: how many
+chunks should be in the pipeline right now.
 
-It starts permissive — 64 chunks allowed in flight. The first burst
-overshoots. Within a few ticks it tightens to 6, then settles at 13
-as the throughput estimate converges. Embed runs saturated. Everything
-else is subordinated. 2.6GB RSS. No OOM.
+At startup, 64 chunks allowed. The first burst overshot — 105 chunks
+in flight. Within a few ticks the controller tightened to 6, then
+settled at 13 as its estimate converged. 2.6GB of memory. The
+Chromebook hummed.
 
-I ran the same binary on accelerated-linux, a kernel tree with 15,000
-C files. The controller stabilized at 62 chunks in flight, 90%
-utilization of the limit. No oscillation, no tuning. Same machine.
+I ran the same binary on a kernel source tree — 15,000 C files. The
+controller settled at 62 chunks in flight. No oscillation. No tuning.
+Same machine.
 
-## What made the fix possible
+## What finally worked for counting
 
-Not the controller. The telemetry.
+Each stage declares a function that returns the cost of an item passing
+through it. The admission stage — a pass-through between the chunker
+and the batcher — returns the number of embeddable chunks the file
+produced. The embedding stage returns the number of chunks in its
+batch. The controller reads these numbers directly. No inference, no
+estimation, no translation between units.
 
-The three failed approaches all tried to model the pipeline from the
-outside — inferring what was happening from aggregate numbers. The
-telemetry let me stop modeling and start observing. Each stage reports
-what it's holding. The controller reads those reports. No inference,
-no estimation, no translation between unit domains. Just a count.
+One edge remained. A file with 200 chunks arrives when the controller's
+limit is 64. If it blocks, nothing flows. If nothing flows, the
+controller can't measure throughput. If it can't measure throughput, it
+can't raise the limit. Deadlock.
 
-The hardest part was the unit mismatch. A file enters the chunk stage.
-Out come N chunks — maybe one, maybe fifty. Admission counts files.
-The bottleneck counts chunks. I needed a stage between them whose only
-job was to weigh each file in chunks as it passed through. An identity
-stage. A shim. It does no work, but it gives the controller a number
-it can trust.
+The fix: let one oversized file through without blocking. The
+controller sees 200 chunks suddenly in flight, tightens, and adapts on
+the next tick.
 
 ## What I'd do differently
 
-Build the telemetry first. I wrote it after three failures. Every one
-of those failures would have been caught in minutes if I could see
-per-stage utilization. I couldn't, so each failure took days.
+Build the telemetry before the first fix, not after the third.
 
-Start on the smallest machine. The Chromebook's 8GB forced me to
-account for every allocation. The work machine had enough headroom to
-hide the problem.
+Start on the smallest machine. Eight gigabytes leaves no room to be
+wrong about memory.
 
-| | era (137 Go files) | accelerated-linux (15K C) |
+| | 137 Go files | 15,000 C files |
 |---|---|---|
-| Embed workers | 2 | 2 |
-| Target WIP | 13 | 62 |
-| WIP penetration | 0% (drained fast) | 90% |
-| Bottleneck | embed | embed |
-| RSS | 2.6 GB | 2.2 GB |
-| OOM | never | never |
+| Workers | 2 | 2 |
+| Chunks in flight (steady) | 13 | 62 |
+| Memory | 2.6 GB | 2.2 GB |
+| Killed by OS | never | never |
 
-Same binary. Same controller. Two workloads. Both stable.
+Same binary. Same controller.
 
 The pipeline is built with [toc](https://codeberg.org/binaryphile/toc),
 a Go library for Theory of Constraints pipeline control. The indexer is
