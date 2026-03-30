@@ -24,7 +24,7 @@ pushed past 4.8GB. The OS killed the process.
 Two workers at 2.6GB is what actually fits. I needed to make sure the
 pipeline never tried to hold more.
 
-## Three wrong answers
+## The wrong unit
 
 The pipeline has eight stages. Files enter at one end. Vectors come out
 the other. In between, a file gets split into chunks — maybe one, maybe
@@ -39,23 +39,20 @@ were in flight, and the pipeline doesn't count in one unit. Files enter
 at the top. Chunks flow through the middle. Batches of chunks flow
 through the bottom.
 
-First I counted files. But a file that produces fifty chunks takes
-fifty times more memory than a file that produces one. The count was
-meaningless.
+First I counted files. It worked — when the count dropped, memory
+dropped. But a file that produces fifty chunks and a file that produces
+one chunk both counted as one. The limit was blunt. It kept the
+Chromebook alive but couldn't track actual memory pressure.
 
-Then I tried to infer chunk counts from how many files had finished.
-If ten files completed and produced three hundred chunks, maybe the
-next ten would produce about three hundred too. At startup, nothing
-had finished. Zero divided by zero.
-
-Then I tried running averages. The average drifted when the workload
-changed — large documented files followed by small utility files. The
-estimate and the actual count disagreed, and I couldn't tell which one
-was wrong.
+An external reviewer saw the problem before I did: "You're inferring
+inventory from completions. That's backwards." I'd been trying to
+estimate chunk counts from how many files had finished and how many
+chunks they'd produced. At startup, nothing had finished. The estimate
+was meaningless.
 
 ## The thing I should have built first
 
-After the third failure I stopped guessing and built telemetry.
+I stopped guessing and built telemetry.
 
 Every two seconds, every stage in the pipeline reports three numbers:
 how busy it is, how much time it spends with nothing to do, and how
@@ -111,7 +108,7 @@ the next tick.
 
 ## What I'd do differently
 
-Build the telemetry before the first fix, not after the third.
+Build the telemetry before the first fix, not after.
 
 Start on the smallest machine. Eight gigabytes leaves no room to be
 wrong about memory.
