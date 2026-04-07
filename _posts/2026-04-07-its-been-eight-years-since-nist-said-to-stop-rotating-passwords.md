@@ -45,6 +45,15 @@ the first place *because* she knew it would expire. Why invest in memorizing
 something strong when it's gone in 90 days? Rotation discourages the upfront
 investment in password quality that NIST is now explicitly trying to protect.
 
+There's a subtler cost too. Each rotation produces a "retired" password the
+subscriber considers spent. At scale, retired passwords get recycled on
+personal accounts, shared with colleagues, or written on sticky notes that
+outlive the rotation window. This sounds like an edge case — and for any one
+user it is. But this is security, where edge cases become certainties across
+ten thousand accounts. Every rotation cycle produces a fresh crop of
+unmanaged credentials floating in the wild. That exposure exists solely
+because of the rotation policy.
+
 NIST's response: **SHALL NOT** require periodic password changes. Change only
 on evidence of compromise.
 
