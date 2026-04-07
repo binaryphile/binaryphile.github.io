@@ -40,11 +40,10 @@ An attacker obtains `Summer2024!` from a breach. They don't try it directly —
 they try the obvious seasonal mutations. `Fall2024!`, `Winter2024!`,
 `Summer2025!`. They're in within a handful of guesses.
 
-But the damage starts earlier than the breach. Sarah chose `Summer2024!` in
+But the damage starts before the breach. Sarah chose `Summer2024!` in
 the first place *because* she knew it would expire. Why invest in memorizing
-something strong when it's gone in 90 days? Rotation doesn't just fail to
-stop attackers — it pressures users into choosing weaker passwords from the
-start.
+something strong when it's gone in 90 days? Rotation discourages the upfront
+investment in password quality that NIST is now explicitly trying to protect.
 
 NIST's response: **SHALL NOT** require periodic password changes. Change only
 on evidence of compromise.
