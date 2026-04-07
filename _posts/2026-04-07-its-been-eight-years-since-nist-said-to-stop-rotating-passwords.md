@@ -54,8 +54,12 @@ ten thousand accounts. Every rotation cycle produces a fresh crop of
 unmanaged credentials floating in the wild. That exposure exists solely
 because of the rotation policy.
 
-NIST's response: **SHALL NOT** require periodic password changes. Change only
-on evidence of compromise.
+NIST's response: SHALL NOT require periodic password changes. Change only on
+evidence of compromise.
+
+*(NIST uses [RFC 2119][rfc2119] requirement keywords: SHALL, SHALL NOT,
+SHOULD, SHOULD NOT, MAY. Uppercase indicates a formal requirement level, not
+emphasis.)*
 
 ### Composition rules produce a monoculture
 
@@ -68,7 +72,7 @@ Or `Welcome1!`. Or `Company1!`. Composition rules don't increase entropy — the
 a password hard to guess — they constrain the search space into a predictable shape. Attackers know the
 shape. They try `[Word][Digit][Special]` patterns first.
 
-NIST's response: **SHALL NOT** impose composition rules.
+NIST's response: SHALL NOT impose composition rules.
 
 ### Short minimums invite brute force
 
@@ -77,7 +81,7 @@ of entropy. That sounds like a lot until you consider that a modern GPU
 cluster can test billions of password guesses per second against a
 stolen password database. 8 characters falls in hours.
 
-NIST's response: **SHALL** require minimum 15 characters for single-factor
+NIST's response: SHALL require minimum 15 characters for single-factor
 authentication. 8 characters only if a second factor is also required.
 
 ### Blocking paste punishes the right behavior
@@ -87,7 +91,7 @@ who was about to paste a 40-character random string from their password
 manager now has to type something they can remember. The security outcome
 gets worse, not better.
 
-NIST's response: **SHALL** allow password managers and autofill. **SHOULD**
+NIST's response: SHALL allow password managers and autofill. SHOULD
 permit paste.
 
 ### No blocklist means the attacker's job is easy
@@ -101,7 +105,7 @@ Meanwhile, an attacker with a collection of 500 million passwords leaked from
 previous breaches tries
 the top 10,000. Most systems have at least a few accounts using them.
 
-NIST's response: **SHALL** compare prospective passwords against a blocklist
+NIST's response: SHALL compare prospective passwords against a blocklist
 of breached passwords, dictionary words, sequential characters, and
 context-specific terms.
 
@@ -113,12 +117,12 @@ exceptions.
 
 | Requirement | Rev 3 (2017) | Rev 4 (2025) |
 |---|---|---|
-| Periodic rotation | SHOULD NOT | **SHALL NOT** |
-| Composition rules | SHOULD NOT | **SHALL NOT** |
+| Periodic rotation | SHOULD NOT | SHALL NOT |
+| Composition rules | SHOULD NOT | SHALL NOT |
 | Minimum length (single-factor) | 8 characters | **15 characters** |
-| Password managers | SHOULD permit paste | **SHALL allow** managers + autofill |
+| Password managers | SHOULD permit paste | SHALL allow managers + autofill |
 | Blocklist checking | SHALL | SHALL |
-| Strength guidance | SHOULD offer | **SHALL offer** |
+| Strength guidance | SHOULD offer | SHALL offer |
 
 The progression: "stop doing harmful things" became "you must stop doing
 harmful things."
@@ -269,6 +273,7 @@ what your systems actually enforce.
 [rev3]: https://pages.nist.gov/800-63-3/sp800-63b.html
 [rev4]: https://pages.nist.gov/800-63-4/sp800-63b.html
 [passwordver]: https://pages.nist.gov/800-63-4/sp800-63b.html#passwordver
+[rfc2119]: https://www.rfc-editor.org/rfc/rfc2119
 
 ---
 
