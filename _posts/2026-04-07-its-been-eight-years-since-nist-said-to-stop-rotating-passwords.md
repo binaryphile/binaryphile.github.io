@@ -109,10 +109,11 @@ Rate limiting kicks in after repeated failures, up to a maximum of 100
 consecutive attempts before requiring additional verification. The account
 must never be permanently locked.
 
-For AAL2 and above, a second factor is required. Rev 4 cares about
-authenticator properties, not brand names — it requires hardware
-cryptographic authenticators with verifier impersonation resistance at AAL3,
-but doesn't mandate any specific product.
+NIST defines three Authentication Assurance Levels. AAL1 is password-only.
+AAL2 requires two factors — a password plus something like a TOTP app or
+security key. AAL3 requires two factors where one is a hardware cryptographic
+device that resists phishing. Rev 4 cares about authenticator properties, not
+brand names — it doesn't mandate any specific product.
 
 ### Sessions
 
