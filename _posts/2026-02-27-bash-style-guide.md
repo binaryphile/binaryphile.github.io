@@ -59,7 +59,7 @@ Every file has a Naming Policy header comment (see template below). The rules:
 - **Locals**: `camelCase` — begin with lowercase. Compound words that are single semantic concepts stay lowercase: `filename`, `testname`, `fieldname` (not `fileName`, `testName`, `fieldName`). Arrays use plural names (`testnames`, `filenames`, `requestedTests`); scalars use singular. Unpack positional parameters on one `local` line: `local got=$1 want=$2`, `local msg=$1 rc=${2:-$?}`.
 - **Globals**: `PascalCase` — begin with uppercase. Libraries append a randomly-chosen project-specific suffix letter (e.g., `DebugQ`, `ShowProgressQ`, `TimeFuncQ`) to prevent namespace collisions. Globals are not public — create accessor functions if consumers need them. Standalone scripts omit the suffix.
 - **Namerefs**: `local -n UPPERCASE=$1` — borrows the environment variable namespace (all-caps). Namerefs point to the caller's variable, so they need names that won't collide with any local. UPPERCASE is safe because locals are always camelCase.
-- **"List" in names**: functions that serialize arrays into newline-separated strings use "List" — `ListOf()`, `StreamList()`. Variables holding serialized lists also use the name (e.g., `commands_` — with `_` because it contains IFS characters).
+- **"List" in names**: functions that serialize arrays into newline-separated strings use "List" -- `ListOf()`, `StreamList()`. Variables holding serialized lists use the `*List` suffix (e.g., `groupList`, `commandList`). The `*List` suffix signals multi-value content (implies IFS characters), so no trailing `_` is needed -- the two conventions are mutually exclusive.
 - **Standard globals** (suffix exceptions): `NL=$'\n'` for string interpolation in double quotes. `Prog=$(basename "$0")` is standard in scripts that report their own name. These are conventional exceptions to the suffix rule.
 - **Standalone scripts**: no namespace prefix on functions, no suffix letter on globals — not sourced by others, so no collision risk.
 
@@ -100,9 +100,12 @@ DebugQ=0              # global
 
 ## 5. Quoting
 
-`_` suffix on variables means "may contain IFS characters, must quote." Variables without `_` are safe unquoted under `IFS=$'\n'; set -o noglob`.
+Two mutually exclusive conventions mark variables containing IFS characters (must quote):
 
-In practice: `commands_` (trap output), `content_` (file contents), `usage_` (multiline heredoc).
+- **`_` suffix**: `oldIfs_`, `content_`, `usage_` -- name alone doesn't signal IFS content
+- **`*List` suffix**: `groupList`, `commandList` -- suffix signals multi-value (implies IFS)
+
+Variables without `_` or `*List` are safe unquoted under `IFS=$'\n'; set -o noglob`.
 
 Nameref collision avoidance uses a separate strategy: UPPERCASE names (see Naming).
 
@@ -128,7 +131,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 **Quoting decision tree.** Walk this algorithm for any expansion you're unsure about:
 
 1. **No-split context?** Assignment RHS, `[[ ]]` (except RHS of `==` and `=~`), `(( ))`, `case`, array subscripts, `${...}` operators, redirections, here-strings — quoting is unnecessary. These contexts never split or glob regardless of IFS/noglob settings.
-2. **`_`-suffixed variable?** Contains IFS characters (newlines). Must quote in non-assignment contexts: `echo "$Usage_"`, `eval "$testSource_"`.
+2. **`_`-suffixed or `*List` variable?** Contains IFS characters (newlines). Must quote in non-assignment contexts: `echo "$usage_"`, `hasGroup "$groupList"`.
 3. **Required-quoting context?** Array expansion (`"${arr[@]}"`), RHS of `==` in `[[` (for literal match), `eval` arguments, `trap` strings, external command arguments, process substitution with multi-line content — must quote. See the full list below.
 4. **Otherwise** — safe unquoted under `IFS=$'\n'; set -o noglob`. The variable has no `_` suffix (newline-free by convention), and the context is a shell builtin or function call with scalar arguments.
 
