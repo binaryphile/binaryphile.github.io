@@ -2,23 +2,21 @@
 # Generic wrapper for running commands inside nix develop.
 # Symlink to this file with the name of the command you want to wrap.
 # Example: ln -s nix-wrapper node
-#
-# Uses "nix develop path:DIR" so flake.nix does not need to be git-tracked.
 
 set -eu
 
-# Find flake.nix in current directory or any ancestor, return its directory.
-find_flake_dir() {
+# Check if flake.nix exists in current directory or any ancestor
+has_flake() {
   local dir="$PWD"
   while [[ "$dir" != "/" ]]; do
-    [[ -f "$dir/flake.nix" ]] && { echo "$dir"; return 0; }
+    [[ -f "$dir/flake.nix" ]] && return 0
     dir=$(dirname "$dir")
   done
   return 1
 }
 
 main() {
-  local asCalled folder prog flakeDir
+  local asCalled folder prog
   asCalled=$(basename "$0")
   folder=$(cd "$(dirname "$0")"; pwd)
 
@@ -28,12 +26,12 @@ main() {
 
   # IN_NIX_SHELL is set automatically by nix develop (even with -c)
   # If already in nix develop, or no flake.nix found, run prog directly
-  # Otherwise use "nix develop path:DIR" to read the working tree directly,
-  # bypassing the git-tracked-files-only restriction.
-  if [[ ${IN_NIX_SHELL:-} == impure ]] || ! flakeDir=$(find_flake_dir); then
+  # Otherwise use nix develop to get the right environment
+  if [[ ${IN_NIX_SHELL:-} == impure ]] || ! has_flake; then
     exec "$prog" "$@"
   else
-    exec nix develop "path:$flakeDir" -c "${prog:-$asCalled}" "$@"
+    # Use prog if found, otherwise asCalled (nix will provide it)
+    exec nix develop -c "${prog:-$asCalled}" "$@"
   fi
 }
 
