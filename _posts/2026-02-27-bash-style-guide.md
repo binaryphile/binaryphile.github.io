@@ -100,10 +100,14 @@ DebugQ=0              # global
 
 ## 5. Quoting
 
-Two mutually exclusive conventions mark variables containing IFS characters (must quote):
+`_` suffix on variables means "must quote on expansion." Two reasons qualify a variable for the suffix:
 
-- **`_` suffix**: `oldIfs_`, `content_`, `usage_` -- name alone doesn't signal IFS content
-- **`*List` suffix**: `groupList`, `commandList` -- suffix signals multi-value (implies IFS)
+1. **Contains IFS characters** (newlines under `IFS=$'\n'`) — unquoted expansion splits into multiple words.
+2. **Can be empty** — unquoted expansion disappears entirely, breaking positional argument pairing.
+
+In practice: `commands_` (trap output), `content_` (user input, may contain newlines), `usage_` (multiline heredoc), `tags_` (optional flag, empty when not provided).
+
+The `*List` suffix is an alternative convention for multi-value variables: `groupList`, `commandList`. The suffix signals IFS content (implies must-quote). `_` and `*List` are mutually exclusive on the same variable.
 
 Variables without `_` or `*List` are safe unquoted under `IFS=$'\n'; set -o noglob`.
 
@@ -149,6 +153,7 @@ echo "want=${got@Q}"                                # tests — paste to update 
 - **`trap` command strings** — `trap "$command$NL$(existing)" EXIT`. The string is stored for later eval; must be a single coherent argument.
 - **Process substitution with multi-line content** — `diff <(echo "$got") <(echo "$want")`. Unquoted `echo $var` splits on newlines into separate arguments; echo outputs them space-separated, destroying line structure.
 - **External command arguments** — `mkdir -p "$dir"`, `install -m "$mode"`, `ssh-keygen -f "$file"`. Without noglob, unquoted values undergo pathname expansion before the command sees them. Scripts using `set -euo pipefail` without `f` need this; code following these conventions quotes external command args consistently regardless.
+- **Positional pairing arguments** — APIs that consume arguments in key-value pairs (`jq --arg name value`, custom `key value key value` functions) break when an empty variable expands to nothing, shifting all subsequent pairs. Quote empty-possible values: `--arg t "$type_"`. Better: design pair-consuming APIs to accept `key=value` as single arguments so empty values produce `key=` (one word) rather than disappearing.
 
 **When quoting is unnecessary.** These contexts never split or glob — quoting is harmless but adds no safety:
 
