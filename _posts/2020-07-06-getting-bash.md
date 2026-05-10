@@ -5,7 +5,6 @@ date: 2020-07-06 22:00 UTC
 categories: [ bash ]
 ---
 
-If you're interested, start the series with [part 1].
 
 If you're on linux, you're in luck. You've already got the latest bash
 for your release on your system. If you aren't using it already, you
@@ -32,7 +31,6 @@ version of bash 5.
 
 Continue with the [next part], customizing bash.
 
-  [part 1]: {% post_url 2020-07-02-how-i-bash-a-new-series %}
   [change your default shell to bash]: https://linux.die.net/man/1/chsh
   [homebrew]: https://brew.sh/
   [next part]: {% post_url 2020-07-12-customizing-bash %}

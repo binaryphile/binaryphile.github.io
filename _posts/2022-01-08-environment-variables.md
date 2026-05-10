@@ -5,7 +5,6 @@ date: 2022-01-08 12:00 UTC
 categories: [ bash ]
 ---
 
-If you're interested, start the series with [part 1].
 
 In the [last part], we learned about the broad scope of bash
 initialization files.
@@ -193,5 +192,4 @@ file options again.
 
 See the [next part] for application initialization.
 
-  [part 1]: {% post_url 2020-07-02-how-i-bash-a-new-series %}
   [last part]: {% post_url 2020-07-12-customizing-bash %}

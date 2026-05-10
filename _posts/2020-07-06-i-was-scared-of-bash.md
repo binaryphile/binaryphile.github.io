@@ -5,7 +5,6 @@ date: 2020-07-06 12:00 UTC
 categories: [ bash ]
 ---
 
-If you're interested, start the series with [part 1].
 
 I admit it. I was scared of bash. It seemed so confusing. Whoever
 thought `$` was a good character for a command prompt? Right from the
@@ -82,6 +81,5 @@ does it everywhere I need.
 
 See [part 3], *Getting Bash*.
 
-  [part 1]: {% post_url 2020-07-02-how-i-bash-a-new-series %}
   [tcsh]: https://www.tcsh.org/
   [part 3]: {% post_url 2020-07-06-getting-bash %}
