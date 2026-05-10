@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Generic wrapper for running commands inside nix develop.
+# Symlink to this file with the name of the command you want to wrap.
+# Example: ln -s nix-wrapper node
+
+set -eu
+
+# Check if flake.nix exists in current directory or any ancestor
+has_flake() {
+  local dir="$PWD"
+  while [[ "$dir" != "/" ]]; do
+    [[ -f "$dir/flake.nix" ]] && return 0
+    dir=$(dirname "$dir")
+  done
+  return 1
+}
+
+main() {
+  local asCalled folder prog
+  asCalled=$(basename "$0")
+  folder=$(cd "$(dirname "$0")"; pwd)
+
+  # Find the real program, excluding our bin/ directory
+  # May be empty for commands that only exist inside nix (node, npm)
+  prog=$(type -Pa "$asCalled" | grep -v "^$folder/" | head -1)
+
+  # IN_NIX_SHELL is set automatically by nix develop (even with -c)
+  # If already in nix develop, or no flake.nix found, run prog directly
+  # Otherwise use nix develop to get the right environment
+  if [[ ${IN_NIX_SHELL:-} == impure ]] || ! has_flake; then
+    exec "$prog" "$@"
+  else
+    # Use prog if found, otherwise asCalled (nix will provide it)
+    exec nix develop -c "${prog:-$asCalled}" "$@"
+  fi
+}
+
+main "$@"
