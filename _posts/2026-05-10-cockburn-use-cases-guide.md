@@ -3,6 +3,7 @@ layout: post
 title: "Cockburn Use Cases Guide"
 date: 2026-05-10 12:00:00 -05:00
 categories: [ software-engineering, requirements, use-cases ]
+canonical-source: "jeeves@1b3ca3b:guides/cockburn-use-cases-guide.md"
 ---
 
 A practical reference for writing use cases per Alistair Cockburn's *Writing Effective Use Cases* (2001). Template, goal levels, and step-writing guidelines distilled for software teams that want to capture behavior without designing the UI.

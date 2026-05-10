@@ -3,6 +3,7 @@ layout: post
 title: "Shostack Threat Modeling Guide"
 date: 2026-05-10 12:00:00 -05:00
 categories: [ security, software-engineering, threat-modeling ]
+canonical-source: "jeeves@b422c3d:guides/shostack-threat-modeling-guide.md"
 ---
 
 A practical guide to threat modeling principles, extracted from Adam Shostack's *Threat Modeling: Designing for Security* (2014).
