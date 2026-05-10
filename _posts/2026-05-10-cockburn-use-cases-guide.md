@@ -7,6 +7,8 @@ categories: [ software-engineering, requirements, use-cases ]
 
 A practical reference for writing use cases per Alistair Cockburn's *Writing Effective Use Cases* (2001). Template, goal levels, and step-writing guidelines distilled for software teams that want to capture behavior without designing the UI.
 
+*Originally authored as a working guide; published here on 2026-05-10 as part of the binaryphile.com compliance-references set.*
+
 ---
 
 I keep returning to Cockburn's framework when a team needs to write down what the system actually does, in a form that survives implementation changes. This is the version I reach for when I'm reviewing requirements drafts.

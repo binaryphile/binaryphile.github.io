@@ -7,6 +7,8 @@ categories: [ security, software-engineering, threat-modeling ]
 
 A practical guide to threat modeling principles, extracted from Adam Shostack's *Threat Modeling: Designing for Security* (2014).
 
+*Originally authored as a working guide; published here on 2026-05-10 as part of the binaryphile.com compliance-references set.*
+
 Threat modeling replaces reactive security ("whack-a-mole") with systematic, focused defense. This guide distills Shostack's comprehensive framework into actionable patterns for software teams.
 
 **What this guide covers:**
