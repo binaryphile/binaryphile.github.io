@@ -237,6 +237,30 @@ esac
 output=$(eval "$cmd" 2>&1) && rc=$? || rc=$?
 ```
 
+**Trailing `&&` at end of function**: a function whose last command is `[[ test ]] && cmd` returns the test's exit code when the test is false. Under `set -e` at the call site, that propagates as a non-zero return and terminates the caller — even when the function did exactly what it was meant to do (skip the conditional action).
+
+```bash
+# Bug: when $stashRef is empty, the [[ -n ]] test fails (rc 1), the
+# function returns 1, and a caller running under `set -e` aborts.
+gitUpdate() {
+  local stashRef
+  stashRef=$(git stash list | head -1)
+  [[ -n $stashRef ]] && git stash drop $stashRef
+}
+
+# Fix 1 (preferred): invert the test so the no-op branch returns success.
+[[ -z $stashRef ]] || git stash drop $stashRef
+
+# Fix 2: explicit conditional.
+if [[ -n $stashRef ]]; then git stash drop $stashRef; fi
+
+# Fix 3: catch-all trailing return.
+[[ -n $stashRef ]] && git stash drop $stashRef
+return 0
+```
+
+The gotcha generalizes: any compound where the failure branch is "do nothing" needs the function to still return zero. Inverting the test with `||` is usually the cleanest form — the conditional reads as "skip unless" rather than "do if."
+
 **`pipefail`**: standard for new scripts. `set -euo pipefail`.
 
 **Strict mode escape**: `loosely()` for sourcing optional configs that may not exist or may fail benignly:
