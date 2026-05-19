@@ -103,7 +103,7 @@ ShellCheck-the-fork now has:
 - A `pluginApiVersion` constant the host and plugin agree on (currently 2; bumped from 1 when `getDocCommentsBefore` was added).
 - Dynamic loading from `$XDG_DATA_HOME/shellcheck/plugins/`.
 - Docs at `docs/use-cases.md`, `docs/design.md`, and `docs/plugins.md` covering the three personas: plugin author, plugin user, fork maintainer.
-- A worked example plugin in a separate repo — [binaryphile/shellcheck-convention-plugin](https://github.com/binaryphile/shellcheck-convention-plugin). That plugin is the subject of [the next post](/bash/shellcheck/haskell/2026/05/19/codifying-a-bash-style-guide-as-shellcheck-plugins/).
+- A worked example plugin in a separate repo — [binaryphile/shellcheck-convention-plugin](https://github.com/binaryphile/shellcheck-convention-plugin). That plugin is the subject of [the next post](/bash/shellcheck/haskell/2026/05/19/codifying-a-bash-style-guide-as-shellcheck-plugins.html).
 
 I haven't pitched any of this upstream. ShellCheck's value to most users is its curated check set, and a plugin ecosystem fragments that — I'd be asking the maintainers to take on a maintenance surface that benefits a minority of users. The fork is fine. It exists so I can write checks for *my* conventions without convincing anyone else they're worth maintaining.
 

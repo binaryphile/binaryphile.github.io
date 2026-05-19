@@ -7,7 +7,7 @@ categories: [ bash, shellcheck, haskell ]
 
 A style guide is just text. An enforced check is a tool that catches mistakes.
 
-I have a [bash style guide](/2026/02/27/bash-style-guide.html) that I keep in a repo and re-read when I forget which way around the `*List` convention goes. I also have a [shellcheck fork with a plugin system](/bash/shellcheck/haskell/2026/05/19/adding-a-plugin-system-to-shellcheck/). The natural next step is to translate the guide into checks. That's [shellcheck-convention-plugin](https://github.com/binaryphile/shellcheck-convention-plugin), and it ships nine checks codifying nine rules.
+I have a [bash style guide](/2026/02/27/bash-style-guide.html) that I keep in a repo and re-read when I forget which way around the `*List` convention goes. I also have a [shellcheck fork with a plugin system](/bash/shellcheck/haskell/2026/05/19/adding-a-plugin-system-to-shellcheck.html). The natural next step is to translate the guide into checks. That's [shellcheck-convention-plugin](https://github.com/binaryphile/shellcheck-convention-plugin), and it ships nine checks codifying nine rules.
 
 This post is the catalog plus two lessons from building it. The lessons are the value; the catalog is reference.
 
@@ -75,6 +75,6 @@ After this work, the guide is a *tool*. The same shellcheck I already run on sav
 
 The translation isn't perfect. SC9009 has known false positives. SC9007 fires on section-header comments that aren't intended as docstrings. SC9006 can't tell that `master` as a git branch context is allowed where `master` as a deployment role isn't. These are tradeoffs — false positives are cheaper to suppress than false negatives are to find by hand.
 
-The repo: [binaryphile/shellcheck-convention-plugin](https://github.com/binaryphile/shellcheck-convention-plugin). The catalog with full per-check rationale: `docs/design.md` in that repo. The host fork: [binaryphile/shellcheck](https://github.com/binaryphile/shellcheck), covered in [the previous post](/bash/shellcheck/haskell/2026/05/19/adding-a-plugin-system-to-shellcheck/).
+The repo: [binaryphile/shellcheck-convention-plugin](https://github.com/binaryphile/shellcheck-convention-plugin). The catalog with full per-check rationale: `docs/design.md` in that repo. The host fork: [binaryphile/shellcheck](https://github.com/binaryphile/shellcheck), covered in [the previous post](/bash/shellcheck/haskell/2026/05/19/adding-a-plugin-system-to-shellcheck.html).
 
 If you've written a style guide for any language and wish it were enforced, write a plugin for whichever linter your team already runs. The ROI is real. The first check costs a day; the second costs an hour.
