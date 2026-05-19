@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Adding a Plugin System to ShellCheck"
-date: 2026-05-19 12:00:00 -05:00
+date: 2026-05-19 09:00:00 -05:00
 categories: [ bash, shellcheck, haskell ]
 ---
 

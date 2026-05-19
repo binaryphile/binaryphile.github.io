@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Codifying a Bash Style Guide as ShellCheck Plugins"
-date: 2026-05-19 12:30:00 -05:00
+date: 2026-05-19 09:30:00 -05:00
 categories: [ bash, shellcheck, haskell ]
 ---
 
