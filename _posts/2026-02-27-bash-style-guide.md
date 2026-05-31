@@ -56,10 +56,12 @@ main "$@"
 Every file has a Naming Policy header comment (see template below). The rules:
 
 - **Functions** (libraries): `namespace.PascalCase` (public), `namespace.camelCase` (private). Namespace is the project name lowercase (e.g., `lib.`). Libraries are sourced by others and need namespace collision protection; standalone scripts use plain `PascalCase`/`camelCase` (see Standalone scripts below).
-- **Locals**: `camelCase` — begin with lowercase. Compound words that are single semantic concepts stay lowercase: `filename`, `testname`, `fieldname` (not `fileName`, `testName`, `fieldName`). Arrays use plural names (`testnames`, `filenames`, `requestedTests`); scalars use singular. Unpack positional parameters on one `local` line: `local got=$1 want=$2`, `local msg=$1 rc=${2:-$?}`.
+- **Locals**: `camelCase` — begin with lowercase. Compound words that are single semantic concepts stay lowercase: `filename`, `testname`, `fieldname` (not `fileName`, `testName`, `fieldName`). Arrays use plural names (`testnames`, `filenames`, `requestedTests`); scalars use singular. Arrays whose elements may contain IFS characters use the `*Lists` suffix (see "List in names" below for the singular-vs-plural rule); empty-possible or otherwise must-quote arrays use the `_` suffix (see Section 5 Quoting). Unpack positional parameters on one `local` line: `local got=$1 want=$2`, `local msg=$1 rc=${2:-$?}`.
 - **Globals**: `PascalCase` — begin with uppercase. Libraries append a randomly-chosen project-specific suffix letter (e.g., `DebugQ`, `ShowProgressQ`, `TimeFuncQ`) to prevent namespace collisions. Globals are not public — create accessor functions if consumers need them. Standalone scripts omit the suffix. **Associative and indexed arrays** that are global must use `declare -gA` or `declare -ga`, not `declare -A` or `declare -a`. Without `-g`, `declare` inside a function creates a local variable regardless of naming convention. This matters when a library is sourced inside a function (e.g., a convergence wrapper) — the arrays go out of scope when the sourcing function returns.
 - **Namerefs**: `local -n UPPERCASE=$1` — borrows the environment variable namespace (all-caps). Namerefs point to the caller's variable, so they need names that won't collide with any local. UPPERCASE is safe because locals are always camelCase.
-- **"List" in names**: functions that serialize arrays into newline-separated strings use "List" -- `ListOf()`, `StreamList()`. Variables holding serialized lists use the `*List` suffix (e.g., `groupList`, `commandList`). The `*List` suffix signals multi-value content (implies IFS characters), so no trailing `_` is needed -- the two conventions are mutually exclusive.
+- **"List" in names**: functions that serialize arrays into newline-separated strings use "List" -- `ListOf()`, `StreamList()`. Variables holding serialized lists use the `*List` suffix (singular) -- `groupList`, `commandList`. The `*List` suffix signals "scalar string with IFS-separated items" and implies must-quote on expansion; no trailing `_` is needed -- the two conventions are mutually exclusive.
+
+  **`*Lists` (plural)** is the analogous convention for true bash arrays (`declare -a`) whose elements may contain IFS characters -- `commandLists`, `groupLists`, `hitLists`. Same must-quote-on-expansion implication: write `"${commandLists[@]}"` to preserve element boundaries. Decision criterion: a scalar serialized blob -> `*List` (singular); a true array of IFS-bearing elements -> `*Lists` (plural). `_` and `*Lists` are mutually exclusive on the same variable (parallel to the `_`/`*List` rule). When an array contains plain scalars with no IFS hazard, the plural-name convention from the Locals bullet above stands on its own -- `testnames`, `filenames` -- no suffix needed.
 - **Standard globals** (suffix exceptions): `NL=$'\n'` for string interpolation in double quotes. `Prog=$(basename "$0")` is standard in scripts that report their own name. These are conventional exceptions to the suffix rule.
 - **Standalone scripts**: no namespace prefix on functions, no suffix letter on globals — not sourced by others, so no collision risk.
 
@@ -107,9 +109,11 @@ DebugQ=0              # global
 
 In practice: `commands_` (trap output), `content_` (user input, may contain newlines), `usage_` (multiline heredoc), `tags_` (optional flag, empty when not provided).
 
-The `*List` suffix is an alternative convention for multi-value variables: `groupList`, `commandList`. The suffix signals IFS content (implies must-quote). `_` and `*List` are mutually exclusive on the same variable.
+The `*List` suffix is an alternative convention for multi-value SCALAR variables: `groupList`, `commandList` -- a single string with IFS-separated items. The suffix signals IFS content (implies must-quote). `_` and `*List` are mutually exclusive on the same variable.
 
-Variables without `_` or `*List` are safe unquoted under `IFS=$'\n'; set -o noglob`.
+The `_` suffix also applies to bash ARRAYS -- `args_`, `extraFlags_` -- same semantics: each element may be empty or contain IFS characters, so individual element accesses and the `"${arr_[@]}"` expansion must be quoted. Common pattern: `mapfile -t output_ < <(cmd)` reads lines into an array where any line could carry IFS-character oddities. The `*Lists` suffix (see Naming Section 3 "List in names") is the alternative convention for true arrays of IFS-bearing elements; `_` and `*Lists` are mutually exclusive on the same variable.
+
+Variables without `_`, `*List`, or `*Lists` are safe unquoted under `IFS=$'\n'; set -o noglob`.
 
 Nameref collision avoidance uses a separate strategy: UPPERCASE names (see Naming).
 
