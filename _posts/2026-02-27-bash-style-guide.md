@@ -458,7 +458,59 @@ Inline versions are common in standalone scripts; a shared library consolidates 
 
 ## 14. Trap Handling
 
-EXIT traps only — ERR, DEBUG, RETURN, and signal handlers are not used.
+**Scope.** Section 14 governs lifecycle/shutdown handling. Application-specific signals (HUP for config-reload, QUIT for diagnostic dumps, USR1/USR2 for app-defined events, CHLD for process supervision) encode app semantics rather than generic lifecycle and are out of scope here. Those signals may be entirely appropriate when implementing their application-defined semantics; they're simply not governed by this lifecycle rule.
+
+**Default.** EXIT traps for cleanup. **ERR, DEBUG, and RETURN are strict no-go** (rationale in the no-go list below).
+
+**Exception.** INT/TERM handlers are justified for long-running supervisory loops, daemons, and retry-watchers — two categories with variants (next subsection). For short batch scripts, EXIT alone is sufficient.
+
+### When INT/TERM handlers are justified
+
+**(a) Immediate clean termination.** Trap converts the signal-driven stop into a normal-completion exit. Use when the caller contract treats signal-driven shutdown as a successful expected outcome — may be appropriate for daemons under systemd (especially when service policy treats SIGTERM as a clean stop), supervised long-polls invoked by parent scripts, batch jobs that should ignore SIGTERM during rotation. **Do NOT use to mask Ctrl-C from an interactive operator who wants to know about the abort** — when INT specifically means "user pressed Ctrl-C in a context where the operator wants to see exit 130," let it propagate.
+
+```bash
+# Bare form: caller treats both signals as clean-stop
+trap 'exit 0' INT TERM
+
+# With audit: logs the signal first so the journal records WHY the process stopped
+# (preferred for systemd units and supervisor-managed daemons)
+trap 'echo "<name>: <signal> received; exiting cleanly" >&2; exit 0' TERM INT
+```
+
+Examples in operator code:
+
+- `era/bin/evtctl:951,1431` (bare form on subscribe long-polls — the parent loop's `|| sleep 1` retry would otherwise re-enter on signal-driven exit, so normalization to 0 is contract-correct).
+- `era/bin/era-soak:274` (audit-logged form on benchmark daemon — journal records signal cause).
+
+**Authoring discipline**: before adopting `trap 'exit 0' ...`, name the caller and write down why signal-driven exit is a success for that caller. If you can't, the trap is probably wrong — let the default 130/143 propagate.
+
+**(b) Cooperative shutdown at iteration boundaries.** Trap sets a flag; the protected work unit completes; the loop breaks at the next defined safe-point check.
+
+```bash
+Interrupted=false
+trap 'Interrupted=true' INT TERM
+while :; do
+  work || :                            # work unit must satisfy obligation (1) below
+  [[ $Interrupted == true ]] && break
+done
+```
+
+Note: the flag check is `[[ $Interrupted == true ]]`, not `$Interrupted && break`. The latter would execute the variable's contents as a command — which works by coincidence when the value is the string `true` (which IS a builtin), but breaks for any other truthiness convention and is fragile if a reader copies the pattern to a context using `1`/`0` or `yes`/`no`. The explicit `[[ ... == true ]]` test is unambiguous.
+
+**What this pattern does NOT guarantee**: the trap does not interrupt `work`. If `work` is blocked on a syscall or hung, the loop won't break until `work` returns (or the signal propagates to the blocked child via its own signal disposition). Operators using this pattern must:
+
+1. Either make `work` **idempotent** (re-running it on retry is safe even if a prior call was interrupted mid-stream — typical for read-only probes, GET requests, status checks) OR make it **interruption-tolerant** (handles mid-call abort without state corruption — typical for transactional writes that commit-or-rollback, or work units that hold no shared mutable state across the boundary). Concrete examples: a `curl GET` is idempotent; an `INSERT` against a UNIQUE-constrained table is interruption-tolerant; a multi-step `dd` to a raw block device is neither and the pattern is unsafe.
+2. Check `$Interrupted` at every defined safe point — typically once per iteration, after `work` returns. Calling `work` many times before any check defeats the pattern.
+
+Example: `dotfiles/scripts/vpn-connect:38` — `gpocLoop` retries `gpocConnect` until success or interrupt; each iteration is independent (no shared state between retries) so mid-iteration interrupt is safe.
+
+### Why ERR / DEBUG / RETURN are no-go
+
+- **ERR** — propagation is unpredictable and breaks maintainability of non-local error handling. The handler doesn't fire reliably inside pipelines (modified by `pipefail`/`set -E`/`errtrace` in non-obvious ways), inside `[[ ]]`/`[ ]`, or after `&&`/`||`. Operators usually want explicit `if/then` (or `||` with explicit handler) at each fallible call site — the locality outweighs the centralization benefit.
+- **DEBUG** — fires before every command, creating highly non-local control flow that's hard to reason about. Perf cost (linear in command count) is a secondary concern.
+- **RETURN** — fires on function return, creating hidden cleanup coupling between caller and callee. Function exit semantics become non-local. Use `local`-scoped cleanup or `local -A registry` patterns instead.
+
+### EXIT-trap patterns
 
 **Two patterns coexist**: single assignment (scripts) and stacked (libraries).
 
