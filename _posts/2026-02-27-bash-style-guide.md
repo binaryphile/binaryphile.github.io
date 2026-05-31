@@ -633,3 +633,65 @@ eval "$prevOpts"           # restores exact previous state
 ```
 
 `set +o` outputs `set -o`/`set +o` commands that reproduce the current option state. This handles all options including `pipefail` without fragile string matching.
+
+## 16. Adopting IFS+noglob in Existing Scripts
+
+Adding `IFS=$'\n'; set -o noglob` to a script that previously relied on default IFS (space/tab/newline) requires auditing every code path. The following issues are non-obvious and will not produce syntax errors — they silently change behavior.
+
+**1. Space-separated strings stop splitting.** Associative array values like `"node npm npx"` no longer split into three words on unquoted expansion. Under default IFS, `printf '%s\n' ${map[$key]}` produces three lines; under `IFS=$'\n'` it produces one.
+
+**Fix:** use `IFS=' ' read -ra` to split explicitly:
+
+```bash
+commandsFor() {
+  local c
+  IFS=' ' read -ra c <<< ${map[$key]}
+  printf '%s\n' "${c[@]}"
+}
+```
+
+`IFS=' ' read -ra` sets IFS only for the duration of the `read` builtin — it does not modify the global IFS.
+
+**2. `${array[*]}` joins with newlines.** `"${arr[*]}"` joins elements with the first character of IFS. Under `IFS=$'\n'`, this produces a newline-separated string instead of space-separated.
+
+**Fix:** use a subshell command substitution extracted to a variable:
+
+```bash
+local desc=$(IFS=' '; echo ${arr[*]})
+echo "packages: $desc"
+```
+
+The `$()` runs in a subshell, so the `IFS=' '` doesn't leak. Extract to a named variable to satisfy the shallow nesting rule — don't embed `$(IFS=' '; echo ...)` inside string interpolation.
+
+**3. Glob patterns in `for` loops are dead.** `for f in *.txt; do` matches nothing because noglob disables pathname expansion. The `*` is treated as a literal character.
+
+**Fix:** use a glob-restoring wrapper — a small helper that temporarily enables globbing, runs the command, and restores the previous glob state (e.g. `mk.WithGlob` from the [mk.bash](https://github.com/binaryphile/mk.bash) framework, or a per-script equivalent):
+
+```bash
+for f in $(mk.WithGlob echo $dir/*.txt); do
+```
+
+Do not manually toggle `set +o noglob`/`set -o noglob` — it's error-prone (easy to miss the restore on early return).
+
+**4. `set -o noglob` requires its own line.** It cannot be chained into `set -euo pipefail`:
+
+```bash
+# WRONG — "noglob" becomes positional parameter $1
+set -euo noglob pipefail
+
+# RIGHT — separate lines
+IFS=$'\n'
+set -o noglob
+set -euo pipefail
+```
+
+`set -euo` consumes `o` as a flag (equivalent to `set -o`), then treats the next word as the option name for `-o`. But `-euo` already consumed the `o`, so `noglob` becomes a positional parameter.
+
+**5. Audit checklist.** When adding IFS+noglob to an existing script:
+
+- Search for unquoted `${assoc_array[$key]}` where the value contains spaces — these relied on default-IFS word splitting
+- Search for `${array[*]}` in display/logging contexts — these now join with newlines
+- Search for `for x in` with glob patterns (`*`, `?`, `[`) — these are now literal
+- Search for `set -euo` to ensure noglob is set separately
+- Remove unnecessary quotes from scalar non-`_` expansions — they are now noise and undermine the quoting convention's signal value (Section 5)
+- Test all code paths, not just the happy path — glob and splitting bugs are silent
