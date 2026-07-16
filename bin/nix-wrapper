@@ -7,9 +7,9 @@
 
 set -eu
 
-# Find flake.nix in current directory or any ancestor, return its directory.
+# Find flake.nix in `start` or any ancestor, return its directory.
 find_flake_dir() {
-  local dir="$PWD"
+  local dir="$1"
   while [[ "$dir" != "/" ]]; do
     [[ -f "$dir/flake.nix" ]] && { echo "$dir"; return 0; }
     dir=$(dirname "$dir")
@@ -39,7 +39,13 @@ main() {
   # while running in it). Deliberately no IN_NIX_SHELL=impure short-circuit:
   # that check assumed the current impure shell provides every tool, which
   # is false when cd'ing into a project needing a different flake (#65767).
-  if flakeDir=$(find_flake_dir); then
+  #
+  # Fall back to the wrapper's OWN directory's flake (folder's parent chain)
+  # when $PWD's ancestor search comes up empty -- callers that `cd` away from
+  # the project entirely (e.g. a test's scratch tmpdir) still want THIS
+  # project's devShell, not a failure, since the wrapper symlink itself lives
+  # inside the project that should provide the tool (finances #75244).
+  if flakeDir=$(find_flake_dir "$PWD") || flakeDir=$(find_flake_dir "$folder"); then
     exec nix develop "path:$flakeDir" -c "$asCalled" "$@"
   fi
 
