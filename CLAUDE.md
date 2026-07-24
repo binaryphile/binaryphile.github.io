@@ -1,5 +1,5 @@
 # Tandem Protocol
-@~/projects/tandem-protocol/tandem-protocol.md
+@~/icarus/tandem-protocol/tandem-protocol.md
 
 ### evtctl — project task management
 
