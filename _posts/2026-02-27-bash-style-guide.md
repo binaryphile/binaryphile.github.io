@@ -991,28 +991,36 @@ test_main_executableInvocation() {
 
 ## FP pipeline helpers
 
-Stdin-based composition: command name as first arg, applied to each line via `eval`. Core trio: `Each` (side effects), `Map` (transform), `KeepIf` / `RemoveIf` (filter). The `eval "$command $arg"` pattern assumes trusted input; callers are responsible for escaping with `printf %q` if values originate from untrusted sources.
+Stdin-based composition: command name as first arg, applied to each line via `eval`. Core trio: `Each` (side effects), `Map` (transform), `KeepIf` / `RemoveIf` (filter), plus `Stream`/`Collect` siblings for converting between argument lists and newline streams. The `eval "$command $arg"` pattern assumes trusted input; callers are responsible for escaping with `printf %q` if values originate from untrusted sources.
 
-The pattern:
+Several projects reimplement this trio independently before consolidating it into one small sourced library — worth doing early, since two subtle bugs below went undetected for months precisely because each inline copy had to be re-audited separately.
+
+The pattern (namespaced per the `namespace.PascalCase` convention above):
 
 ```bash
-each() {
-  local command=$1 arg
+fp.Each() {
+  local command
+  printf -v command '%q ' "$@"
+  local arg
   while IFS='' read -r arg; do
     eval "$command $arg"
   done
+  return 0
 }
 
-keepIf() {
-  local command=$1 arg
+fp.KeepIf() {
+  local command
+  printf -v command '%q ' "$@"
+  local arg
   while IFS='' read -r arg; do
     eval "$command $arg" && echo "$arg"
   done
   return 0
 }
 
-map() {
+fp.Map() {
   local VARNAME=$1 EXPRESSION=$2
+  case $VARNAME in VARNAME|EXPRESSION ) fatal "fp.Map: VARNAME may not be 'VARNAME' or 'EXPRESSION'";; esac
   local "$VARNAME"
   while IFS=' ' read -r "$VARNAME"; do
     eval "echo \"$EXPRESSION\""
@@ -1020,12 +1028,14 @@ map() {
 }
 ```
 
-`map` uses `IFS=' '` (not `IFS=''`) so that leading and trailing spaces are stripped from each line on read. This lets the heredoc body be indented for readability without embedding spaces in the substituted value. `each` and `keepIf` use `IFS=''` because their leading spaces land before the first argument in `eval "$command $arg"` — shell parsing treats them as harmless whitespace. In `map`, the variable value is substituted into an expression (e.g., `$HOME/projects/$path`), so spaces in the value become embedded mid-string rather than stripped as argument separators.
+`fp.Map` uses `IFS=' '` (not `IFS=''`) so that leading and trailing spaces are stripped from each line on read. This lets the heredoc body be indented for readability without embedding spaces in the substituted value. `fp.Each` and `fp.KeepIf` use `IFS=''` because their leading spaces land before the first argument in `eval "$command $arg"` — shell parsing treats them as harmless whitespace. In `fp.Map`, the variable value is substituted into an expression (e.g., `$HOME/projects/$path`), so spaces in the value become embedded mid-string rather than stripped as argument separators.
+
+**Two real, not theoretical, bugs lived in earlier versions of this exact trio.** First: an earlier `Map` used `IFS=''` (not `IFS=' '`), so indented heredoc bodies kept their leading whitespace embedded in the substituted value instead of getting stripped — a production caller with an indented heredoc hit this live. Second: `Each`/`KeepIf` used to read only `$1` as the command, silently dropping every argument after it (`Each try someFunc extraArg <<<...` ran `try $line` per line, not `try someFunc extraArg $line`) — the fix is joining ALL positional arguments via `printf -v command '%q ' "$@"` before the eval loop, shown above. Both went unnoticed for a long stretch because the code paths that would have exposed them either had no real callers yet, or had an unrelated failure masking the symptom. The lesson generalizes: test the actual failure shape empirically before trusting "it probably gets collapsed anyway" intuition about `eval`-based helpers, or a long stretch of apparently-correct use as proof of correctness.
 
 Call site:
 
 ```bash
-each Ln <<'  END'
+fp.Each Ln <<'  END'
   .config         ~/config
   .local          ~/local
   .ssh            ~/ssh
@@ -1034,7 +1044,7 @@ END
 ```
 
 ```bash
-map path '$HOME/projects/$path' <<'  END'
+fp.Map path '$HOME/projects/$path' <<'  END'
   era
   jeeves
   tesht
@@ -1127,20 +1137,24 @@ Validates the path before registering cleanup. The `/*/* ` guard prevents `rm -r
 
 ### EXIT trap with status capture
 
-When a cleanup function must preserve the original exit code:
+When a cleanup function must preserve the original exit code, capture `$?` on the function's FIRST line:
 
 ```bash
 cleanup() {
-  local _status
-  _status=$?        # split from local: local resets $? to 0 in some bash versions
+  local status=$?   # capture FIRST; RHS $? is expanded before local sets its own rc
   trap - EXIT       # prevent recursive trap if cleanup calls exit
   # ... cleanup actions ...
-  exit "$_status"   # re-raise original code
+  exit $status      # re-raise original code
 }
 trap cleanup EXIT
 ```
 
-The `local _status` and `_status=$?` must be on separate lines. `local _status=$?` captures the return code of the `local` builtin itself (always 0), not the exit trigger. `trap - EXIT` before `exit` prevents the EXIT trap from firing again when cleanup calls `exit`.
+`trap - EXIT` before `exit` prevents the EXIT trap firing again when cleanup calls `exit`. It also matters that cleanup *re-raises* `$status`: an inline multi-command trap (`trap 'a; b; c' EXIT`) lets the last command's exit code become the shell's, silently turning an `exit 2` into `c`'s status.
+
+**Capture-line discipline (verified bash 5.3.9).** The capture MUST be the first statement, and the combined `local status=$?` is correct — NOT split across two lines:
+
+- A bare `local status` (declaration only) sets `$?` to 0. So the *split* form `local status; status=$?` captures **0**, not the exit trigger. Prefer the combined `local status=$?` (its RHS `$?` is expanded before `local` runs), or a plain `status=$?` first line.
+- This is distinct from SC2155 (`local x=$(cmd)` masking `cmd`'s failure under `set -e`): that hazard is a *command substitution's* exit code. `local status=$?` has no subshell and captures the real status, so SC2155 does not apply.
 
 ### Dynamic file descriptor allocation
 
