@@ -576,7 +576,35 @@ if ! grep -q "$pattern" "$file"; then
 fi
 ```
 
-The `!`-exclusion applies only to the inverted compound itself, NOT to enclosing constructs. `var=$(! cmd)` — the `!` blocks `set -e` within the substitution, but the assignment statement's exit IS the substitution's inverted exit (rc=1 when cmd succeeded); `set -e` then fires on the assignment. For variable capture, use `||:`. Function-tail pipelines whose rc would propagate to a `set -e` caller need either `||:` at the function tail or an explicit `return 0`.
+The `!`-exclusion applies only to the inverted compound itself, NOT to enclosing constructs. `var=$(! cmd)` — the `!` blocks `set -e` within the substitution, but the assignment statement's exit IS the substitution's inverted exit (rc=1 when cmd succeeded); `set -e` then fires on the assignment. This is NOT the same as negating the assignment itself.
+
+`! var=$(cmd)` (the `!` on the outer assignment, not inside the substitution) DOES work, including when `cmd` is a pipeline failing under `pipefail`:
+
+```bash
+! cachedNarHash_=$(jq -r '.nodes["x"].locked.narHash // empty' "$file" 2>/dev/null)
+if [[ -z $cachedNarHash_ ]]; then
+  # jq failed (malformed JSON) or the node was absent -- both look the same: empty
+  ...
+fi
+```
+
+Bash's `set -e` exemption is keyed on whether the command bash is about to execute is itself directly prefixed with `!` — here that command is the assignment, so the exemption applies regardless of what `$(...)` inside it evaluates to. This is the right tool specifically for a direct variable-capture assignment where the caller checks emptiness (or some other property of the captured value) rather than `$?` afterward — it reads as "this command's exit code is not the signal; the captured value is," which is usually the actual intent.
+
+It is NOT a substitute for `||:` inside a function meant to always return 0 regardless of an internal command's outcome — `!` *inverts*, it doesn't *force zero*, so `! grep ...` as a function's tail statement makes the function return 1 whenever `grep` **succeeds**, which is backwards for a "caller only cares about stdout, not rc" contract. For that job, pair the negation with an explicit `return 0` on the next line:
+
+```bash
+flakeLockRev() {
+  local lockfile=$1 input=$2
+  ! jq -r --arg i "$input" '.nodes[$i].locked.rev // empty' "$lockfile" 2>/dev/null
+  return 0
+}
+```
+
+`! cmd` here blocks `set -e` on that line regardless of `jq`'s outcome; the explicit `return 0` then makes "this function always succeeds, only its stdout carries the result" a visible line of code rather than an implicit side effect of `||:`. Prefer this form over `cmd ||:` in a function tail when the "always succeeds" contract is worth stating explicitly; `||:` remains equally correct and is fine where the extra line reads as noise.
+
+Stock shellcheck's SC2251 ("This ! is not on a condition and skips errexit... make sure $? is checked") fires on every one of these sites, since it can't see that the next line is an unconditional `return 0` or that the caller checks emptiness rather than `$?`. Suppress per site with a comment naming which of the two it is, e.g. `# shellcheck disable=SC2251 # deliberate: return 0 below forces the always-succeeds contract regardless` or `# shellcheck disable=SC2251 # deliberate: emptiness (not $?) is checked next`.
+
+Function-tail pipelines whose rc would propagate to a `set -e` caller need one of: `||:` at the function tail, `! cmd` + explicit `return 0`, or an explicit `return 0` alone.
 
 `cmd ||:` — `:` is the shell's no-op builtin that returns 0; the `||` makes the compound always succeed. `cmd`'s stdout is preserved. Use this when `!`'s scope-limitation rules out the `!` form: variable captures inside `$(...)`, function-tail pipelines, any case where the compound's overall exit must be 0:
 
@@ -600,9 +628,35 @@ hits=$(grep -cF X file || echo 0) # "0\n0" on no-match (grep prints 0, fallback 
 
 Don't reach for `set +e` or `loosely()` to silence individual commands. The strict-mode escape is for sourcing whole optional configs or running unbounded scripts. For one expected-fail command, `cmd ||:` or `! cmd` is precise and local.
 
+**`!`/`||:` control whether `-e` aborts; they say nothing about whether the failure should be visible.** Reach for either only when the command's failure is genuinely inconsequential to the *caller* (a duplicate route, a resolver retry, a best-effort recovery step after the real work already succeeded) — never as a reflex for "this might fail sometimes." A command that can fail for more than one reason, where some of those reasons are real problems (bad permissions, bad config, a broken environment) and others are benign (already exists, transient timeout), needs those reasons distinguished, not uniformly silenced:
+
+```bash
+# Wrong: masks a genuine permissions/interface problem identically to the
+# harmless "route already exists" case -- operator has no way to tell them apart.
+sudo ip route add $ip/32 dev tun0 2>/dev/null ||:
+
+# Right: stderr stays visible, and failure gets a diagnostic instead of
+# silence -- still doesn't abort the caller, but nothing is hidden.
+sudo ip route add $ip/32 dev tun0 && echo added ||
+  echo "note: route add failed (see error above)" >&2
+```
+
+The test isn't "does this command sometimes fail" — it's "would surfacing this failure ever matter to someone debugging a real problem." If yes, keep it loud even while keeping it non-fatal.
+
 ### pipefail
 
-Standard for new scripts: `set -euo pipefail`.
+Standard for new scripts: `set -euo pipefail` — but **placement is load-bearing, not just presence**. Split it around the sourcing guard exactly as the Safety preamble shows: `set -uo pipefail` *above* the `return 2>/dev/null` guard, `set -e` *below* it. Never write `set -euo pipefail` as a single line above the guard.
+
+Why the split is not optional: a top-level `return` (the sourcing guard) fails when the script is *executed* rather than sourced — you can't `return` outside a function. If `set -e` is already active at that point, that failure aborts the script **at the guard line**, so option parsing / `main` / dispatch never runs and every invocation becomes a silent no-op (the guard's own `2>/dev/null` even hides the "can only `return' from a function" error, so there's nothing on stderr to explain it). Putting `-e` *below* the guard is what makes an executed script reach its own body. This is a stronger failure than the interactive-shell case the Safety preamble describes: there the wrong order annoys an interactive user; here it silently breaks the tool.
+
+**Caveat — return-offset option parsers (mk.bash) need a guarded dispatch under `-e`.** Some frameworks parse options with a helper that returns a nonzero *arg-offset* rather than a status, consumed as `main "${@:$?}"` — mk.bash's `mk.HandleOptions`/`mk.Main` is the canonical case (0 options consumed → `return 1` → `${@:1}`). A BARE `handleOpts "$@"` under `-e` aborts before dispatch — `-e` reads the intentional nonzero return as failure, even with `-e` correctly placed below the guard. This is NOT an incompatibility: `set -e` is isomorphic to the non-`-e` form given the appropriate guard. To keep `-e`, capture the offset without tripping it (the RC-capture idiom above):
+
+```bash
+handleOpts "$@" && off=$? || off=$?    # || makes the compound succeed; $? preserved
+main "${@:$off}"
+```
+
+The mk.bash *canonical bootstrap* instead uses the bare `mk.HandleOptions "$@"; mk.Main "${@:$?}"`, so mk.bash scripts conventionally run with **no** top-level `set -e` and get fail-closed behavior the isomorphic way — inside the command functions (`someStep || fatal ...`). Both forms are valid; match your framework's convention. (`-u`/`pipefail` are unaffected either way — they don't trip on the offset return.)
 
 ### loosely() — strict-mode escape
 
